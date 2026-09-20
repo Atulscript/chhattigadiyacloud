@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="100%" height="100%">
+  <defs>
+    <!-- Warm Crimson &amp; Festive Dusk Gradient -->
+    <linearGradient id="gabarBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4C0519"/>
+      <stop offset="35%" stop-color="#881337"/>
+      <stop offset="75%" stop-color="#BE123C"/>
+      <stop offset="100%" stop-color="#E11D48"/>
+    </linearGradient>
+
+    <!-- Warm Festival Footlights Glow -->
+    <radialGradient id="stageGlow" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#F59E0B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#4C0519" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="marigoldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#FEF08A"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Festive Red Canvas -->
+  <rect width="640" height="360" fill="url(#gabarBg)"/>
+
+  <!-- Glowing Stage Spotlight Circle -->
+  <circle cx="320" cy="140" r="110" fill="#FEF08A" opacity="0.3"/>
+  <circle cx="320" cy="140" r="85" fill="#FDE047" opacity="0.5"/>
+  <rect width="640" height="360" fill="url(#stageGlow)"/>
+
+  <!-- Ornate Nacha Proscenium Curtain Drapery -->
+  <!-- Top Garland / Toran of Marigolds &amp; Mango Leaves -->
+  <path d="M0,0 Q160,40 320,10 Q480,40 640,0 L640,35 Q480,75 320,45 Q160,75 0,35 Z" fill="#9F1239" opacity="0.85"/>
+  <g fill="#F59E0B" stroke="#B45309" stroke-width="1">
+    <circle cx="60" cy="42" r="7"/>
+    <circle cx="120" cy="50" r="7"/>
+    <circle cx="180" cy="54" r="7"/>
+    <circle cx="240" cy="50" r="7"/>
+    <circle cx="300" cy="42" r="7"/>
+    <circle cx="340" cy="42" r="7"/>
+    <circle cx="400" cy="50" r="7"/>
+    <circle cx="460" cy="54" r="7"/>
+    <circle cx="520" cy="50" r="7"/>
+    <circle cx="580" cy="42" r="7"/>
+  </g>
+
+  <!-- Side Stage Curtains (Draped back with golden tasselled cords) -->
+  <path d="M0,0 Q90,80 60,240 Q30,320 0,360 Z" fill="#2B0510"/>
+  <path d="M640,0 Q550,80 580,240 Q610,320 640,360 Z" fill="#2B0510"/>
+  <path d="M60,180 Q85,190 70,220" fill="none" stroke="#FBBF24" stroke-width="3"/>
+  <path d="M580,180 Q555,190 570,220" fill="none" stroke="#FBBF24" stroke-width="3"/>
+
+  <!-- Stage Wooden Floor -->
+  <path d="M0,270 L640,270 L640,360 L0,360 Z" fill="#1C050B"/>
+  <line x1="0" y1="270" x2="640" y2="270" stroke="#F59E0B" stroke-width="2" opacity="0.6"/>
+
+  <!-- DYNAMIC NACHA THEATRICAL FIGURES -->
+  <!-- Character 1: The Mother (Standing dignified, representing maternal justice and resistance) -->
+  <g transform="translate(240, 260)">
+    <!-- Shadow -->
+    <ellipse cx="0" cy="20" rx="35" ry="8" fill="#000000" opacity="0.45"/>
+    <!-- Dignified Head with red pallu drape -->
+    <circle cx="0" cy="-95" r="12" fill="#2B0510"/>
+    <path d="M-10,-102 Q12,-110 16,-92 Q18,-65 22,-40 L10,-40 Q4,-75 -8,-95 Z" fill="#E11D48"/>
+    
+    <!-- Torso &amp; Graceful Saree Drape -->
+    <path d="M-10,-80 L10,-80 L14,-35 L-10,-35 Z" fill="#2B0510"/>
+    <!-- Saree Skirt in broad stance -->
+    <path d="M-12,-35 L14,-35 L20,18 L-16,18 Z" fill="#9F1239"/>
+    <line x1="-8" y1="-35" x2="-10" y2="18" stroke="#FBBF24" stroke-width="1.5"/>
+    <line x1="2" y1="-35" x2="4" y2="18" stroke="#FBBF24" stroke-width="1.5"/>
+    
+    <!-- Expressive hand raised in questioning moral authority -->
+    <path d="M10,-72 Q24,-65 32,-80" fill="none" stroke="#2B0510" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="33" cy="-82" r="3" fill="#2B0510"/>
+  </g>
+
+  <!-- Character 2: The Migrant Actor / Nacha Jester (In energetic leap and satirical confrontation) -->
+  <g transform="translate(390, 240)">
+    <!-- Mid-air Shadow -->
+    <ellipse cx="0" cy="40" rx="45" ry="9" fill="#000000" opacity="0.35"/>
+
+    <!-- Head with Pagdi / Festive Turban with feather -->
+    <circle cx="0" cy="-90" r="13" fill="#2B0510"/>
+    <ellipse cx="0" cy="-96" rx="18" ry="7" fill="#F59E0B" transform="rotate(-12 0 -96)"/>
+    <!-- Peacock feather / Kalgi on Pagdi -->
+    <path d="M6,-102 Q18,-118 25,-122 Q20,-112 10,-104" fill="#10B981" stroke="#047857" stroke-width="1"/>
+    <circle cx="23" cy="-120" r="2.5" fill="#3B82F6"/>
+
+    <!-- Dynamic Leaping Torso (Kurta) -->
+    <path d="M-16,-75 L8,-78 L18,-30 L-12,-26 Z" fill="#2B0510"/>
+    <!-- Waist sash / Kamarband in motion -->
+    <path d="M-14,-28 L16,-30 L28,-15 L14,-10 L-8,-14 Z" fill="#F59E0B"/>
+    
+    <!-- Dancing Dhoti with energetic spread legs -->
+    <path d="M-10,-24 L-28,15 L-42,12 L-18,-18 Z" fill="#BE123C"/>
+    <path d="M12,-24 L34,18 L48,15 L18,-18 Z" fill="#BE123C"/>
+    
+    <!-- Bare feet with Ghunghroo bells -->
+    <circle cx="-38" cy="14" r="2" fill="#FDE047"/>
+    <circle cx="44" cy="17" r="2" fill="#FDE047"/>
+
+    <!-- Arms in broad comic dialogue gesture -->
+    <path d="M-14,-68 Q-38,-65 -45,-45" fill="none" stroke="#2B0510" stroke-width="5" stroke-linecap="round"/>
+    <path d="M8,-68 Q32,-85 52,-75" fill="none" stroke="#2B0510" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Foreground Musical Dholak Drum on Stage Edge -->
+  <g transform="translate(130, 310)">
+    <ellipse cx="0" cy="18" rx="40" ry="7" fill="#000000" opacity="0.5"/>
+    <path d="M-35,-10 Q0,-16 35,-10 Q38,10 35,12 Q0,18 -35,12 Q-38,-8 -35,-10 Z" fill="#881337" stroke="#F59E0B" stroke-width="1.5"/>
+    <ellipse cx="-35" cy="1" rx="4" ry="11" fill="#FDE047"/>
+    <ellipse cx="35" cy="1" rx="4" ry="11" fill="#FDE047"/>
+    <path d="M-32,-9 L-15,14 L0,-14 L15,14 L32,-9" fill="none" stroke="#FFE4E6" stroke-width="1.2" opacity="0.85"/>
+  </g>
+
+  <!-- Sparkles &amp; Festive Joy in the Air -->
+  <g fill="#FEF08A">
+    <circle cx="180" cy="110" r="2.5" opacity="0.8"/>
+    <circle cx="280" cy="80" r="3" opacity="0.9"/>
+    <circle cx="460" cy="90" r="2.5" opacity="0.85"/>
+    <circle cx="510" cy="140" r="2" opacity="0.75"/>
+    <circle cx="350" cy="65" r="3.5" opacity="0.9"/>
+  </g>
+</svg>

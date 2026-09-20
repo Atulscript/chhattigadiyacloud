@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="m3CampSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E6F4EA"/>
+      <stop offset="60%" stop-color="#F8F9FA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <linearGradient id="m3GreenPill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34A853"/>
+      <stop offset="100%" stop-color="#1E8E3E"/>
+    </linearGradient>
+
+    <style>
+      @keyframes m3SunSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .m3-sun-badge { transform-origin: 200px 140px; }
+    </style>
+  </defs>
+
+  <!-- Clean Google Green Light Surface -->
+  <rect width="800" height="360" fill="url(#m3CampSky)"/>
+
+  <!-- Ground Reference Line -->
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#DADCE0" stroke-width="1.5"/>
+
+  <!-- Left: Stylized Sun, Playful Mask &amp; Joyful Puppetry Symbols -->
+  <g transform="translate(100, 60)">
+    <!-- Sun Motif -->
+    <circle cx="100" cy="80" r="45" fill="#FEF7E0"/>
+    <circle cx="100" cy="80" r="28" fill="#FBBC04"/>
+
+    <!-- Theater Mask in Google Green &amp; Yellow -->
+    <rect x="150" y="50" width="120" height="150" rx="24" fill="#FFFFFF" stroke="#E8EAED" stroke-width="2" filter="drop-shadow(0 4px 12px rgba(60,64,67,0.08))"/>
+    <ellipse cx="185" cy="105" rx="10" ry="14" fill="#34A853"/>
+    <ellipse cx="235" cy="105" rx="10" ry="14" fill="#34A853"/>
+    <path d="M 185,150 Q 210,175 235,150" stroke="#EA4335" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+    <!-- Children Shadow Puppets / Figures Silhouette -->
+    <g fill="#202124" transform="translate(40, 160)">
+      <!-- Child 1 with puppet rod -->
+      <circle cx="45" cy="40" r="14"/>
+      <path d="M 33,56 Q 45,65 57,56 L 60,85 L 30,85 Z"/>
+      <line x1="55" y1="60" x2="75" y2="20" stroke="#1A73E8" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="75" cy="20" r="8" fill="#FF4500"/>
+
+      <!-- Child 2 clapping -->
+      <circle cx="105" cy="44" r="13"/>
+      <path d="M 94,59 Q 105,68 116,59 L 118,85 L 92,85 Z"/>
+      <path d="M 98,62 Q 105,50 112,62" stroke="#34A853" stroke-width="3" fill="none"/>
+    </g>
+  </g>
+
+  <!-- Right: Clean Typography &amp; Program Tokens -->
+  <g transform="translate(430, 110)">
+    <!-- Pill Category Chip -->
+    <rect width="210" height="28" rx="14" fill="#E6F4EA"/>
+    <text x="105" y="18" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="11" fill="#137333" text-anchor="middle" letter-spacing="0.5">CHILDREN &amp; YOUTH RESIDENCY</text>
+
+    <!-- Clean Typography -->
+    <text x="0" y="65" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="800" font-size="28" fill="#202124" letter-spacing="-0.5">Ullas Summer Camp</text>
+    <text x="0" y="94" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="14" fill="#5F6368">Free Creative Arts, Puppetry &amp; Drama Training</text>
+
+    <!-- Key Badges Row -->
+    <g transform="translate(0, 115)">
+      <rect width="110" height="26" rx="6" fill="#F1F3F4"/>
+      <text x="55" y="17" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="600" font-size="11" fill="#3C4043" text-anchor="middle">Ages 7 to 16</text>
+
+      <rect x="118" width="120" height="26" rx="6" fill="#E6F4EA"/>
+      <text x="178" y="17" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="11" fill="#137333" text-anchor="middle">100% Free / Subsidised</text>
+    </g>
+  </g>
+</svg>

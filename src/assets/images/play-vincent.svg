@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="100%" height="100%">
+  <defs>
+    <!-- Deep Cobalt Twilight Sky -->
+    <linearGradient id="vincentSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="40%" stop-color="#0F172A"/>
+      <stop offset="75%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+
+    <!-- Warm Golden Cypress &amp; Palette Glow -->
+    <radialGradient id="sunflowerGlow" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#F59E0B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Swirling Stroke Gradient -->
+    <linearGradient id="swirlGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="50%" stop-color="#FEF08A"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Blue Canvas Background -->
+  <rect width="640" height="360" fill="url(#vincentSky)"/>
+
+  <!-- Swirling Expressionist Sky (Van Gogh style brushstrokes) -->
+  <g fill="none" stroke-linecap="round" opacity="0.85">
+    <!-- Main Cosmic Whirl 1 -->
+    <path d="M120,80 Q220,20 340,60 Q420,90 400,140 Q370,170 300,150 Q240,130 250,90 Q260,60 300,60 Q340,65 350,90" stroke="url(#swirlGold)" stroke-width="4.5" stroke-dasharray="14 8"/>
+    <!-- Secondary Whirl -->
+    <path d="M180,120 Q260,80 340,105 Q380,120 370,150 Q350,170 310,160 Q270,150 280,120" stroke="#93C5FD" stroke-width="3.5" stroke-dasharray="12 6"/>
+    <!-- Flowing wind streams -->
+    <path d="M40,60 Q180,40 280,70 Q400,110 520,70 Q600,40 640,65" stroke="#38BDF8" stroke-width="3" stroke-dasharray="16 8"/>
+    <path d="M0,110 Q140,85 240,115 Q360,155 480,110 Q580,75 640,105" stroke="#FDE047" stroke-width="2.5" stroke-dasharray="12 6"/>
+    <path d="M20,155 Q160,130 260,155 Q380,195 500,150 Q600,115 640,145" stroke="#60A5FA" stroke-width="2.5" stroke-dasharray="10 5"/>
+  </g>
+
+  <!-- Glowing Sun / Crescent Star -->
+  <circle cx="510" cy="85" r="42" fill="#FEF08A" opacity="0.3"/>
+  <circle cx="510" cy="85" r="30" fill="#FDE047" opacity="0.6"/>
+  <circle cx="510" cy="85" r="20" fill="#FFFBEB" opacity="0.9"/>
+  <rect width="640" height="360" fill="url(#sunflowerGlow)"/>
+
+  <!-- Expressionist Star Halos -->
+  <g fill="#FEF08A">
+    <circle cx="140" cy="70" r="5" opacity="0.9"/>
+    <circle cx="140" cy="70" r="14" fill="none" stroke="#FDE047" stroke-width="2" stroke-dasharray="4 4"/>
+    
+    <circle cx="230" cy="50" r="4" opacity="0.85"/>
+    <circle cx="230" cy="50" r="11" fill="none" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+    <circle cx="390" cy="65" r="4.5" opacity="0.9"/>
+    <circle cx="390" cy="65" r="12" fill="none" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+    <circle cx="80" cy="120" r="3.5" opacity="0.8"/>
+  </g>
+
+  <!-- Cypress Tree in Deep Indigo Silhouette (Left Proscenium Arch) -->
+  <path d="M0,360 L0,180 Q25,120 40,80 Q50,40 55,20 Q60,40 70,90 Q85,140 100,210 Q110,270 120,360 Z" fill="#020617"/>
+  <path d="M40,250 Q60,170 70,120 Q80,180 95,280" fill="none" stroke="#0F172A" stroke-width="6"/>
+
+  <!-- Stage Floor in Warm Ochre / Wood Texture -->
+  <path d="M0,280 L640,270 L640,360 L0,360 Z" fill="#090D16"/>
+  <line x1="0" y1="280" x2="640" y2="270" stroke="#F59E0B" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Dramatic Silhouette: Vincent at the Theatrical Easel -->
+  <g transform="translate(360, 270)">
+    <!-- Floor Shadow -->
+    <ellipse cx="0" cy="45" rx="110" ry="14" fill="#000000" opacity="0.6"/>
+
+    <!-- THE WOODEN EASEL &amp; CANVA -->
+    <g transform="translate(45, 0)">
+      <!-- Back support leg -->
+      <line x1="0" y1="-170" x2="-25" y2="45" stroke="#1E293B" stroke-width="5"/>
+      <!-- Front two legs -->
+      <line x1="0" y1="-170" x2="25" y2="45" stroke="#0F172A" stroke-width="5.5"/>
+      <line x1="0" y1="-170" x2="-55" y2="45" stroke="#0F172A" stroke-width="5.5"/>
+      <!-- Crossbars -->
+      <line x1="-45" y1="-30" x2="18" y2="-30" stroke="#0F172A" stroke-width="6"/>
+      <line x1="-30" y1="-120" x2="8" y2="-120" stroke="#0F172A" stroke-width="4"/>
+      
+      <!-- The Canvas Glowing with Golden Brushstrokes -->
+      <polygon points="-45,-140 15,-140 12,-32 -48,-32" fill="#FEF08A" stroke="#B45309" stroke-width="2"/>
+      <!-- Glowing Painting on Canvas: Sunflowers in Blue Vase -->
+      <circle cx="-16" cy="-86" r="16" fill="#F59E0B"/>
+      <circle cx="-16" cy="-86" r="10" fill="#78350F"/>
+      <path d="M-22,-70 Q-16,-55 -10,-70" stroke="#1D4ED8" stroke-width="3" fill="#2563EB"/>
+    </g>
+
+    <!-- VINCENT IN SILHOUETTE (Deep Contemplative Passion) -->
+    <g transform="translate(-40, 0)">
+      <!-- Head with wide-brimmed straw hat -->
+      <circle cx="0" cy="-115" r="13" fill="#020617"/>
+      <!-- Straw Hat Brim -->
+      <ellipse cx="0" cy="-122" rx="26" ry="6" fill="#D97706" transform="rotate(-8 0 -122)"/>
+      <ellipse cx="0" cy="-126" rx="15" ry="9" fill="#F59E0B" transform="rotate(-8 0 -126)"/>
+      
+      <!-- Body / Coat leaning forward intently -->
+      <path d="M-14,-102 L14,-104 L24,-45 L-18,-45 Z" fill="#020617"/>
+      <!-- Long Coat tails -->
+      <path d="M-20,-45 L26,-45 L32,20 L15,22 L10,-10 L-5,22 L-24,20 Z" fill="#0F172A"/>
+      <!-- Legs &amp; Boots -->
+      <path d="M-10,15 L-6,44 L-18,46 L-16,40 L-12,38 L-14,15 Z" fill="#020617"/>
+      <path d="M18,15 L26,44 L14,46 L14,40 L18,38 L16,15 Z" fill="#020617"/>
+
+      <!-- Right Arm Extended with Paintbrush touching canvas -->
+      <path d="M14,-90 Q38,-78 65,-82" fill="none" stroke="#020617" stroke-width="6" stroke-linecap="round"/>
+      <line x1="63" y1="-82" x2="88" y2="-88" stroke="#D97706" stroke-width="2.5"/>
+      <circle cx="89" cy="-88" r="3" fill="#FEF08A"/>
+
+      <!-- Left Hand holding Artist's Wooden Palette with bright paint blobs -->
+      <g transform="translate(-10, -55) rotate(15)">
+        <path d="M-15,-10 C-5,-20 25,-15 30,-5 C35,10 15,22 -5,15 C-15,10 -20,-2 -15,-10 Z" fill="#B45309" stroke="#78350F" stroke-width="1.5"/>
+        <!-- Paint Blobs -->
+        <circle cx="-5" cy="-8" r="3" fill="#EF4444"/>
+        <circle cx="5" cy="-10" r="3" fill="#FBBF24"/>
+        <circle cx="15" cy="-7" r="3" fill="#3B82F6"/>
+        <circle cx="20" cy="3" r="3" fill="#10B981"/>
+        <circle cx="8" cy="10" r="3" fill="#F97316"/>
+      </g>
+    </g>
+  </g>
+</svg>

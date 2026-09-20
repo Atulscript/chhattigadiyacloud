@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c12-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F2027"/>
+      <stop offset="50%" stop-color="#203A43"/>
+      <stop offset="100%" stop-color="#2C5364"/>
+    </linearGradient>
+    <radialGradient id="c12-forest" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#81C784" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0F2027" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="560" fill="url(#c12-grad)" rx="8"/>
+  <rect x="14" y="14" width="372" height="532" rx="4" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <rect x="14" y="14" width="372" height="6" fill="#34A853" rx="2"/>
+  <text x="200" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#A5D6A7" letter-spacing="3">TRIBAL ETHNOGRAPHY &amp; POETRY</text>
+  <text x="200" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="23" font-weight="900" fill="#FFFFFF">CHHATTISGADHIYA CLOUD</text>
+  <text x="200" y="99" text-anchor="middle" font-family="sans-serif" font-size="12.5" font-weight="600" fill="#C8E6C9">साल वनों के गीत एवं वाचिक परंपरा</text>
+  <line x1="30" y1="112" x2="370" y2="112" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="35" y="125" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">VOL. IV • ISSUE 07</text>
+  <text x="200" y="125" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#81C784">FOLK RESEACH</text>
+  <text x="365" y="125" text-anchor="end" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">JULY 2026</text>
+  <line x1="30" y1="133" x2="370" y2="133" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <circle cx="200" cy="260" r="115" fill="url(#c12-forest)"/>
+  
+  <!-- Stylized Sal Trees &amp; Flute Motif -->
+  <g transform="translate(135, 175)">
+    <!-- Tree trunks -->
+    <path d="M40,160 L40,70 L20,30 M40,70 L60,35" stroke="#A5D6A7" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="20" cy="25" r="14" fill="#66BB6A" opacity="0.8"/>
+    <circle cx="60" cy="30" r="16" fill="#81C784" opacity="0.8"/>
+    <circle cx="40" cy="50" r="20" fill="#4CAF50" opacity="0.9"/>
+    
+    <path d="M100,160 L100,60 L85,25 M100,60 L115,20" stroke="#C8E6C9" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="85" cy="20" r="12" fill="#81C784" opacity="0.75"/>
+    <circle cx="115" cy="15" r="14" fill="#A5D6A7" opacity="0.75"/>
+    <circle cx="100" cy="40" r="16" fill="#66BB6A" opacity="0.85"/>
+    <!-- Bamboo flute diagonally across -->
+    <rect x="-10" y="110" width="150" height="9" rx="4" fill="#FFE082" transform="rotate(-15, 65, 115)"/>
+    <circle cx="20" cy="120" r="2" fill="#3E2723"/>
+    <circle cx="45" cy="115" r="2" fill="#3E2723"/>
+    <circle cx="70" cy="110" r="2" fill="#3E2723"/>
+    <circle cx="95" cy="105" r="2" fill="#3E2723"/>
+  </g>
+
+  <g transform="translate(30, 360)">
+    <rect width="340" height="92" rx="6" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="15" y="24" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#81C784" letter-spacing="2">ORAL LITERATURE</text>
+    <text x="15" y="46" font-family="Georgia, serif" font-size="17" font-weight="800" fill="#FFFFFF">Songs of the Sal Groves</text>
+    <text x="15" y="65" font-family="Georgia, serif" font-size="13" font-weight="600" fill="#C8E6C9">Tribal Ballads &amp; Oral Epics of Jashpur</text>
+    <text x="15" y="82" font-family="sans-serif" font-size="11" fill="#CBD5E1">Transcribed Verses in Kurukh and Chhattisgarhi</text>
+  </g>
+
+  <g transform="translate(30, 468)">
+    <text x="0" y="16" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ 18 Rare Kurukh Ballads with Translations</text>
+    <text x="0" y="34" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ The Acoustic Architecture of Karma Songs</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Forest Folklore Recorded in Village Choupals</text>
+  </g>
+  <text x="35" y="543" font-family="monospace" font-size="9" fill="#81C784">10 PAGES • ETHNOGRAPHIC RECORD</text>
+</svg>

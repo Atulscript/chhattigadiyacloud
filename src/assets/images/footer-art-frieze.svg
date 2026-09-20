@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" width="100%" height="100%" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="footerBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5F2"/>
+      <stop offset="100%" stop-color="#F8F9FA"/>
+    </linearGradient>
+    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF4500"/>
+      <stop offset="50%" stop-color="#D9381E"/>
+      <stop offset="100%" stop-color="#FF5722"/>
+    </linearGradient>
+    <linearGradient id="ochreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FBBC04"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <pattern id="tribalDots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1.5" fill="#FF4500" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1440" height="180" fill="url(#footerBgGrad)"/>
+  <rect width="1440" height="180" fill="url(#tribalDots)"/>
+
+  <!-- Top Geometric Folk Border Line -->
+  <path d="M0,0 L1440,0" stroke="#FF4500" stroke-width="3"/>
+  <path d="M0,8 L1440,8" stroke="#FBBC04" stroke-width="1.5" stroke-dasharray="8 6"/>
+
+  <!-- Decorative Tribal Chevron Zig-Zag Pattern Line across the top -->
+  <g fill="none" stroke="#FF4500" stroke-width="1.5" opacity="0.6">
+    <path d="M 0 16 L 15 24 L 30 16 L 45 24 L 60 16 L 75 24 L 90 16 L 105 24 L 120 16 L 135 24 L 150 16 L 165 24 L 180 16 L 195 24 L 210 16 L 225 24 L 240 16 L 255 24 L 270 16 L 285 24 L 300 16 L 315 24 L 330 16 L 345 24 L 360 16 L 375 24 L 390 16 L 405 24 L 420 16 L 435 24 L 450 16 L 465 24 L 480 16 L 495 24 L 510 16 L 525 24 L 540 16 L 555 24 L 570 16 L 585 24 L 600 16 L 615 24 L 630 16 L 645 24 L 660 16 L 675 24 L 690 16 L 705 24 L 720 16 L 735 24 L 750 16 L 765 24 L 780 16 L 795 24 L 810 16 L 825 24 L 840 16 L 855 24 L 870 16 L 885 24 L 900 16 L 915 24 L 930 16 L 945 24 L 960 16 L 975 24 L 990 16 L 1005 24 L 1020 16 L 1035 24 L 1050 16 L 1065 24 L 1080 16 L 1095 24 L 1110 16 L 1125 24 L 1140 16 L 1155 24 L 1170 16 L 1185 24 L 1200 16 L 1215 24 L 1230 16 L 1245 24 L 1260 16 L 1275 24 L 1290 16 L 1305 24 L 1320 16 L 1335 24 L 1350 16 L 1365 24 L 1380 16 L 1395 24 L 1410 16 L 1425 24 L 1440 16" />
+  </g>
+
+  <!-- Rolling Sal Hills in light silhouette background -->
+  <path d="M0,180 L0,110 Q180,75 360,115 Q540,155 720,105 Q900,60 1080,110 Q1260,150 1440,95 L1440,180 Z" fill="#FFE8DF" opacity="0.7"/>
+  <path d="M0,180 L0,135 Q220,110 440,140 Q660,165 880,125 Q1100,90 1320,135 Q1380,145 1440,130 L1440,180 Z" fill="#FFD8CB" opacity="0.6"/>
+
+  <!-- Artistic Trees &amp; Forest Flora Silhouette (Sal Trees) -->
+  <g fill="#D9381E" opacity="0.25">
+    <!-- Tree 1 -->
+    <path d="M80,160 L85,100 Q95,85 105,100 L110,160 Z"/>
+    <circle cx="95" cy="80" r="28"/>
+    <!-- Tree 2 -->
+    <path d="M320,165 L324,115 Q330,105 338,115 L342,165 Z"/>
+    <circle cx="331" cy="98" r="22"/>
+    <!-- Tree 3 -->
+    <path d="M680,160 L685,95 Q695,80 705,95 L710,160 Z"/>
+    <circle cx="695" cy="75" r="30"/>
+    <!-- Tree 4 -->
+    <path d="M1040,165 L1044,110 Q1050,100 1058,110 L1062,165 Z"/>
+    <circle cx="1051" cy="92" r="24"/>
+    <!-- Tree 5 -->
+    <path d="M1360,160 L1365,100 Q1375,85 1385,100 L1390,160 Z"/>
+    <circle cx="1375" cy="80" r="28"/>
+  </g>
+
+  <!-- SILHOUETTE FIGURES: THE LIVING THEATRE &amp; FOLK CARAVAN -->
+  <!-- Figure Group 1: Horn Blower &amp; Turahi Player (Left side, calling the gathering) -->
+  <g fill="url(#terracottaGrad)">
+    <!-- Turahi Player -->
+    <circle cx="180" cy="92" r="8"/>
+    <path d="M178,100 L184,128 L175,165 L182,165 L189,132 L196,165 L203,165 L191,126 L190,100 Z"/>
+    <!-- Horn / Turahi curved upward -->
+    <path d="M185,96 Q205,90 220,70 Q225,65 235,60 L238,68 Q222,76 205,100 Z" fill="url(#ochreGrad)"/>
+    <polygon points="233,55 245,63 238,72" fill="#D97706"/>
+    <!-- Musical notes/sound waves floating from horn -->
+    <circle cx="250" cy="52" r="2.5" fill="#FF4500"/>
+    <circle cx="260" cy="45" r="3.5" fill="#FBBC04"/>
+    <circle cx="272" cy="42" r="2.5" fill="#FF4500"/>
+  </g>
+
+  <!-- Figure Group 2: The Mandar Drummer (Center-Left) -->
+  <g fill="url(#terracottaGrad)">
+    <circle cx="270" cy="95" r="8"/>
+    <!-- Body in vigorous dance bend -->
+    <path d="M266,103 L272,128 L262,165 L270,165 L278,132 L288,165 L296,165 L280,126 L277,103 Z"/>
+    <!-- Arms wrapping drum -->
+    <path d="M268,108 Q252,118 260,128 Q274,132 284,124 Q290,115 278,108 Z" fill="none" stroke="#FF4500" stroke-width="3"/>
+    <!-- Mandar / Dholak Drum (Clay &amp; Leather) -->
+    <ellipse cx="272" cy="120" rx="18" ry="9" fill="#8C2500" transform="rotate(-15 272 120)"/>
+    <ellipse cx="256" cy="116" rx="4" ry="8" fill="#FBBC04" transform="rotate(-15 256 116)"/>
+    <ellipse cx="288" cy="124" rx="4" ry="8" fill="#FBBC04" transform="rotate(-15 288 124)"/>
+    <!-- Sound burst lines -->
+    <line x1="250" y1="112" x2="242" y2="108" stroke="#FF4500" stroke-width="2"/>
+    <line x1="252" y1="124" x2="244" y2="128" stroke="#FF4500" stroke-width="2"/>
+    <line x1="294" y1="120" x2="302" y2="118" stroke="#FF4500" stroke-width="2"/>
+  </g>
+
+  <!-- Figure Group 3: Chain of Karma / Panthi Dancers (Center) holding hands in unison -->
+  <g fill="url(#terracottaGrad)">
+    <!-- Dancer 1 -->
+    <circle cx="480" cy="94" r="8"/>
+    <path d="M476,102 L482,126 L474,165 L481,165 L488,130 L496,165 L503,165 L490,124 L486,102 Z"/>
+    
+    <!-- Dancer 2 (in swing motion) -->
+    <circle cx="530" cy="91" r="8"/>
+    <path d="M526,99 L534,124 L524,165 L532,165 L540,128 L550,165 L558,165 L542,122 L537,99 Z"/>
+    
+    <!-- Dancer 3 (lead jump) -->
+    <circle cx="580" cy="88" r="8"/>
+    <path d="M576,96 L584,121 L576,160 L584,160 L591,125 L600,162 L607,162 L592,120 L586,96 Z"/>
+    
+    <!-- Dancer 4 -->
+    <circle cx="630" cy="92" r="8"/>
+    <path d="M626,100 L632,125 L623,165 L631,165 L639,129 L648,165 L655,165 L640,123 L636,100 Z"/>
+
+    <!-- Interlocking Dancing Arms &amp; Folk Scarves in Motion -->
+    <path d="M482,106 Q506,96 530,104 Q555,94 580,101 Q605,92 630,103" fill="none" stroke="#FF4500" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M465,112 Q475,108 482,106" fill="none" stroke="#FF4500" stroke-width="4" stroke-linecap="round"/>
+    <path d="M630,103 Q642,108 652,112" fill="none" stroke="#FF4500" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Fluttering Folk Turbans / Feathers -->
+    <path d="M482,88 Q490,78 495,82 Q488,90 482,88" fill="#FBBC04"/>
+    <path d="M532,85 Q540,75 545,79 Q538,87 532,85" fill="#FBBC04"/>
+    <path d="M582,82 Q592,70 598,75 Q590,84 582,82" fill="#FBBC04"/>
+    <path d="M632,86 Q640,76 645,80 Q638,88 632,86" fill="#FBBC04"/>
+  </g>
+
+  <!-- CENTERPIECE THEATRICAL EMBLEM: The Sunburst of Art &amp; The Folk Mask -->
+  <g transform="translate(720, 95)">
+    <!-- Terracotta Mandala Halo -->
+    <circle cx="0" cy="0" r="42" fill="#FFFFFF" stroke="#FF4500" stroke-width="2.5" stroke-dasharray="3 3"/>
+    <circle cx="0" cy="0" r="36" fill="#FFE8DF" stroke="#FBBC04" stroke-width="1.5"/>
+    <!-- Traditional Nacha Folk Mask Icon -->
+    <path d="M-18,-12 Q0,-22 18,-12 Q22,8 0,22 Q-22,8 -18,-12 Z" fill="#FF4500"/>
+    <!-- Eyes -->
+    <circle cx="-7" cy="-2" r="3" fill="#FFFFFF"/>
+    <circle cx="7" cy="-2" r="3" fill="#FFFFFF"/>
+    <circle cx="-7" cy="-2" r="1.5" fill="#202124"/>
+    <circle cx="7" cy="-2" r="1.5" fill="#202124"/>
+    <!-- Smile &amp; Tilak -->
+    <path d="M-9,10 Q0,16 9,10" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <polygon points="0,-16 -3,-8 3,-8" fill="#FBBC04"/>
+    <!-- Radiating Sun rays / Sparkles -->
+    <line x1="0" y1="-46" x2="0" y2="-52" stroke="#FF4500" stroke-width="2"/>
+    <line x1="0" y1="46" x2="0" y2="52" stroke="#FF4500" stroke-width="2"/>
+    <line x1="-46" y1="0" x2="-52" y2="0" stroke="#FF4500" stroke-width="2"/>
+    <line x1="46" y1="0" x2="52" y2="0" stroke="#FF4500" stroke-width="2"/>
+    <line x1="-33" y1="-33" x2="-38" y2="-38" stroke="#FBBC04" stroke-width="2"/>
+    <line x1="33" y1="-33" x2="38" y2="-38" stroke="#FBBC04" stroke-width="2"/>
+    <line x1="-33" y1="33" x2="-38" y2="38" stroke="#FBBC04" stroke-width="2"/>
+    <line x1="33" y1="33" x2="38" y2="38" stroke="#FBBC04" stroke-width="2"/>
+  </g>
+
+  <!-- Figure Group 4: The Storyteller / Bards &amp; Flutist (Center-Right) -->
+  <g fill="url(#terracottaGrad)">
+    <!-- Flute Player -->
+    <circle cx="820" cy="94" r="8"/>
+    <path d="M816,102 L822,126 L814,165 L822,165 L829,130 L838,165 L846,165 L831,124 L827,102 Z"/>
+    <!-- Raised Flute -->
+    <line x1="818" y1="98" x2="846" y2="85" stroke="#D97706" stroke-width="3" stroke-linecap="round"/>
+    <!-- Melodic sparkles -->
+    <circle cx="854" cy="80" r="2.5" fill="#FF4500"/>
+    <circle cx="862" cy="74" r="3" fill="#FBBC04"/>
+
+    <!-- Storyteller with raised hand narrating epic -->
+    <circle cx="910" cy="92" r="8"/>
+    <path d="M906,100 L912,125 L902,165 L910,165 L918,129 L928,165 L936,165 L921,123 L917,100 Z"/>
+    <!-- Expressive gesturing arm -->
+    <path d="M912,105 Q926,92 938,78" fill="none" stroke="#FF4500" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="939" cy="76" r="3" fill="#FF4500"/>
+    <!-- Traditional Dupatta / Stole flowing behind -->
+    <path d="M906,106 Q890,118 894,136 Q898,148 892,158" fill="none" stroke="#FBBC04" stroke-width="2.5" stroke-dasharray="4 2"/>
+  </g>
+
+  <!-- Figure Group 5: Mother &amp; Child Puppeteers (Right) -->
+  <g fill="url(#terracottaGrad)">
+    <!-- Puppeteer operating string rod -->
+    <circle cx="1120" cy="94" r="8"/>
+    <path d="M1116,102 L1122,126 L1113,165 L1121,165 L1128,130 L1137,165 L1145,165 L1130,124 L1126,102 Z"/>
+    <!-- Puppet strings &amp; rod -->
+    <line x1="1122" y1="104" x2="1145" y2="92" stroke="#202124" stroke-width="2"/>
+    <line x1="1145" y1="92" x2="1148" y2="120" stroke="#FF4500" stroke-width="1" stroke-dasharray="2 2"/>
+    <line x1="1147" y1="92" x2="1155" y2="122" stroke="#FF4500" stroke-width="1" stroke-dasharray="2 2"/>
+    <!-- Puppet Figure dancing -->
+    <circle cx="1152" cy="122" r="4.5" fill="#FBBC04"/>
+    <path d="M1148,127 L1156,127 L1154,142 L1150,142 Z" fill="#FF4500"/>
+
+    <!-- Enraptured Child watching -->
+    <circle cx="1200" cy="118" r="6.5"/>
+    <path d="M1196,125 L1201,142 L1194,165 L1200,165 L1205,146 L1212,165 L1218,165 L1208,141 L1205,125 Z"/>
+    <!-- Clapping hands -->
+    <path d="M1198,128 Q1190,122 1192,116" fill="none" stroke="#FF4500" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Base Decorative Ground Line with Folk Grain &amp; Terracotta Border -->
+  <path d="M0,165 L1440,165" stroke="#FF4500" stroke-width="2"/>
+  <rect x="0" y="167" width="1440" height="13" fill="#D9381E"/>
+
+  <!-- Repeating Brass Bell / Ghunghroo dot row on base -->
+  <g fill="#FBBC04">
+    <circle cx="30" cy="173" r="2.5"/>
+    <circle cx="70" cy="173" r="2.5"/>
+    <circle cx="110" cy="173" r="2.5"/>
+    <circle cx="150" cy="173" r="2.5"/>
+    <circle cx="190" cy="173" r="2.5"/>
+    <circle cx="230" cy="173" r="2.5"/>
+    <circle cx="270" cy="173" r="2.5"/>
+    <circle cx="310" cy="173" r="2.5"/>
+    <circle cx="350" cy="173" r="2.5"/>
+    <circle cx="390" cy="173" r="2.5"/>
+    <circle cx="430" cy="173" r="2.5"/>
+    <circle cx="470" cy="173" r="2.5"/>
+    <circle cx="510" cy="173" r="2.5"/>
+    <circle cx="550" cy="173" r="2.5"/>
+    <circle cx="590" cy="173" r="2.5"/>
+    <circle cx="630" cy="173" r="2.5"/>
+    <circle cx="670" cy="173" r="2.5"/>
+    <circle cx="710" cy="173" r="2.5"/>
+    <circle cx="750" cy="173" r="2.5"/>
+    <circle cx="790" cy="173" r="2.5"/>
+    <circle cx="830" cy="173" r="2.5"/>
+    <circle cx="870" cy="173" r="2.5"/>
+    <circle cx="910" cy="173" r="2.5"/>
+    <circle cx="950" cy="173" r="2.5"/>
+    <circle cx="990" cy="173" r="2.5"/>
+    <circle cx="1030" cy="173" r="2.5"/>
+    <circle cx="1070" cy="173" r="2.5"/>
+    <circle cx="1110" cy="173" r="2.5"/>
+    <circle cx="1150" cy="173" r="2.5"/>
+    <circle cx="1190" cy="173" r="2.5"/>
+    <circle cx="1230" cy="173" r="2.5"/>
+    <circle cx="1270" cy="173" r="2.5"/>
+    <circle cx="1310" cy="173" r="2.5"/>
+    <circle cx="1350" cy="173" r="2.5"/>
+    <circle cx="1390" cy="173" r="2.5"/>
+    <circle cx="1430" cy="173" r="2.5"/>
+  </g>
+</svg>

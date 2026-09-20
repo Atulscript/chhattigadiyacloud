@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c13-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141E30"/>
+      <stop offset="100%" stop-color="#243B55"/>
+    </linearGradient>
+    <radialGradient id="c13-lamp" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFE082" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#141E30" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="560" fill="url(#c13-grad)" rx="8"/>
+  <rect x="14" y="14" width="372" height="532" rx="4" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <rect x="14" y="14" width="372" height="6" fill="#1A73E8" rx="2"/>
+  <text x="200" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#90CAF9" letter-spacing="3">ARCHIVAL SPECIAL ISSUE</text>
+  <text x="200" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="23" font-weight="900" fill="#FFFFFF">CHHATTISGADHIYA CLOUD</text>
+  <text x="200" y="99" text-anchor="middle" font-family="sans-serif" font-size="12.5" font-weight="600" fill="#FFE082">हबीब तनवीर शताब्दी विशेषांक</text>
+  <line x1="30" y1="112" x2="370" y2="112" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="35" y="125" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">VOL. IV • ISSUE 08</text>
+  <text x="200" y="125" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#90CAF9">ARCHIVE EDITION</text>
+  <text x="365" y="125" text-anchor="end" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">AUGUST 2026</text>
+  <line x1="30" y1="133" x2="370" y2="133" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <circle cx="200" cy="260" r="110" fill="url(#c13-lamp)"/>
+  
+  <!-- Silhouette Portrait &amp; Pipe Motif (Habib Tanvir iconic look) -->
+  <g transform="translate(140, 180)">
+    <!-- Spectacles &amp; Profile outline -->
+    <circle cx="45" cy="55" r="18" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+    <circle cx="78" cy="55" r="18" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="63" y1="55" x2="60" y2="55" stroke="#FFFFFF" stroke-width="3"/>
+    <!-- Shawl draping -->
+    <path d="M10,95 Q60,80 110,95 L120,150 L0,150 Z" fill="#37474F" opacity="0.85"/>
+    <path d="M25,100 Q60,115 95,100" stroke="#FFE082" stroke-width="2" fill="none"/>
+    <!-- Iconic bamboo curtain lines -->
+    <line x1="-30" y1="20" x2="-30" y2="160" stroke="#90CAF9" stroke-width="2" opacity="0.4"/>
+    <line x1="-15" y1="0" x2="-15" y2="160" stroke="#90CAF9" stroke-width="2" opacity="0.4"/>
+    <line x1="135" y1="0" x2="135" y2="160" stroke="#90CAF9" stroke-width="2" opacity="0.4"/>
+    <line x1="150" y1="20" x2="150" y2="160" stroke="#90CAF9" stroke-width="2" opacity="0.4"/>
+  </g>
+
+  <g transform="translate(30, 360)">
+    <rect width="340" height="92" rx="6" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="15" y="24" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#64B5F6" letter-spacing="2">CENTENARY TRIBUTE</text>
+    <text x="15" y="46" font-family="Georgia, serif" font-size="17" font-weight="800" fill="#FFFFFF">Habib Tanvir &amp; The Living Idiom</text>
+    <text x="15" y="65" font-family="Georgia, serif" font-size="13" font-weight="600" fill="#FFE082">The Legacy of Naya Theatre &amp; Bastar Stage</text>
+    <text x="15" y="82" font-family="sans-serif" font-size="11" fill="#CBD5E1">Archival Interviews &amp; Production Logs (1970–2009)</text>
+  </g>
+
+  <g transform="translate(30, 468)">
+    <text x="0" y="16" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Minimalism &amp; The Bamboo Screen Method</text>
+    <text x="0" y="34" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Tribal Actors in European Theatre Festivals</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Unpublished Poetry of Habib Tanvir</text>
+  </g>
+  <text x="35" y="543" font-family="monospace" font-size="9" fill="#90CAF9">12 PAGES • ARCHIVAL MONOGRAPH</text>
+</svg>

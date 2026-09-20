@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c11-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3E2723"/>
+      <stop offset="50%" stop-color="#5D4037"/>
+      <stop offset="100%" stop-color="#271C19"/>
+    </linearGradient>
+    <radialGradient id="c11-sun" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFCA28" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#3E2723" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="560" fill="url(#c11-grad)" rx="8"/>
+  <rect x="14" y="14" width="372" height="532" rx="4" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+  <rect x="14" y="14" width="372" height="6" fill="#FBBC04" rx="2"/>
+  <text x="200" y="50" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#FFE082" letter-spacing="3">CHILDREN'S PEDAGOGY SPECIAL</text>
+  <text x="200" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="23" font-weight="900" fill="#FFFFFF">CHHATTISGADHIYA CLOUD</text>
+  <text x="200" y="99" text-anchor="middle" font-family="sans-serif" font-size="12.5" font-weight="600" fill="#FFD54F">बाल रंगमंच एवं उल्लास प्रयोग</text>
+  <line x1="30" y1="112" x2="370" y2="112" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="35" y="125" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">VOL. IV • ISSUE 06</text>
+  <text x="200" y="125" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#FFCA28">ULLAS CAMP SPECIAL</text>
+  <text x="365" y="125" text-anchor="end" font-family="sans-serif" font-size="9" font-weight="700" fill="#E2E8F0">JUNE 2026</text>
+  <line x1="30" y1="133" x2="370" y2="133" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <circle cx="200" cy="260" r="115" fill="url(#c11-sun)"/>
+  
+  <!-- Playful Clay Mask &amp; Children Shadow Puppet Art -->
+  <g transform="translate(130, 185)">
+    <!-- Sun rays -->
+    <circle cx="70" cy="65" r="45" fill="#FFA000" opacity="0.9"/>
+    <!-- Child silhouette laughing -->
+    <circle cx="50" cy="50" r="14" fill="#FFE082"/>
+    <path d="M40,68 C40,85 65,85 65,68 Z" fill="#FFE082"/>
+    <!-- Shadow puppet stick -->
+    <line x1="90" y1="120" x2="110" y2="40" stroke="#FFD54F" stroke-width="3"/>
+    <path d="M100,45 L125,35 L120,60 Z" fill="#FF8F00"/>
+    <circle cx="112" cy="48" r="3" fill="#FFFFFF"/>
+  </g>
+
+  <g transform="translate(30, 360)">
+    <rect width="340" height="92" rx="6" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.1)"/>
+    <text x="15" y="24" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#FFCA28" letter-spacing="2">ARTS IN EDUCATION</text>
+    <text x="15" y="46" font-family="Georgia, serif" font-size="17" font-weight="800" fill="#FFFFFF">Children in Theatre</text>
+    <text x="15" y="65" font-family="Georgia, serif" font-size="13" font-weight="600" fill="#FFE082">The Ullas Experiment in Rural Expression</text>
+    <text x="15" y="82" font-family="sans-serif" font-size="11" fill="#CBD5E1">Theatre Games, Mask Making &amp; Confidence</text>
+  </g>
+
+  <g transform="translate(30, 468)">
+    <text x="0" y="16" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Case Study: 120 Children Devising 3 Plays</text>
+    <text x="0" y="34" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Overcoming Stage Fright with Tribal Rhythm</text>
+    <text x="0" y="52" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E2E8F0">✦ Pedagogical Guidelines for Youth Directors</text>
+  </g>
+  <text x="35" y="543" font-family="monospace" font-size="9" fill="#FFCA28">8 PAGES • PEDAGOGICAL DOSSIER</text>
+</svg>

@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="100%" height="100%">
+  <defs>
+    <!-- Deep Imperial Indigo &amp; Amber Velvet Gradient -->
+    <linearGradient id="rajaBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="35%" stop-color="#1E1B4B"/>
+      <stop offset="70%" stop-color="#451A03"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+
+    <!-- Warm Golden Chandelier &amp; Halos -->
+    <radialGradient id="royalGlow" cx="50%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.65"/>
+      <stop offset="45%" stop-color="#D97706" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="goldLeaf" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#FEF08A"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Royal Canvas Background -->
+  <rect width="640" height="360" fill="url(#rajaBg)"/>
+
+  <!-- Grand Classical Palace Archway in Background -->
+  <path d="M120,360 L120,140 Q320,30 520,140 L520,360" fill="none" stroke="url(#goldLeaf)" stroke-width="3" opacity="0.6"/>
+  <path d="M140,360 L140,155 Q320,55 500,155 L500,360" fill="none" stroke="#FBBF24" stroke-width="1.5" opacity="0.4" stroke-dasharray="6 4"/>
+  <rect width="640" height="360" fill="url(#royalGlow)"/>
+
+  <!-- Ornate Royal Chandelier in Ceiling Center -->
+  <g transform="translate(320, 25)" stroke="#F59E0B" stroke-width="1.5" fill="none">
+    <line x1="0" y1="-25" x2="0" y2="15"/>
+    <ellipse cx="0" cy="18" rx="28" ry="8"/>
+    <!-- Hanging Crystals &amp; Flames -->
+    <g fill="#FEF08A">
+      <circle cx="-24" cy="20" r="3"/>
+      <circle cx="-12" cy="22" r="3.5"/>
+      <circle cx="0" cy="24" r="4"/>
+      <circle cx="12" cy="22" r="3.5"/>
+      <circle cx="24" cy="20" r="3"/>
+    </g>
+  </g>
+
+  <!-- Velvet Palace Curtains with Golden Tassels -->
+  <path d="M0,0 Q120,50 70,220 Q40,320 0,360 Z" fill="#2E0800" opacity="0.8"/>
+  <path d="M640,0 Q520,50 570,220 Q600,320 640,360 Z" fill="#2E0800" opacity="0.8"/>
+
+  <!-- Polished Marble Stage Floor -->
+  <path d="M0,270 L640,265 L640,360 L0,360 Z" fill="#0A0812"/>
+  <line x1="0" y1="270" x2="640" y2="265" stroke="#FBBF24" stroke-width="2" opacity="0.5"/>
+
+  <!-- CENTRAL THEATRICAL COMPOSITION -->
+  <!-- Left Side: Raja Ravi Varma in Aristocratic Silhouette (Royal Poshak &amp; Turban) -->
+  <g transform="translate(230, 265)">
+    <!-- Floor Shadow -->
+    <ellipse cx="0" cy="38" rx="42" ry="10" fill="#000000" opacity="0.55"/>
+
+    <!-- Head with Royal Mysore / Travancore Turban (Zari border) -->
+    <circle cx="0" cy="-110" r="13" fill="#1C1917"/>
+    <!-- Turban Drape &amp; Crown -->
+    <ellipse cx="0" cy="-118" rx="20" ry="9" fill="#B45309" transform="rotate(-6 0 -118)"/>
+    <ellipse cx="0" cy="-122" rx="14" ry="7" fill="#F59E0B" transform="rotate(-6 0 -122)"/>
+    <!-- Pearl Sarpech / Jewel Ornament -->
+    <circle cx="-14" cy="-122" r="3.5" fill="#FEF08A"/>
+    <path d="M-14,-125 L-14,-136" stroke="#FEF08A" stroke-width="1.5"/>
+
+    <!-- Royal Achkan / Sherwani Body (Regal posture) -->
+    <path d="M-16,-98 L16,-98 L22,-35 L-20,-35 Z" fill="#1C1917"/>
+    <!-- Gold Embroidered Collar &amp; Buttons line -->
+    <line x1="0" y1="-98" x2="0" y2="-35" stroke="#F59E0B" stroke-width="2"/>
+
+    <!-- Lower Sherwani drape &amp; Churidar -->
+    <path d="M-20,-35 L22,-35 L28,24 L-24,24 Z" fill="#292524"/>
+    <path d="M-10,24 L-8,44 L-20,46 L-18,38 L-14,24 Z" fill="#1C1917"/>
+    <path d="M12,24 L14,44 L2,46 L4,38 L8,24 Z" fill="#1C1917"/>
+
+    <!-- Right Arm Holding Fine Sable Brush towards Canvas -->
+    <path d="M14,-86 Q40,-75 68,-78" fill="none" stroke="#1C1917" stroke-width="5.5" stroke-linecap="round"/>
+    <line x1="66" y1="-78" x2="94" y2="-82" stroke="#F59E0B" stroke-width="2"/>
+    <circle cx="95" cy="-82" r="2.5" fill="#FEF08A"/>
+
+    <!-- Left Hand Holding Classical Artist's Palette -->
+    <g transform="translate(-15, -55) rotate(-10)">
+      <path d="M-18,-8 C-8,-18 20,-14 25,-4 C30,10 12,20 -6,14 C-16,8 -20,0 -18,-8 Z" fill="#B45309" stroke="#F59E0B" stroke-width="1.5"/>
+      <circle cx="-6" cy="-6" r="2.5" fill="#EF4444"/>
+      <circle cx="4" cy="-8" r="2.5" fill="#FBBF24"/>
+      <circle cx="14" cy="-4" r="2.5" fill="#3B82F6"/>
+      <circle cx="8" cy="8" r="2.5" fill="#FEF08A"/>
+    </g>
+  </g>
+
+  <!-- Right Side: The Masterwork Canvas on Gilded Wooden Easel -->
+  <g transform="translate(420, 260)">
+    <!-- Easel Floor Shadow -->
+    <ellipse cx="0" cy="45" rx="65" ry="12" fill="#000000" opacity="0.5"/>
+
+    <!-- Wooden Studio Easel -->
+    <line x1="0" y1="-175" x2="-45" y2="45" stroke="#1C1917" stroke-width="5"/>
+    <line x1="0" y1="-175" x2="35" y2="45" stroke="#1C1917" stroke-width="5"/>
+    <line x1="0" y1="-175" x2="-5" y2="45" stroke="#292524" stroke-width="4"/>
+    <line x1="-40" y1="-30" x2="30" y2="-30" stroke="#1C1917" stroke-width="6"/>
+    <line x1="-25" y1="-125" x2="18" y2="-125" stroke="#1C1917" stroke-width="4"/>
+
+    <!-- THE SACRED REALISM CANVAS (Glowing with divine golden light) -->
+    <!-- Heavy Ornate Gilded Picture Frame -->
+    <rect x="-42" y="-142" width="76" height="110" rx="4" fill="#FEF08A" stroke="#B45309" stroke-width="3.5"/>
+    <!-- Canvas Surface -->
+    <rect x="-37" y="-137" width="66" height="100" fill="#FFFBEB"/>
+    
+    <!-- The Divine Portrait Silhouette (Goddess Saraswati / Damayanti Motif) -->
+    <!-- Halo of the deity -->
+    <circle cx="-4" cy="-105" r="18" fill="#FDE047" opacity="0.85"/>
+    <!-- Head &amp; Crown -->
+    <circle cx="-4" cy="-105" r="7" fill="#78350F"/>
+    <polygon points="-4,-118 -8,-111 0,-111" fill="#D97706"/>
+    <!-- Graceful Saree Drape &amp; Veena -->
+    <path d="M-10,-97 L2,-97 L10,-60 L-18,-60 Z" fill="#DC2626"/>
+    <!-- Sacred Veena Instrument in divine hands -->
+    <line x1="-16" y1="-72" x2="12" y2="-92" stroke="#B45309" stroke-width="3"/>
+    <circle cx="-16" cy="-72" r="5" fill="#B45309"/>
+    <circle cx="12" cy="-92" r="3" fill="#B45309"/>
+    <!-- Lotus Pedestal at bottom of painting -->
+    <ellipse cx="-4" cy="-56" rx="14" ry="5" fill="#F43F5E"/>
+
+    <!-- Radiating Divine Light Beams from the Printed Deity -->
+    <line x1="-4" y1="-105" x2="-80" y2="-130" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>
+    <line x1="-4" y1="-105" x2="-90" y2="-80" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>
+    <line x1="-4" y1="-105" x2="-80" y2="-40" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>
+  </g>
+
+  <!-- Golden Dust &amp; Theatrical Embers in Royal Court Air -->
+  <g fill="#FEF08A">
+    <circle cx="170" cy="120" r="2" opacity="0.8"/>
+    <circle cx="210" cy="80" r="2.5" opacity="0.9"/>
+    <circle cx="290" cy="140" r="3" opacity="0.85"/>
+    <circle cx="340" cy="90" r="2" opacity="0.7"/>
+    <circle cx="490" cy="70" r="3" opacity="0.9"/>
+    <circle cx="530" cy="130" r="2.5" opacity="0.8"/>
+  </g>
+</svg>

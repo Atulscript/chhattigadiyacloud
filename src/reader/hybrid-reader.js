@@ -1,0 +1,548 @@
+// Hybrid Magazine Reader: Flip-Book + Accessible Paginated View + PDF-to-Markup Converter
+// Self-contained, lightweight, no third-party cloud trackers.
+
+export class HybridMagazineReader {
+  constructor(containerId, options = {}) {
+    this.container = document.getElementById(containerId);
+    this.options = {
+      lang: options.lang || "en",
+      mode: options.mode || "flip", // "flip" or "paginated"
+      fontSize: options.fontSize || 18,
+      pages: options.pages || [],
+      ...options
+    };
+
+    this.currentPage = 1;
+    this.totalPages = this.options.pages.length || 1;
+    this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.isFullscreen = false;
+
+    if (this.isReducedMotion && this.options.mode === "flip") {
+      this.options.mode = "paginated";
+    }
+
+    this.init();
+  }
+
+  init() {
+    this.render();
+    this.bindGlobalEvents();
+  }
+
+  setLanguage(lang) {
+    this.options.lang = lang;
+    this.render();
+  }
+
+  setPages(pages) {
+    this.options.pages = pages;
+    this.totalPages = pages.length;
+    this.currentPage = 1;
+    this.render();
+  }
+
+  goToPage(pageNum) {
+    const target = Math.max(1, Math.min(this.totalPages, pageNum));
+    if (target === this.currentPage) return;
+    if (this.options.mode === 'flip') {
+      this.triggerFlipEffect(() => {
+        this.currentPage = target;
+        this.render();
+      });
+    } else {
+      this.currentPage = target;
+      this.render();
+    }
+  }
+
+  render() {
+    if (!this.container) return;
+
+    const isHi = this.options.lang === "hi";
+    const t = {
+      flipMode: isHi ? "📖 3D फ्लिप-बुक दृश्य" : "📖 3D Flip-Book Spread",
+      paginatedMode: isHi ? "📄 पठनीय आलेख दृश्य" : "📄 Clean Reader View",
+      converter: isHi ? "⚙️ PDF से मार्कअप टूल" : "⚙️ PDF to Markdown Tool",
+      prev: isHi ? "‹ पिछला पृष्ठ" : "‹ Previous Page",
+      next: isHi ? "अगला पृष्ठ ›" : "Next Page ›",
+      page: isHi ? "पृष्ठ" : "Page",
+      of: isHi ? "का" : "of",
+      fontSmaller: "A-",
+      fontLarger: "A+",
+      download: isHi ? "PDF अंक डाउनलोड" : "Download Issue PDF",
+      sampleDemo: isHi ? "⚡ नमूना PDF आलेख आज़माएं" : "⚡ Try Sample Issue PDF",
+      fullscreen: isHi ? "⛶ पूर्ण स्क्रीन" : "⛶ Fullscreen",
+      copyMd: isHi ? "📋 मार्कअप कॉपी करें" : "📋 Copy Markdown",
+      copied: isHi ? "कॉपी हो गया! ✓" : "Copied to Clipboard! ✓"
+    };
+
+    // Build thumbnail navigation strip
+    const thumbnailsHtml = this.options.pages.map((p, idx) => {
+      const pNum = idx + 1;
+      const isActive = pNum === this.currentPage;
+      const shortTitle = p.title ? p.title.split(':')[0] : `${t.page} ${pNum}`;
+      return `
+        <button type="button" class="reader-thumb-chip ${isActive ? 'active' : ''}" data-jump-page="${pNum}" title="${p.title || ''}">
+          <span class="thumb-chip-num">${pNum}</span>
+          <span class="thumb-chip-title">${shortTitle}</span>
+        </button>
+      `;
+    }).join('');
+
+    this.container.innerHTML = `
+      <div class="reader-shell" id="reader-main-shell" role="region" aria-label="Magazine Reader">
+        <!-- Floating Reader Toolbar -->
+        <div class="reader-toolbar">
+          <div class="reader-toolbar-left">
+            <button class="reader-btn ${this.options.mode === 'flip' ? 'active' : ''}" id="btn-mode-flip" title="${t.flipMode}">
+              ${t.flipMode}
+            </button>
+            <button class="reader-btn ${this.options.mode === 'paginated' ? 'active' : ''}" id="btn-mode-paginated" title="${t.paginatedMode}">
+              ${t.paginatedMode}
+            </button>
+            <button class="reader-btn" id="btn-mode-convert" title="${t.converter}">
+              ${t.converter}
+            </button>
+          </div>
+
+          <div class="reader-toolbar-right">
+            <div class="reader-font-controls">
+              <button class="reader-btn-icon" id="btn-font-dec" title="Decrease font size" aria-label="Decrease font size">${t.fontSmaller}</button>
+              <span class="reader-font-indicator" id="font-indicator">${this.options.fontSize}px</span>
+              <button class="reader-btn-icon" id="btn-font-inc" title="Increase font size" aria-label="Increase font size">${t.fontLarger}</button>
+            </div>
+            <button class="reader-btn-icon" id="btn-toggle-fullscreen" title="${t.fullscreen}" aria-label="${t.fullscreen}">⛶</button>
+            <a href="/src/assets/images/mag-issue-14-cover.svg" target="_blank" class="reader-btn reader-btn-primary" id="btn-download-pdf">
+              <span>📥</span> <span>${t.download}</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Conversion Panel (collapsible local tool) -->
+        <div id="converter-panel" class="converter-panel hidden">
+          <div class="converter-box">
+            <div class="converter-header">
+              <div>
+                <h4 style="font-family:var(--font-serif); font-size:1.35rem; color:var(--g-text-primary); margin-bottom:0.25rem;">
+                  ⚙️ ${isHi ? "स्थानीय PDF से मार्कडाउन रूपांतरण इंजन" : "Local PDF to Markdown Parsing Engine"}
+                </h4>
+                <p style="font-size:0.92rem; color:var(--g-text-secondary); margin:0;">
+                  ${isHi 
+                    ? "यह उपकरण बिना किसी बाहरी सर्वर के आपके ब्राउज़र में ही PDF का विश्लेषण कर स्वच्छ Markdown और HTML तैयार करता है।"
+                    : "Extract structured headings, pull-quotes, and paragraphs locally without uploading files to external clouds."}
+                </p>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-sample-pdf" style="font-size:0.85rem; padding:0.5rem 1rem;">
+                ${t.sampleDemo}
+              </button>
+            </div>
+
+            <div class="converter-dropzone" id="pdf-dropzone">
+              <input type="file" id="pdf-file-input" accept="application/pdf" style="display:none;" />
+              <div id="dropzone-text">
+                <span style="font-size:2rem; display:block; margin-bottom:0.5rem;">📂</span>
+                <strong>${isHi ? "यहाँ PDF फाइल छोड़ें या ब्राउज़ करें" : "Drag & Drop Issue PDF here or click to browse"}</strong>
+                <div style="font-size:0.82rem; color:var(--g-text-muted); margin-top:0.35rem;">Max 50MB • Client-side private parsing</div>
+              </div>
+            </div>
+
+            <div id="converter-output-wrap" class="hidden" style="margin-top:1.5rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.5rem;">
+                <strong style="color:var(--g-text-primary); font-size:0.92rem;">
+                  📝 ${isHi ? "तैयार मार्कअप (Markdown Output):" : "Generated Structured Markdown:"}
+                </strong>
+                <button type="button" class="reader-btn" id="btn-copy-markdown" style="font-size:0.85rem; padding:0.4rem 0.9rem;">
+                  ${t.copyMd}
+                </button>
+              </div>
+              <textarea id="converter-markdown-output" rows="9" class="converter-textarea" readonly></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Reading Stage -->
+        <div class="reader-stage" id="reader-stage">
+          ${this.options.mode === 'flip' ? this.renderFlipBookHtml() : this.renderPaginatedHtml()}
+        </div>
+
+        <!-- Quick Page Thumbnail Jump Strip -->
+        <div class="reader-thumbnails-bar" aria-label="Page Selection Strip">
+          <span class="reader-thumb-label">📑 ${isHi ? 'अंक पृष्ठ सूची:' : 'Pages in Issue:'}</span>
+          <div class="reader-thumb-list">
+            ${thumbnailsHtml}
+          </div>
+        </div>
+
+        <!-- Reader Navigation Footer Bar -->
+        <div class="reader-pagination-bar">
+          <button class="reader-btn" id="btn-page-prev" ${this.currentPage <= 1 ? 'disabled' : ''}>
+            ${t.prev}
+          </button>
+          
+          <div class="reader-page-indicator" aria-live="polite">
+            <span>📖</span> 
+            <strong>${t.page} ${this.currentPage}</strong> 
+            <span style="color:var(--g-text-muted);">${t.of} ${this.totalPages}</span>
+          </div>
+
+          <button class="reader-btn" id="btn-page-next" ${this.currentPage >= this.totalPages ? 'disabled' : ''}>
+            ${t.next}
+          </button>
+        </div>
+      </div>
+    `;
+
+    this.bindDynamicElements();
+  }
+
+  renderFlipBookHtml() {
+    const isHi = this.options.lang === "hi";
+    const pages = this.options.pages;
+    const pageIndex = this.currentPage - 1;
+    const current = pages[pageIndex] || { title: "", author: "", excerpt: "", content: "" };
+
+    return `
+      <div class="flipbook-wrapper" id="flipbook-viewport">
+        <!-- 3D Open Book Spread Container -->
+        <div class="flip-book-spread">
+          <!-- Page Flip Turn Triggers (Left & Right) -->
+          <button type="button" class="book-turn-arrow book-turn-prev" id="book-click-prev" title="Turn to Previous Page" aria-label="Previous Page" ${this.currentPage <= 1 ? 'disabled' : ''}>
+            ‹
+          </button>
+          <button type="button" class="book-turn-arrow book-turn-next" id="book-click-next" title="Turn to Next Page" aria-label="Next Page" ${this.currentPage >= this.totalPages ? 'disabled' : ''}>
+            ›
+          </button>
+
+          <!-- Left Page (Verso) -->
+          <div class="book-page book-page-left" style="font-size: ${this.options.fontSize}px;">
+            <div class="book-page-header">
+              <span class="book-journal-title">Chhattisgadhiya Cloud Masik Patrika</span>
+              <span class="book-issue-stamp">Vol. IV • Issue 09</span>
+            </div>
+
+            <div class="book-page-body">
+              <span class="book-section-pill">✦ ${current.category || (isHi ? 'विशेष संपादकीय' : 'Monograph Folio')} ✦</span>
+              <h3 class="book-article-title">${current.title || (isHi ? 'अंक शीर्षक' : 'Featured Monograph')}</h3>
+              
+              ${current.author ? `
+                <div class="book-author-line">
+                  <span>✍️</span> <strong>${isHi ? 'लेखक' : 'By'}:</strong> <span>${current.author}</span>
+                </div>
+              ` : ''}
+
+              ${current.excerpt ? `
+                <div class="book-abstract-box">
+                  <div class="abstract-label">📌 ${isHi ? 'संक्षिप्त सारांश (Abstract)' : 'Curator\'s Abstract'}:</div>
+                  <p class="abstract-text">${current.excerpt}</p>
+                </div>
+              ` : ''}
+
+              <div class="book-verso-watermark">
+                <div class="watermark-emblem">CC</div>
+                <div class="watermark-caption">Tribal Folk & Theatre Research Guild • Jashpur</div>
+              </div>
+            </div>
+
+            <div class="book-page-footer">
+              <span class="book-page-num">${(this.currentPage * 2) - 1}</span>
+              <span class="book-footer-motto">Think Art Think Chhattisgadhiya Cloud</span>
+            </div>
+          </div>
+
+          <!-- Realistic Book Center Spine Crease -->
+          <div class="book-spine-crease" aria-hidden="true"></div>
+
+          <!-- Right Page (Recto) -->
+          <div class="book-page book-page-right" style="font-size: ${this.options.fontSize}px;">
+            <div class="book-page-header">
+              <span class="book-folio-running">${isHi ? 'सितंबर 2026 विशेषांक' : 'September 2026 Edition'}</span>
+              <span class="book-issn-badge">ISSN 2709-4112</span>
+            </div>
+
+            <div class="book-page-body book-reading-column">
+              ${this.formatContent(current.content)}
+            </div>
+
+            <div class="book-page-footer">
+              <span class="book-footer-motto">Open Cultural Archive</span>
+              <span class="book-page-num">${this.currentPage * 2}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flipbook-hint">
+          <span>💡 ${isHi ? 'पृष्ठ पलटने हेतु कीबोर्ड एरो (← / →), ऊपर के बाण या नीचे की अंक-पट्टी पर क्लिक करें' : 'Tip: Use keyboard arrows (← / →), side arrows, or the thumbnail strip below to flip pages'}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  renderPaginatedHtml() {
+    const isHi = this.options.lang === "hi";
+    const pages = this.options.pages;
+    const pageIndex = this.currentPage - 1;
+    const current = pages[pageIndex] || { title: "", author: "", excerpt: "", content: "" };
+
+    return `
+      <div class="paginated-view-wrapper" style="font-size: ${this.options.fontSize}px;">
+        <article class="magazine-clean-article">
+          <header class="article-meta-header">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+              <span class="book-section-pill">✦ ${current.category || (isHi ? 'मासिक शोध लेख' : 'Monthly Research Paper')} ✦</span>
+              <span style="font-size:0.85rem; color:var(--g-text-muted); font-weight:600;">Issue 14 • Page ${this.currentPage} of ${this.totalPages}</span>
+            </div>
+            <h2 class="article-reader-title">${current.title || ""}</h2>
+            ${current.author ? `
+              <div class="article-author" style="margin-top:0.75rem; font-size:1.05rem; color:var(--c-blue); font-weight:600; display:flex; align-items:center; gap:0.5rem;">
+                <span>✍️</span> <span>${isHi ? 'लेखक' : 'Author'}: ${current.author}</span>
+              </div>
+            ` : ''}
+          </header>
+
+          ${current.excerpt ? `
+            <div class="book-abstract-box" style="margin-bottom:2rem; background:#F8F9FA;">
+              <div class="abstract-label">📌 ${isHi ? 'आलेख का मूल बिंदु' : 'Core Synopsis'}:</div>
+              <p class="abstract-text">${current.excerpt}</p>
+            </div>
+          ` : ''}
+
+          <div class="article-body-content">
+            ${this.formatContent(current.content)}
+          </div>
+        </article>
+      </div>
+    `;
+  }
+
+  formatContent(text) {
+    if (!text) return "<p>No content available for this page.</p>";
+    
+    // Parse markdown into clean editorial markup
+    let html = text
+      .replace(/^### (.*$)/gim, '<h4 class="reader-subheading"><span style="color:var(--c-primary); margin-right:6px;">✦</span>$1</h4>')
+      .replace(/^## (.*$)/gim, '<h3 class="reader-subheading">$1</h3>')
+      .replace(/^# (.*$)/gim, '<h2 class="reader-subheading">$1</h2>')
+      .replace(/^\> (.*$)/gim, '<blockquote class="reader-pullquote"><p>“$1”</p></blockquote>')
+      .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+      .replace(/\n\n/g, '</p><p class="reader-p">')
+      .replace(/\n/g, '<br/>');
+
+    return `<p class="reader-p">${html}</p>`;
+  }
+
+  bindGlobalEvents() {
+    window.addEventListener('keydown', (e) => {
+      // Only handle arrows if not in an input/textarea
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      if (e.key === 'ArrowRight') {
+        this.nextPage();
+      } else if (e.key === 'ArrowLeft') {
+        this.prevPage();
+      }
+    });
+  }
+
+  bindDynamicElements() {
+    const btnFlip = document.getElementById('btn-mode-flip');
+    const btnPaginated = document.getElementById('btn-mode-paginated');
+    const btnConvert = document.getElementById('btn-mode-convert');
+    const converterPanel = document.getElementById('converter-panel');
+    const btnFontInc = document.getElementById('btn-font-inc');
+    const btnFontDec = document.getElementById('btn-font-dec');
+    const btnPrev = document.getElementById('btn-page-prev');
+    const btnNext = document.getElementById('btn-page-next');
+    const bookClickPrev = document.getElementById('book-click-prev');
+    const bookClickNext = document.getElementById('book-click-next');
+    const btnFullscreen = document.getElementById('btn-toggle-fullscreen');
+    const btnSamplePdf = document.getElementById('btn-sample-pdf');
+    const dropzone = document.getElementById('pdf-dropzone');
+    const fileInput = document.getElementById('pdf-file-input');
+    const btnCopy = document.getElementById('btn-copy-markdown');
+
+    // Thumbnail buttons
+    const thumbChips = this.container.querySelectorAll('[data-jump-page]');
+    thumbChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const page = parseInt(chip.getAttribute('data-jump-page'), 10);
+        if (!isNaN(page)) this.goToPage(page);
+      });
+    });
+
+    if (btnFlip) {
+      btnFlip.addEventListener('click', () => {
+        this.options.mode = 'flip';
+        this.render();
+      });
+    }
+
+    if (btnPaginated) {
+      btnPaginated.addEventListener('click', () => {
+        this.options.mode = 'paginated';
+        this.render();
+      });
+    }
+
+    if (btnConvert && converterPanel) {
+      btnConvert.addEventListener('click', () => {
+        converterPanel.classList.toggle('hidden');
+        if (!converterPanel.classList.contains('hidden')) {
+          converterPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+
+    if (btnFontInc) {
+      btnFontInc.addEventListener('click', () => {
+        if (this.options.fontSize < 26) {
+          this.options.fontSize += 2;
+          this.render();
+        }
+      });
+    }
+
+    if (btnFontDec) {
+      btnFontDec.addEventListener('click', () => {
+        if (this.options.fontSize > 14) {
+          this.options.fontSize -= 2;
+          this.render();
+        }
+      });
+    }
+
+    if (btnPrev) btnPrev.addEventListener('click', () => this.prevPage());
+    if (btnNext) btnNext.addEventListener('click', () => this.nextPage());
+    if (bookClickPrev) bookClickPrev.addEventListener('click', () => this.prevPage());
+    if (bookClickNext) bookClickNext.addEventListener('click', () => this.nextPage());
+
+    if (btnFullscreen) {
+      btnFullscreen.addEventListener('click', () => this.toggleFullscreen());
+    }
+
+    if (btnSamplePdf) {
+      btnSamplePdf.addEventListener('click', () => this.loadSamplePdfDemo());
+    }
+
+    if (dropzone && fileInput) {
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', async (e) => {
+        if (e.target.files.length > 0) {
+          await this.handlePdfConversion(e.target.files[0]);
+        }
+      });
+    }
+
+    if (btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        const textarea = document.getElementById('converter-markdown-output');
+        if (textarea) {
+          textarea.select();
+          navigator.clipboard.writeText(textarea.value);
+          btnCopy.innerText = this.options.lang === 'hi' ? "कॉपी हो गया! ✓" : "Copied to Clipboard! ✓";
+          setTimeout(() => {
+            btnCopy.innerText = this.options.lang === 'hi' ? "📋 मार्कअप कॉपी करें" : "📋 Copy Markdown";
+          }, 2500);
+        }
+      });
+    }
+  }
+
+  toggleFullscreen() {
+    const shell = document.getElementById('reader-main-shell');
+    if (!shell) return;
+    if (!document.fullscreenElement) {
+      shell.requestFullscreen?.().catch(() => {});
+      shell.classList.add('is-fullscreen');
+    } else {
+      document.exitFullscreen?.().catch(() => {});
+      shell.classList.remove('is-fullscreen');
+    }
+  }
+
+  loadSamplePdfDemo() {
+    const isHi = this.options.lang === 'hi';
+    const outputWrap = document.getElementById('converter-output-wrap');
+    const outputText = document.getElementById('converter-markdown-output');
+    const dropzoneText = document.getElementById('dropzone-text');
+
+    if (dropzoneText) {
+      dropzoneText.innerHTML = `✅ <strong>${isHi ? "नमूना अंक १४ सफलतापूर्वक विश्लेषित हुआ!" : "Sample Issue 14 (Sept 2026) Parsed Successfully!"}</strong>`;
+    }
+
+    if (outputWrap && outputText) {
+      outputWrap.classList.remove('hidden');
+      outputText.value = isHi 
+        ? `# छत्तीसगढ़िया क्लाउड मासिक पत्रिका • अंक १४ (सितंबर २०२६)\n\n## नाचा का पुनरुत्थान — डॉ. प्रभात मिश्रा\n\nनाचा मात्र मनोरंजन नहीं है, बल्कि ग्रामीण समाज का खुला न्याय-कक्ष है। जब कलाकार अखाड़े में कदम रखते हैं तो सामाजिक दीवारें ढह जाती हैं...\n\n> "नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक सामना है।"\n\n1. माटी की बोली: मुहावरों की सहज शक्ति\n2. संगीत की धड़कन: ढोलक और मंजीरा\n3. तात्कालिकता: समकालीन प्रश्नों पर तीखा व्यंग्य`
+        : `# Chhattisgadhiya Cloud Masik Patrika • Vol. IV • Issue 09 (Sept 2026)\n\n## The Revival of Nacha in Urban Spaces — Dr. Prabhat Mishra\n\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften...\n\n> "The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself."\n\n1. The Language of the Earth: Colloquial idioms\n2. Music as Pulse: Dholak and manjeera shaping crescendos\n3. Improvisation: Sharp satire on contemporary dilemmas`;
+      outputText.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  async handlePdfConversion(file) {
+    const isHi = this.options.lang === 'hi';
+    const dropzoneText = document.getElementById('dropzone-text');
+    if (dropzoneText) {
+      dropzoneText.innerHTML = `⏳ <strong>${isHi ? `स्थानीय रूप से "${file.name}" का विश्लेषण जारी...` : `Parsing "${file.name}" locally in browser...`}</strong>`;
+    }
+
+    try {
+      const { LocalPdfExtractor } = await import('./pdf-parser.js');
+      const extractor = new LocalPdfExtractor();
+      const result = await extractor.extractTextFromPdf(file);
+
+      const outputWrap = document.getElementById('converter-output-wrap');
+      const outputText = document.getElementById('converter-markdown-output');
+
+      if (outputWrap && outputText) {
+        outputWrap.classList.remove('hidden');
+        outputText.value = result.markdown;
+        if (dropzoneText) {
+          dropzoneText.innerHTML = `✅ <strong>"${file.name}" ${isHi ? "सफलतापूर्वक मार्कडाउन में परिवर्तित!" : "converted to Markdown!"}</strong> (${result.pages.length} pages)`;
+        }
+      }
+    } catch (err) {
+      if (dropzoneText) {
+        dropzoneText.innerHTML = `❌ Error: ${err.message}`;
+      }
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      if (this.options.mode === 'flip') {
+        this.triggerFlipEffect(() => {
+          this.currentPage++;
+          this.render();
+        });
+      } else {
+        this.currentPage++;
+        this.render();
+      }
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      if (this.options.mode === 'flip') {
+        this.triggerFlipEffect(() => {
+          this.currentPage--;
+          this.render();
+        });
+      } else {
+        this.currentPage--;
+        this.render();
+      }
+    }
+  }
+
+  triggerFlipEffect(callback) {
+    this.isFlipping = true;
+    const stage = document.getElementById('reader-stage');
+    if (stage) stage.classList.add('page-turning');
+    setTimeout(() => {
+      this.isFlipping = false;
+      callback();
+    }, 240);
+  }
+}
+

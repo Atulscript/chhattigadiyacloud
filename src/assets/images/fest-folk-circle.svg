@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fc-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A2A3A"/>
+      <stop offset="50%" stop-color="#2D3142"/>
+      <stop offset="100%" stop-color="#4F3B34"/>
+    </linearGradient>
+    <radialGradient id="fc-fire" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE082" stop-opacity="0.9"/>
+      <stop offset="20%" stop-color="#FF9800" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#E64A19" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1A2A3A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#fc-sky)"/>
+  
+  <!-- Central Festival Bonfire / Sacred Circle Glow -->
+  <circle cx="400" cy="250" r="180" fill="url(#fc-fire)"/>
+  <ellipse cx="400" cy="300" rx="280" ry="70" fill="none" stroke="#FFB74D" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+
+  <!-- Bonfire Flames -->
+  <g transform="translate(400, 275)">
+    <path d="M-25,10 C-15,-30 0,-60 0,-75 C10,-45 25,-25 15,10 Z" fill="#FF5722"/>
+    <path d="M-15,10 C-5,-20 0,-45 0,-55 C5,-35 15,-15 10,10 Z" fill="#FFEB3B"/>
+    <rect x="-35" y="10" width="70" height="12" rx="4" fill="#3E2723"/>
+  </g>
+
+  <!-- Mandar Drum Players &amp; Dancers in Rhythm Arc -->
+  <!-- Drummer Left -->
+  <g transform="translate(230, 240)">
+    <circle cx="0" cy="-40" r="11" fill="#FFE082"/>
+    <!-- Turban / Pagdi feather -->
+    <path d="M-4,-50 Q5,-68 15,-65" stroke="#FF5722" stroke-width="3" fill="none"/>
+    <path d="M-14,-28 L14,-28 L20,30 L-18,30 Z" fill="#FFFFFF"/>
+    <!-- Mandar Drum strapped over shoulder -->
+    <ellipse cx="0" cy="0" rx="30" ry="14" fill="#8D6E63" stroke="#D7CCC8" stroke-width="2"/>
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#4E342E" stroke-width="2"/>
+    <circle cx="-30" cy="0" r="10" fill="#3E2723"/>
+    <circle cx="30" cy="0" r="10" fill="#3E2723"/>
+  </g>
+
+  <!-- Drummer Right -->
+  <g transform="translate(570, 240)">
+    <circle cx="0" cy="-40" r="11" fill="#FFE082"/>
+    <path d="M4,-50 Q-5,-68 -15,-65" stroke="#FF5722" stroke-width="3" fill="none"/>
+    <path d="M-14,-28 L14,-28 L18,30 L-20,30 Z" fill="#FFFFFF"/>
+    <ellipse cx="0" cy="0" rx="30" ry="14" fill="#8D6E63" stroke="#D7CCC8" stroke-width="2"/>
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#4E342E" stroke-width="2"/>
+    <circle cx="-30" cy="0" r="10" fill="#3E2723"/>
+    <circle cx="30" cy="0" r="10" fill="#3E2723"/>
+  </g>
+
+  <!-- Karma Women Dancers with Interlocked Arms &amp; Red Sarees -->
+  <!-- Dancer 1 -->
+  <g transform="translate(130, 260)">
+    <circle cx="0" cy="-35" r="9" fill="#FFCC80"/>
+    <circle cx="-5" cy="-40" r="6" fill="#1A1817"/><!-- Hair bun -->
+    <path d="M-10,-24 L10,-24 L16,35 L-16,35 Z" fill="#D32F2F"/>
+    <path d="M-6,-24 L12,25" stroke="#FFF9C4" stroke-width="2.5"/><!-- Saree border -->
+  </g>
+  <!-- Dancer 2 -->
+  <g transform="translate(175, 270)">
+    <circle cx="0" cy="-35" r="9" fill="#FFCC80"/>
+    <circle cx="-5" cy="-40" r="6" fill="#1A1817"/>
+    <path d="M-10,-24 L10,-24 L16,35 L-16,35 Z" fill="#D32F2F"/>
+    <path d="M-6,-24 L12,25" stroke="#FFF9C4" stroke-width="2.5"/>
+  </g>
+  <!-- Arm linkage -->
+  <line x1="138" y1="242" x2="167" y2="246" stroke="#FFCC80" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Dancer 3 Right -->
+  <g transform="translate(630, 270)">
+    <circle cx="0" cy="-35" r="9" fill="#FFCC80"/>
+    <circle cx="5" cy="-40" r="6" fill="#1A1817"/>
+    <path d="M-10,-24 L10,-24 L16,35 L-16,35 Z" fill="#D32F2F"/>
+    <path d="M6,-24 L-12,25" stroke="#FFF9C4" stroke-width="2.5"/>
+  </g>
+  <!-- Dancer 4 Right -->
+  <g transform="translate(675, 260)">
+    <circle cx="0" cy="-35" r="9" fill="#FFCC80"/>
+    <circle cx="5" cy="-40" r="6" fill="#1A1817"/>
+    <path d="M-10,-24 L10,-24 L16,35 L-16,35 Z" fill="#D32F2F"/>
+    <path d="M6,-24 L-12,25" stroke="#FFF9C4" stroke-width="2.5"/>
+  </g>
+  <line x1="638" y1="246" x2="667" y2="242" stroke="#FFCC80" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Grass &amp; Sal Tree silhouettes background -->
+  <rect x="0" y="360" width="800" height="90" fill="#161C26"/>
+  <path d="M0,360 Q200,345 400,360 T800,350 L800,450 L0,450 Z" fill="#0E131C"/>
+
+  <!-- Badges -->
+  <g transform="translate(30, 30)">
+    <rect width="220" height="40" rx="20" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)"/>
+    <circle cx="22" cy="20" r="6" fill="#FF9800"/>
+    <text x="36" y="25" font-family="sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">KARMA &amp; PANTHI OPEN CIRCLE</text>
+  </g>
+  <g transform="translate(620, 30)">
+    <rect width="150" height="40" rx="20" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="75" y="25" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#81C784">TRADITIONAL RHYTHMS</text>
+  </g>
+</svg>

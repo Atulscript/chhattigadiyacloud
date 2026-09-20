@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="m3FestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8F0FE"/>
+      <stop offset="60%" stop-color="#F8F9FA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+
+    <linearGradient id="m3ArchGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A73E8"/>
+      <stop offset="100%" stop-color="#4285F4"/>
+    </linearGradient>
+
+    <linearGradient id="m3Sunbeam" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FBBC04" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FBBC04" stop-opacity="0"/>
+    </linearGradient>
+
+    <style>
+      @keyframes m3Pulse {
+        0%, 100% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
+      }
+      .m3-sun { transform-origin: 660px 100px; animation: m3Pulse 4s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Clean Google M3 Surface Background -->
+  <rect width="800" height="360" fill="url(#m3FestSky)"/>
+
+  <!-- Subtle Minimal Gridlines -->
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#DADCE0" stroke-width="1.5"/>
+  <line x1="0" y1="330" x2="800" y2="330" stroke="#F1F3F4" stroke-width="1"/>
+
+  <!-- Google Yellow Sun &amp; Radiant Circle -->
+  <circle cx="660" cy="100" r="64" fill="url(#m3Sunbeam)"/>
+  <circle cx="660" cy="100" r="36" fill="#FBBC04" class="m3-sun"/>
+
+  <!-- Architectural Torana / Stage Arch in Google Clean Geometry -->
+  <path d="M 120,300 L 120,130 Q 240,60 360,130 L 360,300" fill="none" stroke="url(#m3ArchGrad)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 140,300 L 140,145 Q 240,85 340,145 L 340,300" fill="none" stroke="#D2E3FC" stroke-width="2"/>
+
+  <!-- Decorative Tribal Bell Metal Motif &amp; Torana Garland -->
+  <g fill="#1A73E8">
+    <circle cx="180" cy="130" r="5"/>
+    <circle cx="240" cy="115" r="7"/>
+    <circle cx="300" cy="130" r="5"/>
+  </g>
+
+  <!-- Clean Silhouette: Mandar Drummer &amp; Actor on Stage -->
+  <g fill="#202124">
+    <!-- Mandar Drummer -->
+    <ellipse cx="200" cy="300" rx="14" ry="8"/>
+    <path d="M 188,298 Q 192,235 202,220 Q 212,235 216,298 Z"/>
+    <circle cx="202" cy="206" r="13"/>
+    <!-- Mandar drum -->
+    <ellipse cx="202" cy="250" rx="22" ry="11" fill="#EA4335"/>
+    <line x1="180" y1="250" x2="224" y2="250" stroke="#FFFFFF" stroke-width="1.5"/>
+
+    <!-- Actor with gesture -->
+    <ellipse cx="280" cy="300" rx="16" ry="9"/>
+    <path d="M 264,298 Q 272,225 282,210 Q 292,225 300,298 Z"/>
+    <circle cx="282" cy="194" r="14"/>
+    <path d="M 270,225 Q 250,205 242,185" stroke="#202124" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M 294,225 Q 315,200 325,185" stroke="#202124" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- Costume Sash Accent in Reddit OrangeRed -->
+    <path d="M 270,240 Q 282,260 294,240 L 290,285 L 274,285 Z" fill="#FF4500"/>
+  </g>
+
+  <!-- Google Clean Informational Badging (Left Side) -->
+  <g transform="translate(430, 110)">
+    <!-- Pill Category Chip -->
+    <rect width="180" height="28" rx="14" fill="#E8F0FE"/>
+    <text x="90" y="18" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="11" fill="#1A73E8" text-anchor="middle" letter-spacing="0.5">FLAGSHIP THEATRE</text>
+
+    <!-- Clean Typography -->
+    <text x="0" y="65" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="800" font-size="28" fill="#202124" letter-spacing="-0.5">Jashrang Festival</text>
+    <text x="0" y="94" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="14" fill="#5F6368">National Theater Festival • Jashpur, CG</text>
+
+    <!-- Key Stats Pill Row -->
+    <g transform="translate(0, 115)">
+      <rect width="90" height="26" rx="6" fill="#F1F3F4"/>
+      <text x="45" y="17" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="600" font-size="11" fill="#3C4043" text-anchor="middle">5 Days</text>
+
+      <rect x="98" width="110" height="26" rx="6" fill="#F1F3F4"/>
+      <text x="153" y="17" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="600" font-size="11" fill="#3C4043" text-anchor="middle">12 National Plays</text>
+    </g>
+  </g>
+</svg>

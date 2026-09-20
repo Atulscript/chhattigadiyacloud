@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="100%" height="100%">
+  <defs>
+    <style>
+      @keyframes spotlightLeft {
+        0%, 100% { opacity: 0.45; transform: rotate(0deg); }
+        50% { opacity: 0.75; transform: rotate(3deg); }
+      }
+      @keyframes spotlightRight {
+        0%, 100% { opacity: 0.45; transform: rotate(0deg); }
+        50% { opacity: 0.75; transform: rotate(-3deg); }
+      }
+      @keyframes acousticPulse {
+        0% { r: 35px; opacity: 0.9; stroke-width: 3; }
+        50% { r: 85px; opacity: 0.5; stroke-width: 2; }
+        100% { r: 135px; opacity: 0; stroke-width: 1; }
+      }
+      @keyframes acousticPulse2 {
+        0% { r: 35px; opacity: 0; }
+        30% { opacity: 0.8; stroke-width: 2.5; }
+        100% { r: 165px; opacity: 0; stroke-width: 1; }
+      }
+      @keyframes maskFloat {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-9px) rotate(2deg); }
+      }
+      @keyframes maskFloatSecond {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-7px) rotate(-2deg); }
+      }
+      @keyframes emberFloat1 {
+        0% { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
+        50% { opacity: 0.95; }
+        100% { transform: translate(15px, -70px) scale(1.2); opacity: 0; }
+      }
+      @keyframes emberFloat2 {
+        0% { transform: translate(0, 0) scale(1); opacity: 0.25; }
+        50% { opacity: 1; }
+        100% { transform: translate(-20px, -85px) scale(0.6); opacity: 0; }
+      }
+      @keyframes emberFloat3 {
+        0% { transform: translate(0, 0); opacity: 0.2; }
+        50% { opacity: 0.9; }
+        100% { transform: translate(25px, -90px); opacity: 0; }
+      }
+      @keyframes curtainBreath {
+        0%, 100% { transform: scaleX(1); }
+        50% { transform: scaleX(1.02); }
+      }
+      @keyframes auraGlow {
+        0%, 100% { opacity: 0.6; transform: scale(1); }
+        50% { opacity: 0.85; transform: scale(1.04); }
+      }
+
+      .spotlight-l { transform-origin: 60px 0px; animation: spotlightLeft 7s ease-in-out infinite; }
+      .spotlight-r { transform-origin: 740px 0px; animation: spotlightRight 8s ease-in-out infinite; }
+      .pulse-ring-1 { animation: acousticPulse 3.2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite; }
+      .pulse-ring-2 { animation: acousticPulse2 3.2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite 1.4s; }
+      .theatre-mask-main { animation: maskFloat 5s ease-in-out infinite; }
+      .theatre-mask-alt { animation: maskFloatSecond 5.5s ease-in-out infinite 0.8s; }
+      .ember-1 { animation: emberFloat1 4.5s ease-out infinite; }
+      .ember-2 { animation: emberFloat2 5.2s ease-out infinite 1.2s; }
+      .ember-3 { animation: emberFloat3 4.8s ease-out infinite 2.1s; }
+      .ember-4 { animation: emberFloat1 5.8s ease-out infinite 2.8s; }
+      .ember-5 { animation: emberFloat2 4.2s ease-out infinite 3.5s; }
+      .stage-aura { transform-origin: 400px 290px; animation: auraGlow 6s ease-in-out infinite; }
+      .curtain-left { transform-origin: 0 0; animation: curtainBreath 8s ease-in-out infinite; }
+      .curtain-right { transform-origin: 800px 0; animation: curtainBreath 8s ease-in-out infinite 1s; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .spotlight-l, .spotlight-r, .pulse-ring-1, .pulse-ring-2,
+        .theatre-mask-main, .theatre-mask-alt, .ember-1, .ember-2,
+        .ember-3, .ember-4, .ember-5, .stage-aura, .curtain-left, .curtain-right {
+          animation: none !important;
+        }
+      }
+    </style>
+
+    <!-- Deep Theatrical Stage Gradient -->
+    <linearGradient id="stageBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="35%" stop-color="#1E1B4B"/>
+      <stop offset="70%" stop-color="#3B0764"/>
+      <stop offset="90%" stop-color="#831843"/>
+      <stop offset="100%" stop-color="#4C0519"/>
+    </linearGradient>
+
+    <!-- Floor Stage Footlights Glow -->
+    <linearGradient id="floorGlow" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#FF4500" stop-opacity="0.8"/>
+      <stop offset="30%" stop-color="#F59E0B" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Left Warm Golden Spotlight Beam -->
+    <linearGradient id="spotLGrad" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.85"/>
+      <stop offset="40%" stop-color="#F59E0B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Right Radiant Amber Spotlight Beam -->
+    <linearGradient id="spotRGrad" x1="100%" y1="0%" x2="40%" y2="100%">
+      <stop offset="0%" stop-color="#FED7AA" stop-opacity="0.85"/>
+      <stop offset="40%" stop-color="#EA580C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#831843" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Central Radiant Aura -->
+    <radialGradient id="centerAura" cx="50%" cy="55%" r="48%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.6"/>
+      <stop offset="45%" stop-color="#F97316" stop-opacity="0.25"/>
+      <stop offset="85%" stop-color="#9333EA" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Golden Leaf Gradient for Dokra / Terracotta Motifs -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="35%" stop-color="#FDE047"/>
+      <stop offset="70%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+
+    <!-- Velvet Curtain Gradient -->
+    <linearGradient id="curtainGradL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C0519"/>
+      <stop offset="40%" stop-color="#881337"/>
+      <stop offset="80%" stop-color="#BE123C"/>
+      <stop offset="100%" stop-color="#4C0519" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="curtainGradR" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#4C0519"/>
+      <stop offset="40%" stop-color="#881337"/>
+      <stop offset="80%" stop-color="#BE123C"/>
+      <stop offset="100%" stop-color="#4C0519" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="520" fill="url(#stageBg)"/>
+
+  <!-- Pulsing Central Stage Aura -->
+  <rect x="150" y="70" width="500" height="420" fill="url(#centerAura)" class="stage-aura"/>
+
+  <!-- Sweeping Diagonal Theatrical Spotlights -->
+  <!-- Left Spotlight Cone -->
+  <polygon points="60,0 240,520 480,520 80,0" fill="url(#spotLGrad)" class="spotlight-l"/>
+  <!-- Right Spotlight Cone -->
+  <polygon points="740,0 560,520 320,520 720,0" fill="url(#spotRGrad)" class="spotlight-r"/>
+
+  <!-- Stage Planks Footlights Strip -->
+  <rect x="0" y="440" width="800" height="80" fill="url(#floorGlow)"/>
+  <line x1="0" y1="475" x2="800" y2="475" stroke="#F59E0B" stroke-width="1.5" opacity="0.4" stroke-dasharray="12 6"/>
+  <line x1="0" y1="495" x2="800" y2="495" stroke="#EA580C" stroke-width="2" opacity="0.6"/>
+
+  <!-- Acoustic Waves from Mandar Drum (Rhythm Motion Art) -->
+  <g transform="translate(400, 395)" fill="none" stroke="#FBBF24" stroke-linecap="round">
+    <circle cx="0" cy="0" r="35" class="pulse-ring-1" stroke="url(#goldGrad)"/>
+    <circle cx="0" cy="0" r="45" class="pulse-ring-2" stroke="#FF4500"/>
+    <circle cx="0" cy="0" r="25" stroke="#FEF08A" stroke-width="1.5" opacity="0.75"/>
+  </g>
+
+  <!-- Central Theatrical Grouping: Folk Dancers &amp; Mandar Rhythm -->
+
+  <!-- Mandar Folk Drum (Center Forefront Stage) -->
+  <g transform="translate(350, 375)">
+    <!-- Mandar Body -->
+    <ellipse cx="50" cy="20" rx="46" ry="18" fill="#78350F" stroke="#F59E0B" stroke-width="2"/>
+    <!-- Drum Straps &amp; Tribal Bracing -->
+    <path d="M10,20 L30,34 L50,20 L70,34 L90,20" fill="none" stroke="#FEF08A" stroke-width="1.5"/>
+    <path d="M10,20 L30,6 L50,20 L70,6 L90,20" fill="none" stroke="#FEF08A" stroke-width="1.5"/>
+    <!-- Left Leather Head -->
+    <ellipse cx="6" cy="20" rx="6" ry="16" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+    <ellipse cx="6" cy="20" rx="3.5" ry="9" fill="#44403C"/>
+    <!-- Right Leather Head -->
+    <ellipse cx="94" cy="20" rx="6" ry="16" fill="#1C1917" stroke="#F59E0B" stroke-width="1.5"/>
+    <ellipse cx="94" cy="20" rx="3.5" ry="9" fill="#44403C"/>
+    <!-- Center Resonance Mark -->
+    <circle cx="50" cy="20" r="6" fill="#EA580C"/>
+  </g>
+
+  <!-- Dancer 1: Female Folk Dancer in Karma / Nacha Pose (Stage Right / Viewer Left) -->
+  <g transform="translate(230, 205)" fill="#FFFFFF">
+    <!-- Fluid Red Dupatta / Saree Flow (Chhattisgarhi Odhni) -->
+    <path d="M70,80 Q110,40 140,110 Q90,140 70,80 Z" fill="#FF4500" opacity="0.85"/>
+    <path d="M10,95 Q-20,130 15,180 Q45,150 25,105 Z" fill="#F59E0B" opacity="0.75"/>
+    
+    <!-- Silhouette Body in Arching Dance -->
+    <ellipse cx="60" cy="35" rx="14" ry="16" fill="#FFFBEB"/> <!-- Head -->
+    <!-- Traditional Floral Headgear / Choti &amp; Mogra Veni -->
+    <path d="M52,22 Q60,14 74,20 Q65,28 52,22 Z" fill="#FEF08A"/>
+    <circle cx="76" cy="25" r="4" fill="#E11D48"/>
+    <circle cx="60" cy="36" r="2" fill="#E11D48"/> <!-- Bindi -->
+
+    <!-- Graceful Torso &amp; Blouse -->
+    <path d="M52,48 Q60,52 68,48 L72,95 Q60,102 48,95 Z" fill="#FFFBEB"/>
+    <path d="M52,55 Q60,65 68,55 L70,78 Q60,84 50,78 Z" fill="#BE123C"/>
+
+    <!-- Arching Arms with Glass Bangles -->
+    <!-- Left Arm raised in Mudra -->
+    <path d="M52,52 Q25,35 15,70" fill="none" stroke="#FFFBEB" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="15" cy="72" r="3.5" fill="#FEF08A"/>
+    <!-- Right Arm extended forward holding Odhni corner -->
+    <path d="M68,52 Q105,48 125,75" fill="none" stroke="#FFFBEB" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="125" cy="77" r="3.5" fill="#FEF08A"/>
+
+    <!-- Wide Flared Chhattisgarhi Ghaghra / Skirt with Festive Borders -->
+    <path d="M48,95 Q60,102 72,95 L115,200 Q60,215 5,200 Z" fill="#991B1B"/>
+    <!-- Gold Border Ribbons on Skirt -->
+    <path d="M12,185 Q60,200 108,185" fill="none" stroke="#FEF08A" stroke-width="4.5"/>
+    <path d="M7,196 Q60,211 113,196" fill="none" stroke="#F97316" stroke-width="3"/>
+
+    <!-- Dancing Feet with Ankle Bells (Ghungroo) -->
+    <path d="M42,203 L38,225 L50,225" fill="none" stroke="#FFFBEB" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="38" cy="221" r="3" fill="#F59E0B"/>
+    <path d="M78,203 L84,222 L96,220" fill="none" stroke="#FFFBEB" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="84" cy="218" r="3" fill="#F59E0B"/>
+  </g>
+
+  <!-- Dancer 2: Male Folk Dancer / Panthi Acrobat in Leaping Stride (Stage Left / Viewer Right) -->
+  <g transform="translate(470, 195)" fill="#FFFFFF">
+    <!-- Peacock Feather Turban (Kalgi Pagdi) -->
+    <ellipse cx="65" cy="40" rx="15" ry="17" fill="#FFFBEB"/> <!-- Head -->
+    <!-- Pagdi / Turban with Leaping Kalgi -->
+    <path d="M50,35 Q65,22 80,33 Q78,42 52,42 Z" fill="#EA580C"/>
+    <path d="M72,25 Q82,5 92,18 Q82,24 74,27 Z" fill="#0D9488"/>
+    <circle cx="84" cy="16" r="3" fill="#FDE047"/>
+
+    <!-- Muscular Athletic Torso in Panthi Stride -->
+    <path d="M55,54 Q65,58 75,54 L82,105 Q65,110 50,105 Z" fill="#FFFBEB"/>
+    <!-- Traditional Saffron Angavastram / Chest Sash -->
+    <path d="M54,58 L82,98 L76,104 L48,64 Z" fill="#F59E0B"/>
+
+    <!-- Leaping Arms with Brass Cymbals (Manjira / Kartal) -->
+    <!-- Left Arm back in balance -->
+    <path d="M55,58 Q20,70 5,98" fill="none" stroke="#FFFBEB" stroke-width="7.5" stroke-linecap="round"/>
+    <circle cx="5" cy="100" r="5" fill="#F59E0B"/>
+    <!-- Right Arm high in triumphant air -->
+    <path d="M75,58 Q110,40 120,5" fill="none" stroke="#FFFBEB" stroke-width="7.5" stroke-linecap="round"/>
+    <circle cx="122" cy="5" r="5" fill="#F59E0B"/>
+
+    <!-- Traditional White Dhoti with Crimson Trim (Panthi Style) -->
+    <path d="M50,105 Q65,110 82,105 L108,185 Q90,195 72,175 L62,145 L42,185 Q25,175 40,145 Z" fill="#FFFBEB"/>
+    <path d="M62,108 L62,148" stroke="#E11D48" stroke-width="2.5"/>
+
+    <!-- Dynamic Leaping Feet -->
+    <path d="M40,180 L35,210 L22,216" fill="none" stroke="#FFFBEB" stroke-width="5.5" stroke-linecap="round"/>
+    <circle cx="34" cy="206" r="3" fill="#F59E0B"/>
+    <path d="M102,180 L115,200 L128,198" fill="none" stroke="#FFFBEB" stroke-width="5.5" stroke-linecap="round"/>
+    <circle cx="116" cy="197" r="3" fill="#F59E0B"/>
+  </g>
+
+  <!-- Left Floating Theatrical Mask (Nacha Satirical Mask with Golden Crown) -->
+  <g class="theatre-mask-main" transform="translate(130, 95)">
+    <!-- Aura behind mask -->
+    <circle cx="45" cy="55" r="52" fill="#F59E0B" opacity="0.2"/>
+    <!-- Mask Shell -->
+    <path d="M18,30 Q45,15 72,30 Q82,75 45,95 Q8,75 18,30 Z" fill="#FFFBEB" stroke="url(#goldGrad)" stroke-width="3"/>
+    <!-- Ornate Crown (Mukut) -->
+    <path d="M16,30 L28,8 L45,22 L62,8 L74,30 Z" fill="url(#goldGrad)" stroke="#B45309" stroke-width="1"/>
+    <circle cx="45" cy="14" r="3.5" fill="#E11D48"/>
+    <!-- Stylized Expressive Almond Eyes &amp; Tilak -->
+    <ellipse cx="32" cy="46" rx="6" ry="3.5" fill="#1E1B4B"/>
+    <ellipse cx="58" cy="46" rx="6" ry="3.5" fill="#1E1B4B"/>
+    <path d="M45,34 L45,46" stroke="#E11D48" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="45" cy="32" r="2.5" fill="#F59E0B"/>
+    <!-- Smiling Theatre Mouth -->
+    <path d="M30,66 Q45,82 60,66" fill="none" stroke="#E11D48" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Traditional Ear Ornaments (Karnaphool) -->
+    <circle cx="12" cy="52" r="5.5" fill="url(#goldGrad)"/>
+    <circle cx="78" cy="52" r="5.5" fill="url(#goldGrad)"/>
+  </g>
+
+  <!-- Right Floating Theatrical Mask (Classical Tragedy / Devotional Drama Mask) -->
+  <g class="theatre-mask-alt" transform="translate(610, 85)">
+    <!-- Aura behind mask -->
+    <circle cx="45" cy="55" r="52" fill="#E11D48" opacity="0.2"/>
+    <!-- Mask Shell -->
+    <path d="M18,30 Q45,15 72,30 Q82,75 45,95 Q8,75 18,30 Z" fill="#FFFBEB" stroke="url(#goldGrad)" stroke-width="3"/>
+    <!-- Classical Peacock Diadem Crown -->
+    <path d="M22,28 Q45,5 68,28 Z" fill="url(#goldGrad)"/>
+    <circle cx="45" cy="16" r="4.5" fill="#0284C7"/>
+    <!-- Contemplative Almond Eyes -->
+    <ellipse cx="32" cy="48" rx="6.5" ry="4" fill="#0F172A"/>
+    <ellipse cx="58" cy="48" rx="6.5" ry="4" fill="#0F172A"/>
+    <!-- Sacred Chandan Crescent on Forehead -->
+    <path d="M35,36 Q45,42 55,36" fill="none" stroke="#F59E0B" stroke-width="2.5"/>
+    <circle cx="45" cy="32" r="2.5" fill="#E11D48"/>
+    <!-- Thoughtful / Poetic Pouted Mouth -->
+    <path d="M32,70 Q45,62 58,70" fill="none" stroke="#991B1B" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Terracotta Ear Dangles -->
+    <circle cx="12" cy="54" r="5.5" fill="url(#goldGrad)"/>
+    <circle cx="78" cy="54" r="5.5" fill="url(#goldGrad)"/>
+  </g>
+
+  <!-- Rising Theatre Embers &amp; Celestial Stars (Motion Art) -->
+  <g fill="#FEF08A">
+    <circle cx="340" cy="340" r="3" class="ember-1"/>
+    <circle cx="460" cy="320" r="2.5" class="ember-2"/>
+    <circle cx="280" cy="280" r="3.5" class="ember-3"/>
+    <circle cx="520" cy="270" r="2" class="ember-4"/>
+    <circle cx="390" cy="240" r="3" class="ember-5"/>
+    <polygon points="400,105 403,113 411,116 403,119 400,127 397,119 389,116 397,113" fill="#FFFBEB" class="ember-1"/>
+    <polygon points="210,170 212,176 218,178 212,180 210,186 208,180 202,178 208,176" fill="#FDE047" class="ember-3"/>
+    <polygon points="580,165 582,171 588,173 582,175 580,181 578,175 572,173 578,171" fill="#FDE047" class="ember-2"/>
+  </g>
+
+  <!-- Top Proscenium Stage Frame (Curtains &amp; Marigold Swags) -->
+  <!-- Left Velvet Curtain -->
+  <path d="M0,0 L140,0 Q90,160 110,320 Q60,450 0,520 Z" fill="url(#curtainGradL)" class="curtain-left"/>
+  <!-- Right Velvet Curtain -->
+  <path d="M800,0 L660,0 Q710,160 690,320 Q740,450 800,520 Z" fill="url(#curtainGradR)" class="curtain-right"/>
+
+  <!-- Top Arch Valance Curtain with Gold Fringe -->
+  <path d="M0,0 L800,0 L800,45 Q700,85 600,45 Q500,85 400,45 Q300,85 200,45 Q100,85 0,45 Z" fill="#881337"/>
+  <path d="M0,45 Q100,85 200,45 Q300,85 400,45 Q500,85 600,45 Q700,85 800,45" fill="none" stroke="url(#goldGrad)" stroke-width="3.5"/>
+
+  <!-- Festive Marigold Garland Swag (Genda Phool Toran) -->
+  <g fill="#F59E0B" stroke="#B45309" stroke-width="1">
+    <circle cx="100" cy="62" r="7.5"/>
+    <circle cx="200" cy="46" r="8"/>
+    <circle cx="300" cy="62" r="7.5"/>
+    <circle cx="400" cy="46" r="8.5"/>
+    <circle cx="500" cy="62" r="7.5"/>
+    <circle cx="600" cy="46" r="8"/>
+    <circle cx="700" cy="62" r="7.5"/>
+  </g>
+</svg>

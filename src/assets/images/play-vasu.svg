@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="100%" height="100%">
+  <defs>
+    <!-- Sky &amp; Twilight Gradient -->
+    <linearGradient id="vasuSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B18"/>
+      <stop offset="35%" stop-color="#451A03"/>
+      <stop offset="70%" stop-color="#9A3412"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+
+    <!-- Warm Theatre Spotlight -->
+    <radialGradient id="vasuSpotlight" cx="50%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#F97316" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7C2D12" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Forest Hill Gradients -->
+    <linearGradient id="hillBack" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#431407"/>
+      <stop offset="100%" stop-color="#1C1917"/>
+    </linearGradient>
+    <linearGradient id="hillFore" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#292524"/>
+      <stop offset="100%" stop-color="#0C0A09"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="640" height="360" fill="url(#vasuSky)"/>
+
+  <!-- Golden Radiant Harvest Moon &amp; Stage Glow -->
+  <circle cx="320" cy="110" r="85" fill="#FEF08A" opacity="0.45"/>
+  <circle cx="320" cy="110" r="70" fill="#FDE047" opacity="0.65"/>
+  <circle cx="320" cy="110" r="55" fill="#FFFBEB" opacity="0.85"/>
+  <rect width="640" height="360" fill="url(#vasuSpotlight)"/>
+
+  <!-- Subtle Theatre Stage Curtains (Draped on sides) -->
+  <path d="M0,0 Q90,60 50,220 Q20,320 0,360 Z" fill="#2A0800" opacity="0.65"/>
+  <path d="M640,0 Q550,60 590,220 Q620,320 640,360 Z" fill="#2A0800" opacity="0.65"/>
+
+  <!-- Distant Sal Tree Ridges of Jashpur -->
+  <path d="M0,230 Q120,180 240,210 Q380,240 500,195 Q580,180 640,205 L640,360 L0,360 Z" fill="url(#hillBack)"/>
+  
+  <!-- Silhouette Sal Trees on Ridge -->
+  <g fill="#1C1917" opacity="0.7">
+    <!-- Tree cluster left -->
+    <path d="M60,210 L63,165 Q68,155 73,165 L76,210 Z"/>
+    <ellipse cx="69" cy="155" rx="16" ry="24"/>
+    <path d="M90,215 L93,175 Q97,165 101,175 L104,215 Z"/>
+    <ellipse cx="98" cy="168" rx="12" ry="18"/>
+
+    <!-- Tree cluster right -->
+    <path d="M540,205 L543,160 Q548,150 553,160 L556,205 Z"/>
+    <ellipse cx="549" cy="150" rx="15" ry="22"/>
+    <path d="M570,210 L573,170 Q577,160 581,170 L584,210 Z"/>
+    <ellipse cx="578" cy="162" rx="13" ry="19"/>
+  </g>
+
+  <!-- Foreground Stage Earth &amp; Platform -->
+  <path d="M0,270 Q180,240 320,250 Q480,260 640,245 L640,360 L0,360 Z" fill="url(#hillFore)"/>
+
+  <!-- Fireflies &amp; Golden Sparks in Night Air -->
+  <g fill="#FEF08A">
+    <circle cx="150" cy="130" r="2.5" opacity="0.9"/>
+    <circle cx="190" cy="90" r="1.5" opacity="0.7"/>
+    <circle cx="240" cy="140" r="3" opacity="0.8"/>
+    <circle cx="410" cy="120" r="2.5" opacity="0.85"/>
+    <circle cx="470" cy="80" r="3.5" opacity="0.9"/>
+    <circle cx="500" cy="150" r="1.5" opacity="0.6"/>
+    <circle cx="330" cy="60" r="2" opacity="0.9"/>
+    <circle cx="280" cy="85" r="1.5" opacity="0.8"/>
+  </g>
+
+  <!-- Central Dramatic Figure: Young Vasu with the Mandar Drum -->
+  <g transform="translate(320, 245)">
+    <!-- Stage Floor Shadow -->
+    <ellipse cx="0" cy="50" rx="75" ry="12" fill="#000000" opacity="0.5"/>
+
+    <!-- Vasu Body Silhouette -->
+    <!-- Head with flowing hair / turban -->
+    <circle cx="-12" cy="-90" r="14" fill="#1C1917"/>
+    <!-- Traditional Headband / Ribbon end floating -->
+    <path d="M-22,-94 Q-35,-102 -42,-96 Q-36,-90 -24,-90" fill="#EA580C"/>
+
+    <!-- Torso in dynamic rhythm stance -->
+    <path d="M-20,-76 L-4,-76 L2,-35 L-24,-35 Z" fill="#1C1917"/>
+    <!-- Dhoti garment drape -->
+    <path d="M-26,-35 L8,-35 L14,25 L-2,30 L-8,-5 L-18,28 L-32,25 Z" fill="#292524"/>
+    <!-- Feet rooted in soil -->
+    <path d="M-3,-5 L-2,48 L-14,50 L-15,44 L-8,42 L-6,15 Z" fill="#1C1917"/>
+    <path d="M12,25 L16,48 L4,50 L3,44 L10,42 L8,15 Z" fill="#1C1917"/>
+
+    <!-- Traditional Mandar Drum slung across chest -->
+    <!-- Strap across shoulder -->
+    <path d="M-18,-72 L12,-20" stroke="#EA580C" stroke-width="3"/>
+    
+    <!-- Mandar Drum Barrel -->
+    <g transform="rotate(-18 -4 -25)">
+      <!-- Main clay barrel -->
+      <path d="M-45,-14 Q0,-22 45,-14 Q50,14 45,16 Q0,24 -45,16 Q-50,-12 -45,-14 Z" fill="#78350F" stroke="#EA580C" stroke-width="2"/>
+      <!-- Drum heads -->
+      <ellipse cx="-45" cy="1" rx="5" ry="14" fill="#FDE047" stroke="#B45309" stroke-width="1.5"/>
+      <ellipse cx="45" cy="1" rx="5" ry="14" fill="#FDE047" stroke="#B45309" stroke-width="1.5"/>
+      <!-- Lacing cords -->
+      <path d="M-42,-12 L-20,18 L0,-16 L20,18 L42,-12" fill="none" stroke="#FEF3C7" stroke-width="1.5" opacity="0.8"/>
+    </g>
+
+    <!-- Hands striking drum in motion -->
+    <path d="M-32,-60 Q-48,-42 -40,-25" fill="none" stroke="#1C1917" stroke-width="6" stroke-linecap="round"/>
+    <path d="M4,-60 Q22,-45 28,-22" fill="none" stroke="#1C1917" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Foreground Dramatic Floor Glow / Footlights -->
+  <ellipse cx="320" cy="355" rx="220" ry="25" fill="#F97316" opacity="0.3"/>
+</svg>
