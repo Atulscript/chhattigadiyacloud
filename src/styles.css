@@ -1492,7 +1492,7 @@ button {
 .footer-artistic-ribbon {
   width: 100%;
   height: 120px;
-  background: url('/src/assets/images/footer-art-frieze.svg') repeat-x center bottom;
+  background: url('assets/images/footer-art-frieze.svg') repeat-x center bottom;
   background-size: auto 120px;
   border-top: 2px solid var(--c-primary);
   border-bottom: 1px solid var(--g-border-subtle);

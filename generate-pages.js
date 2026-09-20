@@ -547,8 +547,9 @@ function renderFooter(lang) {
 function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHtml, crumbs, extraScripts = '' }) {
   const isHi = lang === 'hi';
   const altLang = isHi ? 'en' : 'hi';
+  const root = canonicalUrl === '/' ? './' : canonicalUrl.split('/').filter(Boolean).map(() => '..').join('/') + '/';
 
-  return `<!DOCTYPE html>
+  const rawHtml = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
   <meta charset="UTF-8">
@@ -585,6 +586,9 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
   ${extraScripts}
 </body>
 </html>`;
+
+  // Make all root-relative assets and internal links relative to the root for GitHub Pages compatibility
+  return rawHtml.replace(/(href|src)="\/(en|hi|src|favicon|manifest)/g, `$1="${root}$2`);
 }
 
 // Generate all pages
