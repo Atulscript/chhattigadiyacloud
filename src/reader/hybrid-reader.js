@@ -4,10 +4,11 @@
 export class HybridMagazineReader {
   constructor(containerId, options = {}) {
     this.container = document.getElementById(containerId);
+    const isMobile = window.innerWidth <= 768;
     this.options = {
       lang: options.lang || "en",
-      mode: options.mode || "flip", // "flip" or "paginated"
-      fontSize: options.fontSize || 18,
+      mode: options.mode || (isMobile ? "paginated" : "flip"), // "flip" or "paginated"
+      fontSize: options.fontSize || (isMobile ? 16 : 18),
       pages: options.pages || [],
       ...options
     };
@@ -444,6 +445,40 @@ export class HybridMagazineReader {
           }, 2500);
         }
       });
+    }
+
+    // Touch Swipe Gestures for Mobile devices
+    const stage = document.getElementById('reader-stage');
+    if (stage) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      stage.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const touchEndX = e.changedTouches[0].clientX;
+          const touchEndY = e.changedTouches[0].clientY;
+          const diffX = touchEndX - touchStartX;
+          const diffY = touchEndY - touchStartY;
+
+          // Check if horizontal swipe exceeds 45px and is predominantly horizontal
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) >= 45) {
+            if (diffX < 0) {
+              // Swiped left -> next page
+              this.nextPage();
+            } else {
+              // Swiped right -> prev page
+              this.prevPage();
+            }
+          }
+        }
+      }, { passive: true });
     }
   }
 

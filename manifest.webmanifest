@@ -1,18 +1,87 @@
 {
+  "id": "/",
   "name": "Chhattisgadhiya Cloud | छत्तीसगढ़िया क्लाउड",
-  "short_name": "CC Cloud",
-  "description": "Cultural, Theatrical & Art Cloud of Chhattisgarh",
-  "start_url": "/",
-  "scope": "/",
+  "short_name": "CG Cloud",
+  "description": "Think Art Think Chhattisgadhiya Cloud — Cultural, Theatrical & Magazine Platform of Chhattisgarh",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
   "background_color": "#FFFFFF",
   "theme_color": "#FF4500",
+  "lang": "hi-IN",
+  "dir": "ltr",
+  "categories": [
+    "entertainment",
+    "magazines",
+    "culture",
+    "books"
+  ],
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "src/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "src/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "src/assets/icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "src/assets/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "favicon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Magazine | पत्रिका",
+      "short_name": "Magazine",
+      "description": "Read Chhattisgadhiya Cloud Cultural Magazine",
+      "url": "en/magazine/",
+      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Productions | प्रस्तुतियां",
+      "short_name": "Plays",
+      "description": "Explore Stage Plays & Repertoire",
+      "url": "en/productions/",
+      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Events | समारोह",
+      "short_name": "Events",
+      "description": "Jashrang Festival and Poetry Conclaves",
+      "url": "en/events/",
+      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Workshops | कार्यशालाएं",
+      "short_name": "Workshops",
+      "description": "Youth Training and Ullas Summer Camp",
+      "url": "en/training-workshops/",
+      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

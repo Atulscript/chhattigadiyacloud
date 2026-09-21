@@ -10,20 +10,37 @@
   <meta name="theme-color" content="#FF4500">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="CC Cloud">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CG Cloud">
   <meta name="application-name" content="Chhattisgadhiya Cloud">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-  <link rel="apple-touch-icon" href="../../favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../src/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+
+  <!-- Service Worker Registration for PWA & Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../../sw.js', { scope: '../../' })
+          .then(reg => console.log('[PWA] ServiceWorker registered with scope:', reg.scope))
+          .catch(err => console.warn('[PWA] ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
 
   <link rel="canonical" href="https://chhattisgadhiyacloud.org/hi/about/">
   <link rel="alternate" hreflang="hi" href="https://chhattisgadhiyacloud.org/hi/about/">
   <link rel="alternate" hreflang="en" href="https://chhattisgadhiyacloud.org/en/about/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../../src/styles.css?v=13">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap"></noscript>
+  <link rel="stylesheet" href="../../src/styles.min.css?v=15">
+  
 </head>
 <body>
   
@@ -358,17 +375,17 @@
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
+    <div class="container page-content-container">
       <!-- Mission & Vision Dual Cards -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem; margin-bottom:4rem;">
-        <div style="background:#FFFFFF; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+      <div class="responsive-two-col" style="margin-bottom:3.5rem;">
+        <div class="surface-card">
           <div style="width:48px; height:48px; border-radius:12px; background:var(--c-primary-light); color:var(--c-primary); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
             🎯
           </div>
           <h2 style="font-family:var(--font-serif); font-size:1.65rem; color:var(--g-text-primary); margin-bottom:0.75rem;">हमारा ध्येय (Mission)</h2>
           <p style="color:var(--g-text-secondary); line-height:1.8; font-size:1rem;">छत्तीसगढ़िया क्लाउड छत्तीसगढ़ की माटी से जुड़ा एक समर्पित सांस्कृतिक एवं कला संगठन है जो रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का निर्माण करता है। हम पारंपरिक लोक विधाओं को समकालीन रंगमंच से जोड़ते हैं।</p>
         </div>
-        <div style="background:#FFFFFF; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+        <div class="surface-card">
           <div style="width:48px; height:48px; border-radius:12px; background:var(--c-blue-light); color:var(--c-blue); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
             👁️
           </div>
@@ -417,7 +434,7 @@
       </div>
 
       <!-- Cultural Roots Spotlight -->
-      <div style="background:linear-gradient(135deg, var(--c-primary-light) 0%, #FFFFFF 100%); border:1px solid rgba(255,69,0,0.25); padding:3.5rem; border-radius:var(--radius-lg); margin-bottom:4.5rem; box-shadow:var(--shadow-card);">
+      <div class="accent-callout-box" style="margin-bottom:3.5rem;">
         <span class="page-eyebrow">✦ धरती से नाता ✦</span>
         <h2 style="font-family:var(--font-serif); font-size:2rem; color:var(--g-text-primary); margin-bottom:1rem; margin-top:0.4rem;">
           छत्तीसगढ़ी लोक परंपरा एवं हमारी नाटकीय भाषा
@@ -628,6 +645,21 @@
     </svg>
   </button>
 
+  <!-- Floating PWA Mobile Install Banner (Native App feel) -->
+  <aside class="pwa-floating-snack" id="pwa-floating-snack" style="display:none;" aria-label="Install App">
+    <div class="pwa-snack-info">
+      <span class="pwa-snack-icon">📱</span>
+      <div>
+        <div class="pwa-snack-title">ऐप इंस्टॉल करें</div>
+        <div class="pwa-snack-sub">तेज़, ऑफ़लाइन पत्रिका वाचन</div>
+      </div>
+    </div>
+    <div class="pwa-snack-actions">
+      <button type="button" class="pwa-snack-btn" id="pwa-snack-install-btn">इंस्टॉल</button>
+      <button type="button" class="pwa-snack-close" id="pwa-snack-close-btn" aria-label="Close">✕</button>
+    </div>
+  </aside>
+
   <!-- Interactive Search & Mobile Drawer Global Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -671,25 +703,65 @@
       let deferredPrompt = null;
       const installCard = document.getElementById('pwa-install-card');
       const installBtn = document.getElementById('pwa-install-btn');
+      const pwaSnack = document.getElementById('pwa-floating-snack');
+      const snackInstallBtn = document.getElementById('pwa-snack-install-btn');
+      const snackCloseBtn = document.getElementById('pwa-snack-close-btn');
+
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone && installCard) {
+        const title = installCard.querySelector('.app-install-title');
+        const sub = installCard.querySelector('.app-install-sub');
+        if (title) title.innerText = 'ऐप इंस्टॉल है ✓';
+        if (sub) sub.innerText = 'ऑफ़लाइन मोड सक्रिय';
+        if (installBtn) installBtn.style.display = 'none';
+      }
 
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         if (installCard) installCard.style.display = 'flex';
+        
+        // Show floating prompt on mobile if not previously dismissed in this session
+        if (!isStandalone && !sessionStorage.getItem('cgcloud_pwa_dismissed') && window.innerWidth <= 768) {
+          if (pwaSnack) pwaSnack.style.display = 'flex';
+        }
       });
 
-      if (installBtn) {
-        installBtn.addEventListener('click', async () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (installCard) installCard.style.display = 'none';
+      async function triggerPwaInstall() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (installCard) installCard.style.display = 'none';
+          if (pwaSnack) pwaSnack.style.display = 'none';
+        } else {
+          // iOS or fallback instructions
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIOS) {
+            alert("आईफोन/आईपैड पर इंस्टॉल करने के लिए Safari में नीचे शेयर (Share) बटन दबाएं और Add to Home Screen चुनें।");
           } else {
-            alert('To install this app on your device, tap Share / Settings in your browser and choose "Add to Home Screen".');
+            alert("ऐप इंस्टॉल करने के लिए ब्राउज़र मेनू में Add to Home Screen या Install App चुनें।");
           }
+        }
+      }
+
+      if (installBtn) installBtn.addEventListener('click', triggerPwaInstall);
+      if (snackInstallBtn) snackInstallBtn.addEventListener('click', triggerPwaInstall);
+      if (snackCloseBtn) {
+        snackCloseBtn.addEventListener('click', () => {
+          if (pwaSnack) pwaSnack.style.display = 'none';
+          sessionStorage.setItem('cgcloud_pwa_dismissed', 'true');
         });
       }
+
+      window.addEventListener('appinstalled', () => {
+        if (pwaSnack) pwaSnack.style.display = 'none';
+        if (installCard) {
+          const title = installCard.querySelector('.app-install-title');
+          if (title) title.innerText = 'ऐप इंस्टॉल हो गया ✓';
+          if (installBtn) installBtn.style.display = 'none';
+        }
+      });
 
       // Back to Top Button
       const btt = document.getElementById('back-to-top');

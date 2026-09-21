@@ -12,6 +12,7 @@
     "pdfjs-dist": "^3.11.174"
   },
   "devDependencies": {
+    "sharp": "^0.35.4",
     "vite": "^6.0.0"
   }
 }

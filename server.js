@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 
 const PORT = 3000;
 const ROOT = path.resolve(__dirname);
@@ -17,6 +18,8 @@ const MIME_TYPES = {
   '.pdf': 'application/pdf',
   '.txt': 'text/plain; charset=utf-8'
 };
+
+const COMPRESSIBLE_TYPES = /^(text\/|application\/(javascript|json|manifest\+json)|image\/svg\+xml)/;
 
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
@@ -47,14 +50,28 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(fullPath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    console.log(`[200] ${req.method} ${req.url} (${contentType})`);
-    res.writeHead(200, {
+    const acceptEncoding = req.headers['accept-encoding'] || '';
+    const shouldGzip = /\bgzip\b/.test(acceptEncoding) && COMPRESSIBLE_TYPES.test(contentType);
+
+    const headers = {
       'Content-Type': contentType,
-      'Content-Length': stats.size,
       'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'no-cache, no-store, must-revalidate'
-    });
-    fs.createReadStream(fullPath).pipe(res);
+      'Cache-Control': 'public, max-age=3600'
+    };
+    if (fullPath.endsWith('sw.js')) {
+      headers['Service-Worker-Allowed'] = '/';
+      headers['Cache-Control'] = 'no-cache';
+    }
+
+    if (shouldGzip) {
+      headers['Content-Encoding'] = 'gzip';
+      res.writeHead(200, headers);
+      fs.createReadStream(fullPath).pipe(zlib.createGzip()).pipe(res);
+    } else {
+      headers['Content-Length'] = stats.size;
+      res.writeHead(200, headers);
+      fs.createReadStream(fullPath).pipe(res);
+    }
   });
 });
 

@@ -18,6 +18,16 @@ const path = require('path');
 // Import content
 const { siteData } = require('./src/data/content-node.js');
 
+// Automatically compile and minify styles.css into styles.min.css
+const cssRaw = fs.readFileSync(path.join(__dirname, 'src', 'styles.css'), 'utf8');
+const cssMin = cssRaw
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\s+/g, ' ')
+  .replace(/\s*([\{\}\:\;\,])\s*/g, '$1')
+  .replace(/;\}/g, '}')
+  .trim();
+fs.writeFileSync(path.join(__dirname, 'src', 'styles.min.css'), cssMin);
+
 // Artwork Mapping
 const playArtworkMap = {
   'kahani-vasu-ki': '/src/assets/images/play-vasu.svg',
@@ -459,6 +469,21 @@ function renderFooter(lang) {
     </svg>
   </button>
 
+  <!-- Floating PWA Mobile Install Banner (Native App feel) -->
+  <aside class="pwa-floating-snack" id="pwa-floating-snack" style="display:none;" aria-label="Install App">
+    <div class="pwa-snack-info">
+      <span class="pwa-snack-icon">📱</span>
+      <div>
+        <div class="pwa-snack-title">${isHi ? 'ऐप इंस्टॉल करें' : 'Install CG Cloud App'}</div>
+        <div class="pwa-snack-sub">${isHi ? 'तेज़, ऑफ़लाइन पत्रिका वाचन' : 'Fast & Works Offline'}</div>
+      </div>
+    </div>
+    <div class="pwa-snack-actions">
+      <button type="button" class="pwa-snack-btn" id="pwa-snack-install-btn">${isHi ? 'इंस्टॉल' : 'Install'}</button>
+      <button type="button" class="pwa-snack-close" id="pwa-snack-close-btn" aria-label="Close">✕</button>
+    </div>
+  </aside>
+
   <!-- Interactive Search & Mobile Drawer Global Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -502,25 +527,65 @@ function renderFooter(lang) {
       let deferredPrompt = null;
       const installCard = document.getElementById('pwa-install-card');
       const installBtn = document.getElementById('pwa-install-btn');
+      const pwaSnack = document.getElementById('pwa-floating-snack');
+      const snackInstallBtn = document.getElementById('pwa-snack-install-btn');
+      const snackCloseBtn = document.getElementById('pwa-snack-close-btn');
+
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone && installCard) {
+        const title = installCard.querySelector('.app-install-title');
+        const sub = installCard.querySelector('.app-install-sub');
+        if (title) title.innerText = '${isHi ? "ऐप इंस्टॉल है ✓" : "App Installed ✓"}';
+        if (sub) sub.innerText = '${isHi ? "ऑफ़लाइन मोड सक्रिय" : "Offline Mode Active"}';
+        if (installBtn) installBtn.style.display = 'none';
+      }
 
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         if (installCard) installCard.style.display = 'flex';
+        
+        // Show floating prompt on mobile if not previously dismissed in this session
+        if (!isStandalone && !sessionStorage.getItem('cgcloud_pwa_dismissed') && window.innerWidth <= 768) {
+          if (pwaSnack) pwaSnack.style.display = 'flex';
+        }
       });
 
-      if (installBtn) {
-        installBtn.addEventListener('click', async () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (installCard) installCard.style.display = 'none';
+      async function triggerPwaInstall() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (installCard) installCard.style.display = 'none';
+          if (pwaSnack) pwaSnack.style.display = 'none';
+        } else {
+          // iOS or fallback instructions
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIOS) {
+            alert(${isHi ? JSON.stringify("आईफोन/आईपैड पर इंस्टॉल करने के लिए Safari में नीचे शेयर (Share) बटन दबाएं और Add to Home Screen चुनें।") : JSON.stringify("To install on iOS Safari: Tap the Share button below and choose Add to Home Screen.")});
           } else {
-            alert('To install this app on your device, tap Share / Settings in your browser and choose "Add to Home Screen".');
+            alert(${isHi ? JSON.stringify("ऐप इंस्टॉल करने के लिए ब्राउज़र मेनू में Add to Home Screen या Install App चुनें।") : JSON.stringify("To install this app on your device, tap browser menu and choose Add to Home Screen or Install App.")});
           }
+        }
+      }
+
+      if (installBtn) installBtn.addEventListener('click', triggerPwaInstall);
+      if (snackInstallBtn) snackInstallBtn.addEventListener('click', triggerPwaInstall);
+      if (snackCloseBtn) {
+        snackCloseBtn.addEventListener('click', () => {
+          if (pwaSnack) pwaSnack.style.display = 'none';
+          sessionStorage.setItem('cgcloud_pwa_dismissed', 'true');
         });
       }
+
+      window.addEventListener('appinstalled', () => {
+        if (pwaSnack) pwaSnack.style.display = 'none';
+        if (installCard) {
+          const title = installCard.querySelector('.app-install-title');
+          if (title) title.innerText = '${isHi ? "ऐप इंस्टॉल हो गया ✓" : "App Installed ✓"}';
+          if (installBtn) installBtn.style.display = 'none';
+        }
+      });
 
       // Back to Top Button
       const btt = document.getElementById('back-to-top');
@@ -561,20 +626,37 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
   <meta name="theme-color" content="#FF4500">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="CC Cloud">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CG Cloud">
   <meta name="application-name" content="Chhattisgadhiya Cloud">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/src/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Service Worker Registration for PWA & Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('${root}sw.js', { scope: '${root}' })
+          .then(reg => console.log('[PWA] ServiceWorker registered with scope:', reg.scope))
+          .catch(err => console.warn('[PWA] ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
 
   <link rel="canonical" href="https://chhattisgadhiyacloud.org${canonicalUrl}">
   <link rel="alternate" hreflang="${lang}" href="https://chhattisgadhiyacloud.org${canonicalUrl}">
   <link rel="alternate" hreflang="${altLang}" href="https://chhattisgadhiyacloud.org${altUrl}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/src/styles.css?v=13">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap"></noscript>
+  <link rel="stylesheet" href="/src/styles.min.css?v=15">
+  ${(canonicalUrl === '/en/' || canonicalUrl === '/hi/') ? '<link rel="preload" as="image" href="/src/assets/images/hero-art.svg" fetchpriority="high">' : ''}
 </head>
 <body>
   ${renderHeader(lang, canonicalUrl, title, altUrl)}
@@ -587,8 +669,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 </body>
 </html>`;
 
-  // Make all root-relative assets and internal links relative to the root for GitHub Pages compatibility
-  return rawHtml.replace(/(href|src)="\/(en|hi|src|favicon|manifest)/g, `$1="${root}$2`);
+  // Make all root-relative assets and internal links relative to the root for GitHub Pages and PWA compatibility
+  return rawHtml.replace(/(href|src|action)="\/(en|hi|src|favicon|manifest|apple-touch-icon|sw\.js)/g, `$1="${root}$2`);
 }
 
 // Generate all pages
@@ -654,7 +736,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
               <!-- Main Circular Stage Frame -->
               <div class="hero-circular-frame">
-                <img src="/src/assets/images/hero-art.svg" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager">
+                <img src="/src/assets/images/hero-art.svg" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager" fetchpriority="high" decoding="async">
               </div>
 
               <!-- Floating Modern Feature Badges -->
@@ -692,7 +774,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
               <span class="tile-tag">${isHi ? '४ मौलिक नाटक' : '4 Original Plays'}</span>
             </div>
-            <h3 class="tile-title">${isHi ? 'नाट्य प्रस्तुतियां' : 'Stage Productions'}</h3>
+            <h2 class="tile-title">${isHi ? 'नाट्य प्रस्तुतियां' : 'Stage Productions'}</h2>
             <p class="tile-desc">${isHi ? 'लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।' : 'Four launch plays blending folk dramaturgy with contemporary narratives.'}</p>
             <div class="tile-footer">
               <span class="tile-link">${isHi ? 'नाटक देखें' : 'Explore Plays'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -706,7 +788,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
               <span class="tile-tag">${isHi ? 'वार्षिक समारोह' : 'Signature Festivals'}</span>
             </div>
-            <h3 class="tile-title">${isHi ? 'राष्ट्रीय समारोह' : 'National Festivals'}</h3>
+            <h2 class="tile-title">${isHi ? 'राष्ट्रीय समारोह' : 'National Festivals'}</h2>
             <p class="tile-desc">${isHi ? 'जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।' : 'Jashrang National Theatre Festival & Jaspur Kavita Utsav annual archives.'}</p>
             <div class="tile-footer">
               <span class="tile-link">${isHi ? 'संस्करण देखें' : 'View Editions'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -720,7 +802,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
               <span class="tile-tag">${isHi ? 'बाल रंगमंच' : 'Youth Residency'}</span>
             </div>
-            <h3 class="tile-title">${isHi ? 'उल्लास समर कैम्प' : 'Ullas Summer Camp'}</h3>
+            <h2 class="tile-title">${isHi ? 'उल्लास समर कैम्प' : 'Ullas Summer Camp'}</h2>
             <p class="tile-desc">${isHi ? 'बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।' : 'Youth theatre training, puppet craft, and forward registration enquiries.'}</p>
             <div class="tile-footer">
               <span class="tile-link">${isHi ? 'शिविर में जुड़ें' : 'Join Workshops'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -734,7 +816,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
               <span class="tile-tag">${isHi ? 'अंक १४ उपलब्ध' : 'Issue 14 Live'}</span>
             </div>
-            <h3 class="tile-title">${isHi ? 'मासिक पत्रिका' : 'Monthly Magazine'}</h3>
+            <h2 class="tile-title">${isHi ? 'मासिक पत्रिका' : 'Monthly Magazine'}</h2>
             <p class="tile-desc">${isHi ? 'वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।' : 'Web-readable critical essays with our in-browser hybrid reader & PDF tool.'}</p>
             <div class="tile-footer">
               <span class="tile-link">${isHi ? 'अंक पढ़ें' : 'Read Issue'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -773,7 +855,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </section>
 
     <!-- What's On Condensed Strip (Section 3.1 & 3.2) -->
-    <section style="padding: 5rem 0; border-bottom: 1px solid var(--g-border-subtle); background: #FFFFFF;">
+    <section class="content-section" style="border-bottom: 1px solid var(--g-border-subtle); background: #FFFFFF;">
       <div class="container">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
           <div>
@@ -800,7 +882,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </section>
 
     <!-- Body of Work Highlight: 4 Launch Plays with Artwork (Section 3.1) -->
-    <section style="padding: 5rem 0; background: var(--g-surface-subtle); border-bottom: 1px solid var(--g-border-subtle);">
+    <section class="content-section" style="background: var(--g-surface-subtle); border-bottom: 1px solid var(--g-border-subtle);">
       <div class="container">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
           <div>
@@ -1110,7 +1192,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
+    <div class="container page-content-container">
       
       <!-- FESTIVAL 1: JASHRANG NATIONAL THEATRE FESTIVAL (SPLIT EDITORIAL SPOTLIGHT) -->
       <article class="festival-spotlight-card">
@@ -1422,7 +1504,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
+    <div class="container page-content-container">
       <!-- Upcoming Batch Hero Card -->
       <article class="festival-showcase-card">
         <div class="festival-banner-media">
@@ -2312,7 +2394,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     const alt = `/${altLang}/blog/`;
 
     const postsHtml = siteData.blog.posts.map(p => `
-      <article class="production-card" style="padding:2.5rem; margin-bottom:2.5rem;">
+      <article class="production-card surface-card" style="margin-bottom:2rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
           <span style="font-size:0.75rem; font-weight:800; color:var(--c-primary); text-transform:uppercase; letter-spacing:0.08em;">${p.category}</span>
           <span style="font-size:0.85rem; color:var(--g-text-muted);">${p.date}</span>
@@ -2339,7 +2421,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem; max-width:920px;">
+    <div class="container page-content-container" style="max-width:920px;">
       ${postsHtml}
     </div>
     `;
@@ -2391,17 +2473,17 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
+    <div class="container page-content-container">
       <!-- Mission & Vision Dual Cards -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem; margin-bottom:4rem;">
-        <div style="background:#FFFFFF; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+      <div class="responsive-two-col" style="margin-bottom:3.5rem;">
+        <div class="surface-card">
           <div style="width:48px; height:48px; border-radius:12px; background:var(--c-primary-light); color:var(--c-primary); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
             🎯
           </div>
           <h2 style="font-family:var(--font-serif); font-size:1.65rem; color:var(--g-text-primary); margin-bottom:0.75rem;">${isHi ? 'हमारा ध्येय (Mission)' : 'Our Mission'}</h2>
           <p style="color:var(--g-text-secondary); line-height:1.8; font-size:1rem;">${siteData.about.mission[lang]}</p>
         </div>
-        <div style="background:#FFFFFF; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+        <div class="surface-card">
           <div style="width:48px; height:48px; border-radius:12px; background:var(--c-blue-light); color:var(--c-blue); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
             👁️
           </div>
@@ -2450,7 +2532,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
 
       <!-- Cultural Roots Spotlight -->
-      <div style="background:linear-gradient(135deg, var(--c-primary-light) 0%, #FFFFFF 100%); border:1px solid rgba(255,69,0,0.25); padding:3.5rem; border-radius:var(--radius-lg); margin-bottom:4.5rem; box-shadow:var(--shadow-card);">
+      <div class="accent-callout-box" style="margin-bottom:3.5rem;">
         <span class="page-eyebrow">✦ ${isHi ? 'धरती से नाता' : 'Rooted in the Soil'} ✦</span>
         <h2 style="font-family:var(--font-serif); font-size:2rem; color:var(--g-text-primary); margin-bottom:1rem; margin-top:0.4rem;">
           ${isHi ? 'छत्तीसगढ़ी लोक परंपरा एवं हमारी नाटकीय भाषा' : 'Connection to Chhattisgarhi Culture'}
@@ -2538,9 +2620,9 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:3rem;">
-        <div style="background:#FFFFFF; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+    <div class="container page-content-container">
+      <div class="responsive-two-col" style="gap:2.5rem;">
+        <div class="surface-card">
           <form id="contact-enquiry-form" onsubmit="event.preventDefault(); alert('${isHi ? "संदेश सफलतापूर्वक भेजा गया! हमारी टीम शीघ्र संपर्क करेगी।" : "Enquiry submitted successfully! A team member will respond shortly."}');">
             <div class="form-group">
               <label for="f-name">${isHi ? 'पूरा नाम *' : 'Full Name *'}</label>
@@ -2665,8 +2747,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
-      <div style="background:#FFFFFF; border:1px solid var(--g-border); padding:2.5rem; border-radius:var(--radius-lg); margin-bottom:3rem; box-shadow:var(--shadow-card);">
+    <div class="container page-content-container">
+      <div class="surface-card" style="margin-bottom:2.5rem;">
         <h2 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--g-text-primary); margin-bottom:0.5rem;">Short Organisation Profile</h2>
         <p style="color:var(--g-text-secondary); line-height:1.8; margin-bottom:1.5rem;">${siteData.pressKit.boilerplateShort[lang]}</p>
         <div style="display:flex; gap:1rem; flex-wrap:wrap;">
@@ -2679,14 +2761,14 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem;">
-        <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-md); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+      <div class="responsive-two-col">
+        <div class="surface-card">
           <h3 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.5rem;">Official Spelling Note</h3>
           <p style="color:var(--g-text-secondary); font-size:0.92rem; line-height:1.7;">
             Official brand spelling is <strong>Chhattisgadhiya Cloud</strong> (with an "h"). Matches the owned domain <code>chhattisgadhiyacloud.org</code>.
           </p>
         </div>
-        <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-md); border:1px solid var(--g-border); box-shadow:var(--shadow-card);">
+        <div class="surface-card">
           <h3 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.5rem;">Press Contact</h3>
           <p style="color:var(--g-text-secondary); font-size:0.92rem; line-height:1.7;">
             ${siteData.pressKit.contactPerson}
@@ -2714,7 +2796,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     const alt = `/${altLang}/support/`;
 
     const partnersHtml = siteData.partners.map(p => `
-      <div class="production-card" style="padding:2rem; text-align:center;">
+      <div class="production-card surface-card" style="text-align:center;">
         <div style="font-size:2.2rem; margin-bottom:0.5rem;">🏛️</div>
         <h3 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.35rem;">${p.name}</h3>
         <span style="font-size:0.82rem; color:var(--c-primary); font-weight:700; text-transform:uppercase;">${p.category[lang]}</span>
@@ -2732,8 +2814,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     </div>
 
-    <div class="container" style="padding-bottom: 5rem;">
-      <div style="background:var(--c-primary-light); border:1px solid rgba(255,69,0,0.25); padding:2.5rem; border-radius:var(--radius-lg); margin-bottom:3.5rem;">
+    <div class="container page-content-container">
+      <div class="accent-callout-box" style="margin-bottom:3rem;">
         <h2 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--c-primary); margin-bottom:0.75rem;">
           ${isHi ? 'हमारे कार्यों में सहयोग के माध्यम' : 'Ways to Support Our Work'}
         </h2>
@@ -2770,16 +2852,32 @@ const rootHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=/en/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FF4500">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CG Cloud">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="./src/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <script>
-    // English by default; redirect to /en/
-    window.location.replace('/en/');
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+    // Relative redirect compatible with GitHub Pages subpaths, custom domain, and localhost
+    const path = window.location.pathname.replace(/\\/+$/, '');
+    window.location.replace(path + '/en/' + window.location.search + window.location.hash);
   </script>
+  <meta http-equiv="refresh" content="0; url=en/">
   <title>Chhattisgadhiya Cloud</title>
 </head>
 <body style="background:#FFFFFF; color:#202124; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align:center; padding-top:20vh;">
   <h2>Redirecting to Chhattisgadhiya Cloud...</h2>
-  <p><a href="/en/" style="color:#FF4500; font-weight:bold;">Click here to enter</a></p>
+  <p><a href="en/" style="color:#FF4500; font-weight:bold;">Click here to enter</a></p>
 </body>
 </html>`;
 fs.writeFileSync(path.join(__dirname, 'index.html'), rootHtml);

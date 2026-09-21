@@ -10,20 +10,37 @@
   <meta name="theme-color" content="#FF4500">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="CC Cloud">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CG Cloud">
   <meta name="application-name" content="Chhattisgadhiya Cloud">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="apple-touch-icon" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+
+  <!-- Service Worker Registration for PWA & Offline Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js', { scope: '../' })
+          .then(reg => console.log('[PWA] ServiceWorker registered with scope:', reg.scope))
+          .catch(err => console.warn('[PWA] ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
 
   <link rel="canonical" href="https://chhattisgadhiyacloud.org/hi/">
   <link rel="alternate" hreflang="hi" href="https://chhattisgadhiyacloud.org/hi/">
   <link rel="alternate" hreflang="en" href="https://chhattisgadhiyacloud.org/en/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../src/styles.css?v=13">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap"></noscript>
+  <link rel="stylesheet" href="../src/styles.min.css?v=15">
+  <link rel="preload" as="image" href="../src/assets/images/hero-art.svg" fetchpriority="high">
 </head>
 <body>
   
@@ -382,7 +399,7 @@
 
               <!-- Main Circular Stage Frame -->
               <div class="hero-circular-frame">
-                <img src="../src/assets/images/hero-art.svg" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager">
+                <img src="../src/assets/images/hero-art.svg" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager" fetchpriority="high" decoding="async">
               </div>
 
               <!-- Floating Modern Feature Badges -->
@@ -420,7 +437,7 @@
               </div>
               <span class="tile-tag">४ मौलिक नाटक</span>
             </div>
-            <h3 class="tile-title">नाट्य प्रस्तुतियां</h3>
+            <h2 class="tile-title">नाट्य प्रस्तुतियां</h2>
             <p class="tile-desc">लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।</p>
             <div class="tile-footer">
               <span class="tile-link">नाटक देखें <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -434,7 +451,7 @@
               </div>
               <span class="tile-tag">वार्षिक समारोह</span>
             </div>
-            <h3 class="tile-title">राष्ट्रीय समारोह</h3>
+            <h2 class="tile-title">राष्ट्रीय समारोह</h2>
             <p class="tile-desc">जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।</p>
             <div class="tile-footer">
               <span class="tile-link">संस्करण देखें <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -448,7 +465,7 @@
               </div>
               <span class="tile-tag">बाल रंगमंच</span>
             </div>
-            <h3 class="tile-title">उल्लास समर कैम्प</h3>
+            <h2 class="tile-title">उल्लास समर कैम्प</h2>
             <p class="tile-desc">बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।</p>
             <div class="tile-footer">
               <span class="tile-link">शिविर में जुड़ें <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -462,7 +479,7 @@
               </div>
               <span class="tile-tag">अंक १४ उपलब्ध</span>
             </div>
-            <h3 class="tile-title">मासिक पत्रिका</h3>
+            <h2 class="tile-title">मासिक पत्रिका</h2>
             <p class="tile-desc">वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।</p>
             <div class="tile-footer">
               <span class="tile-link">अंक पढ़ें <span class="arrow-glyph" aria-hidden="true">→</span></span>
@@ -501,7 +518,7 @@
     </section>
 
     <!-- What's On Condensed Strip (Section 3.1 & 3.2) -->
-    <section style="padding: 5rem 0; border-bottom: 1px solid var(--g-border-subtle); background: #FFFFFF;">
+    <section class="content-section" style="border-bottom: 1px solid var(--g-border-subtle); background: #FFFFFF;">
       <div class="container">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
           <div>
@@ -528,7 +545,7 @@
     </section>
 
     <!-- Body of Work Highlight: 4 Launch Plays with Artwork (Section 3.1) -->
-    <section style="padding: 5rem 0; background: var(--g-surface-subtle); border-bottom: 1px solid var(--g-border-subtle);">
+    <section class="content-section" style="background: var(--g-surface-subtle); border-bottom: 1px solid var(--g-border-subtle);">
       <div class="container">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
           <div>
@@ -955,6 +972,21 @@
     </svg>
   </button>
 
+  <!-- Floating PWA Mobile Install Banner (Native App feel) -->
+  <aside class="pwa-floating-snack" id="pwa-floating-snack" style="display:none;" aria-label="Install App">
+    <div class="pwa-snack-info">
+      <span class="pwa-snack-icon">📱</span>
+      <div>
+        <div class="pwa-snack-title">ऐप इंस्टॉल करें</div>
+        <div class="pwa-snack-sub">तेज़, ऑफ़लाइन पत्रिका वाचन</div>
+      </div>
+    </div>
+    <div class="pwa-snack-actions">
+      <button type="button" class="pwa-snack-btn" id="pwa-snack-install-btn">इंस्टॉल</button>
+      <button type="button" class="pwa-snack-close" id="pwa-snack-close-btn" aria-label="Close">✕</button>
+    </div>
+  </aside>
+
   <!-- Interactive Search & Mobile Drawer Global Script -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -998,25 +1030,65 @@
       let deferredPrompt = null;
       const installCard = document.getElementById('pwa-install-card');
       const installBtn = document.getElementById('pwa-install-btn');
+      const pwaSnack = document.getElementById('pwa-floating-snack');
+      const snackInstallBtn = document.getElementById('pwa-snack-install-btn');
+      const snackCloseBtn = document.getElementById('pwa-snack-close-btn');
+
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone && installCard) {
+        const title = installCard.querySelector('.app-install-title');
+        const sub = installCard.querySelector('.app-install-sub');
+        if (title) title.innerText = 'ऐप इंस्टॉल है ✓';
+        if (sub) sub.innerText = 'ऑफ़लाइन मोड सक्रिय';
+        if (installBtn) installBtn.style.display = 'none';
+      }
 
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         if (installCard) installCard.style.display = 'flex';
+        
+        // Show floating prompt on mobile if not previously dismissed in this session
+        if (!isStandalone && !sessionStorage.getItem('cgcloud_pwa_dismissed') && window.innerWidth <= 768) {
+          if (pwaSnack) pwaSnack.style.display = 'flex';
+        }
       });
 
-      if (installBtn) {
-        installBtn.addEventListener('click', async () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (installCard) installCard.style.display = 'none';
+      async function triggerPwaInstall() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (installCard) installCard.style.display = 'none';
+          if (pwaSnack) pwaSnack.style.display = 'none';
+        } else {
+          // iOS or fallback instructions
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIOS) {
+            alert("आईफोन/आईपैड पर इंस्टॉल करने के लिए Safari में नीचे शेयर (Share) बटन दबाएं और Add to Home Screen चुनें।");
           } else {
-            alert('To install this app on your device, tap Share / Settings in your browser and choose "Add to Home Screen".');
+            alert("ऐप इंस्टॉल करने के लिए ब्राउज़र मेनू में Add to Home Screen या Install App चुनें।");
           }
+        }
+      }
+
+      if (installBtn) installBtn.addEventListener('click', triggerPwaInstall);
+      if (snackInstallBtn) snackInstallBtn.addEventListener('click', triggerPwaInstall);
+      if (snackCloseBtn) {
+        snackCloseBtn.addEventListener('click', () => {
+          if (pwaSnack) pwaSnack.style.display = 'none';
+          sessionStorage.setItem('cgcloud_pwa_dismissed', 'true');
         });
       }
+
+      window.addEventListener('appinstalled', () => {
+        if (pwaSnack) pwaSnack.style.display = 'none';
+        if (installCard) {
+          const title = installCard.querySelector('.app-install-title');
+          if (title) title.innerText = 'ऐप इंस्टॉल हो गया ✓';
+          if (installBtn) installBtn.style.display = 'none';
+        }
+      });
 
       // Back to Top Button
       const btt = document.getElementById('back-to-top');
