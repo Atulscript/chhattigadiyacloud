@@ -187,16 +187,36 @@ function setupAdminAuth() {
 
       const passHash = await sha256(passwordInput);
 
-      // Authenticate against admin users configured in site-content.json (with fallback default)
-      const usersList = (state.content && state.content.adminAuth && state.content.adminAuth.users) || [
-        {
-          username: "admin",
-          displayName: "Super Administrator",
-          role: "admin",
-          permissions: ["dashboard", "pages", "team", "blog", "users", "settings"],
-          passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+      // Authenticate against admin users configured in site-content.json (with fallback default & local cache)
+      let usersList = (state.content && state.content.adminAuth && state.content.adminAuth.users);
+      if (!usersList || usersList.length === 0) {
+        const cachedUsers = localStorage.getItem('cgcloud_admin_users');
+        if (cachedUsers) {
+          try { usersList = JSON.parse(cachedUsers); } catch(e) {}
         }
-      ];
+      }
+      if (!usersList || usersList.length === 0) {
+        const draftJson = localStorage.getItem('cgcloud_content_draft');
+        if (draftJson) {
+          try {
+            const draft = JSON.parse(draftJson);
+            if (draft && draft.adminAuth && draft.adminAuth.users) {
+              usersList = draft.adminAuth.users;
+            }
+          } catch(e) {}
+        }
+      }
+      if (!usersList || usersList.length === 0) {
+        usersList = [
+          {
+            username: "admin",
+            displayName: "Super Administrator",
+            role: "admin",
+            permissions: ["dashboard", "pages", "team", "blog", "users", "settings"],
+            passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+          }
+        ];
+      }
 
       const foundUser = usersList.find(u => u.username.toLowerCase() === usernameInput.toLowerCase() && u.passwordHash === passHash);
 
@@ -330,7 +350,11 @@ function setupEventListeners() {
       e.preventDefault();
       const input = document.getElementById('gh-token-input');
       if (input && input.value.trim()) {
+        const wasDirty = state.isDirty;
         await verifyGitHubAuth(input.value.trim(), true);
+        if (wasDirty && state.token) {
+          await publishContentToGitHub();
+        }
       }
     });
   }
@@ -364,6 +388,7 @@ function setupEventListeners() {
         'Discard Unsaved Changes',
         'Are you sure you want to discard all unsaved changes and reload from source?',
         () => {
+          localStorage.removeItem('cgcloud_content_draft');
           state.content = JSON.parse(state.originalContentJson);
           markDirty(false);
           renderActiveTab();
@@ -413,32 +438,75 @@ function setupEventListeners() {
 // Load content: from GitHub if token present, or local ../src/data/site-content.json
 async function loadInitialContent() {
   try {
+    let baseContent = null;
+    let fileSha = null;
+
     if (state.token) {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${CONTENT_FILE_PATH}?ref=${BRANCH_NAME}`, {
-        headers: {
-          'Authorization': `Bearer ${state.token}`,
-          'Accept': 'application/vnd.github.v3+json'
+      try {
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${CONTENT_FILE_PATH}?ref=${BRANCH_NAME}`, {
+          headers: {
+            'Authorization': `Bearer ${state.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          fileSha = data.sha;
+          const decoded = base64ToUtf8(data.content.replace(/\s/g, ''));
+          baseContent = JSON.parse(decoded);
+          console.log('Loaded base content directly from GitHub repository.');
         }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        state.fileSha = data.sha;
-        const decoded = base64ToUtf8(data.content.replace(/\s/g, ''));
-        state.content = JSON.parse(decoded);
-        state.originalContentJson = JSON.stringify(state.content);
-        markDirty(false);
-        console.log('Loaded content directly from GitHub repository.');
-        return;
+      } catch (ghErr) {
+        console.warn('Could not fetch directly from GitHub:', ghErr);
       }
     }
 
-    // Fallback: Local static fetch
-    const localRes = await fetch('../src/data/site-content.json');
-    if (localRes.ok) {
-      state.content = await localRes.json();
-      state.originalContentJson = JSON.stringify(state.content);
+    if (!baseContent) {
+      // Fallback: Local static fetch
+      const localRes = await fetch('../src/data/site-content.json');
+      if (localRes.ok) {
+        baseContent = await localRes.json();
+        console.log('Loaded content from local static site-content.json.');
+      }
+    }
+
+    if (!baseContent) {
+      throw new Error('Failed to load content dictionary.');
+    }
+
+    if (fileSha) state.fileSha = fileSha;
+    state.originalContentJson = JSON.stringify(baseContent);
+
+    // Check for saved local draft
+    const savedDraft = localStorage.getItem('cgcloud_content_draft');
+    const savedUsers = localStorage.getItem('cgcloud_admin_users');
+
+    if (savedDraft) {
+      try {
+        const parsedDraft = JSON.parse(savedDraft);
+        state.content = parsedDraft;
+        const isDifferent = JSON.stringify(parsedDraft) !== state.originalContentJson;
+        markDirty(isDifferent);
+        if (isDifferent) {
+          console.log('Restored unsaved draft from localStorage.');
+        }
+      } catch (e) {
+        state.content = baseContent;
+        markDirty(false);
+      }
+    } else {
+      state.content = baseContent;
+      // If we have saved custom admin users in localStorage, ensure they are kept
+      if (savedUsers) {
+        try {
+          const parsedUsers = JSON.parse(savedUsers);
+          if (Array.isArray(parsedUsers) && parsedUsers.length > 0) {
+            if (!state.content.adminAuth) state.content.adminAuth = {};
+            state.content.adminAuth.users = parsedUsers;
+          }
+        } catch (e) {}
+      }
       markDirty(false);
-      console.log('Loaded content from local static site-content.json.');
     }
   } catch (err) {
     console.error('Error loading content:', err);
@@ -502,9 +570,24 @@ async function verifyGitHubAuth(token, showFeedback = false) {
       showToast(`Connected as @${userData.login} (${role.toUpperCase()})`, 'success');
     }
 
-    // Refresh content from GitHub to get latest SHA
-    await loadInitialContent();
-    renderActiveTab();
+    // Refresh SHA from GitHub without wiping out dirty changes
+    if (!state.isDirty && !localStorage.getItem('cgcloud_content_draft')) {
+      await loadInitialContent();
+      renderActiveTab();
+    } else {
+      try {
+        const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${CONTENT_FILE_PATH}?ref=${BRANCH_NAME}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (shaRes.ok) {
+          const shaData = await shaRes.json();
+          state.fileSha = shaData.sha;
+        }
+      } catch (e) {}
+    }
 
   } catch (err) {
     console.error('Auth verification failed:', err);
@@ -545,9 +628,8 @@ function updateAuthUI(user) {
     }
 
     if (publishBtn) {
-      const canPublish = user.role === 'admin' || user.role === 'write';
-      publishBtn.disabled = !canPublish || !state.isDirty;
-      publishBtn.title = canPublish ? 'Publish changes to live site' : 'You need write permissions to publish';
+      publishBtn.disabled = !state.isDirty;
+      publishBtn.title = state.isDirty ? 'Publish changes live to GitHub' : 'No unsaved changes';
     }
 
     if (repoPill) {
@@ -565,8 +647,8 @@ function updateAuthUI(user) {
     }
 
     if (publishBtn) {
-      publishBtn.disabled = true;
-      publishBtn.title = 'Connect GitHub in Settings to publish changes';
+      publishBtn.disabled = !state.isDirty;
+      publishBtn.title = state.isDirty ? 'Save & Publish (Connect GitHub to deploy live)' : 'No unsaved changes';
     }
 
     if (repoPill) {
@@ -584,15 +666,48 @@ function markDirty(dirty = true) {
 
   if (badge) badge.classList.toggle('visible', dirty);
   if (discardBtn) discardBtn.style.display = dirty ? 'inline-flex' : 'none';
-  if (publishBtn && state.user && (state.user.role === 'admin' || state.user.role === 'write')) {
+  if (publishBtn) {
     publishBtn.disabled = !dirty;
+    if (dirty) {
+      publishBtn.title = state.token ? 'Publish changes live to GitHub' : 'Save & Publish (Connect GitHub to publish live)';
+    } else {
+      publishBtn.title = 'No unsaved changes';
+    }
+  }
+
+  // Automatic Local Draft Persistence
+  if (dirty && state.content) {
+    try {
+      localStorage.setItem('cgcloud_content_draft', JSON.stringify(state.content));
+      if (state.content.adminAuth && state.content.adminAuth.users) {
+        localStorage.setItem('cgcloud_admin_users', JSON.stringify(state.content.adminAuth.users));
+      }
+    } catch (e) {
+      console.warn('Draft save error:', e);
+    }
   }
 }
 
 // Commit & Publish to GitHub
 async function publishContentToGitHub() {
+  if (!state.isDirty) {
+    showToast('No unsaved changes to publish.', 'info');
+    return;
+  }
+
+  // Ensure current state is saved locally
+  if (state.content) {
+    try {
+      localStorage.setItem('cgcloud_content_draft', JSON.stringify(state.content));
+      if (state.content.adminAuth && state.content.adminAuth.users) {
+        localStorage.setItem('cgcloud_admin_users', JSON.stringify(state.content.adminAuth.users));
+      }
+    } catch (e) {}
+  }
+
   if (!state.token) {
     showAuthModal();
+    showToast('Please connect your GitHub Token to publish changes live to the site.', 'info');
     return;
   }
 
@@ -619,7 +734,7 @@ async function publishContentToGitHub() {
     // 2. Prepare payload
     const jsonString = JSON.stringify(state.content, null, 2);
     const contentBase64 = utf8ToBase64(jsonString);
-    const commitMsg = `cms: update content via Studio by @${state.user ? state.user.login : 'admin'}`;
+    const commitMsg = `cms: update content via Dashboard by @${state.user ? state.user.login : (state.adminSession ? state.adminSession.username : 'admin')}`;
 
     const bodyData = {
       message: commitMsg,
@@ -649,6 +764,8 @@ async function publishContentToGitHub() {
     const resultData = await putRes.json();
     state.fileSha = resultData.content.sha;
     state.originalContentJson = JSON.stringify(state.content);
+    // Clear the pending draft since it's now published to the repository
+    localStorage.removeItem('cgcloud_content_draft');
     markDirty(false);
 
     showToast('Changes published! Deploying live (~30s)...', 'success');
