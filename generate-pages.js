@@ -1758,24 +1758,6 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
             <span class="mag-chip">📑 ISSN Reg.</span>
           </div>
 
-          <!-- Curated Table of Contents Preview in Hero -->
-          <div class="mag-hero-toc">
-            <div class="mag-hero-toc-title">${isHi ? 'इस अंक में:' : 'In This Edition:'}</div>
-            <div class="mag-hero-toc-list">
-              <div class="mag-hero-toc-item">
-                <span>✦ <strong>${isHi ? 'शहरी मंचों पर नाचा का पुनरुत्थान' : 'The Revival of Nacha in Urban Spaces'}</strong> (Dr. Prabhat Mishra)</span>
-                <span>⏱️ 6 min</span>
-              </div>
-              <div class="mag-hero-toc-item">
-                <span>✦ <strong>${isHi ? 'हबीब तनवीर की रंग-शिल्प दृष्टि' : 'Remembering Habib Tanvir’s Scenography'}</strong> (Kavita S. Joshi)</span>
-                <span>⏱️ 8 min</span>
-              </div>
-              <div class="mag-hero-toc-item">
-                <span>✦ <strong>${isHi ? 'जशपुर के स्वर: पहाड़ी घाटियों से कविताएं' : 'Voices of Jashpur: Poems from Hill Valleys'}</strong> (Selected Poets)</span>
-                <span>⏱️ 4 min</span>
-              </div>
-            </div>
-          </div>
 
           <div class="magazine-hero-actions">
             <!-- (1) READ: Opens/Embeds Reader -->
