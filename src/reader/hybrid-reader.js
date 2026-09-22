@@ -10,6 +10,8 @@ export class HybridMagazineReader {
       mode: options.mode || (isMobile ? "paginated" : "flip"), // "flip" or "paginated"
       fontSize: options.fontSize || (isMobile ? 16 : 18),
       pages: options.pages || [],
+      freePageLimit: options.freePageLimit !== undefined ? options.freePageLimit : 5,
+      onPaywallTrigger: options.onPaywallTrigger || null,
       ...options
     };
 
@@ -43,6 +45,11 @@ export class HybridMagazineReader {
   }
 
   goToPage(pageNum) {
+    // Intercept navigation if page exceeds freePageLimit
+    if (pageNum > this.options.freePageLimit) {
+      this.triggerPaywall(pageNum);
+      return;
+    }
     const target = Math.max(1, Math.min(this.totalPages, pageNum));
     if (target === this.currentPage) return;
     if (this.options.mode === 'flip') {
@@ -77,15 +84,19 @@ export class HybridMagazineReader {
       copied: isHi ? "कॉपी हो गया! ✓" : "Copied to Clipboard! ✓"
     };
 
-    // Build thumbnail navigation strip
+    // Build thumbnail navigation strip (with lock indicator for pages exceeding free limit)
     const thumbnailsHtml = this.options.pages.map((p, idx) => {
       const pNum = idx + 1;
       const isActive = pNum === this.currentPage;
+      const isLocked = pNum > this.options.freePageLimit;
       const shortTitle = p.title ? p.title.split(':')[0] : `${t.page} ${pNum}`;
+      const titleAttr = isLocked 
+        ? (isHi ? `🔒 पृष्ठ ${pNum} अनलॉक करने हेतु ₹99 में सदस्यता लें` : `🔒 Page ${pNum} requires ₹99 subscription`)
+        : (p.title || '');
       return `
-        <button type="button" class="reader-thumb-chip ${isActive ? 'active' : ''}" data-jump-page="${pNum}" title="${p.title || ''}">
-          <span class="thumb-chip-num">${pNum}</span>
-          <span class="thumb-chip-title">${shortTitle}</span>
+        <button type="button" class="reader-thumb-chip ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}" data-jump-page="${pNum}" title="${titleAttr}">
+          <span class="thumb-chip-num">${isLocked ? '🔒 ' + pNum : pNum}</span>
+          <span class="thumb-chip-title">${shortTitle}${isLocked ? ' (₹99)' : ''}</span>
         </button>
       `;
     }).join('');
@@ -543,6 +554,10 @@ export class HybridMagazineReader {
   }
 
   nextPage() {
+    if (this.currentPage >= this.options.freePageLimit) {
+      this.triggerPaywall(this.currentPage + 1);
+      return;
+    }
     if (this.currentPage < this.totalPages) {
       if (this.options.mode === 'flip') {
         this.triggerFlipEffect(() => {
@@ -567,6 +582,33 @@ export class HybridMagazineReader {
         this.currentPage--;
         this.render();
       }
+    }
+  }
+
+  triggerPaywall(attemptedPage = 6) {
+    if (typeof this.options.onPaywallTrigger === 'function') {
+      this.options.onPaywallTrigger(attemptedPage);
+    }
+    window.dispatchEvent(new CustomEvent('magazine:paywall', { detail: { page: attemptedPage } }));
+
+    // Intercept with direct UI modal hook
+    const modal = document.getElementById('subscribe-modal');
+    if (modal) {
+      const titleEl = document.getElementById('sub-modal-title');
+      if (titleEl) {
+        titleEl.innerHTML = this.options.lang === 'hi'
+          ? '🔐 पूर्ण अंक पढ़ने हेतु ₹99 में सदस्यता लें'
+          : '🔐 Subscribe ₹99 to read full issue';
+      }
+      const descEl = document.getElementById('sub-modal-desc') || modal.querySelector('.modal-header p');
+      if (descEl) {
+        descEl.innerHTML = this.options.lang === 'hi'
+          ? `आप पृष्ठ ${attemptedPage} पढ़ने का प्रयास कर रहे हैं। प्रथम 5 पृष्ठ निःशुल्क हैं। शेष समस्त पृष्ठ एवं विशेषांक तुरंत अनलॉक करने हेतु मात्र <strong>₹99</strong> में सदस्यता लें।`
+          : `You have reached the free preview limit (Pages 1–5). Subscribe for only <strong>₹99</strong> to immediately unlock Page ${attemptedPage} and the complete magazine archive.`;
+      }
+      modal.classList.add('active');
+      const nameInput = document.getElementById('sub-name');
+      if (nameInput) setTimeout(() => nameInput.focus(), 120);
     }
   }
 

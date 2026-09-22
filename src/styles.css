@@ -6341,3 +6341,338 @@ html, body {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ==========================================================================
+   MAGAZINE REDESIGN: PREVIOUS MONTH ARCHIVE ROW & INLINE ₹99 PROMO CARD
+   ========================================================================== */
+
+/* 1. Previous Month Archive Row (Single Horizontal Card) */
+.previous-month-archive-row {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 5px solid #D97706;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 3.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.previous-month-archive-row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.prev-archive-cover-wrap {
+  width: 96px;
+  aspect-ratio: 1 / 1.414;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+  flex-shrink: 0;
+  border: 1px solid #CBD5E1;
+  background: #0F172A;
+}
+
+.prev-archive-cover-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.prev-archive-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.prev-archive-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #D97706;
+}
+
+.prev-archive-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--g-text-primary);
+  margin: 0;
+  line-height: 1.28;
+}
+
+.prev-archive-desc {
+  font-size: 0.92rem;
+  color: var(--g-text-secondary);
+  margin: 0.15rem 0 0.5rem;
+  line-height: 1.55;
+  max-width: 680px;
+}
+
+.prev-archive-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.prev-meta-chip {
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: #F8FAFC;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.prev-archive-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  align-items: stretch;
+  min-width: 170px;
+}
+
+@media (max-width: 900px) {
+  .previous-month-archive-row {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.35rem 1.25rem;
+  }
+  .prev-archive-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* 2. Inline Subscription Promo Card (₹99 Callout) */
+.inline-sub-promo-card {
+  background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 45%, #FEF3C7 100%);
+  border: 2px solid #FDBA74;
+  border-radius: 20px;
+  padding: 2.25rem 2.5rem;
+  margin-bottom: 4rem;
+  box-shadow: 0 12px 36px rgba(234, 88, 12, 0.12);
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 2.5rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.inline-sub-promo-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.15) 0%, rgba(234, 88, 12, 0) 70%);
+  pointer-events: none;
+}
+
+.promo-content-col {
+  position: relative;
+  z-index: 1;
+}
+
+.promo-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #EA580C;
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+}
+
+.promo-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.15rem);
+  font-weight: 800;
+  color: #7C2D12;
+  line-height: 1.22;
+  margin: 0 0 0.65rem 0;
+}
+
+.promo-subtext {
+  font-size: 0.98rem;
+  color: #9A3412;
+  line-height: 1.6;
+  margin: 0 0 1.25rem 0;
+  max-width: 580px;
+}
+
+.promo-features-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.promo-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #7C2D12;
+}
+
+.promo-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #16A34A;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
+/* Pricing Action Box */
+.promo-action-box {
+  background: #FFFFFF;
+  border: 1.5px solid #FDBA74;
+  border-radius: 16px;
+  padding: 1.75rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(124, 45, 18, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.promo-price-tag {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.promo-currency {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #C83200;
+}
+
+.promo-amount {
+  font-size: 3.25rem;
+  font-weight: 900;
+  color: #C83200;
+  line-height: 1;
+  font-family: var(--font-sans, system-ui);
+}
+
+.promo-period {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #78716C;
+}
+
+.promo-guarantee {
+  font-size: 0.82rem;
+  color: #059669;
+  font-weight: 700;
+  margin-bottom: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.promo-cta-btn {
+  width: 100%;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  background: #C83200;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(200, 50, 0, 0.28);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.promo-cta-btn:hover {
+  background: #9A2600;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(200, 50, 0, 0.38);
+}
+
+.promo-footnote {
+  font-size: 0.74rem;
+  color: #78716C;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 860px) {
+  .inline-sub-promo-card {
+    grid-template-columns: 1fr;
+    padding: 1.65rem 1.25rem;
+    gap: 1.75rem;
+  }
+  .promo-features-list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* 3. Locked Reader Thumbnail & Paywall Badges */
+.reader-thumb-chip.locked {
+  border-color: #F59E0B !important;
+  background: #FFFBEB !important;
+  color: #92400E !important;
+}
+
+.reader-thumb-chip.locked:hover {
+  background: #FEF3C7 !important;
+  transform: translateY(-2px);
+}
+
+.reader-preview-banner {
+  background: #FFFBEB;
+  border: 1px solid #FCD34D;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #92400E;
+  font-weight: 600;
+}
+

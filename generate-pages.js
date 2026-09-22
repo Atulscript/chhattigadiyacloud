@@ -1884,6 +1884,21 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         <img src="${siteData.magazinePageBanner}" alt="Magazine Banner" style="width:100%; max-height:360px; object-fit:cover; display:block;">
       </div>` : '';
 
+    const prevIssue = (siteData.magazine.previousIssues && siteData.magazine.previousIssues[0]) || {
+      id: "issue-13",
+      number: "Vol. IV • Issue 08",
+      month: { en: "August 2026", hi: "अगस्त 2026" },
+      title: { en: "Habib Tanvir & The Living Folk Idiom", hi: "हबीब तनवीर और लोक रंगमंच की जीवंत भाषा" },
+      coverImg: "/src/assets/images/mag-issue-13.svg",
+      badge: { en: "Special Archival Tribute", hi: "विशेषांक" },
+      totalPages: 12,
+      leadArticle: { en: "Minimalism, Bamboo Structures & The Organic Chorus", hi: "सादगी, बांस का मंच और जैविक कोरस" },
+      readExcerpt: {
+        en: "A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement.",
+        hi: "एक विशेष शोधपरक आलेख कि कैसे हबीब तनवीर ने विक्टोरियन सजावट को हटाकर भारतीय रंगमंच को लोकगीतों और घेरेदार मंचन से पुनर्जीवित किया।"
+      }
+    };
+
     const content = `
     <div class="page-header">
       <div class="container">
@@ -1903,7 +1918,10 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
     <div class="container" style="padding-bottom: 5rem;">
       ${magPageBanner}
-      <!-- INTENTION 1: HIGHLIGHT CURRENT MONTH MAGAZINE ISSUE (ELEGANT EDITORIAL HERO) -->
+
+      <!-- =====================================================================
+           COMPONENT 1: HERO / CURRENT MONTH FEATURE SECTION
+           ===================================================================== -->
       <section class="magazine-hero-spotlight">
         <div class="magazine-hero-content">
           <div class="magazine-hero-eyebrow">
@@ -1943,11 +1961,13 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           </div>
 
           <div class="magazine-hero-actions">
-            <a href="#open-articles" class="btn-primary" style="background:#FF4500; border-color:#FF4500;">
-              <span>📖</span> <span>${isHi ? 'प्रमुख आलेख पढ़ें' : 'Read Featured Essays'}</span>
+            <!-- (1) READ: Opens/Embeds Reader -->
+            <a href="#interactive-reader-section" class="btn-primary" id="btn-hero-read" style="background:#C83200; border-color:#C83200;">
+              <span>📖</span> <span>${isHi ? 'पत्रिका पढ़ें' : 'Read Issue'}</span>
             </a>
+            <!-- (2) SUBSCRIBE: Triggers Checkout / Modal -->
             <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#1A73E8; border-color:#1A73E8;">
-              <span>★</span> <span>${isHi ? 'सदस्यता लें (प्रिंट / PDF)' : 'Subscribe (Print / PDF)'}</span>
+              <span>★</span> <span>${isHi ? 'सदस्यता लें (₹99)' : 'Subscribe (₹99)'}</span>
             </button>
             <a href="${currentCover}" target="_blank" class="btn-secondary">
               <span>⬇</span> <span>${isHi ? 'कवर आर्ट' : 'Cover Art'}</span>
@@ -1962,29 +1982,126 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
       </section>
 
-      <!-- INTENTION 2: SHOWCASE PREVIOUS MONTH / ARCHIVAL ISSUES -->
-      <section class="previous-issues-section">
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
-          <div>
-            <span class="page-eyebrow">✦ ${isHi ? 'विगत अंक अभिलेखागार' : 'Archival Collections & Monographs'} ✦</span>
-            <h3 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
-              ${isHi ? 'विगत माह के अंक एवं विशेषांक' : 'Previous Month Issues & Special Monographs'}
-            </h3>
-            <p style="color:var(--g-text-secondary); font-size:1.02rem; margin-top:0.35rem; max-width:680px;">
-              ${isHi ? 'हबीब तनवीर शताब्दी स्मृति, साल वनों की वाचिक काव्य-परंपरा, एवं बाल रंगमंच पर प्रकाशित ऐतिहासिक अंकों का डिजिटल संग्रह।' : 'Explore earlier monthly editions published by Chhattisgadhiya Cloud — preserving tribal oral balladeers, centenary stage retrospectives, and child theatre experiments.'}
-            </p>
+      <!-- =====================================================================
+           COMPONENT 2: PREVIOUS MONTH ARCHIVE ROW
+           ===================================================================== -->
+      <section class="previous-month-archive-section" aria-label="${isHi ? 'विगत माह का अंक' : 'Previous Month Archive Row'}">
+        <div class="previous-month-archive-row">
+          <div class="prev-archive-cover-wrap">
+            <img src="${prevIssue.coverImg}" alt="${prevIssue.title[lang]}" loading="lazy">
           </div>
-          <button type="button" class="btn-secondary open-subscribe-btn" data-open-subscribe="true">
-            <span>📮</span> <span>${isHi ? 'समस्त अंकों की सदस्यता' : 'Subscribe to All Issues'}</span>
-          </button>
-        </div>
-
-        <div class="previous-issues-grid">
-          ${previousIssuesCards}
+          <div class="prev-archive-details">
+            <span class="prev-archive-eyebrow">
+              <span>✦</span> <span>${isHi ? 'विगत माह का अंक' : 'PREVIOUS MONTH ARCHIVE'} • ${prevIssue.month[lang]}</span> <span>✦</span>
+            </span>
+            <h3 class="prev-archive-title">${prevIssue.number}: ${prevIssue.title[lang]}</h3>
+            <p class="prev-archive-desc">${prevIssue.readExcerpt[lang]}</p>
+            <div class="prev-archive-meta-row">
+              <span class="prev-meta-chip">📄 ${prevIssue.totalPages || 12} Pages</span>
+              <span class="prev-meta-chip">🎭 ${prevIssue.badge[lang]}</span>
+              <span class="prev-meta-chip">✍️ ${prevIssue.leadArticle[lang]}</span>
+              <span class="prev-meta-chip">📑 ISSN 2709-4112</span>
+            </div>
+          </div>
+          <div class="prev-archive-actions">
+            <button type="button" class="btn-secondary open-excerpt-btn"
+              data-issue-id="${prevIssue.id}"
+              data-issue-title="${prevIssue.title[lang]}"
+              data-issue-number="${prevIssue.number}"
+              data-issue-month="${prevIssue.month[lang]}"
+              data-issue-lead="${prevIssue.leadArticle[lang]}"
+              data-issue-excerpt="${prevIssue.readExcerpt[lang]}"
+              data-issue-cover="${prevIssue.coverImg}">
+              <span>📖</span> <span>${isHi ? 'संक्षिप्त अंश पढ़ें' : 'Quick Excerpt'}</span>
+            </button>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+              <span>★</span> <span>${isHi ? 'अभिलेख मंगाएं (₹99)' : 'Subscribe Archive (₹99)'}</span>
+            </button>
+          </div>
         </div>
       </section>
 
-      <!-- INTENTION 3: OPTION TO READ CURRENT ISSUE ESSAYS -->
+      <!-- =====================================================================
+           COMPONENT 3: INLINE SUBSCRIPTION PROMO CARD (₹99)
+           ===================================================================== -->
+      <section class="inline-subscription-section" aria-label="${isHi ? 'पत्रिका सदस्यता ऑफर' : 'Magazine Subscription Promo'}">
+        <div class="inline-sub-promo-card">
+          <div class="promo-content-col">
+            <span class="promo-badge-pill">✦ ${isHi ? 'असीमित सदस्यता' : 'ALL-ACCESS MEMBERSHIP'} ✦</span>
+            <h3 class="promo-headline">${isHi ? 'मासिक पत्रिका पूर्ण संस्करण एवं अभिलेख सदस्यता' : 'Unlock the Full Issue & Complete Cultural Archive'}</h3>
+            <p class="promo-subtext">
+              ${isHi 
+                ? 'निःशुल्क पूर्वावलोकन में पृष्ठ १ से ५ उपलब्ध हैं। समस्त शोध आलेख, मुद्रित डाक संस्करण, उच्च-रिज़ॉल्यूशन PDF एवं डिजिटल अभिलेखागार तुरंत अनलॉक करें।'
+                : 'Free reading includes Pages 1 through 5. Subscribe to instantly unlock Pages 6–8, comprehensive research monographs, high-resolution print PDFs, and doorstep postal delivery.'}
+            </p>
+            <ul class="promo-features-list">
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>${isHi ? 'पृष्ठ ६ से ८ तुरंत अनलॉक' : 'Instant Unlock: Pages 6 to 8'}</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>${isHi ? '३डी फ्लिप-बुक व पठनीय वाचक' : 'Full 3D Flip-Book Engine'}</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>${isHi ? 'हाई-क्वालिटी प्रिंट PDF डाउनलोड' : 'High-Res Print PDF Downloads'}</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>${isHi ? 'मुद्रित डाक प्रति आपके द्वार' : 'Doorstep Print Postal Copy'}</span></li>
+            </ul>
+          </div>
+          <div class="promo-action-box">
+            <div class="promo-price-tag">
+              <span class="promo-currency">₹</span>
+              <span class="promo-amount">99</span>
+              <span class="promo-period">/ ${isHi ? 'अंक' : 'issue'}</span>
+            </div>
+            <div class="promo-guarantee">
+              <span>🛡️</span> <span>${isHi ? '100% सुरक्षित भुगतान • तुरंत सक्रियण' : 'Secure Checkout • Instant Access'}</span>
+            </div>
+            <button type="button" class="promo-cta-btn open-subscribe-btn" data-open-subscribe="true">
+              <span>⚡</span> <span>${isHi ? 'अभी सदस्यता लें — मात्र ₹99' : 'Subscribe Now — Only ₹99'}</span>
+            </button>
+            <div class="promo-footnote">
+              ${isHi ? 'UPI, कार्ड या नेट बैंकिंग • कोई छिपे शुल्क नहीं' : 'UPI, Cards & NetBanking • Cancel Anytime'}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           COMPONENT 4: INTERACTIVE FLIP-STYLE BOOK READER (FREE PAGES 1-5, PAGE 6 PAYWALL)
+           ===================================================================== -->
+      <section id="interactive-reader-section" style="margin-bottom:5.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
+          <div>
+            <span class="page-eyebrow">✦ ${isHi ? 'इंटरएक्टिव डिजिटल वाचक' : 'Interactive Reading Engine'} ✦</span>
+            <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
+              ${isHi ? 'डिजिटल पत्रिका पाठक (3D फ्लिप-बुक टूल)' : 'Interactive Digital Reader (Flip-Book Spread)'}
+            </h2>
+            <p style="color:var(--g-text-secondary); margin-top:0.35rem; max-width:760px; font-size:1.02rem;">
+              ${isHi 
+                ? 'पत्रिका को 3D दो-पृष्ठीय फ्लिप-बुक या पठनीय पृष्ठ मोड में पढ़ें। पृष्ठ 1 से 5 निःशुल्क वाचन हेतु उपलब्ध हैं; पृष्ठ 6 से आगे के आलेख ₹99 सदस्यता के साथ अनलॉक होते हैं।' 
+                : 'Experience Issue 14 as an authentic 3D open-book spread with tactile page turns. Pages 1 through 5 are free to read; access to Page 6 and beyond unlocks with the ₹99 subscription.'}
+            </p>
+          </div>
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+            <a href="${currentCover}" target="_blank" class="btn-secondary">
+              <span>🖼️</span> <span>${isHi ? 'कवर आर्ट' : 'Cover Art'}</span>
+            </a>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+              <span>★</span> <span>${isHi ? 'पूर्ण अंक अनलॉक (₹99)' : 'Unlock Full Issue (₹99)'}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Free Preview Banner -->
+        <div class="reader-preview-banner">
+          <span>📖 <strong>${isHi ? 'निःशुल्क पूर्वावलोकन:' : 'Free Preview:'}</strong> ${isHi ? 'पृष्ठ १ से ५ निःशुल्क • पृष्ठ ६+ हेतु ₹९९ सदस्यता आवश्यक' : 'Pages 1–5 Free • Page 6+ Requires ₹99 Subscription'}</span>
+          <button type="button" class="btn-studio btn-studio-primary open-subscribe-btn" data-open-subscribe="true" style="font-size:0.78rem; padding:0.25rem 0.65rem; background:#C83200; border-color:#C83200; color:#fff;">
+            ${isHi ? 'अभी अनलॉक करें (₹99)' : 'Unlock All Pages (₹99)'}
+          </button>
+        </div>
+
+        <div class="magazine-shell">
+          <div id="magazine-reader-mount"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           COMPONENT 5: FEATURED CRITICAL ESSAYS & MONOGRAPHS
+           ===================================================================== -->
       <section id="open-articles" style="margin-top:5.5rem;">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
           <div>
@@ -2008,34 +2125,33 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
       </section>
 
-      <!-- INTERACTIVE DIGITAL READER (FLIP-BOOK SPREAD & PDF TOOL) -->
-      <section id="interactive-reader-section" style="margin-top:5.5rem;">
+      <!-- =====================================================================
+           COMPONENT 6: COMPLETE HISTORICAL ARCHIVAL GRID
+           ===================================================================== -->
+      <section class="previous-issues-section">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
           <div>
-            <span class="page-eyebrow">✦ ${isHi ? 'इंटरएक्टिव डिजिटल वाचक' : 'Interactive Reading Engine'} ✦</span>
-            <h3 style="font-family:var(--font-serif); font-size:2rem; color:var(--g-text-primary); margin-top:0.25rem;">
-              ${isHi ? 'डिजिटल पत्रिका पाठक (3D फ्लिप-बुक टूल)' : 'Interactive Digital Reader (Flip-Book & PDF Tool)'}
+            <span class="page-eyebrow">✦ ${isHi ? 'विगत अंक अभिलेखागार' : 'Archival Collections & Monographs'} ✦</span>
+            <h3 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
+              ${isHi ? 'समस्त विगत अंक एवं विशेषांक संग्रह' : 'Complete Monograph & Archival Collections'}
             </h3>
-            <p style="color:var(--g-text-secondary); margin-top:0.35rem; max-width:760px; font-size:1.02rem;">
-              ${isHi ? 'पत्रिका को 3D दो-पृष्ठीय फ्लिप-बुक या पठनीय पृष्ठ मोड में पढ़ें। आप किसी भी PDF अंक को सीधे ब्राउज़र में स्थानीय रूप से मार्कडाउन में भी बदल सकते हैं।' : 'Read Issue 14 as an authentic 3D open-book spread with tactile page turns, or switch to distraction-free reader mode. Parse any issue PDF directly into Markdown locally.'}
+            <p style="color:var(--g-text-secondary); font-size:1.02rem; margin-top:0.35rem; max-width:680px;">
+              ${isHi ? 'हबीब तनवीर शताब्दी स्मृति, साल वनों की वाचिक काव्य-परंपरा, एवं बाल रंगमंच पर प्रकाशित ऐतिहासिक अंकों का डिजिटल संग्रह।' : 'Explore earlier monthly editions published by Chhattisgadhiya Cloud — preserving tribal oral balladeers, centenary stage retrospectives, and child theatre experiments.'}
             </p>
           </div>
-          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-            <a href="/src/assets/images/mag-issue-14-cover.svg" target="_blank" class="btn-secondary">
-              <span>🖼️</span> <span>${isHi ? 'कवर आर्ट' : 'Cover Art'}</span>
-            </a>
-            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true">
-              <span>★</span> <span>${isHi ? 'डाक/PDF सदस्यता' : 'Subscribe (Print / PDF)'}</span>
-            </button>
-          </div>
+          <button type="button" class="btn-secondary open-subscribe-btn" data-open-subscribe="true">
+            <span>📮</span> <span>${isHi ? 'समस्त अंकों की सदस्यता' : 'Subscribe to All Issues'}</span>
+          </button>
         </div>
 
-        <div class="magazine-shell">
-          <div id="magazine-reader-mount"></div>
+        <div class="previous-issues-grid">
+          ${previousIssuesCards}
         </div>
       </section>
 
-      <!-- EDITORIAL COUNCIL & ISSN STATEMENT -->
+      <!-- =====================================================================
+           COMPONENT 7: EDITORIAL COUNCIL & ISSN STATEMENT
+           ===================================================================== -->
       <div class="visual-highlight-band" style="margin-top:5rem;">
         <div class="highlight-content">
           <span style="background:var(--c-blue); color:#FFFFFF; padding:0.25rem 0.75rem; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em;">
@@ -2048,8 +2164,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
             ${isHi ? '‘छत्तीसगढ़िया क्लाउड मासिक पत्रिका’ केवल एक पत्रिका नहीं, बल्कि माटी के कलाकारों, निर्देशकों और लोक गायकों का खुला मंच है। हम प्रत्येक अंक को शोधार्थियों, विश्वविद्यालयों और स्थानीय विद्यालयों को निःशुल्क उपलब्ध कराते हैं।' : 'Chhattisgadhiya Cloud Masik Patrika serves as an open tribunal for folk practitioners, directors, and researchers. Subsidized print runs are distributed directly to tribal village schools, community libraries, and drama schools across the country.'}
           </p>
         </div>
-        <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true">
-          <span>📮</span> <span>${isHi ? 'निःशुल्क सदस्यता प्राप्त करें' : 'Get Free Monthly Subscription'}</span>
+        <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+          <span>★</span> <span>${isHi ? 'मासिक पत्रिका सदस्यता लें (₹99)' : 'Subscribe to Journal (₹99)'}</span>
         </button>
       </div>
 
@@ -2064,14 +2180,29 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           <button type="button" class="modal-close-btn" id="sub-modal-close" aria-label="Close modal">✕</button>
           <span class="modal-eyebrow">✦ ${isHi ? 'मासिक पत्रिका सदस्यता' : 'Monthly Journal Subscription'} ✦</span>
           <h3 class="modal-title" id="sub-modal-title">
-            ${isHi ? 'पत्रिका सदस्यता पंजीकरण' : 'Subscribe to Chhattisgadhiya Cloud'}
+            ${isHi ? 'पत्रिका सदस्यता पंजीकरण — मात्र ₹99' : 'Subscribe to Chhattisgadhiya Cloud — ₹99'}
           </h3>
-          <p style="color:var(--g-text-secondary); font-size:0.92rem; margin-top:0.35rem; line-height:1.5;">
+          <p id="sub-modal-desc" style="color:var(--g-text-secondary); font-size:0.92rem; margin-top:0.35rem; line-height:1.5;">
             ${isHi ? 'नया अंक प्रकाशित होते ही डिजिटल PDF व्हाट्सएप/ईमेल पर एवं मुद्रित प्रति आपके पते पर भेजी जाएगी।' : 'Receive high-res digital editions directly via WhatsApp/Email or receive print postal issues.'}
           </p>
         </div>
 
         <div class="modal-body">
+          <!-- Pricing Callout Banner -->
+          <div style="background:#FFF7ED; border:1.5px solid #FDBA74; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:0.06em; color:#EA580C; font-weight:800;">
+                ${isHi ? 'मासिक सदस्यता शुल्क' : 'Full Access Subscription'}
+              </div>
+              <div style="font-size:0.86rem; color:#7C2D12; font-weight:600;">
+                ${isHi ? 'समस्त पृष्ठ (१-८), PDF डाउनलोड एवं मुद्रित प्रति' : 'Unlock Pages 1–8, PDF Downloads & Print Copy'}
+              </div>
+            </div>
+            <div style="font-size:1.65rem; font-weight:900; color:#C83200; font-family:var(--font-sans, system-ui);">
+              ₹99
+            </div>
+          </div>
+
           <!-- Form View -->
           <form id="subscribe-form">
             <!-- 1. Name -->
@@ -2107,17 +2238,17 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               <div class="modal-radio-group">
                 <label class="modal-radio-label">
                   <input type="radio" name="sub_edition" value="digital" checked>
-                  <span>🌐 ${isHi ? 'डिजिटल PDF (निःशुल्क)' : 'Digital PDF (Free)'}</span>
+                  <span>🌐 ${isHi ? 'डिजिटल PDF + ३डी वाचक (₹99)' : 'Digital PDF + 3D Reader (₹99)'}</span>
                 </label>
                 <label class="modal-radio-label">
                   <input type="radio" name="sub_edition" value="print">
-                  <span>📬 ${isHi ? 'मुद्रित डाक प्रति' : 'Printed Postal'}</span>
+                  <span>📬 ${isHi ? 'मुद्रित डाक प्रति + डिजिटल (₹99)' : 'Printed Postal Copy + Digital (₹99)'}</span>
                 </label>
               </div>
             </div>
 
-            <button type="submit" class="modal-submit-btn" id="sub-submit-btn">
-              <span>🚀</span> <span>${isHi ? 'सदस्यता की पुष्टि करें' : 'Confirm Subscription'}</span>
+            <button type="submit" class="modal-submit-btn" id="sub-submit-btn" style="background:#C83200; border-color:#C83200;">
+              <span>⚡</span> <span>${isHi ? '₹99 में सदस्यता सक्रिय करें' : 'Pay ₹99 & Unlock Full Issue'}</span>
             </button>
           </form>
 
@@ -2189,22 +2320,103 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         import { HybridMagazineReader } from '/src/reader/hybrid-reader.js';
 
         function initMagazine() {
-          // Mount Flip-book Reader with rich structured pages
-          const articles = siteData.magazine.currentIssue.articles.map((art, idx) => ({
-            pageNumber: idx + 1,
-            title: art.title['${lang}'],
-            author: art.author['${lang}'],
-            category: art.category['${lang}'],
-            date: art.date,
-            excerpt: art.excerpt['${lang}'],
-            content: art.content['${lang}']
-          }));
+          // 8 Structured Reader Pages (Pages 1-5 Free Preview, Pages 6-8 Premium ₹99)
+          const readerPages = [
+            {
+              pageNumber: 1,
+              title: '${isHi ? "संपादकीय मुखपृष्ठ: लोक रंगमंच और आधुनिकता" : "Issue 14 Cover & Editorial Proclamation"}',
+              author: '${isHi ? "सुरेश ठाकुर" : "Suresh Thakur"}',
+              category: '${isHi ? "संपादकीय" : "Editorial Inscription"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और मंच-शिल्प।" : "Folk Theatre in Modern Times: Continuity, Dance & Scenography."}',
+              content: '${isHi ? "### लोक नाट्य और समकालीन रंग-चेतना\\n\\nछत्तीसगढ़िया क्लाउड मासिक पत्रिका का यह अंक माटी की सुगंध और रंगमंच की नई संभावनाओं को समर्पित है। नाचा, पंथी और करमा केवल अतीत की स्मृतियां नहीं हैं; वे वर्तमान समाज के ज्वलंत सवालों से टकराने वाले सबसे जीवंत औजार हैं।\\n\\n> \\\"रंगमंच जब तक माटी से जुड़ा है, तब तक वह पराजित नहीं हो सकता।\\\"\\n\\nहम इस अंक के माध्यम से उन सभी अनाम लोक कलाकारों को नमन करते हैं जिन्होंने अभावों में भी कला की मशाल जलाए रखी।" : "### Folk Idiom in Contemporary Scenography\\n\\nThis fourteenth edition of Chhattisgadhiya Cloud Masik Patrika is dedicated to the living soil and evolutionary stage forms of Central India. Nacha, Panthi, and Karma are not museum artifacts; they are kinetic, critical tools in dialog with the modern world.\\n\\n> \\\"Theatre remains invincible as long as its bare feet touch the living earth.\\\"\\n\\nWe dedicate this monograph to the grassroots torchbearers of regional oral performance."}'
+            },
+            {
+              pageNumber: 2,
+              title: '${isHi ? "अनुक्रमणिका एवं संयोजक वक्तव्य" : "Table of Contents & Curatorial Note"}',
+              author: '${isHi ? "मीनाक्षी कश्यप" : "Meenakshi Kashyap"}',
+              category: '${isHi ? "संयोजक स्तंभ" : "Curator Note"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "अंक १४ की विषय-वस्तु, शोध आलेखों का वर्गीकरण एवं अभिलेख विवरण।" : "Classified folios, research methodologies, and monograph structure."}',
+              content: '${isHi ? "### इस अंक की सामग्री\\n\\n1. **पृष्ठ ३-४**: शहरी मंचों पर नाचा का पुनरुत्थान — डॉ. प्रभात मिश्रा\\n2. **पृष्ठ ५**: हबीब तनवीर की रंग-शिल्प दृष्टि — कविता एस. जोशी\\n3. **पृष्ठ ६ [🔒]**: हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति\\n4. **पृष्ठ ७ [🔒]**: जशपुर के स्वर: घाटियों से लोकगीत एवं कुरुख अनुवाद\\n5. **पृष्ठ ८ [🔒]**: आदिवासी नाट्य दल निर्देशिका एवं संदर्भ ग्रंथ-सूची\\n\\n> \\\"यह पत्रिका शोधार्थियों और कलाकारों के बीच एक सेतु है।\\\"" : "### Contents in this Issue\\n\\n1. **Pages 3–4**: The Revival of Nacha in Urban Spaces — Dr. Prabhat Mishra\\n2. **Page 5**: Remembering Habib Tanvir\'s Scenography — Kavita S. Joshi\\n3. **Page 6 [🔒]**: Unpublished Stage Geometry & Chorus Choreography\\n4. **Page 7 [🔒]**: Voices of Jashpur: Hill Valley Ballads & Kurukh Verses\\n5. **Page 8 [🔒]**: Repertory Ensemble Directory & Archival Bibliography\\n\\n> \\\"An open laboratory bridging folk traditions with modern scenography.\\\""}'
+            },
+            {
+              pageNumber: 3,
+              title: '${isHi ? "शहरी मंचों पर नाचा परंपरा का पुनरुत्थान (भाग १)" : "The Revival of Nacha in Urban Spaces (Part 1)"}',
+              author: '${isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra"}',
+              category: '${isHi ? "नाट्य आलेख" : "Theatre Essay"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "कैसे ग्रामीण छत्तीसगढ़ का पारंपरिक नाचा आधुनिक दर्शकों को अपनी सहज धारदार अभिव्यक्ति से जोड़ रहा है।" : "How rustic comedic satire and Panthi rhythms captivate modern proscenium stages."}',
+              content: '${isHi ? "### नाचा की सजीव लोक-चेतना\\n\\nनाचा मात्र मनोरंजन का माध्यम नहीं, बल्कि ग्रामीण समाज का खुला मंच और न्याय-कक्ष रहा है। जब कलाकार अखाड़े में कदम रखते हैं, तो सामाजिक दीवारें पिघलने लगती हैं।\\n\\n> \\\"नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक और गहरा सामना है।\\\"\\n\\nइस अंक में हम नाचा के तीन पीढ़ियों के कलाकारों के अनुभवों का विश्लेषण कर रहे हैं।" : "### The Living Courtroom of Folk Culture\\n\\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften.\\n\\n> \\\"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\\\"\\n\\nIn this edition, we document the experiences of three generations of Nacha practitioners."}'
+            },
+            {
+              pageNumber: 4,
+              title: '${isHi ? "नाचा का मंच-शिल्प, संगीत एवं संवाद (भाग २)" : "Nacha Scenography, Music & Satire (Part 2)"}',
+              author: '${isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra"}',
+              category: '${isHi ? "रंग विश्लेषण" : "Performance Analysis"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "ढोलक, मंजीरे की थाप और मुहावरों की अचूक शक्ति का विवेचन।" : "Rhythmic crescendos of the dholak and improvisation strategies."}',
+              content: '${isHi ? "### माटी की बोली और तात्कालिकता\\n\\n1. **माटी की बोली**: मुहावरों और लोक-संसार की भाषा जो व्याकरण के बंधनों से मुक्त है।\\n2. **संगीत की धड़कन**: ढोलक और मंजीरे के साथ कथा का तीव्र उतार-चढ़ाव।\\n3. **तात्कालिकता**: दर्शकों की प्रतिक्रिया के अनुसार नए संवाद गढ़ना।\\n\\nयही गतिशीलता नाचा को हर युग में प्रासंगिक बनाती है।" : "### Dialect, Cadence and Spontaneous Wit\\n\\n1. **Language of the Earth**: Vernacular colloquialisms defying formal stiffness.\\n2. **Music as Dramatic Pulse**: Dholak and manjeera driving kinetic crescendos.\\n3. **Spontaneous Improvisation**: Adapting punchlines instantaneously to audience reactions.\\n\\nThis organic elasticity keeps Nacha permanently modern."}'
+            },
+            {
+              pageNumber: 5,
+              title: '${isHi ? "हबीब तनवीर की रंग-शिल्प दृष्टि का स्मरण" : "Remembering Habib Tanvir\'s Scenography"}',
+              author: '${isHi ? "कविता एस. जोशी" : "Kavita S. Joshi"}',
+              category: '${isHi ? "स्मृति आलेख" : "Tribute & Analysis"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "बीसवीं सदी के भारतीय रंगमंच को नई दिशा देने वाले सादगीपूर्ण मंच-शिल्प की पड़ताल।" : "Minimalist stage aesthetics and bamboo architectures that redefined modern Indian theatre."}',
+              content: '${isHi ? "### रिक्त स्थान, ब्रेख्त और बांस का पर्दा\\n\\nहबीब तनवीर ने विक्टोरियन शैली के भारी-भरकम पर्दों और गत्ते की दीवारों को हटाकर रंगमंच को खुला आकाश और बांस की सादगी दी।\\n\\nउनके अभिनेताओं का शरीर ही पूरा सेट बन जाता था। एक कदम बढ़ाना नदी पार करना बन जाता था, और एक लोकगीत राजमहल के द्वार खोल देता था।\\n\\n> \\\"सादगी ही सबसे महान भव्यता है।\\\"" : "### Space, Brecht, and the Bamboo Screen\\n\\nHabib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the vast sky and simple bamboo frames.\\n\\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor\'s palace.\\n\\n> \\\"Simplicity is the most formidable spectacle.\\\""}'
+            },
+            {
+              pageNumber: 6,
+              title: '${isHi ? "🔒 हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति" : "🔒 Habib Tanvir\'s Unpublished Stage Geometry & Chorus Notes"}',
+              author: '${isHi ? "अभिलेख दल" : "Archive Editorial Board"}',
+              category: '${isHi ? "🔒 विशेषांक (सदस्यता आवश्यक)" : "🔒 Premium Monograph (₹99)"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "नया थिएटर की ऐतिहासिक प्रस्तुतियों के मूल मंच खाके एवं ज्यामितीय ब्लॉक।" : "Facsimiles of original blocking notes and acoustic spatial arrangements from Naya Theatre."}',
+              content: '${isHi ? "### 🔒 यह आलेख केवल सदस्यों हेतु उपलब्ध है\\n\\nआपने निःशुल्क ५ पृष्ठों का पूर्वावलोकन पूरा कर लिया है।\\n\\nहबीब तनवीर के दुर्लभ हस्तलिखित आरेख, नाचा कलाकारों के साथ उनके रिहर्सल नोट्स एवं संपूर्ण अभिलेखागार पढ़ने हेतु मात्र **₹99** में सदस्यता लें।" : "### 🔒 This Monograph Requires a Premium Subscription\\n\\nYou have completed the free 5-page preview.\\n\\nSubscribe for **₹99** to immediately unlock Habib Tanvir\'s unpublished spatial blocking notes, rehearsal diaries with folk artists, and complete high-resolution downloads."}'
+            },
+            {
+              pageNumber: 7,
+              title: '${isHi ? "🔒 जशपुर के स्वर: पहाड़ी घाटियों से लोकगीत एवं कुरुख अनुवाद" : "🔒 Voices of Jashpur: Hill Valley Ballads & Kurukh Verses"}',
+              author: '${isHi ? "जशपुर के प्रतिनिधि कवि" : "Selected Bards of Jashpur"}',
+              category: '${isHi ? "🔒 कविता विशेषांक (सदस्यता आवश्यक)" : "🔒 Archival Poetry (₹99)"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "रानीदह जलप्रपात, साल कुंजों और माटी की गंध से सराबोर अप्रकाशित काव्य संग्रह।" : "Evocative oral ballads celebrating northern Chhattisgarh water streams and indigenous memory."}',
+              content: '${isHi ? "### 🔒 प्रीमियम कविता संग्रह\\n\\nयह पृष्ठ केवल सक्रिय पत्रिका ग्राहकों हेतु उपलब्ध है। संपूर्ण कविताएं एवं ऑडियो क्लिप सुनने हेतु ₹99 में सदस्यता लें।" : "### 🔒 Premium Poetry & Audio Folio\\n\\nThis page is reserved for active subscribers. Subscribe for **₹99** to access all translated verses, audio field recordings, and contextual annotations."}'
+            },
+            {
+              pageNumber: 8,
+              title: '${isHi ? "🔒 संपूर्ण अभिलेख निर्देशिका एवं संदर्भ ग्रंथ-सूची" : "🔒 Complete Archival Directory & Bibliography"}',
+              author: '${isHi ? "संपादकीय मंडल" : "Editorial Guild"}',
+              category: '${isHi ? "🔒 अभिलेख निर्देशिका (सदस्यता आवश्यक)" : "🔒 Archival Index (₹99)"}',
+              date: 'Sept 2026',
+              excerpt: '${isHi ? "१४ अंकों की संचयी अनुक्रमणिका, शोध संदर्भ एवं आगामी नाटकों की अनुसूची।" : "Cumulative index of 14 issues, academic citations, and upcoming festival schedules."}',
+              content: '${isHi ? "### 🔒 संपूर्ण संदर्भ अभिलेख\\n\\nसमस्त १४ प्रकाशित अंकों का संचयी डेटाबेस एवं उच्च-गुणवत्ता PDF डाउनलोड प्राप्त करने हेतु ₹99 में सदस्यता लें।" : "### 🔒 Complete Archival Reference\\n\\nSubscribe for **₹99** to unlock the full 14-issue database and high-resolution downloadable PDFs."}'
+            }
+          ];
 
           window.magazineReaderInstance = new HybridMagazineReader('magazine-reader-mount', {
             lang: '${lang}',
             mode: 'flip',
-            pages: articles
+            freePageLimit: 5,
+            pages: readerPages,
+            onPaywallTrigger: (page) => {
+              openSubscribeModal(page);
+            }
           });
+
+          // Wire Hero "Read" Button
+          const heroReadBtn = document.getElementById('btn-hero-read');
+          if (heroReadBtn) {
+            heroReadBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const readerSection = document.getElementById('interactive-reader-section');
+              if (readerSection) {
+                readerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            });
+          }
 
           // ==========================================
           // ARTICLE FILTER TABS & TOOLBAR LOGIC
@@ -2300,13 +2512,33 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           const subSuccessClose = document.getElementById('sub-success-close');
           const openSubBtns = document.querySelectorAll('[data-open-subscribe], .open-subscribe-btn');
 
-          function openSubscribeModal() {
+          function openSubscribeModal(page = null) {
             if (subModal) {
               subModal.classList.add('active');
               if (subForm) subForm.style.display = 'block';
               if (subSuccess) subSuccess.style.display = 'none';
+
+              const titleEl = document.getElementById('sub-modal-title');
+              const descEl = document.getElementById('sub-modal-desc');
+
+              if (page && page > 5) {
+                if (titleEl) {
+                  titleEl.innerHTML = '${isHi ? "🔐 पूर्ण अंक पढ़ने हेतु ₹99 में सदस्यता लें" : "🔐 Subscribe ₹99 to read full issue"}';
+                }
+                if (descEl) {
+                  descEl.innerHTML = ${isHi ? '("आप पृष्ठ " + page + " खोलने का प्रयास कर रहे हैं। प्रथम 5 पृष्ठ निःशुल्क हैं। शेष समस्त पृष्ठ एवं संपूर्ण विशेषांक तुरंत अनलॉक करने हेतु मात्र <strong>₹99</strong> में सदस्यता लें।")' : '("You have reached the free preview limit (Pages 1–5). Subscribe for only <strong>₹99</strong> to immediately unlock Page " + page + " and the complete magazine issue.")'};
+                }
+              } else {
+                if (titleEl) {
+                  titleEl.innerHTML = '${isHi ? "पत्रिका सदस्यता पंजीकरण — मात्र ₹99" : "Subscribe to Chhattisgadhiya Cloud — ₹99"}';
+                }
+                if (descEl) {
+                  descEl.innerHTML = '${isHi ? "नया अंक प्रकाशित होते ही डिजिटल PDF व्हाट्सएप/ईमेल पर एवं मुद्रित प्रति आपके पते पर भेजी जाएगी।" : "Receive high-res digital editions directly via WhatsApp/Email or receive print postal issues."}';
+                }
+              }
+
               const nameInput = document.getElementById('sub-name');
-              if (nameInput) setTimeout(() => nameInput.focus(), 100);
+              if (nameInput) setTimeout(() => nameInput.focus(), 120);
             }
           }
 
@@ -2349,6 +2581,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               if (resName) resName.textContent = name;
               if (resPhone) resPhone.textContent = phone;
               if (resEmail) resEmail.textContent = email;
+
+              // Unlock reader immediately upon subscription
+              if (window.magazineReaderInstance) {
+                window.magazineReaderInstance.options.freePageLimit = 999;
+                window.magazineReaderInstance.render();
+              }
 
               // Transition to success state
               subForm.style.display = 'none';

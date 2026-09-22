@@ -375,7 +375,10 @@
 
     <div class="container" style="padding-bottom: 5rem;">
       
-      <!-- INTENTION 1: HIGHLIGHT CURRENT MONTH MAGAZINE ISSUE (ELEGANT EDITORIAL HERO) -->
+
+      <!-- =====================================================================
+           COMPONENT 1: HERO / CURRENT MONTH FEATURE SECTION
+           ===================================================================== -->
       <section class="magazine-hero-spotlight">
         <div class="magazine-hero-content">
           <div class="magazine-hero-eyebrow">
@@ -415,11 +418,13 @@
           </div>
 
           <div class="magazine-hero-actions">
-            <a href="#open-articles" class="btn-primary" style="background:#FF4500; border-color:#FF4500;">
-              <span>📖</span> <span>Read Featured Essays</span>
+            <!-- (1) READ: Opens/Embeds Reader -->
+            <a href="#interactive-reader-section" class="btn-primary" id="btn-hero-read" style="background:#C83200; border-color:#C83200;">
+              <span>📖</span> <span>Read Issue</span>
             </a>
+            <!-- (2) SUBSCRIBE: Triggers Checkout / Modal -->
             <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#1A73E8; border-color:#1A73E8;">
-              <span>★</span> <span>Subscribe (Print / PDF)</span>
+              <span>★</span> <span>Subscribe (₹99)</span>
             </button>
             <a href="../../src/assets/images/mag-issue-14-cover.svg" target="_blank" class="btn-secondary">
               <span>⬇</span> <span>Cover Art</span>
@@ -434,145 +439,122 @@
         </div>
       </section>
 
-      <!-- INTENTION 2: SHOWCASE PREVIOUS MONTH / ARCHIVAL ISSUES -->
-      <section class="previous-issues-section">
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
-          <div>
-            <span class="page-eyebrow">✦ Archival Collections & Monographs ✦</span>
-            <h3 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
-              Previous Month Issues & Special Monographs
-            </h3>
-            <p style="color:var(--g-text-secondary); font-size:1.02rem; margin-top:0.35rem; max-width:680px;">
-              Explore earlier monthly editions published by Chhattisgadhiya Cloud — preserving tribal oral balladeers, centenary stage retrospectives, and child theatre experiments.
-            </p>
+      <!-- =====================================================================
+           COMPONENT 2: PREVIOUS MONTH ARCHIVE ROW
+           ===================================================================== -->
+      <section class="previous-month-archive-section" aria-label="Previous Month Archive Row">
+        <div class="previous-month-archive-row">
+          <div class="prev-archive-cover-wrap">
+            <img src="../../src/assets/images/mag-issue-13.svg" alt="Habib Tanvir & The Living Folk Idiom" loading="lazy">
           </div>
-          <button type="button" class="btn-secondary open-subscribe-btn" data-open-subscribe="true">
-            <span>📮</span> <span>Subscribe to All Issues</span>
-          </button>
-        </div>
-
-        <div class="previous-issues-grid">
-          
-      <article class="issue-archive-card">
-        <div class="issue-card-media">
-          <div class="issue-cover-thumb">
-            <img src="../../src/assets/images/mag-issue-13.svg" alt="Habib Tanvir & The Living Folk Idiom">
+          <div class="prev-archive-details">
+            <span class="prev-archive-eyebrow">
+              <span>✦</span> <span>PREVIOUS MONTH ARCHIVE • August 2026</span> <span>✦</span>
+            </span>
+            <h3 class="prev-archive-title">Vol. IV • Issue 08: Habib Tanvir & The Living Folk Idiom</h3>
+            <p class="prev-archive-desc">A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement.</p>
+            <div class="prev-archive-meta-row">
+              <span class="prev-meta-chip">📄 12 Pages</span>
+              <span class="prev-meta-chip">🎭 Special Archival Tribute</span>
+              <span class="prev-meta-chip">✍️ Minimalism, Bamboo Structures & The Organic Chorus</span>
+              <span class="prev-meta-chip">📑 ISSN 2709-4112</span>
+            </div>
           </div>
-          <span class="issue-badge-tag">Special Archival Tribute</span>
-        </div>
-        <div class="issue-card-body">
-          <div class="issue-card-header">
-            <span>📅 August 2026</span>
-            <span>Vol. IV • Issue 08</span>
-          </div>
-          <h4>Habib Tanvir & The Living Folk Idiom</h4>
-          <div class="issue-lead-article">
-            <span>✍️ Lead Monograph:</span> Minimalism, Bamboo Structures & The Organic Chorus
-          </div>
-          <p>A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement.</p>
-          <div class="issue-card-actions">
-            <button type="button" class="btn-secondary open-excerpt-btn" 
-              data-issue-id="issue-13" 
+          <div class="prev-archive-actions">
+            <button type="button" class="btn-secondary open-excerpt-btn"
+              data-issue-id="issue-13"
               data-issue-title="Habib Tanvir & The Living Folk Idiom"
               data-issue-number="Vol. IV • Issue 08"
               data-issue-month="August 2026"
               data-issue-lead="Minimalism, Bamboo Structures & The Organic Chorus"
               data-issue-excerpt="A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement."
               data-issue-cover="/src/assets/images/mag-issue-13.svg">
-              <span>📖</span> <span>Read Excerpt</span>
+              <span>📖</span> <span>Quick Excerpt</span>
             </button>
-            <a href="../../src/assets/images/mag-issue-13.svg" target="_blank" class="btn-secondary">
-              <span>🖼️</span> <span>Cover</span>
-            </a>
-            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
-              <span>★</span> <span>Subscribe</span>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+              <span>★</span> <span>Subscribe Archive (₹99)</span>
             </button>
           </div>
-        </div>
-      </article>
-    
-
-      <article class="issue-archive-card">
-        <div class="issue-card-media">
-          <div class="issue-cover-thumb">
-            <img src="../../src/assets/images/mag-issue-12.svg" alt="Songs of the Sal Groves: Tribal Bards of Jashpur">
-          </div>
-          <span class="issue-badge-tag">Folk Poetry Edition</span>
-        </div>
-        <div class="issue-card-body">
-          <div class="issue-card-header">
-            <span>📅 July 2026</span>
-            <span>Vol. IV • Issue 07</span>
-          </div>
-          <h4>Songs of the Sal Groves: Tribal Bards of Jashpur</h4>
-          <div class="issue-lead-article">
-            <span>✍️ Lead Monograph:</span> Documenting the Kurukh & Sadri Oral Ballads
-          </div>
-          <p>Field recordings and translations of oral epics preserved for generations across the hill valleys of northern Chhattisgarh.</p>
-          <div class="issue-card-actions">
-            <button type="button" class="btn-secondary open-excerpt-btn" 
-              data-issue-id="issue-12" 
-              data-issue-title="Songs of the Sal Groves: Tribal Bards of Jashpur"
-              data-issue-number="Vol. IV • Issue 07"
-              data-issue-month="July 2026"
-              data-issue-lead="Documenting the Kurukh & Sadri Oral Ballads"
-              data-issue-excerpt="Field recordings and translations of oral epics preserved for generations across the hill valleys of northern Chhattisgarh."
-              data-issue-cover="/src/assets/images/mag-issue-12.svg">
-              <span>📖</span> <span>Read Excerpt</span>
-            </button>
-            <a href="../../src/assets/images/mag-issue-12.svg" target="_blank" class="btn-secondary">
-              <span>🖼️</span> <span>Cover</span>
-            </a>
-            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
-              <span>★</span> <span>Subscribe</span>
-            </button>
-          </div>
-        </div>
-      </article>
-    
-
-      <article class="issue-archive-card">
-        <div class="issue-card-media">
-          <div class="issue-cover-thumb">
-            <img src="../../src/assets/images/mag-issue-11.svg" alt="Children in Theatre: The Ullas Experiment">
-          </div>
-          <span class="issue-badge-tag">Pedagogy & Practice</span>
-        </div>
-        <div class="issue-card-body">
-          <div class="issue-card-header">
-            <span>📅 June 2026</span>
-            <span>Vol. IV • Issue 06</span>
-          </div>
-          <h4>Children in Theatre: The Ullas Experiment</h4>
-          <div class="issue-lead-article">
-            <span>✍️ Lead Monograph:</span> How Theatre Empowers Rural and Tribal Youth
-          </div>
-          <p>Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence.</p>
-          <div class="issue-card-actions">
-            <button type="button" class="btn-secondary open-excerpt-btn" 
-              data-issue-id="issue-11" 
-              data-issue-title="Children in Theatre: The Ullas Experiment"
-              data-issue-number="Vol. IV • Issue 06"
-              data-issue-month="June 2026"
-              data-issue-lead="How Theatre Empowers Rural and Tribal Youth"
-              data-issue-excerpt="Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence."
-              data-issue-cover="/src/assets/images/mag-issue-11.svg">
-              <span>📖</span> <span>Read Excerpt</span>
-            </button>
-            <a href="../../src/assets/images/mag-issue-11.svg" target="_blank" class="btn-secondary">
-              <span>🖼️</span> <span>Cover</span>
-            </a>
-            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
-              <span>★</span> <span>Subscribe</span>
-            </button>
-          </div>
-        </div>
-      </article>
-    
         </div>
       </section>
 
-      <!-- INTENTION 3: OPTION TO READ CURRENT ISSUE ESSAYS -->
+      <!-- =====================================================================
+           COMPONENT 3: INLINE SUBSCRIPTION PROMO CARD (₹99)
+           ===================================================================== -->
+      <section class="inline-subscription-section" aria-label="Magazine Subscription Promo">
+        <div class="inline-sub-promo-card">
+          <div class="promo-content-col">
+            <span class="promo-badge-pill">✦ ALL-ACCESS MEMBERSHIP ✦</span>
+            <h3 class="promo-headline">Unlock the Full Issue & Complete Cultural Archive</h3>
+            <p class="promo-subtext">
+              Free reading includes Pages 1 through 5. Subscribe to instantly unlock Pages 6–8, comprehensive research monographs, high-resolution print PDFs, and doorstep postal delivery.
+            </p>
+            <ul class="promo-features-list">
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>Instant Unlock: Pages 6 to 8</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>Full 3D Flip-Book Engine</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>High-Res Print PDF Downloads</span></li>
+              <li class="promo-feature-item"><span class="promo-feature-icon">✓</span> <span>Doorstep Print Postal Copy</span></li>
+            </ul>
+          </div>
+          <div class="promo-action-box">
+            <div class="promo-price-tag">
+              <span class="promo-currency">₹</span>
+              <span class="promo-amount">99</span>
+              <span class="promo-period">/ issue</span>
+            </div>
+            <div class="promo-guarantee">
+              <span>🛡️</span> <span>Secure Checkout • Instant Access</span>
+            </div>
+            <button type="button" class="promo-cta-btn open-subscribe-btn" data-open-subscribe="true">
+              <span>⚡</span> <span>Subscribe Now — Only ₹99</span>
+            </button>
+            <div class="promo-footnote">
+              UPI, Cards & NetBanking • Cancel Anytime
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           COMPONENT 4: INTERACTIVE FLIP-STYLE BOOK READER (FREE PAGES 1-5, PAGE 6 PAYWALL)
+           ===================================================================== -->
+      <section id="interactive-reader-section" style="margin-bottom:5.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
+          <div>
+            <span class="page-eyebrow">✦ Interactive Reading Engine ✦</span>
+            <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
+              Interactive Digital Reader (Flip-Book Spread)
+            </h2>
+            <p style="color:var(--g-text-secondary); margin-top:0.35rem; max-width:760px; font-size:1.02rem;">
+              Experience Issue 14 as an authentic 3D open-book spread with tactile page turns. Pages 1 through 5 are free to read; access to Page 6 and beyond unlocks with the ₹99 subscription.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+            <a href="../../src/assets/images/mag-issue-14-cover.svg" target="_blank" class="btn-secondary">
+              <span>🖼️</span> <span>Cover Art</span>
+            </a>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+              <span>★</span> <span>Unlock Full Issue (₹99)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Free Preview Banner -->
+        <div class="reader-preview-banner">
+          <span>📖 <strong>Free Preview:</strong> Pages 1–5 Free • Page 6+ Requires ₹99 Subscription</span>
+          <button type="button" class="btn-studio btn-studio-primary open-subscribe-btn" data-open-subscribe="true" style="font-size:0.78rem; padding:0.25rem 0.65rem; background:#C83200; border-color:#C83200; color:#fff;">
+            Unlock All Pages (₹99)
+          </button>
+        </div>
+
+        <div class="magazine-shell">
+          <div id="magazine-reader-mount"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           COMPONENT 5: FEATURED CRITICAL ESSAYS & MONOGRAPHS
+           ===================================================================== -->
       <section id="open-articles" style="margin-top:5.5rem;">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
           <div>
@@ -879,34 +861,149 @@
         </div>
       </section>
 
-      <!-- INTERACTIVE DIGITAL READER (FLIP-BOOK SPREAD & PDF TOOL) -->
-      <section id="interactive-reader-section" style="margin-top:5.5rem;">
+      <!-- =====================================================================
+           COMPONENT 6: COMPLETE HISTORICAL ARCHIVAL GRID
+           ===================================================================== -->
+      <section class="previous-issues-section">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
           <div>
-            <span class="page-eyebrow">✦ Interactive Reading Engine ✦</span>
-            <h3 style="font-family:var(--font-serif); font-size:2rem; color:var(--g-text-primary); margin-top:0.25rem;">
-              Interactive Digital Reader (Flip-Book & PDF Tool)
+            <span class="page-eyebrow">✦ Archival Collections & Monographs ✦</span>
+            <h3 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.25rem;">
+              Complete Monograph & Archival Collections
             </h3>
-            <p style="color:var(--g-text-secondary); margin-top:0.35rem; max-width:760px; font-size:1.02rem;">
-              Read Issue 14 as an authentic 3D open-book spread with tactile page turns, or switch to distraction-free reader mode. Parse any issue PDF directly into Markdown locally.
+            <p style="color:var(--g-text-secondary); font-size:1.02rem; margin-top:0.35rem; max-width:680px;">
+              Explore earlier monthly editions published by Chhattisgadhiya Cloud — preserving tribal oral balladeers, centenary stage retrospectives, and child theatre experiments.
             </p>
           </div>
-          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-            <a href="../../src/assets/images/mag-issue-14-cover.svg" target="_blank" class="btn-secondary">
-              <span>🖼️</span> <span>Cover Art</span>
+          <button type="button" class="btn-secondary open-subscribe-btn" data-open-subscribe="true">
+            <span>📮</span> <span>Subscribe to All Issues</span>
+          </button>
+        </div>
+
+        <div class="previous-issues-grid">
+          
+      <article class="issue-archive-card">
+        <div class="issue-card-media">
+          <div class="issue-cover-thumb">
+            <img src="../../src/assets/images/mag-issue-13.svg" alt="Habib Tanvir & The Living Folk Idiom">
+          </div>
+          <span class="issue-badge-tag">Special Archival Tribute</span>
+        </div>
+        <div class="issue-card-body">
+          <div class="issue-card-header">
+            <span>📅 August 2026</span>
+            <span>Vol. IV • Issue 08</span>
+          </div>
+          <h4>Habib Tanvir & The Living Folk Idiom</h4>
+          <div class="issue-lead-article">
+            <span>✍️ Lead Monograph:</span> Minimalism, Bamboo Structures & The Organic Chorus
+          </div>
+          <p>A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement.</p>
+          <div class="issue-card-actions">
+            <button type="button" class="btn-secondary open-excerpt-btn" 
+              data-issue-id="issue-13" 
+              data-issue-title="Habib Tanvir & The Living Folk Idiom"
+              data-issue-number="Vol. IV • Issue 08"
+              data-issue-month="August 2026"
+              data-issue-lead="Minimalism, Bamboo Structures & The Organic Chorus"
+              data-issue-excerpt="A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement."
+              data-issue-cover="/src/assets/images/mag-issue-13.svg">
+              <span>📖</span> <span>Read Excerpt</span>
+            </button>
+            <a href="../../src/assets/images/mag-issue-13.svg" target="_blank" class="btn-secondary">
+              <span>🖼️</span> <span>Cover</span>
             </a>
-            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true">
-              <span>★</span> <span>Subscribe (Print / PDF)</span>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
+              <span>★</span> <span>Subscribe</span>
             </button>
           </div>
         </div>
+      </article>
+    
 
-        <div class="magazine-shell">
-          <div id="magazine-reader-mount"></div>
+      <article class="issue-archive-card">
+        <div class="issue-card-media">
+          <div class="issue-cover-thumb">
+            <img src="../../src/assets/images/mag-issue-12.svg" alt="Songs of the Sal Groves: Tribal Bards of Jashpur">
+          </div>
+          <span class="issue-badge-tag">Folk Poetry Edition</span>
+        </div>
+        <div class="issue-card-body">
+          <div class="issue-card-header">
+            <span>📅 July 2026</span>
+            <span>Vol. IV • Issue 07</span>
+          </div>
+          <h4>Songs of the Sal Groves: Tribal Bards of Jashpur</h4>
+          <div class="issue-lead-article">
+            <span>✍️ Lead Monograph:</span> Documenting the Kurukh & Sadri Oral Ballads
+          </div>
+          <p>Field recordings and translations of oral epics preserved for generations across the hill valleys of northern Chhattisgarh.</p>
+          <div class="issue-card-actions">
+            <button type="button" class="btn-secondary open-excerpt-btn" 
+              data-issue-id="issue-12" 
+              data-issue-title="Songs of the Sal Groves: Tribal Bards of Jashpur"
+              data-issue-number="Vol. IV • Issue 07"
+              data-issue-month="July 2026"
+              data-issue-lead="Documenting the Kurukh & Sadri Oral Ballads"
+              data-issue-excerpt="Field recordings and translations of oral epics preserved for generations across the hill valleys of northern Chhattisgarh."
+              data-issue-cover="/src/assets/images/mag-issue-12.svg">
+              <span>📖</span> <span>Read Excerpt</span>
+            </button>
+            <a href="../../src/assets/images/mag-issue-12.svg" target="_blank" class="btn-secondary">
+              <span>🖼️</span> <span>Cover</span>
+            </a>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
+              <span>★</span> <span>Subscribe</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    
+
+      <article class="issue-archive-card">
+        <div class="issue-card-media">
+          <div class="issue-cover-thumb">
+            <img src="../../src/assets/images/mag-issue-11.svg" alt="Children in Theatre: The Ullas Experiment">
+          </div>
+          <span class="issue-badge-tag">Pedagogy & Practice</span>
+        </div>
+        <div class="issue-card-body">
+          <div class="issue-card-header">
+            <span>📅 June 2026</span>
+            <span>Vol. IV • Issue 06</span>
+          </div>
+          <h4>Children in Theatre: The Ullas Experiment</h4>
+          <div class="issue-lead-article">
+            <span>✍️ Lead Monograph:</span> How Theatre Empowers Rural and Tribal Youth
+          </div>
+          <p>Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence.</p>
+          <div class="issue-card-actions">
+            <button type="button" class="btn-secondary open-excerpt-btn" 
+              data-issue-id="issue-11" 
+              data-issue-title="Children in Theatre: The Ullas Experiment"
+              data-issue-number="Vol. IV • Issue 06"
+              data-issue-month="June 2026"
+              data-issue-lead="How Theatre Empowers Rural and Tribal Youth"
+              data-issue-excerpt="Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence."
+              data-issue-cover="/src/assets/images/mag-issue-11.svg">
+              <span>📖</span> <span>Read Excerpt</span>
+            </button>
+            <a href="../../src/assets/images/mag-issue-11.svg" target="_blank" class="btn-secondary">
+              <span>🖼️</span> <span>Cover</span>
+            </a>
+            <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:var(--c-primary); border-color:var(--c-primary); font-size:0.85rem; padding:0.45rem 1rem;">
+              <span>★</span> <span>Subscribe</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    
         </div>
       </section>
 
-      <!-- EDITORIAL COUNCIL & ISSN STATEMENT -->
+      <!-- =====================================================================
+           COMPONENT 7: EDITORIAL COUNCIL & ISSN STATEMENT
+           ===================================================================== -->
       <div class="visual-highlight-band" style="margin-top:5rem;">
         <div class="highlight-content">
           <span style="background:var(--c-blue); color:#FFFFFF; padding:0.25rem 0.75rem; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em;">
@@ -919,8 +1016,8 @@
             Chhattisgadhiya Cloud Masik Patrika serves as an open tribunal for folk practitioners, directors, and researchers. Subsidized print runs are distributed directly to tribal village schools, community libraries, and drama schools across the country.
           </p>
         </div>
-        <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true">
-          <span>📮</span> <span>Get Free Monthly Subscription</span>
+        <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#C83200; border-color:#C83200;">
+          <span>★</span> <span>Subscribe to Journal (₹99)</span>
         </button>
       </div>
 
@@ -935,14 +1032,29 @@
           <button type="button" class="modal-close-btn" id="sub-modal-close" aria-label="Close modal">✕</button>
           <span class="modal-eyebrow">✦ Monthly Journal Subscription ✦</span>
           <h3 class="modal-title" id="sub-modal-title">
-            Subscribe to Chhattisgadhiya Cloud
+            Subscribe to Chhattisgadhiya Cloud — ₹99
           </h3>
-          <p style="color:var(--g-text-secondary); font-size:0.92rem; margin-top:0.35rem; line-height:1.5;">
+          <p id="sub-modal-desc" style="color:var(--g-text-secondary); font-size:0.92rem; margin-top:0.35rem; line-height:1.5;">
             Receive high-res digital editions directly via WhatsApp/Email or receive print postal issues.
           </p>
         </div>
 
         <div class="modal-body">
+          <!-- Pricing Callout Banner -->
+          <div style="background:#FFF7ED; border:1.5px solid #FDBA74; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:0.06em; color:#EA580C; font-weight:800;">
+                Full Access Subscription
+              </div>
+              <div style="font-size:0.86rem; color:#7C2D12; font-weight:600;">
+                Unlock Pages 1–8, PDF Downloads & Print Copy
+              </div>
+            </div>
+            <div style="font-size:1.65rem; font-weight:900; color:#C83200; font-family:var(--font-sans, system-ui);">
+              ₹99
+            </div>
+          </div>
+
           <!-- Form View -->
           <form id="subscribe-form">
             <!-- 1. Name -->
@@ -978,17 +1090,17 @@
               <div class="modal-radio-group">
                 <label class="modal-radio-label">
                   <input type="radio" name="sub_edition" value="digital" checked>
-                  <span>🌐 Digital PDF (Free)</span>
+                  <span>🌐 Digital PDF + 3D Reader (₹99)</span>
                 </label>
                 <label class="modal-radio-label">
                   <input type="radio" name="sub_edition" value="print">
-                  <span>📬 Printed Postal</span>
+                  <span>📬 Printed Postal Copy + Digital (₹99)</span>
                 </label>
               </div>
             </div>
 
-            <button type="submit" class="modal-submit-btn" id="sub-submit-btn">
-              <span>🚀</span> <span>Confirm Subscription</span>
+            <button type="submit" class="modal-submit-btn" id="sub-submit-btn" style="background:#C83200; border-color:#C83200;">
+              <span>⚡</span> <span>Pay ₹99 & Unlock Full Issue</span>
             </button>
           </form>
 
@@ -1312,22 +1424,103 @@
         import { HybridMagazineReader } from '/src/reader/hybrid-reader.js';
 
         function initMagazine() {
-          // Mount Flip-book Reader with rich structured pages
-          const articles = siteData.magazine.currentIssue.articles.map((art, idx) => ({
-            pageNumber: idx + 1,
-            title: art.title['en'],
-            author: art.author['en'],
-            category: art.category['en'],
-            date: art.date,
-            excerpt: art.excerpt['en'],
-            content: art.content['en']
-          }));
+          // 8 Structured Reader Pages (Pages 1-5 Free Preview, Pages 6-8 Premium ₹99)
+          const readerPages = [
+            {
+              pageNumber: 1,
+              title: 'Issue 14 Cover & Editorial Proclamation',
+              author: 'Suresh Thakur',
+              category: 'Editorial Inscription',
+              date: 'Sept 2026',
+              excerpt: 'Folk Theatre in Modern Times: Continuity, Dance & Scenography.',
+              content: '### Folk Idiom in Contemporary Scenography\n\nThis fourteenth edition of Chhattisgadhiya Cloud Masik Patrika is dedicated to the living soil and evolutionary stage forms of Central India. Nacha, Panthi, and Karma are not museum artifacts; they are kinetic, critical tools in dialog with the modern world.\n\n> \"Theatre remains invincible as long as its bare feet touch the living earth.\"\n\nWe dedicate this monograph to the grassroots torchbearers of regional oral performance.'
+            },
+            {
+              pageNumber: 2,
+              title: 'Table of Contents & Curatorial Note',
+              author: 'Meenakshi Kashyap',
+              category: 'Curator Note',
+              date: 'Sept 2026',
+              excerpt: 'Classified folios, research methodologies, and monograph structure.',
+              content: '### Contents in this Issue\n\n1. **Pages 3–4**: The Revival of Nacha in Urban Spaces — Dr. Prabhat Mishra\n2. **Page 5**: Remembering Habib Tanvir's Scenography — Kavita S. Joshi\n3. **Page 6 [🔒]**: Unpublished Stage Geometry & Chorus Choreography\n4. **Page 7 [🔒]**: Voices of Jashpur: Hill Valley Ballads & Kurukh Verses\n5. **Page 8 [🔒]**: Repertory Ensemble Directory & Archival Bibliography\n\n> \"An open laboratory bridging folk traditions with modern scenography.\"'
+            },
+            {
+              pageNumber: 3,
+              title: 'The Revival of Nacha in Urban Spaces (Part 1)',
+              author: 'Dr. Prabhat Mishra',
+              category: 'Theatre Essay',
+              date: 'Sept 2026',
+              excerpt: 'How rustic comedic satire and Panthi rhythms captivate modern proscenium stages.',
+              content: '### The Living Courtroom of Folk Culture\n\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften.\n\n> \"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\"\n\nIn this edition, we document the experiences of three generations of Nacha practitioners.'
+            },
+            {
+              pageNumber: 4,
+              title: 'Nacha Scenography, Music & Satire (Part 2)',
+              author: 'Dr. Prabhat Mishra',
+              category: 'Performance Analysis',
+              date: 'Sept 2026',
+              excerpt: 'Rhythmic crescendos of the dholak and improvisation strategies.',
+              content: '### Dialect, Cadence and Spontaneous Wit\n\n1. **Language of the Earth**: Vernacular colloquialisms defying formal stiffness.\n2. **Music as Dramatic Pulse**: Dholak and manjeera driving kinetic crescendos.\n3. **Spontaneous Improvisation**: Adapting punchlines instantaneously to audience reactions.\n\nThis organic elasticity keeps Nacha permanently modern.'
+            },
+            {
+              pageNumber: 5,
+              title: 'Remembering Habib Tanvir's Scenography',
+              author: 'Kavita S. Joshi',
+              category: 'Tribute & Analysis',
+              date: 'Sept 2026',
+              excerpt: 'Minimalist stage aesthetics and bamboo architectures that redefined modern Indian theatre.',
+              content: '### Space, Brecht, and the Bamboo Screen\n\nHabib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the vast sky and simple bamboo frames.\n\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor's palace.\n\n> \"Simplicity is the most formidable spectacle.\"'
+            },
+            {
+              pageNumber: 6,
+              title: '🔒 Habib Tanvir's Unpublished Stage Geometry & Chorus Notes',
+              author: 'Archive Editorial Board',
+              category: '🔒 Premium Monograph (₹99)',
+              date: 'Sept 2026',
+              excerpt: 'Facsimiles of original blocking notes and acoustic spatial arrangements from Naya Theatre.',
+              content: '### 🔒 This Monograph Requires a Premium Subscription\n\nYou have completed the free 5-page preview.\n\nSubscribe for **₹99** to immediately unlock Habib Tanvir's unpublished spatial blocking notes, rehearsal diaries with folk artists, and complete high-resolution downloads.'
+            },
+            {
+              pageNumber: 7,
+              title: '🔒 Voices of Jashpur: Hill Valley Ballads & Kurukh Verses',
+              author: 'Selected Bards of Jashpur',
+              category: '🔒 Archival Poetry (₹99)',
+              date: 'Sept 2026',
+              excerpt: 'Evocative oral ballads celebrating northern Chhattisgarh water streams and indigenous memory.',
+              content: '### 🔒 Premium Poetry & Audio Folio\n\nThis page is reserved for active subscribers. Subscribe for **₹99** to access all translated verses, audio field recordings, and contextual annotations.'
+            },
+            {
+              pageNumber: 8,
+              title: '🔒 Complete Archival Directory & Bibliography',
+              author: 'Editorial Guild',
+              category: '🔒 Archival Index (₹99)',
+              date: 'Sept 2026',
+              excerpt: 'Cumulative index of 14 issues, academic citations, and upcoming festival schedules.',
+              content: '### 🔒 Complete Archival Reference\n\nSubscribe for **₹99** to unlock the full 14-issue database and high-resolution downloadable PDFs.'
+            }
+          ];
 
           window.magazineReaderInstance = new HybridMagazineReader('magazine-reader-mount', {
             lang: 'en',
             mode: 'flip',
-            pages: articles
+            freePageLimit: 5,
+            pages: readerPages,
+            onPaywallTrigger: (page) => {
+              openSubscribeModal(page);
+            }
           });
+
+          // Wire Hero "Read" Button
+          const heroReadBtn = document.getElementById('btn-hero-read');
+          if (heroReadBtn) {
+            heroReadBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const readerSection = document.getElementById('interactive-reader-section');
+              if (readerSection) {
+                readerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            });
+          }
 
           // ==========================================
           // ARTICLE FILTER TABS & TOOLBAR LOGIC
@@ -1423,13 +1616,33 @@
           const subSuccessClose = document.getElementById('sub-success-close');
           const openSubBtns = document.querySelectorAll('[data-open-subscribe], .open-subscribe-btn');
 
-          function openSubscribeModal() {
+          function openSubscribeModal(page = null) {
             if (subModal) {
               subModal.classList.add('active');
               if (subForm) subForm.style.display = 'block';
               if (subSuccess) subSuccess.style.display = 'none';
+
+              const titleEl = document.getElementById('sub-modal-title');
+              const descEl = document.getElementById('sub-modal-desc');
+
+              if (page && page > 5) {
+                if (titleEl) {
+                  titleEl.innerHTML = '🔐 Subscribe ₹99 to read full issue';
+                }
+                if (descEl) {
+                  descEl.innerHTML = ("You have reached the free preview limit (Pages 1–5). Subscribe for only <strong>₹99</strong> to immediately unlock Page " + page + " and the complete magazine issue.");
+                }
+              } else {
+                if (titleEl) {
+                  titleEl.innerHTML = 'Subscribe to Chhattisgadhiya Cloud — ₹99';
+                }
+                if (descEl) {
+                  descEl.innerHTML = 'Receive high-res digital editions directly via WhatsApp/Email or receive print postal issues.';
+                }
+              }
+
               const nameInput = document.getElementById('sub-name');
-              if (nameInput) setTimeout(() => nameInput.focus(), 100);
+              if (nameInput) setTimeout(() => nameInput.focus(), 120);
             }
           }
 
@@ -1472,6 +1685,12 @@
               if (resName) resName.textContent = name;
               if (resPhone) resPhone.textContent = phone;
               if (resEmail) resEmail.textContent = email;
+
+              // Unlock reader immediately upon subscription
+              if (window.magazineReaderInstance) {
+                window.magazineReaderInstance.options.freePageLimit = 999;
+                window.magazineReaderInstance.render();
+              }
 
               // Transition to success state
               subForm.style.display = 'none';
