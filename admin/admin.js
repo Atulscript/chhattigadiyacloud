@@ -1,5 +1,5 @@
 /**
- * Chhattisgadhiya Cloud — Content Studio Client Engine
+ * Chhattisgadhiya Cloud — CG Cloud Dashboard Client Engine
  * Full GitHub-backed Content Management for Pages, Team, Blog, and Permissions.
  */
 
@@ -226,15 +226,15 @@ function setupAdminAuth() {
       }
 
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Sign In to Content Studio';
+      submitBtn.textContent = 'Sign In to CG Cloud Dashboard';
     });
   }
 
   // Logout handler (both topbar button and sidebar button)
   const handleLogout = () => {
     showConfirmModal(
-      'Sign Out of Content Studio',
-      'Are you sure you want to sign out of Chhattisgadhiya Cloud Content Studio?',
+      'Sign Out of CG Cloud Dashboard',
+      'Are you sure you want to sign out of CG Cloud Dashboard?',
       () => {
         localStorage.removeItem('cgcloud_admin_session');
         sessionStorage.removeItem('cgcloud_admin_session');
@@ -305,7 +305,7 @@ function switchTab(tabId) {
       users: 'Users & Access Permissions',
       settings: 'Settings, GitHub Auth & Backup'
     };
-    titleEl.textContent = titles[tabId] || 'Content Studio';
+    titleEl.textContent = titles[tabId] || 'CG Cloud Dashboard';
   }
 
   // Close mobile sidebar if open
@@ -2697,7 +2697,7 @@ function renderUsersManager() {
       <div class="studio-card-header">
         <div>
           <h2 class="studio-card-title">🔐 Current Admin Session</h2>
-          <div class="studio-card-desc">Your active authenticated Content Studio administrator account.</div>
+          <div class="studio-card-desc">Your active authenticated CG Cloud Dashboard administrator account.</div>
         </div>
         <span style="padding:0.35rem 0.85rem; background:var(--studio-green-light); color:var(--studio-green); border-radius:var(--radius-pill); font-size:0.8rem; font-weight:800;">● Active Session</span>
       </div>
