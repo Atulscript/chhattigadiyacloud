@@ -262,7 +262,7 @@ function switchTab(tabId) {
   const titleEl = document.getElementById('breadcrumb-title');
   if (titleEl) {
     const titles = {
-      dashboard: 'Dashboard Overview',
+      dashboard: 'Dashboard',
       team: 'About & Team Management',
       blog: 'Blog Posts Manager',
       pages: 'All Pages Content',
@@ -471,7 +471,7 @@ function updateAuthUI(user) {
     if (publishBtn) {
       const canPublish = user.role === 'admin' || user.role === 'write';
       publishBtn.disabled = !canPublish || !state.isDirty;
-      publishBtn.title = canPublish ? 'Commit changes to GitHub main branch' : 'You need write permissions to publish';
+      publishBtn.title = canPublish ? 'Publish changes to live site' : 'You need write permissions to publish';
     }
 
     if (repoPill) {
@@ -490,7 +490,7 @@ function updateAuthUI(user) {
 
     if (publishBtn) {
       publishBtn.disabled = true;
-      publishBtn.title = 'Connect GitHub to publish changes';
+      publishBtn.title = 'Connect GitHub in Settings to publish changes';
     }
 
     if (repoPill) {
@@ -523,7 +523,7 @@ async function publishContentToGitHub() {
   const publishBtn = document.getElementById('publish-btn');
   const originalText = publishBtn.innerHTML;
   publishBtn.disabled = true;
-  publishBtn.innerHTML = `<span>Publishing to GitHub...</span>`;
+  publishBtn.innerHTML = `<span>Publishing...</span>`;
 
   try {
     // 1. Fetch latest SHA if missing
@@ -567,7 +567,7 @@ async function publishContentToGitHub() {
 
     if (!putRes.ok) {
       const errData = await putRes.json();
-      throw new Error(errData.message || 'GitHub commit failed');
+      throw new Error(errData.message || 'Publish failed');
     }
 
     const resultData = await putRes.json();
@@ -575,14 +575,14 @@ async function publishContentToGitHub() {
     state.originalContentJson = JSON.stringify(state.content);
     markDirty(false);
 
-    showToast('Changes committed to GitHub! Deploying on GitHub Pages (~30s)...', 'success');
+    showToast('Changes published! Deploying live (~30s)...', 'success');
 
     // Trigger workflow run tracking
     pollDeployment();
 
   } catch (err) {
     console.error('Publish error:', err);
-    alert('Failed to publish changes to GitHub: ' + err.message);
+    alert('Failed to publish changes: ' + err.message);
   } finally {
     publishBtn.disabled = !state.isDirty;
     publishBtn.innerHTML = originalText;
@@ -690,8 +690,8 @@ function renderDashboard() {
     <div class="studio-card">
       <div class="studio-card-header">
         <div>
-          <h2 class="studio-card-title">🚀 Welcome to Chhattisgadhiya Cloud Studio</h2>
-          <div class="studio-card-desc">Direct GitHub-backed management for your bilingual culture & theatre portal.</div>
+          <h2 class="studio-card-title">🚀 Welcome to CG Cloud Dashboard</h2>
+          <div class="studio-card-desc">Comprehensive content management for your bilingual culture & theatre portal.</div>
         </div>
         <div id="deployment-status-pill" style="display:none; padding:0.35rem 0.85rem; background:var(--studio-green-light); color:var(--studio-green); border-radius:var(--radius-pill); font-size:0.8rem; font-weight:700;"></div>
       </div>
@@ -2201,7 +2201,7 @@ window.handleChangePassword = async function(e) {
     state.content.adminAuth.users[userIndex].passwordHash = newHash;
     markDirty(true);
 
-    showToast('Admin password updated successfully! Click "Publish to GitHub" to permanently commit it.', 'success');
+    showToast('Admin password updated successfully! Click "Publish" to permanently save it.', 'success');
     document.getElementById('change-pwd-form').reset();
     renderUsersManager();
   } catch (err) {

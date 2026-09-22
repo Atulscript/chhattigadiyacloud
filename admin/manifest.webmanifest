@@ -1,8 +1,8 @@
 {
   "id": "/admin/",
-  "name": "CG Cloud Studio | Content Management",
-  "short_name": "CG Studio",
-  "description": "Administrative Content Management Studio for Chhattisgadhiya Cloud",
+  "name": "CG Cloud Dashboard",
+  "short_name": "CG Dashboard",
+  "description": "Administrative Dashboard for Chhattisgadhiya Cloud",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
