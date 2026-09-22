@@ -5413,7 +5413,7 @@ button {
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 64px rgba(0,0,0,0.28);
   width: 100%;
-  max-width: 520px;
+  max-width: 680px;
   overflow: hidden;
   transform: translateY(20px) scale(0.97);
   transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
@@ -5425,7 +5425,7 @@ button {
 }
 
 .modal-header {
-  padding: 1.75rem 2rem 1.25rem 2rem;
+  padding: 1.75rem 2.25rem 1.25rem 2.25rem;
   background: linear-gradient(135deg, #FFF5F2 0%, #FFFFFF 100%);
   border-bottom: 1px solid var(--g-border-subtle);
   position: relative;
@@ -5473,7 +5473,20 @@ button {
 }
 
 .modal-body {
-  padding: 2rem;
+  padding: 1.75rem 2.25rem 2rem 2.25rem;
+}
+
+.modal-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .modal-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 
 .modal-form-group {

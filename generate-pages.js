@@ -2219,21 +2219,22 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
             </div>
 
-            <!-- 2. Phone -->
-            <div class="modal-form-group">
-              <label for="sub-phone">${isHi ? 'मोबाइल / व्हाट्सएप नंबर (Phone) *' : 'Phone / WhatsApp Number *'}</label>
-              <div class="modal-input-wrap">
-                <span class="modal-input-icon">📱</span>
-                <input type="tel" id="sub-phone" class="modal-input" required placeholder="${isHi ? 'उदा. +91 98765 43210' : 'e.g. +91 98765 43210'}">
+            <!-- 2. Phone & Email in a 2-column balanced row -->
+            <div class="modal-form-row">
+              <div class="modal-form-group">
+                <label for="sub-phone">${isHi ? 'मोबाइल / व्हाट्सएप (Phone) *' : 'Phone / WhatsApp *'}</label>
+                <div class="modal-input-wrap">
+                  <span class="modal-input-icon">📱</span>
+                  <input type="tel" id="sub-phone" class="modal-input" required placeholder="${isHi ? 'उदा. +91 98765 43210' : 'e.g. +91 98765 43210'}">
+                </div>
               </div>
-            </div>
 
-            <!-- 3. Email -->
-            <div class="modal-form-group">
-              <label for="sub-email">${isHi ? 'ईमेल पता (Email Address) *' : 'Email Address *'}</label>
-              <div class="modal-input-wrap">
-                <span class="modal-input-icon">✉️</span>
-                <input type="email" id="sub-email" class="modal-input" required placeholder="${isHi ? 'उदा. rameshwar@gmail.com' : 'e.g. rameshwar@gmail.com'}">
+              <div class="modal-form-group">
+                <label for="sub-email">${isHi ? 'ईमेल पता (Email) *' : 'Email Address *'}</label>
+                <div class="modal-input-wrap">
+                  <span class="modal-input-icon">✉️</span>
+                  <input type="email" id="sub-email" class="modal-input" required placeholder="${isHi ? 'उदा. rameshwar@gmail.com' : 'e.g. rameshwar@gmail.com'}">
+                </div>
               </div>
             </div>
 
