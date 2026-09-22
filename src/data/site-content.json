@@ -1,0 +1,970 @@
+{
+  "orgName": {
+    "en": "Chhattisgadhiya Cloud",
+    "hi": "छत्तीसगढ़िया क्लाउड"
+  },
+  "tagline": {
+    "en": "Think Art Think Chhattisgadhiya Cloud",
+    "hi": "थिंक आर्ट थिंक छत्तीसगढ़िया क्लाउड"
+  },
+  "domain": "chhattisgadhiyacloud.org",
+  "contact": {
+    "email": "contact@chhattisgadhiyacloud.org",
+    "pressEmail": "press@chhattisgadhiyacloud.org",
+    "bookingEmail": "bookings@chhattisgadhiyacloud.org",
+    "phone": "+91 98765 43210",
+    "address": {
+      "en": "Kala Kendra Marg, Jashpur / Raipur, Chhattisgarh, India",
+      "hi": "कला केंद्र मार्ग, जशपुर / रायपुर, छत्तीसगढ़, भारत"
+    }
+  },
+  "nav": [
+    {
+      "id": "home",
+      "label": {
+        "en": "Home",
+        "hi": "होम"
+      }
+    },
+    {
+      "id": "whatson",
+      "label": {
+        "en": "What's On",
+        "hi": "आगामी कार्यक्रम"
+      }
+    },
+    {
+      "id": "productions",
+      "label": {
+        "en": "Productions",
+        "hi": "नाट्य प्रस्तुतियां"
+      }
+    },
+    {
+      "id": "events",
+      "label": {
+        "en": "Events",
+        "hi": "समारोह"
+      }
+    },
+    {
+      "id": "workshops",
+      "label": {
+        "en": "Training & Workshops",
+        "hi": "प्रशिक्षण व शिविर"
+      }
+    },
+    {
+      "id": "magazine",
+      "label": {
+        "en": "Magazine",
+        "hi": "पत्रिका"
+      }
+    },
+    {
+      "id": "blog",
+      "label": {
+        "en": "Blog",
+        "hi": "ब्लॉग"
+      }
+    },
+    {
+      "id": "about",
+      "label": {
+        "en": "About Us",
+        "hi": "परिचय"
+      }
+    },
+    {
+      "id": "contact",
+      "label": {
+        "en": "Contact",
+        "hi": "संपर्क"
+      }
+    }
+  ],
+  "footerLinks": [
+    {
+      "id": "gallery",
+      "label": {
+        "en": "Gallery Archive",
+        "hi": "चित्रदीर्घा अभिलेखागार"
+      }
+    },
+    {
+      "id": "press",
+      "label": {
+        "en": "Press & Media Kit",
+        "hi": "प्रेस एवं मीडिया किट"
+      }
+    },
+    {
+      "id": "support",
+      "label": {
+        "en": "Support Us / Partners",
+        "hi": "सहयोग एवं साझीदार"
+      }
+    }
+  ],
+  "productions": [
+    {
+      "id": "kahani-vasu-ki",
+      "year": "2024",
+      "genre": {
+        "en": "Folk Musical Drama",
+        "hi": "लोक संगीत नाटक"
+      },
+      "title": {
+        "en": "Kahani Vasu Ki",
+        "hi": "कहानी वासु की"
+      },
+      "subtitle": {
+        "en": "A poignant journey of resilience and folk identity",
+        "hi": "धैर्य, संघर्ष और लोक पहचान की मर्मस्पर्शी यात्रा"
+      },
+      "synopsis": {
+        "en": "An evocative narrative celebrating the rural landscapes and sal forest valleys of Chhattisgarh, following young Vasu as he navigates the changing tides of tradition and modernity through music, Mandar drums, and living folklore.",
+        "hi": "छत्तीसगढ़ की माटी और ग्रामीण संस्कृति से जुड़ी एक संवेदनशील प्रस्तुति, जो वासु के माध्यम से परंपरा, संगीत और आधुनिक बदलावों के द्वंद्व को मंच पर जीवंत करती है।"
+      },
+      "director": "Suresh Thakur",
+      "cast": [
+        "Anand Verma (Vasu)",
+        "Pooja Sahu (Aama)",
+        "Rameshwar Nishad",
+        "Devendra Yadav"
+      ],
+      "duration": "95 mins",
+      "language": "Chhattisgarhi / Hindi",
+      "ageSuitability": "All Ages",
+      "availableForBooking": true,
+      "performanceHistory": [
+        {
+          "date": "Oct 2024",
+          "venue": "Muktakash Manch, Raipur"
+        },
+        {
+          "date": "Dec 2024",
+          "venue": "National Tribal Theatre Festival, Ranchi"
+        },
+        {
+          "date": "Feb 2025",
+          "venue": "Bharat Rang Mahotsav Satellite, Bilaspur"
+        }
+      ],
+      "reviews": [
+        {
+          "quote": "A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative.",
+          "critic": "The Cultural Chronicle"
+        }
+      ],
+      "artAesthetic": "Terracotta & Dhokra Motifs",
+      "accentColor": "#c2410c",
+      "gradient": "linear-gradient(145deg, #1c1917, #7c2d12)"
+    },
+    {
+      "id": "vincent-a-flashback",
+      "year": "2023",
+      "genre": {
+        "en": "Visual Scenography & Drama",
+        "hi": "दृश्य-कला एवं रंग नाटक"
+      },
+      "title": {
+        "en": "Vincent: A Flashback",
+        "hi": "विंसेंट: अ फ्लैशबैक"
+      },
+      "subtitle": {
+        "en": "A theatrical meditation on passion, madness, and brushstrokes",
+        "hi": "कला, जुनून और आंतरिक द्वंद्व पर एक अनूठी रंग प्रस्तुति"
+      },
+      "synopsis": {
+        "en": "Blending visual performance art with dramatic monologue, this play explores Van Gogh's tumultuous quest for truth, framed in dialog with Chhattisgarhi indigenous mural sensibilities and earth pigments.",
+        "hi": "चित्रकला और दृश्य कला के संगम से तैयार एक विशेष नाटक, जो विंसेंट वैन गॉग के कलात्मक संघर्ष और आत्माभिव्यक्ति को लोक कला की दृष्टि से जोड़कर प्रस्तुत करता है।"
+      },
+      "director": "Meenakshi Kashyap",
+      "cast": [
+        "Rajat Sharma (Vincent)",
+        "Vandana Baghel",
+        "Kailash Mandawi"
+      ],
+      "duration": "80 mins",
+      "language": "Hindi",
+      "ageSuitability": "12+",
+      "availableForBooking": true,
+      "performanceHistory": [
+        {
+          "date": "Nov 2023",
+          "venue": "Ambedkar Sanskritic Bhavan, Jashpur"
+        },
+        {
+          "date": "Jan 2024",
+          "venue": "Kala Academy, Bhopal"
+        }
+      ],
+      "reviews": [
+        {
+          "quote": "Hypnotic lighting and fearless physical acting. Bridges European expressionism with Indian folk earthiness.",
+          "critic": "Natya Varta"
+        }
+      ],
+      "artAesthetic": "Gilded Ochre & Cobalt Night",
+      "accentColor": "#d97706",
+      "gradient": "linear-gradient(145deg, #091224, #1e293b)"
+    },
+    {
+      "id": "gabar-ghichor",
+      "year": "2025",
+      "genre": {
+        "en": "Nacha Folk Satire",
+        "hi": "नाचा लोक प्रहसन"
+      },
+      "title": {
+        "en": "Gabar Ghichor",
+        "hi": "गबरघिचोर"
+      },
+      "subtitle": {
+        "en": "The timeless folk-farce on migration, motherhood, and justice",
+        "hi": "प्रवासन, मातृत्व और लोक-अधिकार पर आधारित कालजयी रंगगाथा"
+      },
+      "synopsis": {
+        "en": "Adapted with vivacious Nacha folk comedy, Panthi rhythms, and intense song duels, Gabar Ghichor sheds uncompromising light on migrant labour, rural hypocrisy, and maternal dignity.",
+        "hi": "नाचा और पंथी नृत्य की जीवंत शैली में ढाला गया यह हास्य-व्यंग्य नाटक प्रवासन की त्रासदी, सामाजिक दोगलेपन और स्त्री के स्वाभिमान को बुलंदी से उजागर करता है।"
+      },
+      "director": "Hemant Banjare",
+      "cast": [
+        "Chitra Sinha (Mother)",
+        "Bhupesh Netam",
+        "Sarita Dewangan",
+        "Puran Patel"
+      ],
+      "duration": "105 mins",
+      "language": "Chhattisgarhi",
+      "ageSuitability": "All Ages",
+      "availableForBooking": true,
+      "performanceHistory": [
+        {
+          "date": "May 2025",
+          "venue": "Jashrang National Theatre Festival 2025"
+        },
+        {
+          "date": "Aug 2025",
+          "venue": "Rabindra Bhavan, Durg"
+        }
+      ],
+      "reviews": [
+        {
+          "quote": "Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak.",
+          "critic": "Rang Manch Samiksha"
+        }
+      ],
+      "artAesthetic": "Crimson & Bell-Metal Rhythms",
+      "accentColor": "#be123c",
+      "gradient": "linear-gradient(145deg, #2b0b17, #581c87)"
+    },
+    {
+      "id": "raja-ravi-verma",
+      "year": "2025",
+      "genre": {
+        "en": "Historical Biopic Stage",
+        "hi": "ऐतिहासिक रंग-चरित"
+      },
+      "title": {
+        "en": "Raja Ravi Verma: The Untold Story",
+        "hi": "राजा रवि वर्मा: द अनटोल्ड स्टोरी"
+      },
+      "subtitle": {
+        "en": "Sacred realism, censorship, and the democratization of art",
+        "hi": "यथार्थवादी चित्रकला, पाबंदियां और कला का लोकतंत्रीकरण"
+      },
+      "synopsis": {
+        "en": "The historic legal and artistic battles of Raja Ravi Varma, exploring the audacity of printing deities for common households while wrestling with royal courts, conservative backlashes, and freedom of expression.",
+        "hi": "राजा रवि वर्मा के संघर्ष, मुद्रणालय की स्थापना और भारतीय कला को जन-जन तक पहुँचाने की ऐतिहासिक कहानी, जो कलात्मक स्वतंत्रता और समाज के टकराव को बयां करती है।"
+      },
+      "director": "Suresh Thakur",
+      "cast": [
+        "Vikramaditya Rao (Raja Ravi Varma)",
+        "Snehal Tirkey (Sugandha)",
+        "Omkar Dhruw"
+      ],
+      "duration": "110 mins",
+      "language": "Hindi",
+      "ageSuitability": "10+",
+      "availableForBooking": true,
+      "performanceHistory": [
+        {
+          "date": "Dec 2025",
+          "venue": "Jashpur Town Hall Gala Premiere"
+        }
+      ],
+      "reviews": [
+        {
+          "quote": "A visually majestic triumph. The courtroom scene resonates profoundly with today’s artistic dilemmas.",
+          "critic": "Kala Vimarsh"
+        }
+      ],
+      "artAesthetic": "Gold Leaf & Royal Indigo",
+      "accentColor": "#ca8a04",
+      "gradient": "linear-gradient(145deg, #1c1917, #3b1d07)"
+    }
+  ],
+  "events": [
+    {
+      "id": "jashrang",
+      "name": {
+        "en": "Jashrang National Theater Festival",
+        "hi": "जशरंग राष्ट्रीय नाट्य समारोह"
+      },
+      "tagline": {
+        "en": "Annual Sanctuary of Indian Theatre in Jashpur",
+        "hi": "जशपुर में भारतीय रंगमंच का वार्षिक महाकुंभ"
+      },
+      "description": {
+        "en": "A premier annual celebration of Indian theatre in Jashpur, uniting prestigious troupes, folk ensembles, and avant-garde directors from across the country.",
+        "hi": "जशपुर में आयोजित होने वाला राष्ट्रीय रंगमंच महोत्सव, जिसमें देशभर के प्रतिष्ठित नाट्य दल, लोक कलाकार और समकालीन निर्देशक एकत्र होते हैं।"
+      },
+      "years": [
+        {
+          "year": "2026",
+          "theme": {
+            "en": "Roots & Horizons (माटी और विस्तार)",
+            "hi": "माटी और विस्तार"
+          },
+          "dates": {
+            "en": "November 14–18, 2026",
+            "hi": "14–18 नवम्बर, 2026"
+          },
+          "venue": {
+            "en": "Jashpur Auditorium & Open-Air Stage, Chhattisgarh",
+            "hi": "जशपुर प्रेक्षागृह एवं खुला रंगमंच, छत्तीसगढ़"
+          },
+          "highlight": {
+            "en": "5 days, 12 national plays, Panthi opening, director masterclasses, and midnight folk round.",
+            "hi": "5 दिवसीय आयोजन, 12 राष्ट्रीय नाटक, पंथी नृत्य उद्घाटन, रंग-मास्टरक्लास और रात्रि लोक-अखाड़ा।"
+          },
+          "schedule": [
+            {
+              "day": "Day 1",
+              "time": "6:00 PM",
+              "event": "Inaugural Ceremony & Karma Folk Circle",
+              "group": "Jashpur Folk Troupe"
+            },
+            {
+              "day": "Day 2",
+              "time": "7:00 PM",
+              "event": "Gabar Ghichor",
+              "group": "Chhattisgadhiya Cloud Ensemble"
+            },
+            {
+              "day": "Day 3",
+              "time": "6:30 PM",
+              "event": "Andha Yug (Contemporary Adaptation)",
+              "group": "Bhopal Repertory"
+            },
+            {
+              "day": "Day 4",
+              "time": "7:00 PM",
+              "event": "Charandas Chor Revival",
+              "group": "Naya Theatre Legacy Ensembles"
+            },
+            {
+              "day": "Day 5",
+              "time": "5:30 PM",
+              "event": "National Directors Conclave & Valedictory Gala",
+              "group": "All Participating Artists"
+            }
+          ],
+          "sponsors": [
+            "Department of Culture, Chhattisgarh",
+            "Jashpur Kala Sangam",
+            "Tribal Arts Guild"
+          ]
+        },
+        {
+          "year": "2025",
+          "theme": {
+            "en": "Voices from the Soil",
+            "hi": "धरती के स्वर"
+          },
+          "dates": {
+            "en": "December 05–08, 2025",
+            "hi": "05–08 दिसम्बर, 2025"
+          },
+          "venue": {
+            "en": "Town Hall Cultural Complex, Jashpur",
+            "hi": "टाउन हॉल परिसर, जशपुर"
+          },
+          "highlight": {
+            "en": "Featured acclaimed productions from NSD Delhi, Kolkata, Bhopal & Raipur with over 4,500 attendees.",
+            "hi": "राष्ट्रीय नाट्य विद्यालय दिल्ली, कोलकाता, भोपाल और रायपुर की चर्चित प्रस्तुतियों का मंचन एवं 4,500 दर्शक।"
+          },
+          "schedule": [
+            {
+              "day": "Dec 05",
+              "time": "6:00 PM",
+              "event": "Vincent: A Flashback",
+              "group": "Chhattisgadhiya Cloud"
+            },
+            {
+              "day": "Dec 06",
+              "time": "7:00 PM",
+              "event": "Bisarjan",
+              "group": "Kolkata Theatre Workshop"
+            },
+            {
+              "day": "Dec 07",
+              "time": "6:30 PM",
+              "event": "Kanyadaan",
+              "group": "Rangavali Bhopal"
+            },
+            {
+              "day": "Dec 08",
+              "time": "7:00 PM",
+              "event": "Kahani Vasu Ki",
+              "group": "Chhattisgadhiya Cloud"
+            }
+          ],
+          "sponsors": [
+            "District Administration Jashpur",
+            "State Art Council"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jaspur-kavita-utsav",
+      "name": {
+        "en": "Jaspur Kavita Utsav",
+        "hi": "जसपुर कविता उत्सव"
+      },
+      "tagline": {
+        "en": "Conclave of Poets, Bards & Oral Balladeers",
+        "hi": "कवियों, गीतकारों एवं वाचिक परंपरा का समागम"
+      },
+      "description": {
+        "en": "Built with the year-tile drill-down from the start, celebrating Chhattisgarhi, Hindi, Kurukh, and regional tribal poetic traditions in the lap of nature.",
+        "hi": "कवियों, गीतकारों और वाचिक परंपरा के रचनाकारों का वार्षिक समागम, जहां छत्तीसगढ़ी, हिंदी व जनजातीय काव्यधाराएं गूंजती हैं।"
+      },
+      "years": [
+        {
+          "year": "2026",
+          "theme": {
+            "en": "Songs of Forest & People (जंगल और जन के गीत)",
+            "hi": "जंगल और जन के गीत"
+          },
+          "dates": {
+            "en": "October 02–03, 2026",
+            "hi": "02–03 अक्टूबर, 2026"
+          },
+          "venue": {
+            "en": "Ambedkar Sanskritic Bhavan, Jashpur",
+            "hi": "अंबेडकर सांस्कृतिक भवन, जशपुर"
+          },
+          "highlight": {
+            "en": "40+ eminent poets, tribal verses recited with flute and mandhar, youth open mic.",
+            "hi": "40 से अधिक प्रमुख कवि, आदिवासी काव्य पाठ एवं युवा खुला मंच।"
+          },
+          "schedule": [
+            {
+              "day": "Day 1",
+              "time": "11:00 AM",
+              "event": "Tribal Oral Poetry Symposium",
+              "group": "Elders & Folk Lyricists"
+            },
+            {
+              "day": "Day 1",
+              "time": "5:00 PM",
+              "event": "Jashpur Sham-e-Shayari & Geeth Sandhya",
+              "group": "Regional Poets"
+            },
+            {
+              "day": "Day 2",
+              "time": "10:30 AM",
+              "event": "Youth Open-Mic & Slam Poetry Round",
+              "group": "Student Delegates"
+            },
+            {
+              "day": "Day 2",
+              "time": "4:00 PM",
+              "event": "Grand Chhattisgarhi Kavi Sammelan",
+              "group": "Eminent National Guests"
+            }
+          ],
+          "sponsors": [
+            "Sahitya Parishad",
+            "Jashpur Writers Collective"
+          ]
+        }
+      ]
+    }
+  ],
+  "workshops": {
+    "name": {
+      "en": "Ullas Summer Camp & Training",
+      "hi": "उल्लास समर कैम्प एवं नाट्य कार्यशालाएं"
+    },
+    "tagline": {
+      "en": "Nurturing Creative Confidence in Young Minds",
+      "hi": "बच्चों और युवाओं में रचनात्मक आत्मविश्वास का संचार"
+    },
+    "description": {
+      "en": "Our flagship youth and child arts programme combining foundational acting, body language, voice training, folk craft, and collaborative play.",
+      "hi": "बच्चों और युवाओं में रचनात्मक आत्मविश्वास, संवाद कला, लोक शिल्प और रंगमंचीय अभिव्यक्ति को तराशने का विशेष मंच।"
+    },
+    "upcomingBatch": {
+      "title": {
+        "en": "Ullas Creative Arts & Acting Camp 2027",
+        "hi": "उल्लास कला व अभिनय शिविर 2027"
+      },
+      "ageGroup": {
+        "en": "Ages 7 to 16 years (divided into Junior & Senior batches)",
+        "hi": "7 से 16 वर्ष (कनिष्ठ व वरिष्ठ वर्ग)"
+      },
+      "dates": {
+        "en": "May 10 – June 02, 2027",
+        "hi": "10 मई – 02 जून, 2027"
+      },
+      "venue": {
+        "en": "Kala Kendra Rehearsal Studios, Jashpur",
+        "hi": "कला केंद्र रिहर्सल स्टूडियो, जशपुर"
+      },
+      "fee": {
+        "en": "Community subsidised / 100% Free for local rural tribal students",
+        "hi": "रियायती शुल्क / स्थानीय जनजातीय बच्चों हेतु पूर्णतः निःशुल्क"
+      },
+      "status": {
+        "en": "Enquiries & Pre-Registration Open",
+        "hi": "पूछताछ एवं अग्रिम पंजीकरण जारी"
+      },
+      "activities": [
+        {
+          "en": "Theatre Games & Confidence Building",
+          "hi": "नाट्य खेल एवं आत्मविश्वास विकास"
+        },
+        {
+          "en": "Devanagari Diction, Voice Projection & Chhattisgarhi Rhymes",
+          "hi": "संवाद अदायगी, आवाज का अभ्यास एवं लोक बालगीत"
+        },
+        {
+          "en": "Mask Making & Clay Modelling",
+          "hi": "मुखौटा निर्माण एवं माटी कला"
+        },
+        {
+          "en": "Final Showcase: A 30-minute play devised by the children",
+          "hi": "अंतिम प्रदर्शन: बच्चों द्वारा स्वयं तैयार किया गया नाटक"
+        }
+      ]
+    },
+    "years": [
+      {
+        "year": "2026",
+        "participants": "120 Children",
+        "dates": {
+          "en": "May 12 – June 01, 2026",
+          "hi": "12 मई – 01 जून, 2026"
+        },
+        "theme": {
+          "en": "Shadow Puppetry & Folk Riddles",
+          "hi": "छाया कठपुतली और लोक पहेलियां"
+        },
+        "facilitators": "Pooja Sahu, Anand Verma, Suresh Thakur",
+        "outcome": {
+          "en": "Created 3 original puppet plays and an open-air exhibition.",
+          "hi": "3 मौलिक कठपुतली नाटकों का मंचन एवं प्रदर्शनी।"
+        }
+      },
+      {
+        "year": "2025",
+        "participants": "95 Children",
+        "dates": {
+          "en": "May 10 – May 30, 2025",
+          "hi": "10 मई – 30 मई, 2025"
+        },
+        "theme": {
+          "en": "Street Plays & Clay Sculpture",
+          "hi": "नुक्कड़ नाटक और माटी कला"
+        },
+        "facilitators": "Hemant Banjare, Vandana Baghel",
+        "outcome": {
+          "en": "Performed 2 environmental street plays at village haats.",
+          "hi": "ग्रामीण हाट-बाजारों में 2 पर्यावरण नुक्कड़ नाटकों का मंचन।"
+        }
+      },
+      {
+        "year": "2024",
+        "participants": "80 Children",
+        "dates": {
+          "en": "May 15 – June 04, 2024",
+          "hi": "15 मई – 04 जून, 2024"
+        },
+        "theme": {
+          "en": "Movement, Rhythm & Folk Songs",
+          "hi": "शारीरिक अभिव्यक्ति और लोक धुनें"
+        },
+        "facilitators": "Suresh Thakur, Meenakshi Kashyap",
+        "outcome": {
+          "en": "Choreographed folk fable of the Sal forest.",
+          "hi": "साल वनों की लोकगाथा पर आधारित भव्य प्रस्तुति।"
+        }
+      },
+      {
+        "year": "2023",
+        "participants": "65 Children",
+        "dates": {
+          "en": "May 10 – May 28, 2023",
+          "hi": "10 मई – 28 मई, 2023"
+        },
+        "theme": {
+          "en": "Foundational Acting & Mask Making",
+          "hi": "अभिनय की नींव और मुखौटा निर्माण"
+        },
+        "facilitators": "Chhattisgadhiya Cloud Core Ensemble",
+        "outcome": {
+          "en": "Inaugural edition establishing Ullas as an annual summer tradition.",
+          "hi": "उल्लास शिविर की प्रेरणादायक शुरुआत।"
+        }
+      }
+    ]
+  },
+  "magazine": {
+    "name": {
+      "en": "Chhattisgadhiya Cloud Masik Patrika",
+      "hi": "छत्तीसगढ़िया क्लाउड मासिक पत्रिका"
+    },
+    "tagline": {
+      "en": "Critical Discourse on Theatre, Folk Arts, and Literature",
+      "hi": "रंगमंच, लोक कला और साहित्य पर विचारशील विमर्श"
+    },
+    "description": {
+      "en": "A selection of articles published as accessible web pages for search indexation and public discovery, ending with off-site subscription calls to action.",
+      "hi": "हमारी मासिक सांस्कृतिक व साहित्यिक पत्रिका — जिसके चयनित लेख वेब पर उपलब्ध हैं और संपूर्ण पत्रिका की सदस्यता ऑफ-साइट उपलब्ध है।"
+    },
+    "subscriptionInfo": {
+      "en": "Subscribe to receive monthly print or high-resolution PDF editions delivered straight to your home or inbox. No payment gateway or accounts needed on-site.",
+      "hi": "मासिक प्रिंट संस्करण अथवा उच्च गुणवत्ता PDF सीधे अपने पते या ईमेल पर प्राप्त करने हेतु सदस्यता लें। किसी ऑन-साइट खाते की आवश्यकता नहीं।"
+    },
+    "currentIssue": {
+      "number": "Vol. IV • Issue 09",
+      "month": {
+        "en": "September 2026",
+        "hi": "सितंबर 2026"
+      },
+      "title": {
+        "en": "Folk Theatre in Modern Times: Continuity, Dance & Scenography",
+        "hi": "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और रंग-शिल्प"
+      },
+      "totalPages": 8,
+      "downloadUrl": "#",
+      "articles": [
+        {
+          "id": "article-1",
+          "slug": "revival-of-nacha-in-urban-spaces",
+          "title": {
+            "en": "The Revival of Nacha in Urban Spaces",
+            "hi": "शहरी मंचों पर नाचा परंपरा का पुनरुत्थान"
+          },
+          "author": {
+            "en": "Dr. Prabhat Mishra",
+            "hi": "डॉ. प्रभात मिश्रा"
+          },
+          "category": {
+            "en": "Theatre Essay",
+            "hi": "नाट्य आलेख"
+          },
+          "readTime": "6 min read",
+          "date": "September 15, 2026",
+          "excerpt": {
+            "en": "Exploring how age-old comedic satire and Panthi rhythms from rural Chhattisgarh are captivating modern theatre audiences while retaining their grassroots honesty.",
+            "hi": "कैसे ग्रामीण छत्तीसगढ़ का पारंपरिक नाचा और पंथी नृत्य आधुनिक दर्शकों को अपनी सहज धारदार अभिव्यक्ति और लोक-हास्य से जोड़ रहा है।"
+          },
+          "content": {
+            "en": "### The Living Spirit of Nacha\n\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften.\n\n> \"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\"\n\nIn this edition, we document the experiences of three generations of Nacha practitioners who have taken their repertoire to contemporary theatre halls while keeping the rural hearth glowing.\n\n1. **The Language of the Earth**: Use of colloquial idioms that defy rigid grammar.\n2. **Music as Pulse**: The dholak and manjeera shaping the dramatic crescendos.\n3. **Improvisation**: Adapting lines to the day's socio-political questions without losing humor.",
+            "hi": "### नाचा का सजीव लोक-चेतना\n\nनाचा मात्र मनोरंजन का माध्यम नहीं, बल्कि ग्रामीण समाज का खुला मंच और न्याय-कक्ष रहा है। जब कलाकार अखाड़े में कदम रखते हैं, तो सामाजिक दीवारें पिघलने लगती हैं।\n\n> \"नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक और गहरा सामना है।\"\n\nइस अंक में हम नाचा के तीन पीढ़ियों के कलाकारों के अनुभवों का विश्लेषण कर रहे हैं, जिन्होंने पारंपरिक मंचों से लेकर आधुनिक राष्ट्रीय सभागारों तक अपनी पहचान बनाई है।\n\n1. **माटी की बोली**: मुहावरों और सहज संवादों की ताकत।\n2. **संगीत की धड़कन**: ढोलक और मंजीरे के साथ कथा का उभार।\n3. **तात्कालिकता (इम्प्रोवाइज़ेशन)**: समकालीन मुद्दों पर तत्काल तीखा व्यंग्य।"
+          }
+        },
+        {
+          "id": "article-2",
+          "slug": "remembering-habib-tanvir-scenography",
+          "title": {
+            "en": "Remembering Habib Tanvir's Scenography",
+            "hi": "हबीब तनवीर की रंग-शिल्प दृष्टि का स्मरण"
+          },
+          "author": {
+            "en": "Kavita S. Joshi",
+            "hi": "कविता एस. जोशी"
+          },
+          "category": {
+            "en": "Tribute & Analysis",
+            "hi": "स्मृति आलेख"
+          },
+          "readTime": "8 min read",
+          "date": "September 10, 2026",
+          "excerpt": {
+            "en": "An in-depth retrospective on the minimalist stage aesthetics and bamboo architectures that redefined 20th-century Indian theatre.",
+            "hi": "बीसवीं सदी के भारतीय रंगमंच को नई दिशा देने वाले हबीब तनवीर के सादगीपूर्ण एवं प्रभावी मंच-शिल्प की पड़ताल।"
+          },
+          "content": {
+            "en": "### Space, Brecht, and the Bamboo Screen\n\nHabib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the vast sky and simple bamboo frames.\n\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor's palace. This organic synthesis remains our guiding star at Chhattisgadhiya Cloud.",
+            "hi": "### रिक्त स्थान, ब्रेख्त और बांस का पर्दा\n\nहबीब तनवीर ने विक्टोरियन शैली के भारी-भरकम पर्दों और गत्ते की दीवारों को हटाकर रंगमंच को खुला आकाश और बांस की सादगी दी।\n\nउनके अभिनेताओं का शरीर ही पूरा सेट बन जाता था। एक कदम बढ़ाना नदी पार करना बन जाता था, और एक लोकगीत राजमहल के द्वार खोल देता था। यही दृष्टि छत्तीसगढ़िया क्लाउड के रंगकर्म की प्रेरणा है।"
+          }
+        },
+        {
+          "id": "article-3",
+          "slug": "voices-of-jashpur-poems-from-hill-valleys",
+          "title": {
+            "en": "Voices of Jashpur: Poems from the Hill Valleys",
+            "hi": "जशपुर के स्वर: पहाड़ी घाटियों से कविताएं"
+          },
+          "author": {
+            "en": "Selected Poets of Jashpur",
+            "hi": "जशपुर के प्रतिनिधि कवि"
+          },
+          "category": {
+            "en": "Poetry",
+            "hi": "कविता"
+          },
+          "readTime": "4 min read",
+          "date": "September 05, 2026",
+          "excerpt": {
+            "en": "Three evocative poems celebrating the waterfalls, Sal groves, and ancient myths of northern Chhattisgarh.",
+            "hi": "उत्तरी छत्तीसगढ़ के जलप्रपातों, साल के जंगलों और लोक-मिथकों को समर्पित तीन नई कविताएं।"
+          },
+          "content": {
+            "en": "### 1. Song of the Sal Tree\n*By Rameshwar Toppo*\n\nWhen the winter mist descends upon Rani Dah,\nThe sal leaves speak in ancient Kurukh syllables,\nAsking the wanderer:\nDid you come to measure the forest,\nOr to let the forest measure your longing?\n\n### 2. Red Earth\n*By Shashi Yadav*\n\nRed soil clings to our bare feet,\nLike memory that refuses to wash away in the monsoon.",
+            "hi": "### 1. साल वृक्ष का गीत\n*रामेश्वर टोप्पो*\n\nजब रानीदह पर उतरता है कुहासा,\nसाल के पत्ते कुरुख के प्राचीन स्वरों में बतियाते हैं,\nराहगीर से पूछते हैं:\nक्या तुम जंगल को नापने आए थे,\nया जंगल को अपने भीतर उतरने देने?\n\n### 2. लाल माटी\n*शशि यादव*\n\nपांवों से लिपटती है यह लाल माटी,\nजैसे सावन में भी न छूटने वाली कोई अमिट याद।"
+          }
+        }
+      ]
+    },
+    "previousIssues": [
+      {
+        "id": "issue-13",
+        "number": "Vol. IV • Issue 08",
+        "month": {
+          "en": "August 2026",
+          "hi": "अगस्त 2026"
+        },
+        "title": {
+          "en": "Habib Tanvir & The Living Folk Idiom",
+          "hi": "हबीब तनवीर और लोक रंगमंच की जीवंत भाषा"
+        },
+        "coverTheme": "The Legacy of Naya Theatre & Bastar Earth-Stage",
+        "badge": {
+          "en": "Special Archival Tribute",
+          "hi": "विशेषांक"
+        },
+        "coverImg": "/src/assets/images/mag-issue-13.svg",
+        "totalPages": 12,
+        "leadArticle": {
+          "en": "Minimalism, Bamboo Structures & The Organic Chorus",
+          "hi": "सादगी, बांस का मंच और जैविक कोरस"
+        },
+        "downloadUrl": "#",
+        "readExcerpt": {
+          "en": "A comprehensive investigation into how Habib Tanvir stripped Indian theatre of Victorian decor and replaced it with indigenous songs and circular movement.",
+          "hi": "एक विशेष शोधपरक आलेख कि कैसे हबीब तनवीर ने विक्टोरियन सजावट को हटाकर भारतीय रंगमंच को लोकगीतों और घेरेदार मंचन से पुनर्जीवित किया।"
+        }
+      },
+      {
+        "id": "issue-12",
+        "number": "Vol. IV • Issue 07",
+        "month": {
+          "en": "July 2026",
+          "hi": "जुलाई 2026"
+        },
+        "title": {
+          "en": "Songs of the Sal Groves: Tribal Bards of Jashpur",
+          "hi": "साल वनों के गीत: जशपुर की वाचिक काव्य-परंपरा"
+        },
+        "coverTheme": "Oral Epics, Mandar Beats & Vernacular Verses",
+        "badge": {
+          "en": "Folk Poetry Edition",
+          "hi": "कविता विशेषांक"
+        },
+        "coverImg": "/src/assets/images/mag-issue-12.svg",
+        "totalPages": 10,
+        "leadArticle": {
+          "en": "Documenting the Kurukh & Sadri Oral Ballads",
+          "hi": "कुरुख और सादरी वाचिक लोकगाथाओं का संकलन"
+        },
+        "downloadUrl": "#",
+        "readExcerpt": {
+          "en": "Field recordings and translations of oral epics preserved for generations across the hill valleys of northern Chhattisgarh.",
+          "hi": "उत्तरी छत्तीसगढ़ की घाटियों में पीढ़ियों से सुरक्षित लोकगाथाओं और कुरुख काव्य-पाठ का प्रामाणिक दस्तावेजीकरण।"
+        }
+      },
+      {
+        "id": "issue-11",
+        "number": "Vol. IV • Issue 06",
+        "month": {
+          "en": "June 2026",
+          "hi": "जून 2026"
+        },
+        "title": {
+          "en": "Children in Theatre: The Ullas Experiment",
+          "hi": "रंगमंच में बच्चे: उल्लास शिविर के रचनात्मक प्रयोग"
+        },
+        "coverTheme": "Youth Pedagogy, Mask Fabrication & Community Play",
+        "badge": {
+          "en": "Pedagogy & Practice",
+          "hi": "बाल रंग विशेषांक"
+        },
+        "coverImg": "/src/assets/images/mag-issue-11.svg",
+        "totalPages": 8,
+        "leadArticle": {
+          "en": "How Theatre Empowers Rural and Tribal Youth",
+          "hi": "रंगमंच से कैसे सशक्त होते हैं ग्रामीण व जनजातीय बच्चे"
+        },
+        "downloadUrl": "#",
+        "readExcerpt": {
+          "en": "Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence.",
+          "hi": "जशपुर में चार वर्षों के समर कैम्प के अनुभवों पर आधारित विमर्श कि नाट्य खेल बच्चों में आत्मविश्वास का माध्यम कैसे बनते हैं।"
+        }
+      }
+    ]
+  },
+  "blog": {
+    "migratedNotice": {
+      "en": "Migrated from chhattisgadiyacloud.blogspot.com (301 permanent redirects active)",
+      "hi": "chhattisgadiyacloud.blogspot.com से स्थानांतरित (301 स्थायी अनुप्रेषण सक्रिय)"
+    },
+    "posts": [
+      {
+        "id": "why-we-do-theatre-in-jashpur",
+        "slug": "why-we-do-theatre-in-jashpur",
+        "oldUrl": "https://chhattisgadiyacloud.blogspot.com/2026/08/why-we-do-theatre-in-jashpur.html",
+        "date": "2026-08-12",
+        "author": "Suresh Thakur",
+        "category": "Editorial",
+        "title": {
+          "en": "Why We Do Theatre in Jashpur: Connecting Land and Stage",
+          "hi": "हम जशपुर में रंगमंच क्यों करते हैं: माटी और मंच का सेतु"
+        },
+        "excerpt": {
+          "en": "Beyond big metropolitan auditoriums lies the true heartbeat of storytelling. A reflection on five years of independent stage craft amidst the red earth.",
+          "hi": "महानगरों के बंद सभागारों से परे कहानी कहने की असली धड़कन कहां है? हमारे पांच वर्षों के रंगमंचीय सफर के अनुभव।"
+        },
+        "content": {
+          "en": "When we chose Jashpur as our permanent theatrical home, many questioned why we left the convenience of metropolitan auditoriums. The answer lies in the acoustics of the sal forests, the fearless community feedback at village squares, and the urgency of documenting living folk memory before it gets homogenized.",
+          "hi": "जब हमने जशपुर को अपना स्थायी रंग-निवास चुना, तो कई साथियों ने पूछा कि महानगरों के आराम को छोड़कर यहां क्यों? इसका उत्तर साल के वनों की प्राकृतिक गूंज, गांवों के चौपालों पर मिलने वाली खरी प्रतिक्रिया और हमारी लोक-स्मृति को सहेजने की तात्कालिक जरूरत में छिपा है।"
+        }
+      },
+      {
+        "id": "ullas-camp-recap-2026",
+        "slug": "ullas-camp-recap-2026",
+        "oldUrl": "https://chhattisgadiyacloud.blogspot.com/2026/06/ullas-camp-recap-2026.html",
+        "date": "2026-06-15",
+        "author": "Pooja Sahu",
+        "category": "Workshops",
+        "title": {
+          "en": "Laughter, Clay, and Play: 120 Children at Ullas 2026",
+          "hi": "हंसी, माटी और अभिनय: उल्लास 2026 में 120 बच्चों की रचनात्मक छलांग"
+        },
+        "excerpt": {
+          "en": "Over three intense weeks, children from diverse socio-economic backgrounds discovered their voice through folk puppetry and theatre exercises.",
+          "hi": "तीन सप्ताह के गहन शिविर में बच्चों ने खेल-खेल में संवाद, कठपुतली और आत्मविश्वास के नए आयाम सीखे।"
+        },
+        "content": {
+          "en": "The highlight of Ullas 2026 was watching children build their own shadow puppets from recycled cardboard and craft Chhattisgarhi folk fables. On final showcase evening, more than 300 parents and village elders filled the open auditorium.",
+          "hi": "उल्लास 2026 का सबसे सुखद अनुभव बच्चों द्वारा स्वयं बनाई गई छाया कठपुतलियों के माध्यम से लोक-कथाओं का मंचन था। अंतिम संध्या पर 300 से अधिक अभिभावक और ग्रामीण उपस्थित थे।"
+        }
+      }
+    ]
+  },
+  "about": {
+    "mission": {
+      "en": "Chhattisgadhiya Cloud is a dedicated Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications. We bridge living folk performance traditions with contemporary stagecraft, providing an uncompromised platform for indigenous voices.",
+      "hi": "छत्तीसगढ़िया क्लाउड छत्तीसगढ़ की माटी से जुड़ा एक समर्पित सांस्कृतिक एवं कला संगठन है जो रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का निर्माण करता है। हम पारंपरिक लोक विधाओं को समकालीन रंगमंच से जोड़ते हैं।"
+    },
+    "vision": {
+      "en": "To establish an autonomous, world-class cultural sanctuary where Chhattisgarhi artists, thinkers, and playwrights create nationally celebrated work while deepening their connection to regional roots.",
+      "hi": "एक ऐसा आत्मनिर्भर कला केंद्र स्थापित करना, जहां स्थानीय कलाकार, लेखक और रंगकर्मी अपनी जड़ों से जुड़े रहकर राष्ट्रीय स्तर पर अपनी विशिष्ट पहचान बना सकें।"
+    },
+    "history": {
+      "en": "Founded by a collective of passionate dramatists and writers, Chhattisgadhiya Cloud started as an independent theatre troupe producing original plays in regional idioms before expanding into national festivals (Jashrang, Kavita Utsav), youth residencies (Ullas), and critical publications.",
+      "hi": "रंगकर्मियों और लेखकों के एक समूह द्वारा स्थापित, छत्तीसगढ़िया क्लाउड ने एक स्वतंत्र नाट्य दल के रूप में शुरुआत की और धीरे-धीरे राष्ट्रीय समारोहों, कार्यशालाओं और प्रकाशन के विस्तृत मंच का रूप लिया।"
+    },
+    "culturalConnection": {
+      "en": "Our core differentiator is an uncompromising rootedness in Chhattisgarhi culture: the sharp satire of Nacha, the acrobatic devotion of Panthi, the circular cosmic movement of Karma, and the earthy scenography of raw clay and bamboo.",
+      "hi": "हमारी सबसे बड़ी विशिष्टता छत्तीसगढ़ की लोक संस्कृति में गहरी निष्ठा है: नाचा का तीखा व्यंग्य, पंथी नृत्य का अनुशासन व गति, करमा की चक्रीय लय और लाल माटी व बांस का जैविक मंच-शिल्प।"
+    },
+    "team": [
+      {
+        "name": "Suresh Thakur",
+        "role": {
+          "en": "Artistic Director & Playwright",
+          "hi": "कला निर्देशक एवं नाटककार"
+        },
+        "bio": {
+          "en": "Over 18 years shaping grassroots theatre, writing original scripts, and directing acclaimed productions nationwide.",
+          "hi": "18 वर्षों से रंगमंच निर्देशन, लेखन और लोक कलाओं के संवर्धन में सक्रिय।"
+        }
+      },
+      {
+        "name": "Meenakshi Kashyap",
+        "role": {
+          "en": "Festival Curator & Scenographer",
+          "hi": "उत्सव संयोजक एवं मंच परिकल्पना"
+        },
+        "bio": {
+          "en": "Curates Jashrang National Theatre Festival and designs immersive stages inspired by indigenous architecture and murals.",
+          "hi": "जशरंग की परिकल्पना और स्थानीय लोक-शिल्प पर आधारित मंच डिजाइन में विशेषज्ञ।"
+        }
+      },
+      {
+        "name": "Hemant Banjare",
+        "role": {
+          "en": "Folk Traditions & Music Director",
+          "hi": "लोक संगीत एवं परंपरा प्रमुख"
+        },
+        "bio": {
+          "en": "Master of Nacha rhythms and archivist of Central Indian folk balladeers and oral verse.",
+          "hi": "नाचा विधा और छत्तीसगढ़ी लोक संगीत के जाने-माने विशेषज्ञ।"
+        }
+      }
+    ]
+  },
+  "pressKit": {
+    "title": {
+      "en": "Press & Media Kit",
+      "hi": "प्रेस एवं मीडिया किट"
+    },
+    "description": {
+      "en": "Resources for journalists, festival programmers, and grant evaluators. Includes official logos, production stills, executive biographies, and boilerplate descriptions.",
+      "hi": "पत्रकारों, महोत्सव समन्वयकों और समीक्षकों हेतु आधिकारिक लोगो, नाट्य प्रस्तुतियां, छायाचित्र एवं संस्था का परिचय।"
+    },
+    "boilerplateShort": {
+      "en": "Chhattisgadhiya Cloud is a Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications. Official domain: chhattisgadhiyacloud.org.",
+      "hi": "छत्तीसगढ़िया क्लाउड छत्तीसगढ़ का अग्रणी कला व सांस्कृतिक संगठन है जो रंगमंच, राष्ट्रीय समारोहों, कार्यशालाओं और पत्रिकाओं का निर्माण करता है।"
+    },
+    "contactPerson": "Meenakshi Kashyap (Curator & Media Relations) • press@chhattisgadhiyacloud.org"
+  },
+  "partners": [
+    {
+      "name": "Department of Culture, Chhattisgarh",
+      "category": {
+        "en": "Government Patron",
+        "hi": "शासकीय संरक्षक"
+      }
+    },
+    {
+      "name": "Jashpur Kala Sangam",
+      "category": {
+        "en": "Community Partner",
+        "hi": "स्थानीय साझीदार"
+      }
+    },
+    {
+      "name": "Tribal Arts & Folk Foundation",
+      "category": {
+        "en": "Research Partner",
+        "hi": "शोध सहयोगी"
+      }
+    },
+    {
+      "name": "Central Sangeet Natak Initiatives",
+      "category": {
+        "en": "Festival Supporter",
+        "hi": "समारोह सहयोगी"
+      }
+    }
+  ]
+}

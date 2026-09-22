@@ -1,2 +1,2 @@
-const { siteData } = require('./content-export.cjs');
+const siteData = require('./site-content.json');
 module.exports = { siteData };
