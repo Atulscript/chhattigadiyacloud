@@ -226,7 +226,7 @@ function setupAdminAuth() {
       }
 
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Sign In to CG Cloud Dashboard';
+      submitBtn.textContent = 'Sign In';
     });
   }
 
