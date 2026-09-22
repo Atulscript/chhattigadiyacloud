@@ -822,6 +822,7 @@ function renderTeamAndAbout() {
   const team = about.team || [];
 
   const teamCardsHtml = team.map((member, index) => {
+    const avatarVal = member.image || member.avatar || '';
     return `
       <div class="team-card-editor" data-index="${index}">
         <div class="team-card-header">
@@ -832,6 +833,17 @@ function renderTeamAndAbout() {
             ${index < team.length - 1 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, 1)" title="Move Down">↓</button>` : ''}
             <button type="button" class="icon-btn danger" onclick="removeTeamMember(${index})" title="Delete Member">✕</button>
           </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; padding:0.6rem 0.75rem; background:var(--studio-surface-subtle); border-radius:var(--radius-sm); border:1px solid var(--studio-border-subtle);">
+          <div style="width:44px; height:44px; border-radius:50%; overflow:hidden; background:var(--studio-border-subtle); display:flex; align-items:center; justify-content:center; font-size:1.3rem; border:1.5px solid var(--studio-primary); flex-shrink:0;">
+            ${avatarVal ? `<img src="${escapeHtml(avatarVal)}" alt="${escapeHtml(member.name || '')}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
+          </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:0.78rem; font-weight:700; color:var(--studio-text);">Profile Photo</div>
+            <div style="font-size:0.72rem; color:var(--studio-text-secondary); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${avatarVal ? 'Custom avatar set' : 'Default icon'}</div>
+          </div>
+          <button type="button" class="btn-studio btn-studio-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="openEditTeamModal(${index})">Change Photo</button>
         </div>
 
         <div class="form-group">
@@ -899,7 +911,25 @@ function renderTeamAndAbout() {
         </div>
       </div>
 
-      <div class="bilingual-tabs-wrap">
+      ${renderMediaPickerHtml({
+        id: 'about-page-banner',
+        label: 'About Page Header Creative Banner',
+        hint: 'Header billboard creative banner displayed at the top of the About Us page.',
+        currentSrc: about.bannerImage || '/src/assets/images/hero-art.svg',
+        onChangeFnStr: 'updateAboutBanner'
+      })}
+
+      <div style="margin-top:1.25rem;">
+        ${renderMediaPickerHtml({
+          id: 'about-cultural-art',
+          label: 'Cultural Connection & Roots Artwork',
+          hint: 'Artistic vignette displayed alongside the living traditions & folk roots section.',
+          currentSrc: about.culturalArt || '/src/assets/images/fest-stage-crowd.svg',
+          onChangeFnStr: 'updateAboutCulturalArt'
+        })}
+      </div>
+
+      <div class="bilingual-tabs-wrap" style="margin-top:1.5rem;">
         <div class="bilingual-header"><span class="bilingual-title">Mission Statement</span></div>
         <div class="bilingual-grid">
           <div>
@@ -991,6 +1021,8 @@ window.openCreateTeamModal = function() {
   document.getElementById('team-modal-title').textContent = '👤 Add Team Member';
   document.getElementById('team-edit-index').value = '-1';
   document.getElementById('team-name-input').value = '';
+  document.getElementById('team-avatar-input').value = '';
+  updateTeamModalThumb('');
   document.getElementById('team-role-en').value = '';
   document.getElementById('team-role-hi').value = '';
   document.getElementById('team-bio-en').value = '';
@@ -1008,12 +1040,38 @@ window.openEditTeamModal = function(index) {
   document.getElementById('team-modal-title').textContent = `✏️ Edit Member: ${member.name || 'Team Member'}`;
   document.getElementById('team-edit-index').value = String(index);
   document.getElementById('team-name-input').value = member.name || '';
+  const avatarVal = member.image || member.avatar || '';
+  document.getElementById('team-avatar-input').value = avatarVal;
+  updateTeamModalThumb(avatarVal);
   document.getElementById('team-role-en').value = (member.role && member.role.en) || '';
   document.getElementById('team-role-hi').value = (member.role && member.role.hi) || '';
   document.getElementById('team-bio-en').value = (member.bio && member.bio.en) || '';
   document.getElementById('team-bio-hi').value = (member.bio && member.bio.hi) || '';
   modal.classList.add('active');
   document.getElementById('team-name-input').focus();
+};
+
+window.updateTeamModalThumb = function(val) {
+  const thumb = document.getElementById('team-modal-thumb');
+  if (!thumb) return;
+  if (val && val.trim()) {
+    thumb.innerHTML = `<img src="${escapeHtml(val.trim())}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.innerHTML='👤';">`;
+  } else {
+    thumb.innerHTML = '👤';
+  }
+};
+
+window.handleTeamAvatarUpload = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const dataUrl = evt.target.result;
+    const input = document.getElementById('team-avatar-input');
+    if (input) input.value = dataUrl;
+    updateTeamModalThumb(dataUrl);
+  };
+  reader.readAsDataURL(file);
 };
 
 window.closeTeamModal = function() {
@@ -1024,6 +1082,7 @@ window.closeTeamModal = function() {
 window.saveTeamMemberFromModal = function() {
   const index = parseInt(document.getElementById('team-edit-index').value, 10);
   const name = document.getElementById('team-name-input').value.trim();
+  const avatar = document.getElementById('team-avatar-input') ? document.getElementById('team-avatar-input').value.trim() : '';
   const roleEn = document.getElementById('team-role-en').value.trim();
   const roleHi = document.getElementById('team-role-hi').value.trim();
   const bioEn = document.getElementById('team-bio-en').value.trim();
@@ -1040,6 +1099,7 @@ window.saveTeamMemberFromModal = function() {
 
   const memberData = {
     name: name,
+    image: avatar,
     role: { en: roleEn, hi: roleHi },
     bio: { en: bioEn, hi: bioHi }
   };
@@ -1182,6 +1242,11 @@ function showPostEditorModal(post) {
   document.getElementById('post-edit-content-en').value = post.content && post.content.en || '';
   document.getElementById('post-edit-content-hi').value = post.content && post.content.hi || '';
 
+  const coverImg = post.coverImage || post.image || '';
+  const imgInput = document.getElementById('post-edit-image');
+  if (imgInput) imgInput.value = coverImg;
+  updatePostModalThumb(coverImg);
+
   modal.classList.add('active');
 
   // Reset editor mode to 'write' and refresh live previews
@@ -1193,6 +1258,43 @@ function showPostEditorModal(post) {
     updateLivePreview('hi');
   }
 }
+
+window.updatePostModalThumb = function(val) {
+  const thumb = document.getElementById('post-modal-thumb');
+  if (!thumb) return;
+  if (val && val.trim()) {
+    thumb.innerHTML = `<img src="${escapeHtml(val.trim())}" alt="Banner" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'media-preview-empty\\'>Invalid URL</span>';">`;
+  } else {
+    thumb.innerHTML = `<span class="media-preview-empty">No Banner Image</span>`;
+  }
+};
+
+window.clearPostModalImage = function() {
+  const input = document.getElementById('post-edit-image');
+  if (input) input.value = '';
+  updatePostModalThumb('');
+};
+
+window.setPostModalPreset = function(path) {
+  const input = document.getElementById('post-edit-image');
+  if (input) {
+    input.value = path;
+    updatePostModalThumb(path);
+  }
+};
+
+window.handlePostImageUpload = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const dataUrl = evt.target.result;
+    const input = document.getElementById('post-edit-image');
+    if (input) input.value = dataUrl;
+    updatePostModalThumb(dataUrl);
+  };
+  reader.readAsDataURL(file);
+};
 
 window.closePostModal = function() {
   const modal = document.getElementById('post-modal');
@@ -1214,12 +1316,15 @@ window.savePostFromModal = function() {
     slug = enTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   }
 
+  const coverImg = document.getElementById('post-edit-image') ? document.getElementById('post-edit-image').value.trim() : '';
+
   const postObj = {
     id: slug,
     slug: slug,
     date: document.getElementById('post-edit-date').value,
     author: document.getElementById('post-edit-author').value.trim(),
     category: document.getElementById('post-edit-category').value.trim(),
+    coverImage: coverImg,
     title: { en: enTitle, hi: hiTitle || enTitle },
     excerpt: {
       en: document.getElementById('post-edit-excerpt-en').value.trim(),
@@ -1397,6 +1502,286 @@ window.updateLivePreview = function(lang) {
 };
 
 // ==========================================
+// CENTRAL MEDIA, CARD BANNER & ICON CONTROLS
+// ==========================================
+const CREATIVE_PRESETS = [
+  { name: 'Hero Art', path: '/src/assets/images/hero-art.svg' },
+  { name: 'Jashrang Fest', path: '/src/assets/images/festival-jashrang.svg' },
+  { name: 'Kavita Utsav', path: '/src/assets/images/festival-kavita.svg' },
+  { name: 'Ullas Camp', path: '/src/assets/images/camp-ullas.svg' },
+  { name: 'Play: Vasu', path: '/src/assets/images/play-vasu.svg' },
+  { name: 'Play: Vincent', path: '/src/assets/images/play-vincent.svg' },
+  { name: 'Play: Gabar', path: '/src/assets/images/play-gabar.svg' },
+  { name: 'Play: Raja', path: '/src/assets/images/play-raja.svg' },
+  { name: 'Mag: Issue 14', path: '/src/assets/images/mag-issue-14-cover.svg' },
+  { name: 'Mag: Issue 13', path: '/src/assets/images/mag-issue-13.svg' },
+  { name: 'Stage Crowd', path: '/src/assets/images/fest-stage-crowd.svg' },
+  { name: 'Folk Circle', path: '/src/assets/images/fest-folk-circle.svg' },
+  { name: 'Kavi Baithak', path: '/src/assets/images/fest-kavi-recital.svg' },
+  { name: 'Art Frieze', path: '/src/assets/images/footer-art-frieze.svg' }
+];
+
+const EMOJI_PRESETS = ['🎭', '🎪', '📖', '🎨', '⛺', '✨', '📜', '🪔', '👑', '🎬', '👥', '📍', '🎟️', '📝', '⚡', '🏛️'];
+
+const PLAY_ARTWORK_DEFAULT = {
+  'kahani-vasu-ki': '/src/assets/images/play-vasu.svg',
+  'vincent-a-flashback': '/src/assets/images/play-vincent.svg',
+  'gabar-ghichor': '/src/assets/images/play-gabar.svg',
+  'raja-ravi-verma': '/src/assets/images/play-raja.svg'
+};
+
+function handleImageUploadDirect(event, callback) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  if (file.size > 2.5 * 1024 * 1024) {
+    alert('File size exceeds 2.5MB. Please choose a smaller image or SVG.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    if (typeof callback === 'function') callback(dataUrl);
+  };
+  reader.readAsDataURL(file);
+}
+window.handleImageUploadDirect = handleImageUploadDirect;
+
+function renderMediaPickerHtml({ id, label, currentSrc, onChangeFnStr, iconVal, onIconFnStr, presets = CREATIVE_PRESETS }) {
+  const callOnChange = typeof onChangeFnStr === 'function' ? onChangeFnStr : (arg) => `${onChangeFnStr}(${arg})`;
+  const callOnIcon = typeof onIconFnStr === 'function' ? onIconFnStr : (arg) => `${onIconFnStr}(${arg})`;
+
+  const previewContent = currentSrc && currentSrc.trim()
+    ? `<img src="${escapeHtml(currentSrc.trim())}" alt="Preview" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'media-preview-empty\\'>Invalid Image</span>';">`
+    : `<span class="media-preview-empty">No Image Set</span>`;
+
+  return `
+    <div class="media-field-card" id="media-card-${escapeHtml(id)}">
+      <div class="media-field-header">
+        <span class="media-field-label">🖼️ ${escapeHtml(label || 'Card Banner / Creative Image')}</span>
+        ${currentSrc ? `<button type="button" class="btn-studio btn-studio-secondary" style="font-size:0.72rem; padding:0.15rem 0.5rem; color:var(--studio-red);" onclick="${callOnChange("''")};">Clear Image</button>` : ''}
+      </div>
+
+      <div class="media-field-body">
+        <div class="media-preview-thumb" id="thumb-${escapeHtml(id)}">
+          ${previewContent}
+        </div>
+
+        <div class="media-inputs-wrap">
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="text" class="form-control" style="font-size:0.84rem;" value="${escapeHtml(currentSrc || '')}" placeholder="Image URL, /src/assets/images/... or Data URL" onchange="${callOnChange('this.value')}">
+            <label class="btn-studio btn-studio-secondary" style="margin-bottom:0; cursor:pointer; font-size:0.8rem; padding:0.42rem 0.75rem; white-space:nowrap;">
+              📁 Upload
+              <input type="file" accept="image/*" style="display:none;" onchange="handleImageUploadDirect(event, (data) => { ${callOnChange('data')}; })">
+            </label>
+          </div>
+
+          <div style="margin-top:0.4rem;">
+            <div style="font-size:0.72rem; font-weight:700; color:var(--studio-text-secondary); margin-bottom:0.25rem;">Quick Creative Presets:</div>
+            <div class="media-preset-row">
+              ${presets.map(p => `
+                <button type="button" class="media-preset-btn" onclick="${callOnChange(`'${escapeHtml(p.path)}'`)}">${escapeHtml(p.name)}</button>
+              `).join('')}
+            </div>
+          </div>
+
+          ${iconVal !== undefined && iconVal !== null ? `
+            <div style="margin-top:0.75rem; padding-top:0.6rem; border-top:1px dashed var(--studio-border-subtle);">
+              <div style="display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                <div style="font-size:0.75rem; font-weight:700; color:var(--studio-text);">Creative Icon / Badge:</div>
+                <input type="text" style="width:50px; text-align:center; font-size:1.05rem; padding:0.2rem;" class="form-control" value="${escapeHtml(iconVal || '🎭')}" onchange="${callOnIcon('this.value')}">
+                <div class="emoji-picker-row">
+                  ${EMOJI_PRESETS.map(em => `
+                    <button type="button" class="emoji-btn" onclick="${callOnIcon(`'${em}'`)}">${em}</button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Global media setters
+window.updateHpHeroBanner = function(val) {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!state.content.homepage.hero) state.content.homepage.hero = {};
+  state.content.homepage.hero.bannerImage = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Hero creative banner updated.', 'success');
+};
+
+window.updateHpHeroBadgeIcon = function(badgeKey, icon) {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!state.content.homepage.hero) state.content.homepage.hero = {};
+  if (!state.content.homepage.hero[badgeKey]) state.content.homepage.hero[badgeKey] = {};
+  state.content.homepage.hero[badgeKey].icon = icon;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Hero badge icon updated.', 'success');
+};
+
+window.updateHpVisualHighlightBanner = function(val) {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!state.content.homepage.visualHighlight) state.content.homepage.visualHighlight = {};
+  state.content.homepage.visualHighlight.image = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Visual highlight banner updated.', 'success');
+};
+
+window.updateTraditionIcon = function(index, icon) {
+  if (state.content.homepage && state.content.homepage.traditions && state.content.homepage.traditions[index]) {
+    state.content.homepage.traditions[index].icon = icon;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast('Tradition icon updated.', 'success');
+  }
+};
+
+window.updateTraditionBanner = function(index, val) {
+  if (state.content.homepage && state.content.homepage.traditions && state.content.homepage.traditions[index]) {
+    state.content.homepage.traditions[index].image = val;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast('Tradition banner updated.', 'success');
+  }
+};
+
+window.updateProductionsPageBanner = function(val) {
+  state.content.productionsPageBanner = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Productions page header banner updated.', 'success');
+};
+
+window.updateProdMedia = function(index, val) {
+  if (state.content.productions && state.content.productions[index]) {
+    state.content.productions[index].image = val;
+    state.content.productions[index].poster = val;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated poster for production #${index + 1}.`, 'success');
+  }
+};
+
+window.updateProdIcon = function(index, icon) {
+  if (state.content.productions && state.content.productions[index]) {
+    state.content.productions[index].icon = icon;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated icon for production #${index + 1}.`, 'success');
+  }
+};
+
+window.updateEventsPageBanner = function(val) {
+  state.content.eventsPageBanner = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Events page header banner updated.', 'success');
+};
+
+window.updateEventMedia = function(index, val) {
+  if (state.content.events && state.content.events[index]) {
+    state.content.events[index].bannerImage = val;
+    state.content.events[index].image = val;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated creative banner for festival #${index + 1}.`, 'success');
+  }
+};
+
+window.updateEventIcon = function(index, icon) {
+  if (state.content.events && state.content.events[index]) {
+    state.content.events[index].icon = icon;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated icon for festival #${index + 1}.`, 'success');
+  }
+};
+
+window.updateWorkshopsPageBanner = function(val) {
+  state.content.workshopsPageBanner = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Workshops page header banner updated.', 'success');
+};
+
+window.updateWorkshopMedia = function(index, val) {
+  if (state.content.workshops && state.content.workshops[index]) {
+    state.content.workshops[index].bannerImage = val;
+    state.content.workshops[index].image = val;
+  }
+  if (state.content.workshops && state.content.workshops.upcomingBatch) {
+    state.content.workshops.upcomingBatch.bannerImage = val;
+    state.content.workshops.upcomingBatch.image = val;
+  }
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast(`Updated banner for workshop #${index + 1}.`, 'success');
+};
+
+window.updateWorkshopIcon = function(index, icon) {
+  if (state.content.workshops && state.content.workshops[index]) {
+    state.content.workshops[index].icon = icon;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated icon for workshop #${index + 1}.`, 'success');
+  }
+};
+
+window.updateMagazinePageBanner = function(val) {
+  state.content.magazinePageBanner = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Magazine page header banner updated.', 'success');
+};
+
+window.updateMagazineCurrentCover = function(val) {
+  if (!state.content.magazine) state.content.magazine = {};
+  if (!state.content.magazine.currentIssue) state.content.magazine.currentIssue = {};
+  state.content.magazine.currentIssue.coverImg = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Current issue cover art updated.', 'success');
+};
+
+window.updateMagazineArchiveCover = function(index, val) {
+  if (state.content.magazine && state.content.magazine.previousIssues && state.content.magazine.previousIssues[index]) {
+    state.content.magazine.previousIssues[index].coverImg = val;
+    markDirty(true);
+    renderCurrentSubPage();
+    showToast(`Updated cover for archival issue #${index + 1}.`, 'success');
+  }
+};
+
+window.updateBrandCrestBanner = function(val) {
+  if (!state.content.brand) state.content.brand = {};
+  state.content.brand.crestImage = val;
+  state.content.brand.bannerImage = val;
+  markDirty(true);
+  renderCurrentSubPage();
+  showToast('Brand crest / banner updated.', 'success');
+};
+
+window.updateAboutBanner = function(val) {
+  if (!state.content.about) state.content.about = {};
+  state.content.about.bannerImage = val;
+  markDirty(true);
+  renderTeamAndAbout();
+  showToast('About page banner updated.', 'success');
+};
+
+window.updateAboutCulturalArt = function(val) {
+  if (!state.content.about) state.content.about = {};
+  state.content.about.culturalArt = val;
+  markDirty(true);
+  renderTeamAndAbout();
+  showToast('Cultural roots artwork updated.', 'success');
+};
+
 // ==========================================
 // 4. ALL PAGES CONTENT MANAGER (Homepage & All Subpages)
 // ==========================================
@@ -1496,7 +1881,15 @@ function renderHomepageEditor(host) {
         </div>
       </div>
 
-      <div class="bilingual-tabs-wrap">
+      ${renderMediaPickerHtml({
+        id: 'hp-hero-banner',
+        label: 'Hero Billboard Art / Creative Canvas',
+        hint: 'High-resolution SVG artwork or uploaded image shown in the circular hero art frame on the homepage.',
+        currentSrc: hero.bannerImage || '/src/assets/images/hero-art.svg',
+        onChangeFnStr: 'updateHpHeroBanner'
+      })}
+
+      <div class="bilingual-tabs-wrap" style="margin-top:1.25rem;">
         <div class="bilingual-header"><span class="bilingual-title">Hero Eyebrow Tagline</span></div>
         <div class="bilingual-grid">
           <div>
@@ -1592,6 +1985,13 @@ function renderHomepageEditor(host) {
 
         <div class="tile-editor-box">
           <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Top Floating Badge</div>
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem; margin:0;">Icon:</label>
+            <input type="text" class="form-control" style="width:45px; text-align:center; font-size:1.1rem; padding:0.2rem;" value="${escapeHtml(hero.badgeTop && hero.badgeTop.icon || '🎭')}" onchange="updateHpHeroBadgeIcon('badgeTop', this.value)">
+            <div class="emoji-picker-row">
+              ${EMOJI_PRESETS.slice(0, 5).map(em => `<button type="button" class="emoji-btn" onclick="updateHpHeroBadgeIcon('badgeTop', '${em}')">${em}</button>`).join('')}
+            </div>
+          </div>
           <div class="form-group" style="margin-bottom:0.5rem;">
             <label class="form-label" style="font-size:0.75rem;">Title (EN / HI)</label>
             <input type="text" class="form-control" value="${escapeHtml(hero.badgeTop && hero.badgeTop.title && hero.badgeTop.title.en || '')}" onchange="updateHpField('hero.badgeTop.title.en', this.value)">
@@ -1604,6 +2004,13 @@ function renderHomepageEditor(host) {
 
         <div class="tile-editor-box">
           <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Bottom Floating Badge</div>
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem; margin:0;">Icon:</label>
+            <input type="text" class="form-control" style="width:45px; text-align:center; font-size:1.1rem; padding:0.2rem;" value="${escapeHtml(hero.badgeBottom && hero.badgeBottom.icon || '🏛️')}" onchange="updateHpHeroBadgeIcon('badgeBottom', this.value)">
+            <div class="emoji-picker-row">
+              ${EMOJI_PRESETS.slice(0, 5).map(em => `<button type="button" class="emoji-btn" onclick="updateHpHeroBadgeIcon('badgeBottom', '${em}')">${em}</button>`).join('')}
+            </div>
+          </div>
           <div class="form-group" style="margin-bottom:0.5rem;">
             <label class="form-label" style="font-size:0.75rem;">Title (EN / HI)</label>
             <input type="text" class="form-control" value="${escapeHtml(hero.badgeBottom && hero.badgeBottom.title && hero.badgeBottom.title.en || '')}" onchange="updateHpField('hero.badgeBottom.title.en', this.value)">
@@ -1704,11 +2111,19 @@ function renderHomepageEditor(host) {
       <div class="traditions-editor-grid">
         ${traditions.map((trad, i) => `
           <div class="tradition-editor-card">
-            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
-              <input type="text" class="form-control" style="width:50px; text-align:center; font-size:1.2rem;" value="${escapeHtml(trad.icon || '🎭')}" onchange="updateTraditionRawField(${i}, 'icon', this.value)">
-              <div style="font-weight:800; font-size:0.9rem;">Pillar #${i + 1}</div>
-            </div>
-            <div class="form-group" style="margin-bottom:0.5rem;">
+            <div style="font-weight:800; font-size:0.95rem; margin-bottom:0.75rem; color:var(--studio-primary);">Pillar #${i + 1}</div>
+
+            ${renderMediaPickerHtml({
+              id: `trad-banner-${i}`,
+              label: `Tradition Card Artwork Banner`,
+              hint: 'Visual illustration or photograph for this folk tradition card.',
+              currentSrc: trad.image || (i === 0 ? '/src/assets/images/play-vasu.svg' : (i === 1 ? '/src/assets/images/fest-stage-crowd.svg' : '/src/assets/images/play-gabar.svg')),
+              onChangeFnStr: (v) => `updateTraditionBanner(${i}, ${v})`,
+              iconVal: trad.icon || '🎭',
+              onIconFnStr: (ic) => `updateTraditionIcon(${i}, ${ic})`
+            })}
+
+            <div class="form-group" style="margin-top:0.75rem; margin-bottom:0.5rem;">
               <label class="form-label" style="font-size:0.75rem;">Title (EN)</label>
               <input type="text" class="form-control" value="${escapeHtml(trad.title && trad.title.en || '')}" onchange="updateTraditionField(${i}, 'title', 'en', this.value)">
             </div>
@@ -1768,7 +2183,15 @@ function renderHomepageEditor(host) {
         </div>
       </div>
 
-      <div class="bilingual-tabs-wrap">
+      ${renderMediaPickerHtml({
+        id: 'hp-vh-banner',
+        label: 'Visual Highlight Band Creative Banner',
+        hint: 'Featured artwork or photograph displayed across the full-width highlight banner.',
+        currentSrc: vh.image || '/src/assets/images/fest-stage-crowd.svg',
+        onChangeFnStr: 'updateHpVisualHighlightBanner'
+      })}
+
+      <div class="bilingual-tabs-wrap" style="margin-top:1.25rem;">
         <div class="bilingual-header"><span class="bilingual-title">Banner Headline</span></div>
         <div class="bilingual-grid">
           <div>
@@ -1882,7 +2305,15 @@ function renderProductionsPageEditor(host) {
         </div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:1.5rem;">
+      ${renderMediaPickerHtml({
+        id: 'productions-page-banner',
+        label: 'Productions Page Header Creative Banner',
+        hint: 'Billboard creative banner displayed at the top of the Productions catalogue.',
+        currentSrc: state.content.productionsPageBanner || '/src/assets/images/hero-art.svg',
+        onChangeFnStr: 'updateProductionsPageBanner'
+      })}
+
+      <div style="display:flex; flex-direction:column; gap:1.5rem; margin-top:1.5rem;">
         ${prods.map((p, i) => `
           <div class="tile-editor-box" style="background:#ffffff; border:1px solid var(--studio-border);">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
@@ -1890,7 +2321,17 @@ function renderProductionsPageEditor(host) {
               <span style="font-size:0.8rem; font-weight:700; color:var(--studio-text-secondary);">${escapeHtml(p.year || '')} &bull; ${escapeHtml(p.duration || '')}</span>
             </div>
 
-            <div class="bilingual-tabs-wrap">
+            ${renderMediaPickerHtml({
+              id: `prod-media-${i}`,
+              label: `Play Poster & Card Creative Banner (${escapeHtml(p.id)})`,
+              hint: 'Theatrical poster art, play card creative banner, and genre icon for this touring show.',
+              currentSrc: p.image || p.poster || (PLAY_ARTWORK_DEFAULT && PLAY_ARTWORK_DEFAULT[p.id]) || '/src/assets/images/hero-art.svg',
+              onChangeFnStr: (v) => `updateProdMedia(${i}, ${v})`,
+              iconVal: p.icon || '🎭',
+              onIconFnStr: (ic) => `updateProdIcon(${i}, ${ic})`
+            })}
+
+            <div class="bilingual-tabs-wrap" style="margin-top:1rem;">
               <div class="bilingual-header"><span class="bilingual-title">Production Title</span></div>
               <div class="bilingual-grid">
                 <div>
@@ -1978,11 +2419,31 @@ function renderEventsPageEditor(host) {
           <div class="section-group-desc">Jashrang National Theatre Festival & Jaspur Kavita Utsav archives.</div>
         </div>
       </div>
-      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+      ${renderMediaPickerHtml({
+        id: 'events-page-banner',
+        label: 'Events & Festivals Page Header Creative Banner',
+        hint: 'Header billboard creative banner for national festivals and poetry summits.',
+        currentSrc: state.content.eventsPageBanner || '/src/assets/images/festival-jashrang.svg',
+        onChangeFnStr: 'updateEventsPageBanner'
+      })}
+
+      <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
         ${events.map((ev, i) => `
           <div class="tile-editor-box">
             <span class="tile-editor-badge">Festival #${i + 1}: ${escapeHtml(ev.id)}</span>
-            <div class="bilingual-tabs-wrap">
+
+            ${renderMediaPickerHtml({
+              id: `event-media-${i}`,
+              label: `Festival Spotlight Banner & Art (${escapeHtml(ev.id)})`,
+              hint: 'Festival card creative banner and stage artwork.',
+              currentSrc: ev.bannerImage || ev.image || (i === 0 ? '/src/assets/images/festival-jashrang.svg' : '/src/assets/images/festival-kavita.svg'),
+              onChangeFnStr: (v) => `updateEventMedia(${i}, ${v})`,
+              iconVal: ev.icon || (i === 0 ? '🎪' : '📜'),
+              onIconFnStr: (ic) => `updateEventIcon(${i}, ${ic})`
+            })}
+
+            <div class="bilingual-tabs-wrap" style="margin-top:1rem;">
               <div class="bilingual-header"><span class="bilingual-title">Festival Name</span></div>
               <div class="bilingual-grid">
                 <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(ev.name && ev.name.en || '')}" onchange="state.content.events[${i}].name.en = this.value; markDirty(true);"></div>
@@ -2013,11 +2474,31 @@ function renderWorkshopsPageEditor(host) {
           <div class="section-group-desc">Ullas Summer Camp and theatre arts training modules.</div>
         </div>
       </div>
-      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+      ${renderMediaPickerHtml({
+        id: 'workshops-page-banner',
+        label: 'Workshops & Residencies Header Creative Banner',
+        hint: 'Header billboard creative banner for Ullas youth camp and training modules.',
+        currentSrc: state.content.workshopsPageBanner || '/src/assets/images/camp-ullas.svg',
+        onChangeFnStr: 'updateWorkshopsPageBanner'
+      })}
+
+      <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
         ${camps.map((w, i) => `
           <div class="tile-editor-box">
             <span class="tile-editor-badge">Residency #${i + 1}: ${escapeHtml(w.id)}</span>
-            <div class="bilingual-tabs-wrap">
+
+            ${renderMediaPickerHtml({
+              id: `workshop-media-${i}`,
+              label: `Residency Spotlight Banner & Art (${escapeHtml(w.id)})`,
+              hint: 'Creative banner and workshop activity artwork.',
+              currentSrc: w.bannerImage || w.image || '/src/assets/images/camp-ullas.svg',
+              onChangeFnStr: (v) => `updateWorkshopMedia(${i}, ${v})`,
+              iconVal: w.icon || '⛺',
+              onIconFnStr: (ic) => `updateWorkshopIcon(${i}, ${ic})`
+            })}
+
+            <div class="bilingual-tabs-wrap" style="margin-top:1rem;">
               <div class="bilingual-header"><span class="bilingual-title">Title</span></div>
               <div class="bilingual-grid">
                 <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(w.title && w.title.en || '')}" onchange="state.content.workshops[${i}].title.en = this.value; markDirty(true);"></div>
@@ -2041,6 +2522,7 @@ function renderWorkshopsPageEditor(host) {
 function renderMagazinePageEditor(host) {
   const mag = state.content.magazine || {};
   const current = mag.currentIssue || {};
+  const previousIssues = mag.previousIssues || [];
 
   host.innerHTML = `
     <div class="section-group-card">
@@ -2051,7 +2533,25 @@ function renderMagazinePageEditor(host) {
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-bottom:1rem;">
+      ${renderMediaPickerHtml({
+        id: 'mag-page-banner',
+        label: 'Magazine Page Header Creative Banner',
+        hint: 'Header billboard creative banner for monthly cultural journal.',
+        currentSrc: state.content.magazinePageBanner || '/src/assets/images/mag-issue-14-cover.svg',
+        onChangeFnStr: 'updateMagazinePageBanner'
+      })}
+
+      <div style="margin-top:1.25rem;">
+        ${renderMediaPickerHtml({
+          id: 'mag-current-cover',
+          label: 'Current Issue Front Cover Artwork (Issue 14)',
+          hint: 'Front cover graphic or illustration for the latest issue.',
+          currentSrc: current.coverImg || '/src/assets/images/mag-issue-14-cover.svg',
+          onChangeFnStr: 'updateMagazineCurrentCover'
+        })}
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-top:1.25rem; margin-bottom:1rem;">
         <div class="form-group">
           <label class="form-label">Issue Number</label>
           <input type="number" class="form-control" value="${escapeHtml(current.issueNumber || 14)}" onchange="state.content.magazine.currentIssue.issueNumber = parseInt(this.value); markDirty(true);">
@@ -2070,6 +2570,32 @@ function renderMagazinePageEditor(host) {
         </div>
       </div>
     </div>
+
+    ${previousIssues.length > 0 ? `
+      <div class="section-group-card" style="margin-top:1.5rem;">
+        <div class="section-group-header">
+          <div>
+            <div class="section-group-title">📚 Archival Previous Issues (${previousIssues.length})</div>
+            <div class="section-group-desc">Cover images and issue metadata for previously published editions.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          ${previousIssues.map((issue, idx) => `
+            <div class="tile-editor-box">
+              <span class="tile-editor-badge">Archive Issue #${issue.issueNumber || (idx + 1)}</span>
+              ${renderMediaPickerHtml({
+                id: `mag-archive-cover-${idx}`,
+                label: `Issue #${issue.issueNumber || (idx + 1)} Cover Graphic`,
+                hint: 'Cover art for archival issue.',
+                currentSrc: issue.coverImg || '/src/assets/images/mag-issue-13.svg',
+                onChangeFnStr: (v) => `updateMagazineArchiveCover(${idx}, ${v})`
+              })}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
   `;
 }
 
@@ -2087,7 +2613,15 @@ function renderBrandPageEditor(host) {
         </div>
       </div>
 
-      <div class="bilingual-tabs-wrap">
+      ${renderMediaPickerHtml({
+        id: 'brand-crest-banner',
+        label: 'Brand Crest / Mascot Billboard Graphic',
+        hint: 'Official crest, emblem, or billboard graphic for Chhattisgadhiya Cloud.',
+        currentSrc: (state.content.brand && (state.content.brand.crestImage || state.content.brand.bannerImage)) || '/src/assets/images/hero-art.svg',
+        onChangeFnStr: 'updateBrandCrestBanner'
+      })}
+
+      <div class="bilingual-tabs-wrap" style="margin-top:1.25rem;">
         <div class="bilingual-header"><span class="bilingual-title">Organization Name</span></div>
         <div class="bilingual-grid">
           <div>

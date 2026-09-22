@@ -279,6 +279,38 @@
           </div>
         </div>
 
+        <!-- Article Card Banner & Creative Image -->
+        <div class="media-field-card" style="margin-bottom:1rem;">
+          <div class="media-field-header">
+            <span class="media-field-label">🖼️ Article Card Banner & Header Image</span>
+            <button type="button" class="btn-studio btn-studio-secondary" style="font-size:0.72rem; padding:0.15rem 0.5rem; color:var(--studio-red);" onclick="clearPostModalImage()">Clear</button>
+          </div>
+          <div class="media-field-body">
+            <div class="media-preview-thumb" id="post-modal-thumb">
+              <span class="media-preview-empty">No Banner Image</span>
+            </div>
+            <div class="media-inputs-wrap">
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <input type="text" id="post-edit-image" class="form-control" placeholder="Image URL, e.g. /src/assets/images/hero-art.svg or upload..." oninput="updatePostModalThumb(this.value)">
+                <label class="btn-studio btn-studio-secondary" style="margin-bottom:0; cursor:pointer; font-size:0.8rem; padding:0.42rem 0.75rem; white-space:nowrap;">
+                  📁 Upload
+                  <input type="file" accept="image/*" style="display:none;" onchange="handlePostImageUpload(event)">
+                </label>
+              </div>
+              <div style="margin-top:0.4rem;">
+                <div style="font-size:0.72rem; font-weight:700; color:var(--studio-text-secondary); margin-bottom:0.25rem;">Quick Creative Presets:</div>
+                <div class="media-preset-row">
+                  <button type="button" class="media-preset-btn" onclick="setPostModalPreset('/src/assets/images/hero-art.svg')">Hero Art</button>
+                  <button type="button" class="media-preset-btn" onclick="setPostModalPreset('/src/assets/images/fest-kavi-recital.svg')">Kavi Baithak</button>
+                  <button type="button" class="media-preset-btn" onclick="setPostModalPreset('/src/assets/images/fest-folk-circle.svg')">Folk Circle</button>
+                  <button type="button" class="media-preset-btn" onclick="setPostModalPreset('/src/assets/images/fest-stage-crowd.svg')">Stage Crowd</button>
+                  <button type="button" class="media-preset-btn" onclick="setPostModalPreset('/src/assets/images/festival-jashrang.svg')">Jashrang</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="bilingual-tabs-wrap">
           <div class="bilingual-header">
             <span class="bilingual-title">Article Body & Rich Typography</span>
@@ -437,6 +469,22 @@
         <div class="form-group">
           <label class="form-label" for="team-name-input">Full Name</label>
           <input type="text" id="team-name-input" class="form-control" placeholder="e.g. Suresh Thakur" required>
+        </div>
+
+        <!-- Member Photo / Creative Avatar -->
+        <div class="form-group">
+          <label class="form-label" for="team-avatar-input">Profile Photo / Avatar Image / Icon</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="text" id="team-avatar-input" class="form-control" placeholder="Image URL, e.g. /src/assets/images/hero-art.svg or upload..." oninput="updateTeamModalThumb(this.value)">
+            <label class="btn-studio btn-studio-secondary" style="margin-bottom:0; cursor:pointer; font-size:0.8rem; padding:0.42rem 0.75rem; white-space:nowrap;">
+              📁 Upload
+              <input type="file" accept="image/*" style="display:none;" onchange="handleTeamAvatarUpload(event)">
+            </label>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.4rem;">
+            <div id="team-modal-thumb" style="width:44px; height:44px; border-radius:50%; background:var(--studio-surface-subtle); border:1.5px solid var(--studio-border); overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:1.3rem;">👤</div>
+            <div class="form-hint" style="margin-top:0;">Image URL or upload. Leave blank to display default monogram avatar.</div>
+          </div>
         </div>
 
         <div class="bilingual-tabs-wrap">

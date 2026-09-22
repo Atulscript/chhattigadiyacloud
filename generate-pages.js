@@ -298,14 +298,15 @@ function renderBreadcrumb(crumbs) {
 
 function renderProductionCard(prod, lang) {
   const isHi = lang === 'hi';
-  const artworkSrc = playArtworkMap[prod.id] || '/src/assets/images/hero-art.svg';
+  const artworkSrc = prod.image || prod.poster || prod.banner || playArtworkMap[prod.id] || '/src/assets/images/hero-art.svg';
+  const prodIcon = prod.icon || '🎭';
   return `
     <article class="production-card">
       <div class="poster-canvas">
         <img src="${artworkSrc}" alt="${prod.title[lang]}" class="poster-svg-art" loading="lazy">
         <div class="poster-vignette" aria-hidden="true"></div>
         <div class="poster-overlay-badges">
-          <span class="badge-genre">🎭 ${prod.genre[lang]}</span>
+          <span class="badge-genre">${prodIcon} ${prod.genre[lang]}</span>
           <span class="badge-year">${prod.year}</span>
         </div>
       </div>
@@ -702,9 +703,13 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
     const badgeTopTitle = (hero.badgeTop && hero.badgeTop.title && hero.badgeTop.title[lang]) || (isHi ? '४ मौलिक नाटक' : '4 Original Plays');
     const badgeTopSub = (hero.badgeTop && hero.badgeTop.sub && hero.badgeTop.sub[lang]) || (isHi ? 'राष्ट्रीय नाट्य मंचन' : 'National Touring Repertoire');
+    const badgeTopIcon = (hero.badgeTop && hero.badgeTop.icon) || '🎭';
 
     const badgeBottomTitle = (hero.badgeBottom && hero.badgeBottom.title && hero.badgeBottom.title[lang]) || (isHi ? 'जशरंग एवं कविता उत्सव' : 'Jashrang & Kavita Utsav');
     const badgeBottomSub = (hero.badgeBottom && hero.badgeBottom.sub && hero.badgeBottom.sub[lang]) || (isHi ? 'प्रतिष्ठित राष्ट्रीय समारोह' : 'Signature Annual Festivals');
+    const badgeBottomIcon = (hero.badgeBottom && hero.badgeBottom.icon) || '🎪';
+
+    const heroBannerArt = hero.bannerImage || '/src/assets/images/hero-art.svg';
 
     // Tile SVG Icon Helper
     const tileSvgIcons = {
@@ -768,15 +773,19 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       { icon: '🏺', title: { en: 'Dhokra & Mural Scenography', hi: 'ढोकरा एवं भित्ति शिल्प' }, subtitle: { en: 'Earth Pigments & Scenographic Craft', hi: 'माटी के रंग व धातु-शिल्प मंच' }, desc: { en: 'Lost-wax bell metal casting, bamboo minimalism, and natural ochre wall murals define our visual set designs and organic costume textures.', hi: 'बस्तर का लॉस्ट-वैक्स धातु शिल्प और जशपुर की पारंपरिक भित्ति चित्रकला हमारे नाटकों के मंच-सज्जा, प्रकाश और वेशभूषा को जैविक सौंदर्य प्रदान करती है।' } }
     ];
 
-    const renderedTraditions = traditionsList.map(trad => `
+    const renderedTraditions = traditionsList.map(trad => {
+      const bannerImg = trad.image ? `<div style="height:120px; border-radius:var(--radius-sm); overflow:hidden; margin-bottom:1rem;"><img src="${trad.image}" alt="${(trad.title && trad.title[lang]) || ''}" style="width:100%; height:100%; object-fit:cover; display:block;"></div>` : '';
+      return `
           <div class="tradition-card">
+            ${bannerImg}
             <div class="tradition-icon-badge">${trad.icon || '🎭'}</div>
             <h3 class="tradition-title">${(trad.title && trad.title[lang]) || ''}</h3>
             <div class="tradition-subtitle">${(trad.subtitle && trad.subtitle[lang]) || ''}</div>
             <p class="tradition-desc">
               ${(trad.desc && trad.desc[lang]) || ''}
             </p>
-          </div>`).join('\n');
+          </div>`;
+    }).join('\n');
 
     // Critics Praise
     const criticsList = hp.criticsPraise || [
@@ -855,12 +864,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
               <!-- Main Circular Stage Frame -->
               <div class="hero-circular-frame">
-                <img src="/src/assets/images/hero-art.svg" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager" fetchpriority="high" decoding="async">
+                <img src="${heroBannerArt}" alt="Chhattisgarhi Cultural & Folk Theatre Art" class="hero-circular-img" width="560" height="560" loading="eager" fetchpriority="high" decoding="async">
               </div>
 
               <!-- Floating Modern Feature Badges -->
               <div class="hero-badge hero-badge-top" aria-hidden="true">
-                <span class="badge-icon">🎭</span>
+                <span class="badge-icon">${badgeTopIcon}</span>
                 <div class="badge-text">
                   <strong>${badgeTopTitle}</strong>
                   <span>${badgeTopSub}</span>
@@ -868,7 +877,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               </div>
 
               <div class="hero-badge hero-badge-bottom" aria-hidden="true">
-                <span class="badge-icon">🎪</span>
+                <span class="badge-icon">${badgeBottomIcon}</span>
                 <div class="badge-text">
                   <strong>${badgeBottomTitle}</strong>
                   <span>${badgeBottomSub}</span>
@@ -878,8 +887,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
             <!-- Mobile Inline Quick Chips (Visible only on mobile screens) -->
             <div class="hero-mobile-badges" aria-hidden="true">
-              <span class="hero-mobile-chip">🎭 ${badgeTopTitle}</span>
-              <span class="hero-mobile-chip">🎪 ${badgeBottomTitle}</span>
+              <span class="hero-mobile-chip">${badgeTopIcon} ${badgeTopTitle}</span>
+              <span class="hero-mobile-chip">${badgeBottomIcon} ${badgeBottomTitle}</span>
             </div>
           </div>
         </div>
@@ -990,7 +999,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
     <!-- Visual Highlight Band (Section 3.1) -->
     <div class="container">
-      <div class="visual-highlight-band">
+      <div class="visual-highlight-band" ${vh.image ? `style="background-image:linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)), url('${vh.image}'); background-size:cover; background-position:center; color:#ffffff;"` : ''}>
         <div class="highlight-content">
           <h3>${vhTitle}</h3>
           <p>
@@ -1080,6 +1089,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           <div class="subpage-stat-chip">🗺️ <strong>8</strong> ${isHi ? 'राष्ट्रीय शहर' : 'Touring Destinations'}</div>
           <div class="subpage-stat-chip">🟢 <strong>${isHi ? 'बुकिंग खुली है' : 'Available for Booking'}</strong></div>
         </div>
+
+        ${siteData.productionsPageBanner ? `
+          <div style="border-radius:var(--radius-md); overflow:hidden; margin-top:1.5rem; max-height:260px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <img src="${siteData.productionsPageBanner}" alt="Productions Creative Banner" style="width:100%; height:100%; object-fit:cover; display:block;">
+          </div>
+        ` : ''}
       </div>
     </div>
 
@@ -1163,6 +1178,14 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     `).join('\n');
 
+    const ev1 = siteData.events[0] || {};
+    const ev1Banner = ev1.bannerImage || ev1.image || '/src/assets/images/festival-jashrang.svg';
+    const ev1Icon = ev1.icon || '🎭';
+
+    const ev2 = siteData.events[1] || {};
+    const ev2Banner = ev2.bannerImage || ev2.image || '/src/assets/images/festival-kavita.svg';
+    const ev2Icon = ev2.icon || '📜';
+
     const content = `
     <div class="page-header">
       <div class="container">
@@ -1179,6 +1202,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           <div class="subpage-stat-chip">🎭 <strong>28+</strong> ${isHi ? 'आमंत्रित नाट्य दल' : 'Visiting Troupes Hosted'}</div>
           <div class="subpage-stat-chip">📍 <strong>Jashpur Open-Air Stages</strong></div>
         </div>
+
+        ${siteData.eventsPageBanner ? `
+          <div style="border-radius:var(--radius-md); overflow:hidden; margin-top:1.5rem; max-height:260px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <img src="${siteData.eventsPageBanner}" alt="Events Creative Banner" style="width:100%; height:100%; object-fit:cover; display:block;">
+          </div>
+        ` : ''}
       </div>
     </div>
 
@@ -1187,7 +1216,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       <!-- FESTIVAL 1: JASHRANG NATIONAL THEATRE FESTIVAL (SPLIT EDITORIAL SPOTLIGHT) -->
       <article class="festival-spotlight-card">
         <div class="festival-spotlight-media">
-          <img src="/src/assets/images/festival-jashrang.svg" alt="${siteData.events[0].name[lang]}">
+          <img src="${ev1Banner}" alt="${ev1.name[lang]}">
           <span class="festival-floating-badge">✦ NOV 14–18, 2026</span>
           <div class="festival-floating-venue">
             <span>📍</span> <span>${isHi ? 'जशपुर प्रेक्षागृह एवं खुला रंगमंच' : 'Jashpur Open-Air Auditorium & Tribal Art Centre'}</span>
@@ -1195,10 +1224,10 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
 
         <div class="festival-spotlight-body">
-          <span class="festival-spotlight-eyebrow">✦ ${isHi ? 'फ्लैगशिप राष्ट्रीय नाट्य महोत्सव' : 'Flagship National Theatre Conclave'} ✦</span>
-          <h2 class="festival-spotlight-title">${siteData.events[0].name[lang]}</h2>
-          <div class="festival-spotlight-tagline">${siteData.events[0].tagline[lang]}</div>
-          <p class="festival-spotlight-desc">${siteData.events[0].description[lang]}</p>
+          <span class="festival-spotlight-eyebrow">✦ ${ev1Icon} ${isHi ? 'फ्लैगशिप राष्ट्रीय नाट्य महोत्सव' : 'Flagship National Theatre Conclave'} ✦</span>
+          <h2 class="festival-spotlight-title">${ev1.name[lang]}</h2>
+          <div class="festival-spotlight-tagline">${ev1.tagline[lang]}</div>
+          <p class="festival-spotlight-desc">${ev1.description[lang]}</p>
 
           <!-- Metrics Row -->
           <div class="festival-metrics-bar">
@@ -1261,7 +1290,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       <!-- FESTIVAL 2: JASPUR KAVITA UTSAV (SPLIT EDITORIAL SPOTLIGHT) -->
       <article class="festival-spotlight-card">
         <div class="festival-spotlight-media">
-          <img src="/src/assets/images/festival-kavita.svg" alt="${siteData.events[1].name[lang]}">
+          <img src="${ev2Banner}" alt="${ev2.name[lang]}">
           <span class="festival-floating-badge" style="background:rgba(26,115,232,0.85);">✦ OCT 02–03, 2026</span>
           <div class="festival-floating-venue">
             <span>📍</span> <span>${isHi ? 'अंबेडकर सांस्कृतिक भवन, जशपुर' : 'Ambedkar Sanskritic Bhavan & Garden Stage'}</span>
@@ -1270,11 +1299,11 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
         <div class="festival-spotlight-body">
           <span class="festival-spotlight-eyebrow" style="background:var(--c-blue-light); color:var(--c-blue);">
-            ✦ ${isHi ? 'साहित्यिक व वाचिक परंपरा समागम' : 'Oral Bardic & Poetry Conclave'} ✦
+            ✦ ${ev2Icon} ${isHi ? 'साहित्यिक व वाचिक परंपरा समागम' : 'Oral Bardic & Poetry Conclave'} ✦
           </span>
-          <h2 class="festival-spotlight-title">${siteData.events[1].name[lang]}</h2>
-          <div class="festival-spotlight-tagline">${siteData.events[1].tagline[lang]}</div>
-          <p class="festival-spotlight-desc">${siteData.events[1].description[lang]}</p>
+          <h2 class="festival-spotlight-title">${ev2.name[lang]}</h2>
+          <div class="festival-spotlight-tagline">${ev2.tagline[lang]}</div>
+          <p class="festival-spotlight-desc">${ev2.description[lang]}</p>
 
           <!-- Metrics Row -->
           <div class="festival-metrics-bar">
@@ -1477,6 +1506,13 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     `).join('\n');
 
+    const campBanner = siteData.workshops?.upcomingBatch?.bannerImage || siteData.workshops?.upcomingBatch?.image || '/src/assets/images/camp-ullas.svg';
+    const campIcon = siteData.workshops?.upcomingBatch?.icon || '⛺';
+    const workshopsBanner = siteData.workshopsPageBanner ? `
+      <div class="page-banner-creative" style="max-width:1140px; margin:0 auto 2.5rem auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.12); border:1px solid var(--g-border-subtle);">
+        <img src="${siteData.workshopsPageBanner}" alt="Residency Banner" style="width:100%; max-height:360px; object-fit:cover; display:block;">
+      </div>` : '';
+
     const content = `
     <div class="page-header">
       <div class="container">
@@ -1495,16 +1531,17 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
 
     <div class="container page-content-container">
+      ${workshopsBanner}
       <!-- Upcoming Batch Hero Card -->
       <article class="festival-showcase-card">
         <div class="festival-banner-media">
-          <img src="/src/assets/images/camp-ullas.svg" alt="${siteData.workshops.upcomingBatch.title[lang]}">
+          <img src="${campBanner}" alt="${siteData.workshops.upcomingBatch.title[lang]}">
         </div>
         <div class="festival-banner-body">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
             <div>
               <span style="background:var(--c-yellow-light); color:var(--c-yellow-dark); font-size:0.8rem; font-weight:800; padding:0.25rem 0.8rem; border-radius:var(--radius-pill); text-transform:uppercase; letter-spacing:0.06em;">
-                ${siteData.workshops.upcomingBatch.status[lang]}
+                ${campIcon} ${siteData.workshops.upcomingBatch.status[lang]}
               </span>
               <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-top:0.5rem;">
                 ${siteData.workshops.upcomingBatch.title[lang]}
@@ -1841,6 +1878,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       </div>
     `;
 
+    const currentCover = siteData.magazine?.currentIssue?.coverImg || '/src/assets/images/mag-issue-14-cover.svg';
+    const magPageBanner = siteData.magazinePageBanner ? `
+      <div class="page-banner-creative" style="max-width:1140px; margin:0 auto 2.5rem auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.12); border:1px solid var(--g-border-subtle);">
+        <img src="${siteData.magazinePageBanner}" alt="Magazine Banner" style="width:100%; max-height:360px; object-fit:cover; display:block;">
+      </div>` : '';
+
     const content = `
     <div class="page-header">
       <div class="container">
@@ -1859,7 +1902,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
 
     <div class="container" style="padding-bottom: 5rem;">
-      
+      ${magPageBanner}
       <!-- INTENTION 1: HIGHLIGHT CURRENT MONTH MAGAZINE ISSUE (ELEGANT EDITORIAL HERO) -->
       <section class="magazine-hero-spotlight">
         <div class="magazine-hero-content">
@@ -1906,7 +1949,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
             <button type="button" class="btn-primary open-subscribe-btn" data-open-subscribe="true" style="background:#1A73E8; border-color:#1A73E8;">
               <span>★</span> <span>${isHi ? 'सदस्यता लें (प्रिंट / PDF)' : 'Subscribe (Print / PDF)'}</span>
             </button>
-            <a href="/src/assets/images/mag-issue-14-cover.svg" target="_blank" class="btn-secondary">
+            <a href="${currentCover}" target="_blank" class="btn-secondary">
               <span>⬇</span> <span>${isHi ? 'कवर आर्ट' : 'Cover Art'}</span>
             </a>
           </div>
@@ -1914,7 +1957,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
         <div class="magazine-cover-display">
           <div class="magazine-cover-frame">
-            <img src="/src/assets/images/mag-issue-14-cover.svg" alt="Issue 14 Cover">
+            <img src="${currentCover}" alt="Issue 14 Cover">
           </div>
         </div>
       </section>
@@ -2383,8 +2426,20 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     const canonical = `/${lang}/blog/`;
     const alt = `/${altLang}/blog/`;
 
-    const postsHtml = siteData.blog.posts.map(p => `
+    const blogPageBanner = siteData.blogPageBanner ? `
+      <div class="page-banner-creative" style="max-width:920px; margin:0 auto 2.5rem auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.12); border:1px solid var(--g-border-subtle);">
+        <img src="${siteData.blogPageBanner}" alt="Blog Banner" style="width:100%; max-height:360px; object-fit:cover; display:block;">
+      </div>` : '';
+
+    const postsHtml = siteData.blog.posts.map(p => {
+      const coverArt = p.coverImage || p.image || '';
+      const bannerEl = coverArt ? `
+        <div style="width:100%; max-height:280px; border-radius:12px; overflow:hidden; margin-bottom:1.25rem; border:1px solid var(--g-border-subtle); background:var(--g-surface-subtle);">
+          <img src="${coverArt}" alt="${p.title[lang]}" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>` : '';
+      return `
       <article class="production-card surface-card" style="margin-bottom:2rem;">
+        ${bannerEl}
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
           <span style="font-size:0.75rem; font-weight:800; color:var(--c-primary); text-transform:uppercase; letter-spacing:0.08em;">${p.category}</span>
           <span style="font-size:0.85rem; color:var(--g-text-muted);">${p.date}</span>
@@ -2400,7 +2455,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           ${p.content[lang]}
         </div>
       </article>
-    `).join('\n');
+      `;
+    }).join('\n');
 
     const content = `
     <div class="page-header">
@@ -2412,6 +2468,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
 
     <div class="container page-content-container" style="max-width:920px;">
+      ${blogPageBanner}
       ${postsHtml}
     </div>
     `;
@@ -2433,16 +2490,34 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     const canonical = `/${lang}/about/`;
     const alt = `/${altLang}/about/`;
 
-    const teamHtml = siteData.about.team.map(m => `
+    const aboutPageBanner = (siteData.aboutPageBanner || siteData.about?.bannerImage) ? `
+      <div class="page-banner-creative" style="max-width:1140px; margin:0 auto 2.5rem auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.12); border:1px solid var(--g-border-subtle);">
+        <img src="${siteData.aboutPageBanner || siteData.about?.bannerImage}" alt="About Chhattisgadhiya Cloud" style="width:100%; max-height:380px; object-fit:cover; display:block;">
+      </div>` : '';
+
+    const culturalRootsArt = siteData.about?.culturalRootsImage ? `
+      <div style="margin-top:1.5rem; border-radius:12px; overflow:hidden; max-height:320px; border:1px solid var(--g-border-subtle); box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+        <img src="${siteData.about.culturalRootsImage}" alt="Cultural Roots Artwork" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>` : '';
+
+    const teamHtml = siteData.about.team.map(m => {
+      const avatarSrc = m.image || m.avatar || '';
+      const avatarEl = avatarSrc ? `
+        <div style="width:64px; height:64px; border-radius:50%; overflow:hidden; border:2px solid var(--c-primary); margin-bottom:1rem; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+          <img src="${avatarSrc}" alt="${m.name}" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>` : `
+        <div style="width:54px; height:54px; border-radius:50%; background:var(--c-primary-light); border:1.5px solid var(--c-primary); display:flex; align-items:center; justify-content:center; color:var(--c-primary); font-size:1.5rem; margin-bottom:1rem;">
+          ${m.icon || '🎭'}
+        </div>`;
+      return `
       <div class="production-card" style="padding:2rem;">
-        <div style="width:50px; height:50px; border-radius:50%; background:var(--c-primary-light); border:1.5px solid var(--c-primary); display:flex; align-items:center; justify-content:center; color:var(--c-primary); font-size:1.4rem; margin-bottom:1rem;">
-          🎭
-        </div>
+        ${avatarEl}
         <h3 style="font-family:var(--font-serif); font-size:1.45rem; font-weight:700; color:var(--g-text-primary); margin-bottom:0.25rem;">${m.name}</h3>
         <div style="font-size:0.88rem; font-weight:600; color:var(--c-primary); margin-bottom:0.85rem;">${m.role[lang]}</div>
         <p style="font-size:0.92rem; color:var(--g-text-secondary); line-height:1.75;">${m.bio[lang]}</p>
       </div>
-    `).join('\n');
+      `;
+    }).join('\n');
 
     const content = `
     <div class="page-header">
@@ -2464,6 +2539,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
 
     <div class="container page-content-container">
+      ${aboutPageBanner}
       <!-- Mission & Vision Dual Cards -->
       <div class="responsive-two-col" style="margin-bottom:3.5rem;">
         <div class="surface-card">
@@ -2530,6 +2606,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         <p style="color:var(--g-text-primary); font-size:1.05rem; line-height:1.85; max-width:880px;">
           ${siteData.about.culturalConnection[lang]}
         </p>
+        ${culturalRootsArt}
       </div>
 
       <!-- Core Leadership & Artists -->
@@ -2728,6 +2805,11 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     const canonical = `/${lang}/press/`;
     const alt = `/${altLang}/press/`;
 
+    const pressBanner = siteData.brandCrestBanner ? `
+      <div class="page-banner-creative" style="max-width:1140px; margin:0 auto 2.5rem auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.12); border:1px solid var(--g-border-subtle);">
+        <img src="${siteData.brandCrestBanner}" alt="Chhattisgadhiya Cloud Official Crest & Brand" style="width:100%; max-height:360px; object-fit:cover; display:block;">
+      </div>` : '';
+
     const content = `
     <div class="page-header">
       <div class="container">
@@ -2738,6 +2820,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
 
     <div class="container page-content-container">
+      ${pressBanner}
       <div class="surface-card" style="margin-bottom:2.5rem;">
         <h2 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--g-text-primary); margin-bottom:0.5rem;">Short Organisation Profile</h2>
         <p style="color:var(--g-text-secondary); line-height:1.8; margin-bottom:1.5rem;">${siteData.pressKit.boilerplateShort[lang]}</p>
