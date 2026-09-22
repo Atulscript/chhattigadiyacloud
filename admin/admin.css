@@ -40,6 +40,35 @@
   --font-serif: 'Cormorant Garamond', Georgia, serif;
 }
 
+[data-theme="dark"] {
+  --studio-bg: #0E1015;
+  --studio-surface: #181B22;
+  --studio-surface-subtle: #222631;
+  --studio-border: #333948;
+  --studio-border-subtle: #292E3B;
+
+  --studio-text: #F0F3F6;
+  --studio-text-secondary: #9DA6B4;
+  --studio-text-muted: #747E8F;
+
+  --studio-primary: #FF5E2B;
+  --studio-primary-dark: #E24818;
+  --studio-primary-light: rgba(255, 94, 43, 0.18);
+
+  --studio-blue: #7BB0FF;
+  --studio-blue-light: rgba(123, 176, 255, 0.16);
+  --studio-green: #4ADE80;
+  --studio-green-light: rgba(74, 222, 128, 0.16);
+  --studio-amber: #FBBF24;
+  --studio-amber-light: rgba(251, 191, 36, 0.16);
+  --studio-red: #F87171;
+  --studio-red-light: rgba(248, 113, 113, 0.16);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.7);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -280,7 +309,7 @@ body {
 }
 
 .btn-studio-secondary:hover {
-  background: #E8EAED;
+  background: var(--studio-border-subtle);
 }
 
 .btn-studio-primary {
@@ -297,6 +326,82 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* Studio Topbar Icon & Action Controls */
+.studio-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--studio-surface-subtle);
+  border: 1px solid var(--studio-border);
+  color: var(--studio-text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.studio-icon-btn:hover {
+  background: var(--studio-border-subtle);
+  transform: scale(1.05);
+}
+
+.studio-topbar-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.4rem;
+  padding-left: 0.65rem;
+  border-left: 1px solid var(--studio-border);
+}
+
+.topbar-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0.65rem;
+  background: var(--studio-surface-subtle);
+  border: 1px solid var(--studio-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--studio-text);
+}
+
+.topbar-admin-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--studio-primary);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.topbar-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  background: var(--studio-red-light);
+  color: var(--studio-red);
+  border: 1px solid rgba(217, 48, 37, 0.25);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.topbar-logout-btn:hover {
+  background: var(--studio-red);
+  color: #ffffff;
 }
 
 .user-profile-badge {
@@ -753,7 +858,7 @@ textarea.form-control {
 .studio-login-card {
   width: 100%;
   max-width: 440px;
-  background: #ffffff;
+  background: var(--studio-surface);
   border: 1px solid var(--studio-border);
   border-radius: var(--radius-lg);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -845,7 +950,7 @@ textarea.form-control {
   gap: 0.5rem;
   overflow-x: auto;
   padding: 0.4rem 0.5rem;
-  background: #ffffff;
+  background: var(--studio-surface);
   border: 1px solid var(--studio-border-subtle);
   border-radius: var(--radius-pill);
   margin-bottom: 1.5rem;
@@ -890,7 +995,7 @@ textarea.form-control {
 
 /* Section Group Box */
 .section-group-card {
-  background: #ffffff;
+  background: var(--studio-surface);
   border: 1px solid var(--studio-border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
@@ -990,5 +1095,225 @@ textarea.form-control {
   border-radius: var(--radius-md);
   padding: 1.25rem;
   margin-top: 1.5rem;
+}
+
+/* ==========================================================================
+   BLOG RICH FORMATTING TOOLBAR & LIVE PREVIEW PANE
+   ========================================================================== */
+.editor-mode-toggle {
+  display: inline-flex;
+  background: var(--studio-surface-subtle);
+  border: 1px solid var(--studio-border);
+  border-radius: var(--radius-pill);
+  padding: 2px;
+  gap: 2px;
+}
+
+.editor-mode-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--studio-text-secondary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editor-mode-btn.active {
+  background: var(--studio-surface);
+  color: var(--studio-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.editor-block-wrap {
+  background: var(--studio-surface);
+  border: 1px solid var(--studio-border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+}
+
+.rich-toolbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.rich-toolbar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  background: var(--studio-surface-subtle);
+  border: 1px solid var(--studio-border-subtle);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.tb-btn {
+  border: 1px solid transparent;
+  background: var(--studio-surface);
+  color: var(--studio-text);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.tb-btn:hover {
+  background: var(--studio-border-subtle);
+  border-color: var(--studio-border);
+  transform: translateY(-1px);
+}
+
+.tb-bold {
+  font-weight: 900;
+}
+
+.tb-italic {
+  font-style: italic;
+  font-family: serif;
+}
+
+.tb-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--studio-border);
+  margin: 0 0.15rem;
+}
+
+.rich-preview-pane {
+  min-height: 180px;
+  padding: 1.15rem 1.35rem;
+  background: var(--studio-surface);
+  border: 1px solid var(--studio-border);
+  border-radius: var(--radius-sm);
+  color: var(--studio-text);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.rich-preview-pane h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--studio-primary);
+  border-bottom: 1px solid var(--studio-border-subtle);
+  padding-bottom: 0.35rem;
+}
+
+.rich-preview-pane h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: 0.65rem;
+  margin-bottom: 0.4rem;
+  color: var(--studio-text);
+}
+
+.rich-preview-pane h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  margin-bottom: 0.35rem;
+  color: var(--studio-text-secondary);
+}
+
+.rich-preview-pane p {
+  margin-bottom: 0.75rem;
+}
+
+.rich-preview-pane blockquote {
+  border-left: 3px solid var(--studio-primary);
+  padding: 0.5rem 1rem;
+  background: var(--studio-surface-subtle);
+  margin: 0.75rem 0;
+  font-style: italic;
+  color: var(--studio-text-secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.rich-preview-pane ul,
+.rich-preview-pane ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rich-preview-pane li {
+  margin-bottom: 0.25rem;
+}
+
+.rich-preview-pane a {
+  color: var(--studio-primary);
+  text-decoration: underline;
+}
+
+.rich-preview-pane code {
+  background: var(--studio-surface-subtle);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  border: 1px solid var(--studio-border-subtle);
+}
+
+/* ==========================================================================
+   GRANULAR ROLE-BASED ACCESS CONTROL (RBAC) STYLES
+   ========================================================================== */
+.perm-badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+}
+
+.perm-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--studio-surface-subtle);
+  color: var(--studio-text-secondary);
+  border: 1px solid var(--studio-border-subtle);
+  text-transform: capitalize;
+}
+
+.perm-pill.active {
+  background: var(--studio-blue-light);
+  color: var(--studio-blue);
+  border-color: rgba(26, 115, 232, 0.3);
+}
+
+.rbac-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.5rem;
+  background: var(--studio-surface-subtle);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  margin-top: 0.5rem;
+}
+
+.rbac-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--studio-text);
+  cursor: pointer;
+}
+
+.rbac-check-item input[type="checkbox"] {
+  accent-color: var(--studio-primary);
+  cursor: pointer;
 }
 

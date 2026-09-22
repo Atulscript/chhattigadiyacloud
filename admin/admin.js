@@ -39,8 +39,37 @@ function base64ToUtf8(str) {
   return decodeURIComponent(escape(window.atob(str)));
 }
 
+// Theme Management
+function initTheme() {
+  const saved = localStorage.getItem('cgcloud_studio_theme') || 'light';
+  applyTheme(saved);
+
+  const toggleBtn = document.getElementById('theme-toggle-btn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    });
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('cgcloud_studio_theme', theme);
+  const icon = document.getElementById('theme-toggle-icon');
+  if (icon) {
+    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  const metaTheme = document.getElementById('meta-theme-color');
+  if (metaTheme) {
+    metaTheme.content = theme === 'dark' ? '#0E1015' : '#C83200';
+  }
+}
+
 // Initialize Studio
 document.addEventListener('DOMContentLoaded', async () => {
+  initTheme();
   setupNavigation();
   setupEventListeners();
   setupAdminAuth();
@@ -63,19 +92,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+function applySidebarPermissions() {
+  const session = state.adminSession;
+  if (!session) return;
+  const isSuperAdmin = session.role === 'admin';
+  const allowed = session.permissions || (isSuperAdmin ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+
+  document.querySelectorAll('#studio-nav-list .studio-nav-item').forEach(item => {
+    const section = item.dataset.section;
+    if (!section) return;
+    if (isSuperAdmin || allowed.includes(section)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
 function checkAdminAuthentication() {
   const loginOverlay = document.getElementById('studio-login-screen');
   const studioLayout = document.getElementById('studio-layout');
   const adminUserEl = document.getElementById('sidebar-admin-user');
+  const topbarUserWrap = document.getElementById('topbar-user-wrap');
+  const topbarAdminName = document.getElementById('topbar-admin-name');
+  const topbarAdminAvatar = document.getElementById('topbar-admin-avatar');
 
   if (state.adminSession && state.adminSession.username) {
     if (loginOverlay) loginOverlay.style.display = 'none';
     if (studioLayout) studioLayout.style.display = 'flex';
     if (adminUserEl) adminUserEl.textContent = `👤 ${state.adminSession.username}`;
+    if (topbarUserWrap) topbarUserWrap.style.display = 'inline-flex';
+    if (topbarAdminName) topbarAdminName.textContent = state.adminSession.displayName || state.adminSession.username;
+    if (topbarAdminAvatar) topbarAdminAvatar.textContent = (state.adminSession.username || 'A')[0].toUpperCase();
+
+    // Apply RBAC nav item filtering
+    applySidebarPermissions();
+
     return true;
   } else {
     if (loginOverlay) loginOverlay.style.display = 'flex';
     if (studioLayout) studioLayout.style.display = 'none';
+    if (topbarUserWrap) topbarUserWrap.style.display = 'none';
     return false;
   }
 }
@@ -106,6 +163,7 @@ function setupAdminAuth() {
           username: "admin",
           displayName: "Super Administrator",
           role: "admin",
+          permissions: ["dashboard", "pages", "team", "blog", "users", "settings"],
           passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
         }
       ];
@@ -117,6 +175,7 @@ function setupAdminAuth() {
           username: foundUser.username,
           displayName: foundUser.displayName || foundUser.username,
           role: foundUser.role || 'admin',
+          permissions: foundUser.permissions || (foundUser.role === 'admin' ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']),
           timestamp: Date.now()
         };
         state.adminSession = session;
@@ -141,19 +200,22 @@ function setupAdminAuth() {
     });
   }
 
-  // Logout button
+  // Logout handler (both topbar button and sidebar button)
+  const handleLogout = () => {
+    if (confirm('Are you sure you want to sign out of Content Studio?')) {
+      localStorage.removeItem('cgcloud_admin_session');
+      sessionStorage.removeItem('cgcloud_admin_session');
+      state.adminSession = null;
+      checkAdminAuthentication();
+      showToast('Signed out of admin session.', 'info');
+    }
+  };
+
   const logoutBtn = document.getElementById('admin-logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      if (confirm('Are you sure you want to sign out of Content Studio?')) {
-        localStorage.removeItem('cgcloud_admin_session');
-        sessionStorage.removeItem('cgcloud_admin_session');
-        state.adminSession = null;
-        checkAdminAuthentication();
-        showToast('Signed out of admin session.', 'info');
-      }
-    });
-  }
+  if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+  const topbarLogoutBtn = document.getElementById('topbar-logout-btn');
+  if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', handleLogout);
 }
 
 // Setup sidebar tab navigation
@@ -178,6 +240,16 @@ function setupNavigation() {
 }
 
 function switchTab(tabId) {
+  // Check RBAC permission for non-super-admin users
+  const session = state.adminSession;
+  if (session && session.role !== 'admin') {
+    const allowed = session.permissions || ['dashboard', 'blog'];
+    if (!allowed.includes(tabId)) {
+      showToast(`⚠️ Access Restricted: You do not have permission to access "${tabId}".`, 'error');
+      return;
+    }
+  }
+
   state.activeTab = tabId;
   document.querySelectorAll('.studio-nav-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
@@ -194,8 +266,8 @@ function switchTab(tabId) {
       team: 'About & Team Management',
       blog: 'Blog Posts Manager',
       pages: 'All Pages Content',
-      users: 'Users & Permissions',
-      settings: 'Settings & JSON Backup'
+      users: 'Users & Access Permissions',
+      settings: 'Settings, GitHub Auth & Backup'
     };
     titleEl.textContent = titles[tabId] || 'Content Studio';
   }
@@ -961,6 +1033,15 @@ function showPostEditorModal(post) {
   document.getElementById('post-edit-content-hi').value = post.content && post.content.hi || '';
 
   modal.classList.add('active');
+
+  // Reset editor mode to 'write' and refresh live previews
+  if (typeof switchEditorMode === 'function') {
+    switchEditorMode('write');
+  }
+  if (typeof updateLivePreview === 'function') {
+    updateLivePreview('en');
+    updateLivePreview('hi');
+  }
 }
 
 window.closePostModal = function() {
@@ -1014,6 +1095,155 @@ window.savePostFromModal = function() {
   markDirty(true);
   closePostModal();
   renderBlogManager();
+};
+
+// ==========================================
+// BLOG RICH FORMATTING & LIVE PREVIEW ENGINE
+// ==========================================
+function parseMarkdownToHtml(md) {
+  if (!md) return '<p style="color:var(--studio-text-muted); font-style:italic;">(No content written yet)</p>';
+
+  let html = escapeHtml(md);
+
+  // Headings H1, H2, H3
+  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+  // Blockquotes
+  html = html.replace(/^&gt; (.*$)/gim, '<blockquote>$1</blockquote>');
+  html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+  // Bold & Italic
+  html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+
+  // Inline Code
+  html = html.replace(/`([^`]+)`/gim, '<code>$1</code>');
+
+  // Links [text](url)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  // Bullet Lists
+  html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/gim, '<ul>$1</ul>');
+  html = html.replace(/<\/ul>\s*<ul>/gim, '');
+
+  // Numbered Lists
+  html = html.replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>');
+
+  // Paragraphs
+  const paragraphs = html.split(/\n\n+/);
+  html = paragraphs.map(para => {
+    para = para.trim();
+    if (!para) return '';
+    if (para.startsWith('<h') || para.startsWith('<ul') || para.startsWith('<ol') || para.startsWith('<blockquote')) {
+      return para;
+    }
+    return `<p>${para.replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+
+  return html;
+}
+
+window.insertFormat = function(lang, type) {
+  const textarea = document.getElementById(`post-edit-content-${lang}`);
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+  let replacement = '';
+
+  switch (type) {
+    case 'h1':
+      replacement = `\n# ${selectedText || 'Heading 1'}\n`;
+      break;
+    case 'h2':
+      replacement = `\n## ${selectedText || 'Heading 2'}\n`;
+      break;
+    case 'h3':
+      replacement = `\n### ${selectedText || 'Heading 3'}\n`;
+      break;
+    case 'bold':
+      replacement = `**${selectedText || 'bold text'}**`;
+      break;
+    case 'italic':
+      replacement = `*${selectedText || 'italic text'}*`;
+      break;
+    case 'quote':
+      replacement = `\n> ${selectedText || 'Blockquote quote'}\n`;
+      break;
+    case 'ul':
+      replacement = `\n- ${selectedText || 'List item'}\n`;
+      break;
+    case 'ol':
+      replacement = `\n1. ${selectedText || 'Numbered item'}\n`;
+      break;
+    case 'link':
+      replacement = `[${selectedText || 'Link Title'}](https://example.com)`;
+      break;
+    case 'code':
+      replacement = `\`${selectedText || 'code'}\``;
+      break;
+    default:
+      return;
+  }
+
+  textarea.focus();
+  if (typeof textarea.setRangeText === 'function') {
+    textarea.setRangeText(replacement, start, end, 'select');
+  } else {
+    textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+  }
+
+  updateLivePreview(lang);
+  markDirty(true);
+};
+
+window.switchEditorMode = function(mode) {
+  const writeBtn = document.getElementById('btn-mode-write');
+  const prevBtn = document.getElementById('btn-mode-preview');
+  const enText = document.getElementById('post-edit-content-en');
+  const hiText = document.getElementById('post-edit-content-hi');
+  const enPrev = document.getElementById('post-preview-en');
+  const hiPrev = document.getElementById('post-preview-hi');
+  const enToolbar = document.getElementById('toolbar-en');
+  const hiToolbar = document.getElementById('toolbar-hi');
+
+  if (mode === 'preview') {
+    if (writeBtn) writeBtn.classList.remove('active');
+    if (prevBtn) prevBtn.classList.add('active');
+
+    if (enText) enText.style.display = 'none';
+    if (hiText) hiText.style.display = 'none';
+    if (enToolbar) enToolbar.style.display = 'none';
+    if (hiToolbar) hiToolbar.style.display = 'none';
+
+    if (enPrev) enPrev.style.display = 'block';
+    if (hiPrev) hiPrev.style.display = 'block';
+
+    updateLivePreview('en');
+    updateLivePreview('hi');
+  } else {
+    if (writeBtn) writeBtn.classList.add('active');
+    if (prevBtn) prevBtn.classList.remove('active');
+
+    if (enText) enText.style.display = 'block';
+    if (hiText) hiText.style.display = 'block';
+    if (enToolbar) enToolbar.style.display = 'inline-flex';
+    if (hiToolbar) hiToolbar.style.display = 'inline-flex';
+
+    if (enPrev) enPrev.style.display = 'none';
+    if (hiPrev) hiPrev.style.display = 'none';
+  }
+};
+
+window.updateLivePreview = function(lang) {
+  const textEl = document.getElementById(`post-edit-content-${lang}`);
+  const prevEl = document.getElementById(`post-preview-${lang}`);
+  if (!textEl || !prevEl) return;
+  prevEl.innerHTML = parseMarkdownToHtml(textEl.value);
 };
 
 // ==========================================
@@ -1756,37 +1986,26 @@ function renderBrandPageEditor(host) {
 // ==========================================
 // 5. USERS & ACCESS MANAGEMENT (Proper Admin Credentials & Security)
 // ==========================================
+// ==========================================
+// 5. USERS & ACCESS MANAGEMENT (Proper Admin Credentials & RBAC)
+// ==========================================
 function renderUsersManager() {
   const container = document.getElementById('panel-users');
   if (!container || !state.content) return;
 
   const currentAdmin = state.adminSession || { username: 'admin', displayName: 'Super Administrator', role: 'admin' };
   const adminUsers = (state.content.adminAuth && state.content.adminAuth.users) || [
-    { username: 'admin', displayName: 'Super Administrator', role: 'admin', passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' }
+    { username: 'admin', displayName: 'Super Administrator', role: 'admin', permissions: ["dashboard", "pages", "team", "blog", "users", "settings"], passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' }
   ];
 
-  const githubAuthHtml = state.user ? `
-    <div style="display:flex; align-items:center; gap:1rem; padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem;">
-      <img src="${state.user.avatar}" alt="${state.user.login}" style="width:48px; height:48px; border-radius:50%;">
-      <div>
-        <div style="font-weight:800; font-size:1.05rem;">${escapeHtml(state.user.name)} (@${state.user.login})</div>
-        <div style="font-size:0.82rem; color:var(--studio-text-secondary); margin-top:2px;">
-          GitHub Repository Role: <span class="user-role-tag">${state.user.role.toUpperCase()}</span>
-        </div>
-      </div>
-      <div style="margin-left:auto;">
-        <span style="font-size:0.8rem; font-weight:700; color:var(--studio-green);">● GitHub Connected</span>
-      </div>
-    </div>
-  ` : `
-    <div style="padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:gap; gap:1rem;">
-      <div>
-        <div style="font-weight:700; font-size:0.95rem;">GitHub Publishing Integration</div>
-        <div style="font-size:0.82rem; color:var(--studio-text-secondary);">Connect a Personal Access Token with repo scope to commit directly to GitHub Pages.</div>
-      </div>
-      <button type="button" class="btn-studio btn-studio-primary" onclick="showAuthModal()">Connect GitHub Account</button>
-    </div>
-  `;
+  const allSections = [
+    { id: 'dashboard', label: 'Dashboard' },
+    { id: 'pages', label: 'Page Content' },
+    { id: 'team', label: 'About & Team' },
+    { id: 'blog', label: 'Blog Articles' },
+    { id: 'users', label: 'Users & Access' },
+    { id: 'settings', label: 'Settings & Backup' }
+  ];
 
   container.innerHTML = `
     <!-- Current Active Admin Profile Card -->
@@ -1841,12 +2060,12 @@ function renderUsersManager() {
       </div>
     </div>
 
-    <!-- Admin Accounts & Access Control -->
+    <!-- Admin Accounts & Access Control (RBAC) -->
     <div class="studio-card">
       <div class="studio-card-header">
         <div>
-          <h2 class="studio-card-title">👥 Studio Admin Accounts (${adminUsers.length})</h2>
-          <div class="studio-card-desc">Accounts authorized to access the <code>/admin/</code> Studio portal.</div>
+          <h2 class="studio-card-title">👥 Studio User Management & Section Permissions (${adminUsers.length})</h2>
+          <div class="studio-card-desc">Assign granular section permissions specifying which parts of the Studio each user can access.</div>
         </div>
         <button type="button" class="btn-studio btn-studio-secondary" onclick="promptAddNewUser()">+ Add User Account</button>
       </div>
@@ -1855,44 +2074,99 @@ function renderUsersManager() {
         <table class="studio-table">
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Display Name</th>
+              <th>User Account</th>
               <th>Role</th>
-              <th>Password Hash</th>
+              <th style="min-width:280px;">Allowed Studio Sections (RBAC)</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            ${adminUsers.map((u, idx) => `
+            ${adminUsers.map((u, idx) => {
+              const isSuper = u.role === 'admin';
+              const userPerms = u.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+              
+              return `
               <tr>
-                <td style="font-weight:700;"><code>${escapeHtml(u.username)}</code></td>
-                <td>${escapeHtml(u.displayName || u.username)}</td>
-                <td><span class="user-role-tag">${escapeHtml(u.role.toUpperCase())}</span></td>
-                <td style="font-family:monospace; font-size:0.75rem; color:var(--studio-text-muted);">${(u.passwordHash || '').substring(0, 16)}...</td>
+                <td>
+                  <div style="font-weight:800; color:var(--studio-text);"><code>${escapeHtml(u.username)}</code></div>
+                  <div style="font-size:0.8rem; color:var(--studio-text-secondary);">${escapeHtml(u.displayName || u.username)}</div>
+                </td>
+                <td>
+                  <span class="user-role-tag">${escapeHtml(u.role.toUpperCase())}</span>
+                </td>
+                <td>
+                  ${isSuper ? `
+                    <span class="perm-pill active" style="background:var(--studio-green-light); color:var(--studio-green); font-weight:800;">
+                      🛡️ All Sections (Full Super Admin Access)
+                    </span>
+                  ` : `
+                    <div class="perm-badge-group">
+                      ${userPerms.map(p => `<span class="perm-pill active">${escapeHtml(p)}</span>`).join('')}
+                    </div>
+                    
+                    <!-- Granular Section Toggles -->
+                    <div class="rbac-checkboxes">
+                      ${allSections.map(sec => `
+                        <label class="rbac-check-item">
+                          <input type="checkbox" ${userPerms.includes(sec.id) ? 'checked' : ''} onchange="toggleUserPermission('${escapeHtml(u.username)}', '${sec.id}', this.checked)">
+                          <span>${sec.label}</span>
+                        </label>
+                      `).join('')}
+                    </div>
+                  `}
+                </td>
                 <td>
                   ${adminUsers.length > 1 && u.username !== currentAdmin.username ? `
                     <button type="button" class="icon-btn danger" onclick="deleteAdminUser(${idx})" title="Delete user">✕</button>
                   ` : `<span style="font-size:0.75rem; color:var(--studio-text-muted);">Current User</span>`}
                 </td>
               </tr>
-            `).join('')}
+              `;
+            }).join('')}
           </tbody>
         </table>
       </div>
     </div>
-
-    <!-- GitHub Integration Sync -->
-    <div class="studio-card">
-      <div class="studio-card-header">
-        <div>
-          <h2 class="studio-card-title">☁️ GitHub Deployment Sync</h2>
-          <div class="studio-card-desc">Repository permissions and GitHub Pages live workflow synchronisation.</div>
-        </div>
-      </div>
-      ${githubAuthHtml}
-    </div>
   `;
 }
+
+// Granular RBAC Permission Toggle
+window.toggleUserPermission = function(username, sectionId, isChecked) {
+  if (!state.content.adminAuth || !state.content.adminAuth.users) return;
+  const targetUser = state.content.adminAuth.users.find(u => u.username.toLowerCase() === username.toLowerCase());
+  if (!targetUser) return;
+
+  if (!targetUser.permissions) {
+    targetUser.permissions = ['dashboard', 'blog'];
+  }
+
+  if (isChecked) {
+    if (!targetUser.permissions.includes(sectionId)) {
+      targetUser.permissions.push(sectionId);
+    }
+  } else {
+    targetUser.permissions = targetUser.permissions.filter(p => p !== sectionId);
+    // Keep at least dashboard
+    if (targetUser.permissions.length === 0) {
+      targetUser.permissions = ['dashboard'];
+    }
+  }
+
+  // If modifying currently logged in user session, sync it immediately
+  if (state.adminSession && state.adminSession.username.toLowerCase() === username.toLowerCase()) {
+    state.adminSession.permissions = targetUser.permissions;
+    if (localStorage.getItem('cgcloud_admin_session')) {
+      localStorage.setItem('cgcloud_admin_session', JSON.stringify(state.adminSession));
+    } else {
+      sessionStorage.setItem('cgcloud_admin_session', JSON.stringify(state.adminSession));
+    }
+    applySidebarPermissions();
+  }
+
+  markDirty(true);
+  renderUsersManager();
+  showToast(`Updated access permissions for "${username}". Click "Publish" to save permanently.`, 'success');
+};
 
 // Password Change Handler
 window.handleChangePassword = async function(e) {
@@ -1964,12 +2238,13 @@ window.promptAddNewUser = async function() {
     username: username.trim().toLowerCase(),
     displayName: displayName || username,
     role: 'editor',
+    permissions: ['dashboard', 'blog'],
     passwordHash: passHash
   });
 
   markDirty(true);
   renderUsersManager();
-  showToast(`Added user "${username}". Remember to Publish changes to GitHub.`, 'success');
+  showToast(`Added user "${username}" with Blog & Dashboard access. Configure additional sections as needed and Publish.`, 'success');
 };
 
 window.deleteAdminUser = function(index) {
@@ -1983,13 +2258,93 @@ window.deleteAdminUser = function(index) {
 };
 
 // ==========================================
-// 6. SETTINGS & JSON BACKUP
+// 6. SETTINGS & REPOSITORY INTEGRATION (All GitHub Auth & Backups)
 // ==========================================
 function renderSettingsManager() {
   const container = document.getElementById('panel-settings');
   if (!container || !state.content) return;
 
+  const isConnected = !!state.token && !!state.user;
+
   container.innerHTML = `
+    <!-- GitHub Authentication & Publishing Engine -->
+    <div class="studio-card">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">☁️ GitHub Authentication & Cloud Deployment</h2>
+          <div class="studio-card-desc">Centralized Personal Access Token (PAT) and repository synchronization settings.</div>
+        </div>
+        ${isConnected ? `
+          <span style="padding:0.35rem 0.85rem; background:var(--studio-green-light); color:var(--studio-green); border-radius:var(--radius-pill); font-size:0.8rem; font-weight:800;">
+            ● GitHub Connected
+          </span>
+        ` : `
+          <span style="padding:0.35rem 0.85rem; background:var(--studio-amber-light); color:var(--studio-amber); border-radius:var(--radius-pill); font-size:0.8rem; font-weight:800;">
+            ⚪ Not Connected (Local Preview)
+          </span>
+        `}
+      </div>
+
+      ${isConnected ? `
+        <!-- Connected Account Card -->
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <img src="${state.user.avatar}" alt="${state.user.login}" style="width:52px; height:52px; border-radius:50%; border:2px solid var(--studio-primary);">
+            <div>
+              <div style="font-weight:800; font-size:1.1rem; color:var(--studio-text);">${escapeHtml(state.user.name || state.user.login)} (@${state.user.login})</div>
+              <div style="font-size:0.82rem; color:var(--studio-text-secondary); margin-top:2px;">
+                Repository Collaborator Role: <span class="user-role-tag">${state.user.role.toUpperCase()}</span> &bull; Scopes: <code>repo</code>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button type="button" class="btn-studio btn-studio-secondary" onclick="testGitHubConnection()">🔄 Test Connection</button>
+            <button type="button" class="btn-studio btn-studio-secondary" style="color:var(--studio-red);" onclick="disconnectGitHubToken()">Disconnect Token</button>
+          </div>
+        </div>
+      ` : `
+        <!-- Token Setup Form -->
+        <div style="padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem;">
+          <div style="font-weight:800; font-size:1rem; margin-bottom:0.35rem; color:var(--studio-text);">Connect GitHub Personal Access Token</div>
+          <p style="font-size:0.84rem; color:var(--studio-text-secondary); line-height:1.6; margin-bottom:1rem;">
+            To publish edits to <strong>${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}</strong> and trigger automatic deployment to GitHub Pages, provide a GitHub Personal Access Token with <code>repo</code> scope.
+          </p>
+
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.75rem;">
+            <input type="password" id="settings-token-input" class="form-control" style="flex:1; min-width:260px;" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            <button type="button" class="btn-studio btn-studio-primary" onclick="saveSettingsGitHubToken()">Connect & Save Token</button>
+          </div>
+
+          <div class="form-hint">
+            Don't have a token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=CGCloud+Content+Studio" target="_blank" style="color:var(--studio-primary); font-weight:700;">Generate one in 10 seconds on GitHub ↗</a> (select "repo" scope).
+          </div>
+        </div>
+      `}
+
+      <!-- Repository Details Grid -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; padding:1.15rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md);">
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; text-transform:uppercase; color:var(--studio-text-muted);">Target Repository</div>
+          <div style="font-size:0.95rem; font-weight:700; color:var(--studio-text); margin-top:2px;">
+            <a href="https://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}" target="_blank" style="color:var(--studio-primary); text-decoration:none;">${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME} ↗</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; text-transform:uppercase; color:var(--studio-text-muted);">Active Branch</div>
+          <div style="font-size:0.95rem; font-weight:700; color:var(--studio-text); margin-top:2px;"><code>${BRANCH_NAME}</code></div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; text-transform:uppercase; color:var(--studio-text-muted);">Content Dictionary File</div>
+          <div style="font-size:0.95rem; font-weight:700; color:var(--studio-text); margin-top:2px;"><code>${CONTENT_FILE_PATH}</code></div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; text-transform:uppercase; color:var(--studio-text-muted);">Latest Git SHA</div>
+          <div style="font-size:0.95rem; font-weight:700; color:var(--studio-text); margin-top:2px;"><code>${state.fileSha ? state.fileSha.substring(0, 8) : 'Local static'}</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backup & Raw Content JSON Snapshot -->
     <div class="studio-card">
       <div class="studio-card-header">
         <div>
@@ -2008,6 +2363,38 @@ function renderSettingsManager() {
     </div>
   `;
 }
+
+window.saveSettingsGitHubToken = async function() {
+  const input = document.getElementById('settings-token-input');
+  if (!input || !input.value.trim()) {
+    alert('Please enter a valid GitHub token.');
+    return;
+  }
+  const token = input.value.trim();
+  await verifyGitHubAuth(token, true);
+  renderSettingsManager();
+};
+
+window.disconnectGitHubToken = function() {
+  if (confirm('Are you sure you want to disconnect your GitHub token? You will need to re-enter it to publish changes.')) {
+    localStorage.removeItem('cgcloud_gh_token');
+    state.token = '';
+    state.user = null;
+    updateAuthUI(null);
+    showToast('GitHub token removed.', 'info');
+    renderSettingsManager();
+  }
+};
+
+window.testGitHubConnection = async function() {
+  if (!state.token) {
+    alert('No token configured.');
+    return;
+  }
+  showToast('Testing GitHub connection...', 'info');
+  await verifyGitHubAuth(state.token, true);
+  renderSettingsManager();
+};
 
 window.downloadBackupJson = function() {
   const blob = new Blob([JSON.stringify(state.content, null, 2)], { type: 'application/json' });
@@ -2043,3 +2430,4 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
