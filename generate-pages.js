@@ -28,6 +28,11 @@ const cssMin = cssRaw
   .trim();
 fs.writeFileSync(path.join(__dirname, 'src', 'styles.min.css'), cssMin);
 
+// Load and prepare HybridMagazineReader for zero-dependency browser usage
+const hybridReaderRaw = fs.readFileSync(path.join(__dirname, 'src', 'reader', 'hybrid-reader.js'), 'utf8');
+const hybridReaderClean = hybridReaderRaw.replace('export class HybridMagazineReader', 'class HybridMagazineReader');
+fs.writeFileSync(path.join(__dirname, 'src', 'reader', 'hybrid-reader.bundle.js'), hybridReaderClean + '\nif (typeof window !== "undefined") { window.HybridMagazineReader = HybridMagazineReader; }\n');
+
 // Artwork Mapping
 const playArtworkMap = {
   'kahani-vasu-ki': '/src/assets/images/play-vasu.svg',
@@ -1976,9 +1981,9 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
 
         <div class="magazine-cover-display">
-          <div class="magazine-cover-frame">
+          <a href="#interactive-reader-section" class="magazine-cover-frame" title="${isHi ? '3D पाठक में पढ़ें' : 'Click to open in 3D Book Reader'}" style="display:block; text-decoration:none; cursor:pointer;">
             <img src="${currentCover}" alt="Issue 14 Cover">
-          </div>
+          </a>
         </div>
       </section>
 
@@ -2063,7 +2068,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       <!-- =====================================================================
            COMPONENT 4: INTERACTIVE FLIP-STYLE BOOK READER (FREE PAGES 1-5, PAGE 6 PAYWALL)
            ===================================================================== -->
-      <section id="interactive-reader-section" style="margin-bottom:5.5rem;">
+      <section id="interactive-reader-section" style="margin-bottom:5.5rem; scroll-margin-top:5rem;">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.25rem; margin-bottom:1.5rem;">
           <div>
             <span class="page-eyebrow">✦ ${isHi ? 'इंटरएक्टिव डिजिटल वाचक' : 'Interactive Reading Engine'} ✦</span>
@@ -2306,6 +2311,98 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     </div>
     `;
 
+    const readerPages = [
+      {
+        pageNumber: 1,
+        title: isHi ? "संपादकीय मुखपृष्ठ: लोक रंगमंच और आधुनिकता" : "Issue 14 Cover & Editorial Proclamation",
+        author: isHi ? "सुरेश ठाकुर" : "Suresh Thakur",
+        category: isHi ? "संपादकीय" : "Editorial Inscription",
+        date: 'Sept 2026',
+        excerpt: isHi ? "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और मंच-शिल्प।" : "Folk Theatre in Modern Times: Continuity, Dance & Scenography.",
+        content: isHi
+          ? "### लोक नाट्य और समकालीन रंग-चेतना\n\nछत्तीसगढ़िया क्लाउड मासिक पत्रिका का यह अंक माटी की सुगंध और रंगमंच की नई संभावनाओं को समर्पित है। नाचा, पंथी और करमा केवल अतीत की स्मृतियां नहीं हैं; वे वर्तमान समाज के ज्वलंत सवालों से टकराने वाले सबसे जीवंत औजार हैं।\n\n> \"रंगमंच जब तक माटी से जुड़ा है, तब तक वह पराजित नहीं हो सकता।\"\n\nहम इस अंक के माध्यम से उन सभी अनाम लोक कलाकारों को नमन करते हैं जिन्होंने अभावों में भी कला की मशाल जलाए रखी।"
+          : "### Folk Idiom in Contemporary Scenography\n\nThis fourteenth edition of Chhattisgadhiya Cloud Masik Patrika is dedicated to the living soil and evolutionary stage forms of Central India. Nacha, Panthi, and Karma are not museum artifacts; they are kinetic, critical tools in dialog with the modern world.\n\n> \"Theatre remains invincible as long as its bare feet touch the living earth.\"\n\nWe dedicate this monograph to the grassroots torchbearers of regional oral performance."
+      },
+      {
+        pageNumber: 2,
+        title: isHi ? "अनुक्रमणिका एवं संयोजक वक्तव्य" : "Table of Contents & Curatorial Note",
+        author: isHi ? "मीनाक्षी कश्यप" : "Meenakshi Kashyap",
+        category: isHi ? "संयोजक स्तंभ" : "Curator Note",
+        date: 'Sept 2026',
+        excerpt: isHi ? "अंक १४ की विषय-वस्तु, शोध आलेखों का वर्गीकरण एवं अभिलेख विवरण।" : "Classified folios, research methodologies, and monograph structure.",
+        content: isHi
+          ? "### इस अंक की सामग्री\n\n1. **पृष्ठ ३-४**: शहरी मंचों पर नाचा का पुनरुत्थान — डॉ. प्रभात मिश्रा\n2. **पृष्ठ ५**: हबीब तनवीर की रंग-शिल्प दृष्टि — कविता एस. जोशी\n3. **पृष्ठ ६ [🔒]**: हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति\n4. **पृष्ठ ७ [🔒]**: जशपुर के स्वर: घाटियों से लोकगीत एवं कुरुख अनुवाद\n5. **पृष्ठ ८ [🔒]**: आदिवासी नाट्य दल निर्देशिका एवं संदर्भ ग्रंथ-सूची\n\n> \"यह पत्रिका शोधार्थियों और कलाकारों के बीच एक सेतु है।\""
+          : "### Contents in this Issue\n\n1. **Pages 3–4**: The Revival of Nacha in Urban Spaces — Dr. Prabhat Mishra\n2. **Page 5**: Remembering Habib Tanvir's Scenography — Kavita S. Joshi\n3. **Page 6 [🔒]**: Unpublished Stage Geometry & Chorus Choreography\n4. **Page 7 [🔒]**: Voices of Jashpur: Hill Valley Ballads & Kurukh Verses\n5. **Page 8 [🔒]**: Repertory Ensemble Directory & Archival Bibliography\n\n> \"An open laboratory bridging folk traditions with modern scenography.\""
+      },
+      {
+        pageNumber: 3,
+        title: isHi ? "शहरी मंचों पर नाचा परंपरा का पुनरुत्थान (भाग १)" : "The Revival of Nacha in Urban Spaces (Part 1)",
+        author: isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra",
+        category: isHi ? "नाट्य आलेख" : "Theatre Essay",
+        date: 'Sept 2026',
+        excerpt: isHi ? "कैसे ग्रामीण छत्तीसगढ़ का पारंपरिक नाचा आधुनिक दर्शकों को अपनी सहज धारदार अभिव्यक्ति से जोड़ रहा है।" : "How rustic comedic satire and Panthi rhythms captivate modern proscenium stages.",
+        content: isHi
+          ? "### नाचा की सजीव लोक-चेतना\n\nनाचा मात्र मनोरंजन का माध्यम नहीं, बल्कि ग्रामीण समाज का खुला मंच और न्याय-कक्ष रहा है। जब कलाकार अखाड़े में कदम रखते हैं, तो सामाजिक दीवारें पिघलने लगती हैं।\n\n> \"नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक और गहरा सामना है।\"\n\nइस अंक में हम नाचा के तीन पीढ़ियों के कलाकारों के अनुभवों का विश्लेषण कर रहे हैं।"
+          : "### The Living Courtroom of Folk Culture\n\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften.\n\n> \"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\"\n\nIn this edition, we document the experiences of three generations of Nacha practitioners."
+      },
+      {
+        pageNumber: 4,
+        title: isHi ? "नाचा का मंच-शिल्प, संगीत एवं संवाद (भाग २)" : "Nacha Scenography, Music & Satire (Part 2)",
+        author: isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra",
+        category: isHi ? "रंग विश्लेषण" : "Performance Analysis",
+        date: 'Sept 2026',
+        excerpt: isHi ? "ढोलक, मंजीरे की थाप और मुहावरों की अचूक शक्ति का विवेचन।" : "Rhythmic crescendos of the dholak and improvisation strategies.",
+        content: isHi
+          ? "### माटी की बोली और तात्कालिकता\n\n1. **माटी की बोली**: मुहावरों और लोक-संसार की भाषा जो व्याकरण के बंधनों से मुक्त है।\n2. **संगीत की धड़कन**: ढोलक और मंजीरे के साथ कथा का तीव्र उतार-चढ़ाव।\n3. **तात्कालिकता**: दर्शकों की प्रतिक्रिया के अनुसार नए संवाद गढ़ना।\n\nयही गतिशीलता नाचा को हर युग में प्रासंगिक बनाती है।"
+          : "### Dialect, Cadence and Spontaneous Wit\n\n1. **Language of the Earth**: Vernacular colloquialisms defying formal stiffness.\n2. **Music as Dramatic Pulse**: Dholak and manjeera driving kinetic crescendos.\n3. **Spontaneous Improvisation**: Adapting punchlines instantaneously to audience reactions.\n\nThis organic elasticity keeps Nacha permanently modern."
+      },
+      {
+        pageNumber: 5,
+        title: isHi ? "हबीब तनवीर की रंग-शिल्प दृष्टि का स्मरण" : "Remembering Habib Tanvir's Scenography",
+        author: isHi ? "कविता एस. जोशी" : "Kavita S. Joshi",
+        category: isHi ? "स्मृति आलेख" : "Tribute & Analysis",
+        date: 'Sept 2026',
+        excerpt: isHi ? "बीसवीं सदी के भारतीय रंगमंच को नई दिशा देने वाले सादगीपूर्ण मंच-शिल्प की पड़ताल।" : "Minimalist stage aesthetics and bamboo architectures that redefined modern Indian theatre.",
+        content: isHi
+          ? "### रिक्त स्थान, ब्रेख्त और बांस का पर्दा\n\nहबीब तनवीर ने विक्टोरियन शैली के भारी-भरकम पर्दों और गत्ते की दीवारों को हटाकर रंगमंच को खुला आकाश और बांस की सादगी दी।\n\nउनके अभिनेताओं का शरीर ही पूरा सेट बन जाता था। एक कदम बढ़ाना नदी पार करना बन जाता था, और एक लोकगीत राजमहल के द्वार खोल देता था।\n\n> \"सादगी ही सबसे महान भव्यता है।\""
+          : "### Space, Brecht, and the Bamboo Screen\n\nHabib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the vast sky and simple bamboo frames.\n\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor's palace.\n\n> \"Simplicity is the most formidable spectacle.\""
+      },
+      {
+        pageNumber: 6,
+        title: isHi ? "🔒 हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति" : "🔒 Habib Tanvir's Unpublished Stage Geometry & Chorus Notes",
+        author: isHi ? "अभिलेख दल" : "Archive Editorial Board",
+        category: isHi ? "🔒 विशेषांक (सदस्यता आवश्यक)" : "🔒 Premium Monograph (₹99)",
+        date: 'Sept 2026',
+        excerpt: isHi ? "नया थिएटर की ऐतिहासिक प्रस्तुतियों के मूल मंच खाके एवं ज्यामितीय ब्लॉक।" : "Facsimiles of original blocking notes and acoustic spatial arrangements from Naya Theatre.",
+        content: isHi
+          ? "### 🔒 यह आलेख केवल सदस्यों हेतु उपलब्ध है\n\nआपने निःशुल्क ५ पृष्ठों का पूर्वावलोकन पूरा कर लिया है।\n\nहबीब तनवीर के दुर्लभ हस्तलिखित आरेख, नाचा कलाकारों के साथ उनके रिहर्सल नोट्स एवं संपूर्ण अभिलेखागार पढ़ने हेतु मात्र **₹99** में सदस्यता लें।"
+          : "### 🔒 This Monograph Requires a Premium Subscription\n\nYou have completed the free 5-page preview.\n\nSubscribe for **₹99** to immediately unlock Habib Tanvir's unpublished spatial blocking notes, rehearsal diaries with folk artists, and complete high-resolution downloads."
+      },
+      {
+        pageNumber: 7,
+        title: isHi ? "🔒 जशपुर के स्वर: पहाड़ी घाटियों से लोकगीत एवं कुरुख अनुवाद" : "🔒 Voices of Jashpur: Hill Valley Ballads & Kurukh Verses",
+        author: isHi ? "जशपुर के प्रतिनिधि कवि" : "Selected Bards of Jashpur",
+        category: isHi ? "🔒 कविता विशेषांक (सदस्यता आवश्यक)" : "🔒 Archival Poetry (₹99)",
+        date: 'Sept 2026',
+        excerpt: isHi ? "रानीदह जलप्रपात, साल कुंजों और माटी की गंध से सराबोर अप्रकाशित काव्य संग्रह।" : "Evocative oral ballads celebrating northern Chhattisgarh water streams and indigenous memory.",
+        content: isHi
+          ? "### 🔒 प्रीमियम कविता संग्रह\n\nयह पृष्ठ केवल सक्रिय पत्रिका ग्राहकों हेतु उपलब्ध है। संपूर्ण कविताएं एवं ऑडियो क्लिप सुनने हेतु ₹99 में सदस्यता लें।"
+          : "### 🔒 Premium Poetry & Audio Folio\n\nThis page is reserved for active subscribers. Subscribe for **₹99** to access all translated verses, audio field recordings, and contextual annotations."
+      },
+      {
+        pageNumber: 8,
+        title: isHi ? "🔒 संपूर्ण अभिलेख निर्देशिका एवं संदर्भ ग्रंथ-सूची" : "🔒 Complete Archival Directory & Bibliography",
+        author: isHi ? "संपादकीय मंडल" : "Editorial Guild",
+        category: isHi ? "🔒 अभिलेख निर्देशिका (सदस्यता आवश्यक)" : "🔒 Archival Index (₹99)",
+        date: 'Sept 2026',
+        excerpt: isHi ? "१४ अंकों की संचयी अनुक्रमणिका, शोध संदर्भ एवं आगामी नाटकों की अनुसूची।" : "Cumulative index of 14 issues, academic citations, and upcoming festival schedules.",
+        content: isHi
+          ? "### 🔒 संपूर्ण संदर्भ अभिलेख\n\nसमस्त १४ प्रकाशित अंकों का संचयी डेटाबेस एवं उच्च-गुणवत्ता PDF डाउनलोड प्राप्त करने हेतु ₹99 में सदस्यता लें।"
+          : "### 🔒 Complete Archival Reference\n\nSubscribe for **₹99** to unlock the full 14-issue database and high-resolution downloadable PDFs."
+      }
+    ];
+    const readerPagesJson = JSON.stringify(readerPages);
+
     const doc = renderHtmlDocument({
       lang,
       title: siteData.magazine.name[lang],
@@ -2314,87 +2411,11 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
       altUrl: alt,
       contentHtml: content,
       crumbs: [{ label: isHi ? 'होम' : 'Home', href: `/${lang}/` }, { label: isHi ? 'मासिक पत्रिका' : 'Magazine', href: canonical }],
-      extraScripts: `
-      <script type="module">
-        import { siteData } from '/src/data/content.js';
-        import { HybridMagazineReader } from '/src/reader/hybrid-reader.js';
-
-        function initMagazine() {
-          // 8 Structured Reader Pages (Pages 1-5 Free Preview, Pages 6-8 Premium ₹99)
-          const readerPages = [
-            {
-              pageNumber: 1,
-              title: '${isHi ? "संपादकीय मुखपृष्ठ: लोक रंगमंच और आधुनिकता" : "Issue 14 Cover & Editorial Proclamation"}',
-              author: '${isHi ? "सुरेश ठाकुर" : "Suresh Thakur"}',
-              category: '${isHi ? "संपादकीय" : "Editorial Inscription"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और मंच-शिल्प।" : "Folk Theatre in Modern Times: Continuity, Dance & Scenography."}',
-              content: '${isHi ? "### लोक नाट्य और समकालीन रंग-चेतना\\n\\nछत्तीसगढ़िया क्लाउड मासिक पत्रिका का यह अंक माटी की सुगंध और रंगमंच की नई संभावनाओं को समर्पित है। नाचा, पंथी और करमा केवल अतीत की स्मृतियां नहीं हैं; वे वर्तमान समाज के ज्वलंत सवालों से टकराने वाले सबसे जीवंत औजार हैं।\\n\\n> \\\"रंगमंच जब तक माटी से जुड़ा है, तब तक वह पराजित नहीं हो सकता।\\\"\\n\\nहम इस अंक के माध्यम से उन सभी अनाम लोक कलाकारों को नमन करते हैं जिन्होंने अभावों में भी कला की मशाल जलाए रखी।" : "### Folk Idiom in Contemporary Scenography\\n\\nThis fourteenth edition of Chhattisgadhiya Cloud Masik Patrika is dedicated to the living soil and evolutionary stage forms of Central India. Nacha, Panthi, and Karma are not museum artifacts; they are kinetic, critical tools in dialog with the modern world.\\n\\n> \\\"Theatre remains invincible as long as its bare feet touch the living earth.\\\"\\n\\nWe dedicate this monograph to the grassroots torchbearers of regional oral performance."}'
-            },
-            {
-              pageNumber: 2,
-              title: '${isHi ? "अनुक्रमणिका एवं संयोजक वक्तव्य" : "Table of Contents & Curatorial Note"}',
-              author: '${isHi ? "मीनाक्षी कश्यप" : "Meenakshi Kashyap"}',
-              category: '${isHi ? "संयोजक स्तंभ" : "Curator Note"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "अंक १४ की विषय-वस्तु, शोध आलेखों का वर्गीकरण एवं अभिलेख विवरण।" : "Classified folios, research methodologies, and monograph structure."}',
-              content: '${isHi ? "### इस अंक की सामग्री\\n\\n1. **पृष्ठ ३-४**: शहरी मंचों पर नाचा का पुनरुत्थान — डॉ. प्रभात मिश्रा\\n2. **पृष्ठ ५**: हबीब तनवीर की रंग-शिल्प दृष्टि — कविता एस. जोशी\\n3. **पृष्ठ ६ [🔒]**: हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति\\n4. **पृष्ठ ७ [🔒]**: जशपुर के स्वर: घाटियों से लोकगीत एवं कुरुख अनुवाद\\n5. **पृष्ठ ८ [🔒]**: आदिवासी नाट्य दल निर्देशिका एवं संदर्भ ग्रंथ-सूची\\n\\n> \\\"यह पत्रिका शोधार्थियों और कलाकारों के बीच एक सेतु है।\\\"" : "### Contents in this Issue\\n\\n1. **Pages 3–4**: The Revival of Nacha in Urban Spaces — Dr. Prabhat Mishra\\n2. **Page 5**: Remembering Habib Tanvir\'s Scenography — Kavita S. Joshi\\n3. **Page 6 [🔒]**: Unpublished Stage Geometry & Chorus Choreography\\n4. **Page 7 [🔒]**: Voices of Jashpur: Hill Valley Ballads & Kurukh Verses\\n5. **Page 8 [🔒]**: Repertory Ensemble Directory & Archival Bibliography\\n\\n> \\\"An open laboratory bridging folk traditions with modern scenography.\\\""}'
-            },
-            {
-              pageNumber: 3,
-              title: '${isHi ? "शहरी मंचों पर नाचा परंपरा का पुनरुत्थान (भाग १)" : "The Revival of Nacha in Urban Spaces (Part 1)"}',
-              author: '${isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra"}',
-              category: '${isHi ? "नाट्य आलेख" : "Theatre Essay"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "कैसे ग्रामीण छत्तीसगढ़ का पारंपरिक नाचा आधुनिक दर्शकों को अपनी सहज धारदार अभिव्यक्ति से जोड़ रहा है।" : "How rustic comedic satire and Panthi rhythms captivate modern proscenium stages."}',
-              content: '${isHi ? "### नाचा की सजीव लोक-चेतना\\n\\nनाचा मात्र मनोरंजन का माध्यम नहीं, बल्कि ग्रामीण समाज का खुला मंच और न्याय-कक्ष रहा है। जब कलाकार अखाड़े में कदम रखते हैं, तो सामाजिक दीवारें पिघलने लगती हैं।\\n\\n> \\\"नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक और गहरा सामना है।\\\"\\n\\nइस अंक में हम नाचा के तीन पीढ़ियों के कलाकारों के अनुभवों का विश्लेषण कर रहे हैं।" : "### The Living Courtroom of Folk Culture\\n\\nNacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften.\\n\\n> \\\"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\\\"\\n\\nIn this edition, we document the experiences of three generations of Nacha practitioners."}'
-            },
-            {
-              pageNumber: 4,
-              title: '${isHi ? "नाचा का मंच-शिल्प, संगीत एवं संवाद (भाग २)" : "Nacha Scenography, Music & Satire (Part 2)"}',
-              author: '${isHi ? "डॉ. प्रभात मिश्रा" : "Dr. Prabhat Mishra"}',
-              category: '${isHi ? "रंग विश्लेषण" : "Performance Analysis"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "ढोलक, मंजीरे की थाप और मुहावरों की अचूक शक्ति का विवेचन।" : "Rhythmic crescendos of the dholak and improvisation strategies."}',
-              content: '${isHi ? "### माटी की बोली और तात्कालिकता\\n\\n1. **माटी की बोली**: मुहावरों और लोक-संसार की भाषा जो व्याकरण के बंधनों से मुक्त है।\\n2. **संगीत की धड़कन**: ढोलक और मंजीरे के साथ कथा का तीव्र उतार-चढ़ाव।\\n3. **तात्कालिकता**: दर्शकों की प्रतिक्रिया के अनुसार नए संवाद गढ़ना।\\n\\nयही गतिशीलता नाचा को हर युग में प्रासंगिक बनाती है।" : "### Dialect, Cadence and Spontaneous Wit\\n\\n1. **Language of the Earth**: Vernacular colloquialisms defying formal stiffness.\\n2. **Music as Dramatic Pulse**: Dholak and manjeera driving kinetic crescendos.\\n3. **Spontaneous Improvisation**: Adapting punchlines instantaneously to audience reactions.\\n\\nThis organic elasticity keeps Nacha permanently modern."}'
-            },
-            {
-              pageNumber: 5,
-              title: '${isHi ? "हबीब तनवीर की रंग-शिल्प दृष्टि का स्मरण" : "Remembering Habib Tanvir\'s Scenography"}',
-              author: '${isHi ? "कविता एस. जोशी" : "Kavita S. Joshi"}',
-              category: '${isHi ? "स्मृति आलेख" : "Tribute & Analysis"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "बीसवीं सदी के भारतीय रंगमंच को नई दिशा देने वाले सादगीपूर्ण मंच-शिल्प की पड़ताल।" : "Minimalist stage aesthetics and bamboo architectures that redefined modern Indian theatre."}',
-              content: '${isHi ? "### रिक्त स्थान, ब्रेख्त और बांस का पर्दा\\n\\nहबीब तनवीर ने विक्टोरियन शैली के भारी-भरकम पर्दों और गत्ते की दीवारों को हटाकर रंगमंच को खुला आकाश और बांस की सादगी दी।\\n\\nउनके अभिनेताओं का शरीर ही पूरा सेट बन जाता था। एक कदम बढ़ाना नदी पार करना बन जाता था, और एक लोकगीत राजमहल के द्वार खोल देता था।\\n\\n> \\\"सादगी ही सबसे महान भव्यता है।\\\"" : "### Space, Brecht, and the Bamboo Screen\\n\\nHabib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the vast sky and simple bamboo frames.\\n\\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor\'s palace.\\n\\n> \\\"Simplicity is the most formidable spectacle.\\\""}'
-            },
-            {
-              pageNumber: 6,
-              title: '${isHi ? "🔒 हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति" : "🔒 Habib Tanvir\'s Unpublished Stage Geometry & Chorus Notes"}',
-              author: '${isHi ? "अभिलेख दल" : "Archive Editorial Board"}',
-              category: '${isHi ? "🔒 विशेषांक (सदस्यता आवश्यक)" : "🔒 Premium Monograph (₹99)"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "नया थिएटर की ऐतिहासिक प्रस्तुतियों के मूल मंच खाके एवं ज्यामितीय ब्लॉक।" : "Facsimiles of original blocking notes and acoustic spatial arrangements from Naya Theatre."}',
-              content: '${isHi ? "### 🔒 यह आलेख केवल सदस्यों हेतु उपलब्ध है\\n\\nआपने निःशुल्क ५ पृष्ठों का पूर्वावलोकन पूरा कर लिया है।\\n\\nहबीब तनवीर के दुर्लभ हस्तलिखित आरेख, नाचा कलाकारों के साथ उनके रिहर्सल नोट्स एवं संपूर्ण अभिलेखागार पढ़ने हेतु मात्र **₹99** में सदस्यता लें।" : "### 🔒 This Monograph Requires a Premium Subscription\\n\\nYou have completed the free 5-page preview.\\n\\nSubscribe for **₹99** to immediately unlock Habib Tanvir\'s unpublished spatial blocking notes, rehearsal diaries with folk artists, and complete high-resolution downloads."}'
-            },
-            {
-              pageNumber: 7,
-              title: '${isHi ? "🔒 जशपुर के स्वर: पहाड़ी घाटियों से लोकगीत एवं कुरुख अनुवाद" : "🔒 Voices of Jashpur: Hill Valley Ballads & Kurukh Verses"}',
-              author: '${isHi ? "जशपुर के प्रतिनिधि कवि" : "Selected Bards of Jashpur"}',
-              category: '${isHi ? "🔒 कविता विशेषांक (सदस्यता आवश्यक)" : "🔒 Archival Poetry (₹99)"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "रानीदह जलप्रपात, साल कुंजों और माटी की गंध से सराबोर अप्रकाशित काव्य संग्रह।" : "Evocative oral ballads celebrating northern Chhattisgarh water streams and indigenous memory."}',
-              content: '${isHi ? "### 🔒 प्रीमियम कविता संग्रह\\n\\nयह पृष्ठ केवल सक्रिय पत्रिका ग्राहकों हेतु उपलब्ध है। संपूर्ण कविताएं एवं ऑडियो क्लिप सुनने हेतु ₹99 में सदस्यता लें।" : "### 🔒 Premium Poetry & Audio Folio\\n\\nThis page is reserved for active subscribers. Subscribe for **₹99** to access all translated verses, audio field recordings, and contextual annotations."}'
-            },
-            {
-              pageNumber: 8,
-              title: '${isHi ? "🔒 संपूर्ण अभिलेख निर्देशिका एवं संदर्भ ग्रंथ-सूची" : "🔒 Complete Archival Directory & Bibliography"}',
-              author: '${isHi ? "संपादकीय मंडल" : "Editorial Guild"}',
-              category: '${isHi ? "🔒 अभिलेख निर्देशिका (सदस्यता आवश्यक)" : "🔒 Archival Index (₹99)"}',
-              date: 'Sept 2026',
-              excerpt: '${isHi ? "१४ अंकों की संचयी अनुक्रमणिका, शोध संदर्भ एवं आगामी नाटकों की अनुसूची।" : "Cumulative index of 14 issues, academic citations, and upcoming festival schedules."}',
-              content: '${isHi ? "### 🔒 संपूर्ण संदर्भ अभिलेख\\n\\nसमस्त १४ प्रकाशित अंकों का संचयी डेटाबेस एवं उच्च-गुणवत्ता PDF डाउनलोड प्राप्त करने हेतु ₹99 में सदस्यता लें।" : "### 🔒 Complete Archival Reference\\n\\nSubscribe for **₹99** to unlock the full 14-issue database and high-resolution downloadable PDFs."}'
-            }
-          ];
+      extraScripts: '<script>\n' +
+        hybridReaderClean + '\n' +
+        'window.HybridMagazineReader = HybridMagazineReader;\n\n' +
+        `function initMagazine() {
+          const readerPages = ${readerPagesJson};
 
           window.magazineReaderInstance = new HybridMagazineReader('magazine-reader-mount', {
             lang: '${lang}',
@@ -2416,6 +2437,16 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
                 readerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }
             });
+          }
+
+          // Auto-scroll if URL opened with #interactive-reader-section hash
+          if (window.location.hash === '#interactive-reader-section' || window.location.hash === '#magazine-reader-mount') {
+            setTimeout(() => {
+              const readerSection = document.getElementById('interactive-reader-section');
+              if (readerSection) {
+                readerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 300);
           }
 
           // ==========================================
