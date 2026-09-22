@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>404 — Page Not Found | Chhattisgadhiya Cloud</title>
+  <meta name="description" content="404 Page Not Found — Chhattisgadhiya Cloud | पृष्ठ नहीं मिला — छत्तीसगढ़िया क्लाउड">
+  <meta name="robots" content="noindex, follow">
+  
+  <meta name="theme-color" content="#FF4500">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="./src/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap">
+  <link rel="stylesheet" href="./src/styles.min.css?v=15">
+
+  <style>
+    :root {
+      --err-primary: #C83200;
+      --err-surface: #FFFFFF;
+      --err-subtle: #F8F9FA;
+      --err-border: #E8EAED;
+      --err-text: #202124;
+      --err-text-muted: #5F6368;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --err-surface: #181B22;
+        --err-subtle: #222631;
+        --err-border: #333948;
+        --err-text: #F0F3F6;
+        --err-text-muted: #9DA6B4;
+      }
+      body {
+        background-color: #0E1015 !important;
+        color: var(--err-text) !important;
+      }
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--err-subtle);
+      color: var(--err-text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .error-header {
+      background: var(--err-surface);
+      border-bottom: 1px solid var(--err-border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .error-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .error-brand-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--err-primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 8px rgba(200, 50, 0, 0.35);
+    }
+
+    .error-brand-name {
+      font-weight: 800;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .error-brand-tag {
+      font-size: 0.72rem;
+      color: var(--err-primary);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .error-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .error-card {
+      max-width: 680px;
+      width: 100%;
+      background: var(--err-surface);
+      border: 1px solid var(--err-border);
+      border-radius: 20px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+      padding: 3rem 2.25rem;
+      text-align: center;
+    }
+
+    .error-badge-404 {
+      display: inline-block;
+      font-family: 'Rozha One', serif;
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--err-primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.04em;
+      text-shadow: 0 4px 18px rgba(200, 50, 0, 0.2);
+    }
+
+    .error-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--err-text);
+    }
+
+    .error-title-hi {
+      font-family: 'Yatra One', 'Rozha One', serif;
+      font-size: 1.35rem;
+      color: var(--err-primary);
+      margin-bottom: 1rem;
+    }
+
+    .error-desc {
+      font-size: 0.95rem;
+      color: var(--err-text-muted);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .error-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .error-action-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: var(--err-subtle);
+      border: 1px solid var(--err-border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--err-text);
+      transition: all 0.2s ease;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .error-action-card:hover {
+      border-color: var(--err-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(200, 50, 0, 0.12);
+    }
+
+    .error-action-icon {
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .error-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--err-primary);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(200, 50, 0, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .error-btn-primary:hover {
+      background: #a72800;
+      transform: translateY(-2px);
+    }
+
+    .error-footer {
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--err-text-muted);
+      border-top: 1px solid var(--err-border);
+      background: var(--err-surface);
+    }
+  </style>
+
+  <script>
+    // Intelligent auto-recovery for routes (e.g. /admin missing trailing slash)
+    (function() {
+      const pathname = window.location.pathname;
+      if (pathname.endsWith('/admin')) {
+        window.location.replace(pathname + '/' + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="error-header">
+    <a href="./en/" class="error-brand" id="brand-home-link" aria-label="Chhattisgadhiya Cloud">
+      <div class="error-brand-avatar">CC</div>
+      <div>
+        <div class="error-brand-name">Chhattisgadhiya Cloud</div>
+        <div class="error-brand-tag">छत्तीसगढ़िया क्लाउड</div>
+      </div>
+    </a>
+    <div>
+      <a href="./admin/" class="error-action-card" id="admin-link" style="padding:0.4rem 0.85rem; font-size:0.8rem; border-radius:9999px;">
+        <span>🔐 Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Error Content -->
+  <main class="error-main">
+    <div class="error-card">
+      <div class="error-badge-404">404</div>
+      
+      <h1 class="error-title">Page Not Found</h1>
+      <div class="error-title-hi">पृष्ठ नहीं मिला</div>
+      
+      <p class="error-desc">
+        The page you are looking for might have been moved, renamed, or is temporarily unavailable.<br>
+        जो पृष्ठ आप खोज रहे हैं वह उपलब्ध नहीं है अथवा स्थानांतरित कर दिया गया है।
+      </p>
+
+      <div class="error-actions-grid">
+        <a href="./en/" class="error-action-card" id="en-home-card">
+          <span class="error-action-icon">🏠</span>
+          <div>
+            <div>English Homepage</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">Main Portal</div>
+          </div>
+        </a>
+
+        <a href="./hi/" class="error-action-card" id="hi-home-card">
+          <span class="error-action-icon">🪔</span>
+          <div>
+            <div>हिन्दी मुख्य पृष्ठ</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">हिन्दी संस्करण</div>
+          </div>
+        </a>
+
+        <a href="./en/productions.html" class="error-action-card" id="prods-card">
+          <span class="error-action-icon">🎭</span>
+          <div>
+            <div>Stage Productions</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">Repertoire & Plays</div>
+          </div>
+        </a>
+
+        <a href="./en/events.html" class="error-action-card" id="events-card">
+          <span class="error-action-icon">🎪</span>
+          <div>
+            <div>Festivals & Events</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">Jashrang & Utsavs</div>
+          </div>
+        </a>
+
+        <a href="./en/magazine.html" class="error-action-card" id="mag-card">
+          <span class="error-action-icon">📖</span>
+          <div>
+            <div>Rang Sandesh Magazine</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">Monthly Reader</div>
+          </div>
+        </a>
+
+        <a href="./en/blog.html" class="error-action-card" id="blog-card">
+          <span class="error-action-icon">✍️</span>
+          <div>
+            <div>Articles & Editorial</div>
+            <div style="font-size:0.72rem; color:var(--err-text-muted); font-weight:500;">Cultural Essays</div>
+          </div>
+        </a>
+      </div>
+
+      <a href="./en/" class="error-btn-primary" id="return-btn">
+        <span>← Return to Home</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="error-footer">
+    <div>Chhattisgadhiya Cloud &bull; Think Art Think Chhattisgadhiya Cloud</div>
+  </footer>
+
+  <script>
+    // Ensure links resolve reliably across custom domain and GitHub project pages subpaths (/chhattigadiyacloud/)
+    (function() {
+      const isProjectSubpath = window.location.pathname.startsWith('/chhattigadiyacloud');
+      const rootBase = isProjectSubpath ? '/chhattigadiyacloud/' : '/';
+
+      const map = {
+        'brand-home-link': rootBase + 'en/',
+        'admin-link': rootBase + 'admin/',
+        'en-home-card': rootBase + 'en/',
+        'hi-home-card': rootBase + 'hi/',
+        'prods-card': rootBase + 'en/productions.html',
+        'events-card': rootBase + 'en/events.html',
+        'mag-card': rootBase + 'en/magazine.html',
+        'blog-card': rootBase + 'en/blog.html',
+        'return-btn': rootBase + 'en/'
+      };
+
+      for (const [id, url] of Object.entries(map)) {
+        const el = document.getElementById(id);
+        if (el) el.href = url;
+      }
+    })();
+  </script>
+</body>
+</html>

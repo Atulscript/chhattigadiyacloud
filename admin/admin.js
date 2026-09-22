@@ -39,6 +39,36 @@ function base64ToUtf8(str) {
   return decodeURIComponent(escape(window.atob(str)));
 }
 
+// Confirmation Modal System (Replaces crude window.confirm)
+let pendingConfirmCallback = null;
+
+function showConfirmModal(title, message, onConfirm, confirmText = 'Confirm', isDanger = true) {
+  const modal = document.getElementById('confirm-modal');
+  const titleEl = document.getElementById('confirm-modal-title');
+  const msgEl = document.getElementById('confirm-modal-message');
+  const btn = document.getElementById('confirm-modal-btn');
+  if (!modal) {
+    if (window.confirm(message)) onConfirm();
+    return;
+  }
+  if (titleEl) titleEl.textContent = title || 'Confirm Action';
+  if (msgEl) msgEl.textContent = message || 'Are you sure you want to proceed?';
+  if (btn) {
+    btn.textContent = confirmText;
+    btn.style.background = isDanger ? 'var(--studio-red)' : 'var(--studio-primary)';
+  }
+  pendingConfirmCallback = onConfirm;
+  modal.classList.add('active');
+}
+
+function closeConfirmModal() {
+  const modal = document.getElementById('confirm-modal');
+  if (modal) modal.classList.remove('active');
+  pendingConfirmCallback = null;
+}
+window.showConfirmModal = showConfirmModal;
+window.closeConfirmModal = closeConfirmModal;
+
 // Theme Management
 function initTheme() {
   const saved = localStorage.getItem('cgcloud_studio_theme') || 'light';
@@ -202,13 +232,19 @@ function setupAdminAuth() {
 
   // Logout handler (both topbar button and sidebar button)
   const handleLogout = () => {
-    if (confirm('Are you sure you want to sign out of Content Studio?')) {
-      localStorage.removeItem('cgcloud_admin_session');
-      sessionStorage.removeItem('cgcloud_admin_session');
-      state.adminSession = null;
-      checkAdminAuthentication();
-      showToast('Signed out of admin session.', 'info');
-    }
+    showConfirmModal(
+      'Sign Out of Content Studio',
+      'Are you sure you want to sign out of Chhattisgadhiya Cloud Content Studio?',
+      () => {
+        localStorage.removeItem('cgcloud_admin_session');
+        sessionStorage.removeItem('cgcloud_admin_session');
+        state.adminSession = null;
+        checkAdminAuthentication();
+        showToast('Signed out of admin session.', 'info');
+      },
+      'Sign Out',
+      false
+    );
   };
 
   const logoutBtn = document.getElementById('admin-logout-btn');
@@ -324,14 +360,54 @@ function setupEventListeners() {
   const discardBtn = document.getElementById('discard-btn');
   if (discardBtn) {
     discardBtn.addEventListener('click', () => {
-      if (confirm('Discard all unsaved changes and reload from source?')) {
-        state.content = JSON.parse(state.originalContentJson);
-        markDirty(false);
-        renderActiveTab();
-        showToast('Unsaved changes discarded.', 'info');
-      }
+      showConfirmModal(
+        'Discard Unsaved Changes',
+        'Are you sure you want to discard all unsaved changes and reload from source?',
+        () => {
+          state.content = JSON.parse(state.originalContentJson);
+          markDirty(false);
+          renderActiveTab();
+          showToast('Unsaved changes discarded.', 'info');
+        },
+        'Discard Changes',
+        true
+      );
     });
   }
+
+  // Confirmation modal action button
+  const confirmActionBtn = document.getElementById('confirm-modal-btn');
+  if (confirmActionBtn) {
+    confirmActionBtn.addEventListener('click', () => {
+      const cb = pendingConfirmCallback;
+      closeConfirmModal();
+      if (typeof cb === 'function') cb();
+    });
+  }
+
+  // Close modals on Escape key or backdrop click
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (typeof closePostModal === 'function') closePostModal();
+      if (typeof closeUserModal === 'function') closeUserModal();
+      if (typeof closeTeamModal === 'function') closeTeamModal();
+      closeConfirmModal();
+    }
+  });
+
+  ['user-modal', 'team-modal', 'confirm-modal', 'post-modal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', (e) => {
+        if (e.target === el) {
+          if (id === 'user-modal' && typeof closeUserModal === 'function') closeUserModal();
+          else if (id === 'team-modal' && typeof closeTeamModal === 'function') closeTeamModal();
+          else if (id === 'confirm-modal') closeConfirmModal();
+          else if (id === 'post-modal' && typeof closePostModal === 'function') closePostModal();
+        }
+      });
+    }
+  });
 }
 
 // Load content: from GitHub if token present, or local ../src/data/site-content.json
@@ -728,7 +804,7 @@ function renderDashboard() {
       <h3 class="studio-card-title" style="margin-bottom:0.75rem;">⚡ Quick Actions</h3>
       <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
         <button type="button" class="btn-studio btn-studio-primary" onclick="openCreatePostModal()">+ Create New Blog Post</button>
-        <button type="button" class="btn-studio btn-studio-secondary" onclick="addNewTeamMember()">+ Add Team Member</button>
+        <button type="button" class="btn-studio btn-studio-secondary" onclick="openCreateTeamModal()">+ Add Team Member</button>
         <a href="https://${GITHUB_REPO_OWNER.toLowerCase()}.github.io/${GITHUB_REPO_NAME}/" target="_blank" class="btn-studio btn-studio-secondary">View Live Website ↗</a>
       </div>
     </div>
@@ -751,6 +827,7 @@ function renderTeamAndAbout() {
         <div class="team-card-header">
           <span class="team-card-badge">Member #${index + 1}</span>
           <div class="team-card-actions">
+            <button type="button" class="icon-btn" onclick="openEditTeamModal(${index})" title="Edit in Modal">✏️</button>
             ${index > 0 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, -1)" title="Move Up">↑</button>` : ''}
             ${index < team.length - 1 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, 1)" title="Move Down">↓</button>` : ''}
             <button type="button" class="icon-btn danger" onclick="removeTeamMember(${index})" title="Delete Member">✕</button>
@@ -805,7 +882,7 @@ function renderTeamAndAbout() {
           <h2 class="studio-card-title">👥 Team Members (${team.length})</h2>
           <div class="studio-card-desc">Manage leadership, artists, playwrights, and coordinators shown on the About page.</div>
         </div>
-        <button type="button" class="btn-studio btn-studio-primary" onclick="addNewTeamMember()">+ Add Member</button>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="openCreateTeamModal()">+ Add Member</button>
       </div>
 
       <div class="team-grid">
@@ -894,27 +971,94 @@ window.moveTeamMember = function(index, delta) {
 
 window.removeTeamMember = function(index) {
   const member = state.content.about.team[index];
-  if (confirm(`Are you sure you want to remove ${member.name || 'this team member'}?`)) {
-    state.content.about.team.splice(index, 1);
-    markDirty(true);
-    renderTeamAndAbout();
-    showToast('Team member removed.', 'info');
-  }
+  showConfirmModal(
+    'Remove Team Member',
+    `Are you sure you want to remove "${member.name || 'this team member'}" from the team?`,
+    () => {
+      state.content.about.team.splice(index, 1);
+      markDirty(true);
+      renderTeamAndAbout();
+      showToast('Team member removed.', 'info');
+    },
+    'Remove Member',
+    true
+  );
 };
 
-window.addNewTeamMember = function() {
+window.openCreateTeamModal = function() {
+  const modal = document.getElementById('team-modal');
+  if (!modal) return;
+  document.getElementById('team-modal-title').textContent = '👤 Add Team Member';
+  document.getElementById('team-edit-index').value = '-1';
+  document.getElementById('team-name-input').value = '';
+  document.getElementById('team-role-en').value = '';
+  document.getElementById('team-role-hi').value = '';
+  document.getElementById('team-bio-en').value = '';
+  document.getElementById('team-bio-hi').value = '';
+  modal.classList.add('active');
+  document.getElementById('team-name-input').focus();
+};
+
+window.openEditTeamModal = function(index) {
+  const modal = document.getElementById('team-modal');
+  if (!modal || !state.content.about || !state.content.about.team) return;
+  const member = state.content.about.team[index];
+  if (!member) return;
+
+  document.getElementById('team-modal-title').textContent = `✏️ Edit Member: ${member.name || 'Team Member'}`;
+  document.getElementById('team-edit-index').value = String(index);
+  document.getElementById('team-name-input').value = member.name || '';
+  document.getElementById('team-role-en').value = (member.role && member.role.en) || '';
+  document.getElementById('team-role-hi').value = (member.role && member.role.hi) || '';
+  document.getElementById('team-bio-en').value = (member.bio && member.bio.en) || '';
+  document.getElementById('team-bio-hi').value = (member.bio && member.bio.hi) || '';
+  modal.classList.add('active');
+  document.getElementById('team-name-input').focus();
+};
+
+window.closeTeamModal = function() {
+  const modal = document.getElementById('team-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.saveTeamMemberFromModal = function() {
+  const index = parseInt(document.getElementById('team-edit-index').value, 10);
+  const name = document.getElementById('team-name-input').value.trim();
+  const roleEn = document.getElementById('team-role-en').value.trim();
+  const roleHi = document.getElementById('team-role-hi').value.trim();
+  const bioEn = document.getElementById('team-bio-en').value.trim();
+  const bioHi = document.getElementById('team-bio-hi').value.trim();
+
+  if (!name) {
+    alert('Please enter a team member name.');
+    document.getElementById('team-name-input').focus();
+    return;
+  }
+
   if (!state.content.about) state.content.about = {};
   if (!state.content.about.team) state.content.about.team = [];
 
-  state.content.about.team.push({
-    name: "New Member",
-    role: { en: "Role Title", hi: "पदनाम" },
-    bio: { en: "Biographical details...", hi: "परिचय विवरण..." }
-  });
+  const memberData = {
+    name: name,
+    role: { en: roleEn, hi: roleHi },
+    bio: { en: bioEn, hi: bioHi }
+  };
+
+  if (index === -1) {
+    state.content.about.team.push(memberData);
+    showToast(`Added "${name}" to team. Click "Publish" to save permanently.`, 'success');
+  } else {
+    state.content.about.team[index] = memberData;
+    showToast(`Updated "${name}". Click "Publish" to save permanently.`, 'success');
+  }
 
   markDirty(true);
+  closeTeamModal();
   renderTeamAndAbout();
-  showToast('New team member added. Fill out details and save.', 'success');
+};
+
+window.addNewTeamMember = function() {
+  openCreateTeamModal();
 };
 
 window.updateAboutField = function(field, lang, value) {
@@ -1005,13 +1149,19 @@ window.openEditPostModal = function(index) {
 
 window.deletePost = function(index) {
   const post = state.content.blog.posts[index];
-  const title = post.title && post.title.en || 'this article';
-  if (confirm(`Are you sure you want to delete "${title}"?`)) {
-    state.content.blog.posts.splice(index, 1);
-    markDirty(true);
-    renderBlogManager();
-    showToast('Post deleted.', 'info');
-  }
+  const title = (post.title && post.title.en) || (post.title && post.title.hi) || 'this article';
+  showConfirmModal(
+    'Delete Blog Article',
+    `Are you sure you want to delete "${title}"? This post will be permanently removed.`,
+    () => {
+      state.content.blog.posts.splice(index, 1);
+      markDirty(true);
+      renderBlogManager();
+      showToast('Post deleted.', 'info');
+    },
+    'Delete Post',
+    true
+  );
 };
 
 function showPostEditorModal(post) {
@@ -2067,7 +2217,7 @@ function renderUsersManager() {
           <h2 class="studio-card-title">👥 Studio User Management & Section Permissions (${adminUsers.length})</h2>
           <div class="studio-card-desc">Assign granular section permissions specifying which parts of the Studio each user can access.</div>
         </div>
-        <button type="button" class="btn-studio btn-studio-secondary" onclick="promptAddNewUser()">+ Add User Account</button>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="openCreateUserModal()">+ Add User Account</button>
       </div>
 
       <div class="blog-table-card">
@@ -2115,10 +2265,11 @@ function renderUsersManager() {
                     </div>
                   `}
                 </td>
-                <td>
+                <td style="white-space:nowrap;">
+                  <button type="button" class="icon-btn" onclick="openEditUserModal(${idx})" title="Edit User">✏️</button>
                   ${adminUsers.length > 1 && u.username !== currentAdmin.username ? `
                     <button type="button" class="icon-btn danger" onclick="deleteAdminUser(${idx})" title="Delete user">✕</button>
-                  ` : `<span style="font-size:0.75rem; color:var(--studio-text-muted);">Current User</span>`}
+                  ` : `<span style="font-size:0.75rem; color:var(--studio-text-muted); margin-left:0.25rem;">(Self)</span>`}
                 </td>
               </tr>
               `;
@@ -2213,48 +2364,246 @@ window.handleChangePassword = async function(e) {
   }
 };
 
-window.promptAddNewUser = async function() {
-  const username = prompt('Enter new Admin/Editor Username:');
-  if (!username || !username.trim()) return;
+// User Account Modal Controls (Replaces crude browser prompt)
+window.openCreateUserModal = function() {
+  const modal = document.getElementById('user-modal');
+  if (!modal) return;
 
-  const displayName = prompt('Enter Display Name (e.g. Rahul Sharma):', username);
-  const password = prompt('Enter initial password (min 6 characters):');
-  if (!password || password.length < 6) {
-    alert('Password must be at least 6 characters.');
+  document.getElementById('user-modal-title').textContent = '👤 Add User Account';
+  document.getElementById('user-modal-save-btn').textContent = 'Save User Account';
+  document.getElementById('user-edit-index').value = '-1';
+
+  const alertEl = document.getElementById('user-modal-alert');
+  if (alertEl) { alertEl.style.display = 'none'; alertEl.textContent = ''; }
+
+  document.getElementById('user-fullname').value = '';
+  const unameInput = document.getElementById('user-username');
+  unameInput.value = '';
+  unameInput.disabled = false;
+
+  const pwdInput = document.getElementById('user-password');
+  pwdInput.value = '';
+  pwdInput.type = 'password';
+  pwdInput.placeholder = '••••••••';
+  pwdInput.required = true;
+  document.getElementById('user-password-hint').textContent = 'Min 6 characters. Required for new users.';
+  const toggleBtn = document.getElementById('toggle-user-pwd-btn');
+  if (toggleBtn) toggleBtn.textContent = '👁️';
+
+  document.getElementById('user-role-select').value = 'editor';
+
+  const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]');
+  permCheckboxes.forEach(cb => {
+    cb.checked = (cb.value === 'dashboard' || cb.value === 'blog');
+    cb.disabled = false;
+  });
+
+  modal.classList.add('active');
+  document.getElementById('user-fullname').focus();
+};
+
+window.openEditUserModal = function(index) {
+  const modal = document.getElementById('user-modal');
+  if (!modal || !state.content.adminAuth || !state.content.adminAuth.users) return;
+  const user = state.content.adminAuth.users[index];
+  if (!user) return;
+
+  document.getElementById('user-modal-title').textContent = `✏️ Edit User: ${user.username}`;
+  document.getElementById('user-modal-save-btn').textContent = 'Update User Account';
+  document.getElementById('user-edit-index').value = String(index);
+
+  const alertEl = document.getElementById('user-modal-alert');
+  if (alertEl) { alertEl.style.display = 'none'; alertEl.textContent = ''; }
+
+  document.getElementById('user-fullname').value = user.displayName || user.username;
+  const unameInput = document.getElementById('user-username');
+  unameInput.value = user.username;
+  unameInput.disabled = true; // Username is user ID, immutable
+
+  const pwdInput = document.getElementById('user-password');
+  pwdInput.value = '';
+  pwdInput.type = 'password';
+  pwdInput.placeholder = '(Leave blank to keep unchanged)';
+  pwdInput.required = false;
+  document.getElementById('user-password-hint').textContent = 'Leave blank to keep unchanged. Min 6 characters if updating.';
+  const toggleBtn = document.getElementById('toggle-user-pwd-btn');
+  if (toggleBtn) toggleBtn.textContent = '👁️';
+
+  document.getElementById('user-role-select').value = user.role || 'editor';
+
+  const isSuper = user.role === 'admin';
+  const userPerms = user.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+  const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]');
+  permCheckboxes.forEach(cb => {
+    cb.checked = isSuper || userPerms.includes(cb.value);
+    cb.disabled = isSuper;
+  });
+
+  modal.classList.add('active');
+  document.getElementById('user-fullname').focus();
+};
+
+window.closeUserModal = function() {
+  const modal = document.getElementById('user-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.toggleUserPwdVisibility = function() {
+  const pwdInput = document.getElementById('user-password');
+  const toggleBtn = document.getElementById('toggle-user-pwd-btn');
+  if (!pwdInput) return;
+  if (pwdInput.type === 'password') {
+    pwdInput.type = 'text';
+    if (toggleBtn) toggleBtn.textContent = '🙈';
+  } else {
+    pwdInput.type = 'password';
+    if (toggleBtn) toggleBtn.textContent = '👁️';
+  }
+};
+
+window.onUserRoleChange = function() {
+  const role = document.getElementById('user-role-select').value;
+  const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]');
+  if (role === 'admin') {
+    permCheckboxes.forEach(cb => {
+      cb.checked = true;
+      cb.disabled = true;
+    });
+  } else {
+    permCheckboxes.forEach(cb => {
+      cb.disabled = false;
+    });
+  }
+};
+
+window.saveUserFromModal = async function() {
+  const index = parseInt(document.getElementById('user-edit-index').value, 10);
+  const fullName = document.getElementById('user-fullname').value.trim();
+  const username = document.getElementById('user-username').value.trim().toLowerCase();
+  const password = document.getElementById('user-password').value;
+  const role = document.getElementById('user-role-select').value;
+  const alertEl = document.getElementById('user-modal-alert');
+
+  const showAlert = (msg) => {
+    if (alertEl) {
+      alertEl.textContent = msg;
+      alertEl.style.display = 'block';
+    } else {
+      alert(msg);
+    }
+  };
+
+  if (!fullName) {
+    showAlert('Please enter the Full Name / Display Name.');
+    document.getElementById('user-fullname').focus();
+    return;
+  }
+  if (!username) {
+    showAlert('Please enter a valid Username.');
+    document.getElementById('user-username').focus();
+    return;
+  }
+  if (!/^[a-zA-Z0-9_\-]+$/.test(username)) {
+    showAlert('Username can only contain letters, numbers, underscores, and hyphens.');
+    document.getElementById('user-username').focus();
     return;
   }
 
   if (!state.content.adminAuth) state.content.adminAuth = { users: [] };
   if (!state.content.adminAuth.users) state.content.adminAuth.users = [];
 
-  const existing = state.content.adminAuth.users.find(u => u.username.toLowerCase() === username.trim().toLowerCase());
-  if (existing) {
-    alert(`User "${username}" already exists!`);
-    return;
+  // Determine permissions
+  let permissions = [];
+  if (role === 'admin') {
+    permissions = ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'];
+  } else {
+    const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]:checked');
+    permCheckboxes.forEach(cb => permissions.push(cb.value));
+    if (permissions.length === 0) permissions = ['dashboard'];
   }
 
-  const passHash = await sha256(password);
-  state.content.adminAuth.users.push({
-    username: username.trim().toLowerCase(),
-    displayName: displayName || username,
-    role: 'editor',
-    permissions: ['dashboard', 'blog'],
-    passwordHash: passHash
-  });
+  if (index === -1) {
+    // Creating new user
+    const existing = state.content.adminAuth.users.find(u => u.username.toLowerCase() === username);
+    if (existing) {
+      showAlert(`User "${username}" already exists. Please choose a different username.`);
+      return;
+    }
+    if (!password || password.length < 6) {
+      showAlert('Password must be at least 6 characters.');
+      document.getElementById('user-password').focus();
+      return;
+    }
 
-  markDirty(true);
-  renderUsersManager();
-  showToast(`Added user "${username}" with Blog & Dashboard access. Configure additional sections as needed and Publish.`, 'success');
+    const passHash = await sha256(password);
+    state.content.adminAuth.users.push({
+      username: username,
+      displayName: fullName,
+      role: role,
+      permissions: permissions,
+      passwordHash: passHash
+    });
+
+    markDirty(true);
+    closeUserModal();
+    renderUsersManager();
+    showToast(`Added user "${username}" successfully! Click "Publish" to save permanently.`, 'success');
+  } else {
+    // Editing existing user
+    const targetUser = state.content.adminAuth.users[index];
+    if (!targetUser) return;
+
+    targetUser.displayName = fullName;
+    targetUser.role = role;
+    targetUser.permissions = permissions;
+
+    if (password && password.trim()) {
+      if (password.length < 6) {
+        showAlert('New password must be at least 6 characters.');
+        document.getElementById('user-password').focus();
+        return;
+      }
+      targetUser.passwordHash = await sha256(password);
+    }
+
+    // If updating current active session
+    if (state.adminSession && state.adminSession.username.toLowerCase() === targetUser.username.toLowerCase()) {
+      state.adminSession.displayName = fullName;
+      state.adminSession.role = role;
+      state.adminSession.permissions = permissions;
+      if (localStorage.getItem('cgcloud_admin_session')) {
+        localStorage.setItem('cgcloud_admin_session', JSON.stringify(state.adminSession));
+      } else {
+        sessionStorage.setItem('cgcloud_admin_session', JSON.stringify(state.adminSession));
+      }
+      applySidebarPermissions();
+    }
+
+    markDirty(true);
+    closeUserModal();
+    renderUsersManager();
+    showToast(`Updated user "${username}" successfully! Click "Publish" to save permanently.`, 'success');
+  }
+};
+
+window.promptAddNewUser = function() {
+  openCreateUserModal();
 };
 
 window.deleteAdminUser = function(index) {
   const user = state.content.adminAuth.users[index];
-  if (confirm(`Are you sure you want to delete user "${user.username}"?`)) {
-    state.content.adminAuth.users.splice(index, 1);
-    markDirty(true);
-    renderUsersManager();
-    showToast('User removed.', 'info');
-  }
+  showConfirmModal(
+    'Delete User Account',
+    `Are you sure you want to permanently delete user "${user.username}"? This action cannot be undone.`,
+    () => {
+      state.content.adminAuth.users.splice(index, 1);
+      markDirty(true);
+      renderUsersManager();
+      showToast('User account deleted.', 'info');
+    },
+    'Delete User',
+    true
+  );
 };
 
 // ==========================================
@@ -2376,14 +2725,20 @@ window.saveSettingsGitHubToken = async function() {
 };
 
 window.disconnectGitHubToken = function() {
-  if (confirm('Are you sure you want to disconnect your GitHub token? You will need to re-enter it to publish changes.')) {
-    localStorage.removeItem('cgcloud_gh_token');
-    state.token = '';
-    state.user = null;
-    updateAuthUI(null);
-    showToast('GitHub token removed.', 'info');
-    renderSettingsManager();
-  }
+  showConfirmModal(
+    'Disconnect GitHub Token',
+    'Are you sure you want to disconnect your GitHub token? You will need to re-enter it to publish changes.',
+    () => {
+      localStorage.removeItem('cgcloud_gh_token');
+      state.token = '';
+      state.user = null;
+      updateAuthUI(null);
+      showToast('GitHub token removed.', 'info');
+      renderSettingsManager();
+    },
+    'Disconnect Token',
+    true
+  );
 };
 
 window.testGitHubConnection = async function() {

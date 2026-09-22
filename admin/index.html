@@ -335,9 +335,158 @@
           </div>
         </div>
       </div>
-      <div class="studio-modal-footer">
         <button type="button" class="btn-studio btn-studio-secondary" onclick="closePostModal()">Cancel</button>
         <button type="button" class="btn-studio btn-studio-primary" onclick="savePostFromModal()">Save Post to Studio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Account Modal (Create & Edit) -->
+  <div class="studio-modal-overlay" id="user-modal">
+    <div class="studio-modal">
+      <div class="studio-modal-header">
+        <h3 class="studio-modal-title" id="user-modal-title">👤 Add User Account</h3>
+        <button type="button" class="icon-btn" onclick="closeUserModal()">✕</button>
+      </div>
+      <div class="studio-modal-body">
+        <div class="studio-login-alert" id="user-modal-alert"></div>
+
+        <form id="user-account-form" onsubmit="event.preventDefault(); saveUserFromModal();">
+          <input type="hidden" id="user-edit-index" value="-1">
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-bottom:1rem;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="user-fullname">Full Name / Display Name</label>
+              <input type="text" id="user-fullname" class="form-control" placeholder="e.g. Rahul Sharma" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="user-username">Username / User ID</label>
+              <input type="text" id="user-username" class="form-control" placeholder="e.g. rahul_editor" required pattern="[a-zA-Z0-9_\-]+" title="Letters, numbers, underscores and hyphens only">
+              <div class="form-hint">Used to sign in. Alphanumeric only.</div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="user-password">Password</label>
+              <div style="position:relative; display:flex; align-items:center;">
+                <input type="password" id="user-password" class="form-control" placeholder="••••••••" style="padding-right:2.5rem;">
+                <button type="button" class="icon-btn" id="toggle-user-pwd-btn" onclick="toggleUserPwdVisibility()" style="position:absolute; right:0.5rem; background:none; border:none;" title="Show/Hide Password">👁️</button>
+              </div>
+              <div class="form-hint" id="user-password-hint">Min 6 characters. Required for new users.</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="user-role-select">Access Role</label>
+              <select id="user-role-select" class="form-control" onchange="onUserRoleChange()">
+                <option value="editor">Editor (Section restricted)</option>
+                <option value="admin">Super Administrator (Full Access)</option>
+              </select>
+              <div class="form-hint">Super Admins have unrestricted access to all settings.</div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label">Allowed Dashboard Sections</label>
+            <div class="rbac-checkboxes" id="user-modal-perms">
+              <label class="rbac-check-item">
+                <input type="checkbox" value="dashboard" checked>
+                <span>Dashboard</span>
+              </label>
+              <label class="rbac-check-item">
+                <input type="checkbox" value="pages">
+                <span>Page Content</span>
+              </label>
+              <label class="rbac-check-item">
+                <input type="checkbox" value="team">
+                <span>About & Team</span>
+              </label>
+              <label class="rbac-check-item">
+                <input type="checkbox" value="blog" checked>
+                <span>Blog Articles</span>
+              </label>
+              <label class="rbac-check-item">
+                <input type="checkbox" value="users">
+                <span>Users & Access</span>
+              </label>
+              <label class="rbac-check-item">
+                <input type="checkbox" value="settings">
+                <span>Settings & Backup</span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="studio-modal-footer">
+        <button type="button" class="btn-studio btn-studio-secondary" onclick="closeUserModal()">Cancel</button>
+        <button type="button" class="btn-studio btn-studio-primary" id="user-modal-save-btn" onclick="saveUserFromModal()">Save User Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Member Modal (Create & Edit) -->
+  <div class="studio-modal-overlay" id="team-modal">
+    <div class="studio-modal">
+      <div class="studio-modal-header">
+        <h3 class="studio-modal-title" id="team-modal-title">👤 Add Team Member</h3>
+        <button type="button" class="icon-btn" onclick="closeTeamModal()">✕</button>
+      </div>
+      <div class="studio-modal-body">
+        <input type="hidden" id="team-edit-index" value="-1">
+
+        <div class="form-group">
+          <label class="form-label" for="team-name-input">Full Name</label>
+          <input type="text" id="team-name-input" class="form-control" placeholder="e.g. Suresh Thakur" required>
+        </div>
+
+        <div class="bilingual-tabs-wrap">
+          <div class="bilingual-header"><span class="bilingual-title">Role / Designation</span></div>
+          <div class="bilingual-grid">
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-en">English</span>
+              <input type="text" id="team-role-en" class="form-control" placeholder="e.g. Founder & Artistic Director">
+            </div>
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+              <input type="text" id="team-role-hi" class="form-control" placeholder="उदा. संस्थापक एवं कला निर्देशक">
+            </div>
+          </div>
+        </div>
+
+        <div class="bilingual-tabs-wrap">
+          <div class="bilingual-header"><span class="bilingual-title">Profile Biography</span></div>
+          <div class="bilingual-grid">
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-en">English</span>
+              <textarea id="team-bio-en" class="form-control" placeholder="Career background, accomplishments, and focus..."></textarea>
+            </div>
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+              <textarea id="team-bio-hi" class="form-control" placeholder="रंगमंचीय यात्रा, उपलब्धियां एवं योगदान..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="studio-modal-footer">
+        <button type="button" class="btn-studio btn-studio-secondary" onclick="closeTeamModal()">Cancel</button>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="saveTeamMemberFromModal()">Save Team Member</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Dialog Modal -->
+  <div class="studio-modal-overlay" id="confirm-modal">
+    <div class="studio-modal" style="max-width:440px;">
+      <div class="studio-modal-header">
+        <h3 class="studio-modal-title" id="confirm-modal-title">Confirm Action</h3>
+        <button type="button" class="icon-btn" onclick="closeConfirmModal()">✕</button>
+      </div>
+      <div class="studio-modal-body">
+        <p id="confirm-modal-message" style="font-size:0.92rem; color:var(--studio-text-secondary); line-height:1.6;"></p>
+      </div>
+      <div class="studio-modal-footer">
+        <button type="button" class="btn-studio btn-studio-secondary" onclick="closeConfirmModal()">Cancel</button>
+        <button type="button" class="btn-studio btn-studio-primary" id="confirm-modal-btn" style="background:var(--studio-red);">Confirm</button>
       </div>
     </div>
   </div>
