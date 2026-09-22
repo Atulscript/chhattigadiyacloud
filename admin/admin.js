@@ -1191,6 +1191,11 @@ window.openCreateTeamModal = function(target = 'team') {
   document.getElementById('team-role-hi').value = '';
   document.getElementById('team-bio-en').value = '';
   document.getElementById('team-bio-hi').value = '';
+  if (document.getElementById('team-social-linkedin')) document.getElementById('team-social-linkedin').value = '';
+  if (document.getElementById('team-social-instagram')) document.getElementById('team-social-instagram').value = '';
+  if (document.getElementById('team-social-twitter')) document.getElementById('team-social-twitter').value = '';
+  if (document.getElementById('team-social-portfolio')) document.getElementById('team-social-portfolio').value = '';
+  if (document.getElementById('team-social-youtube')) document.getElementById('team-social-youtube').value = '';
   modal.classList.add('active');
   document.getElementById('team-name-input').focus();
 };
@@ -1232,6 +1237,24 @@ window.openEditTeamModal = function(index, target = 'team') {
   document.getElementById('team-role-hi').value = (member.role && member.role.hi) || '';
   document.getElementById('team-bio-en').value = (member.bio && member.bio.en) || '';
   document.getElementById('team-bio-hi').value = (member.bio && member.bio.hi) || '';
+
+  const social = member.social || {};
+  if (document.getElementById('team-social-linkedin')) {
+    document.getElementById('team-social-linkedin').value = social.linkedin || '';
+  }
+  if (document.getElementById('team-social-instagram')) {
+    document.getElementById('team-social-instagram').value = social.instagram || '';
+  }
+  if (document.getElementById('team-social-twitter')) {
+    document.getElementById('team-social-twitter').value = social.twitter || social.x || '';
+  }
+  if (document.getElementById('team-social-portfolio')) {
+    document.getElementById('team-social-portfolio').value = social.portfolio || social.website || '';
+  }
+  if (document.getElementById('team-social-youtube')) {
+    document.getElementById('team-social-youtube').value = social.youtube || '';
+  }
+
   modal.classList.add('active');
   document.getElementById('team-name-input').focus();
 };
@@ -1278,6 +1301,12 @@ window.saveTeamMemberFromModal = function() {
   const bioEn = document.getElementById('team-bio-en').value.trim();
   const bioHi = document.getElementById('team-bio-hi').value.trim();
 
+  const socialLinkedin = document.getElementById('team-social-linkedin') ? document.getElementById('team-social-linkedin').value.trim() : '';
+  const socialInstagram = document.getElementById('team-social-instagram') ? document.getElementById('team-social-instagram').value.trim() : '';
+  const socialTwitter = document.getElementById('team-social-twitter') ? document.getElementById('team-social-twitter').value.trim() : '';
+  const socialPortfolio = document.getElementById('team-social-portfolio') ? document.getElementById('team-social-portfolio').value.trim() : '';
+  const socialYoutube = document.getElementById('team-social-youtube') ? document.getElementById('team-social-youtube').value.trim() : '';
+
   if (!name) {
     alert('Please enter a name.');
     document.getElementById('team-name-input').focus();
@@ -1300,6 +1329,16 @@ window.saveTeamMemberFromModal = function() {
   };
   if (badgeEn || badgeHi) {
     memberData.badge = { en: badgeEn, hi: badgeHi };
+  }
+
+  const socialObj = {};
+  if (socialLinkedin) socialObj.linkedin = socialLinkedin;
+  if (socialInstagram) socialObj.instagram = socialInstagram;
+  if (socialTwitter) socialObj.twitter = socialTwitter;
+  if (socialPortfolio) socialObj.portfolio = socialPortfolio;
+  if (socialYoutube) socialObj.youtube = socialYoutube;
+  if (Object.keys(socialObj).length > 0) {
+    memberData.social = socialObj;
   }
 
   if (index === -1) {

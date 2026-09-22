@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-suresh" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C2D12"/>
+      <stop offset="50%" stop-color="#C2410C"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="skin-suresh" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E2A77A"/>
+      <stop offset="100%" stop-color="#C58557"/>
+    </linearGradient>
+    <linearGradient id="kurta-suresh" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+    <linearGradient id="stole-suresh" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#991B1B"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+    <filter id="shadow-suresh" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="400" height="400" rx="24" fill="url(#bg-suresh)"/>
+
+  <!-- Decorative Geometric Stage Rays -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="6,6"/>
+  <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(254,215,170,0.2)" stroke-width="1"/>
+  <path d="M50 350 L200 130 L350 350" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+
+  <!-- Theatrical Director Halo -->
+  <circle cx="200" cy="180" r="115" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Body / Kurta & Stole -->
+  <g filter="url(#shadow-suresh)">
+    <path d="M110 400 C110 320 145 285 200 285 C255 285 290 320 290 400 Z" fill="url(#kurta-suresh)"/>
+    <!-- Director's Angavastram / Traditional Stole -->
+    <path d="M140 290 C150 330 145 375 135 400 L175 400 C180 365 180 325 170 290 Z" fill="url(#stole-suresh)"/>
+    <path d="M225 290 C230 330 240 370 255 400 L220 400 C210 365 210 325 215 290 Z" fill="url(#stole-suresh)"/>
+  </g>
+
+  <!-- Neck -->
+  <rect x="182" y="240" width="36" height="50" rx="8" fill="url(#skin-suresh)"/>
+  <!-- Collar Shadow -->
+  <path d="M178 275 Q200 292 222 275" fill="none" stroke="#9A3412" stroke-width="3" opacity="0.6"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="195" rx="55" ry="68" fill="url(#skin-suresh)" filter="url(#shadow-suresh)"/>
+
+  <!-- Ears -->
+  <ellipse cx="145" cy="195" rx="9" ry="16" fill="url(#skin-suresh)"/>
+  <ellipse cx="255" cy="195" rx="9" ry="16" fill="url(#skin-suresh)"/>
+
+  <!-- Hair & Trimmed Beard (Refined Director Style) -->
+  <path d="M145 180 C145 130 165 110 200 110 C235 110 255 130 255 180 C250 140 230 125 200 125 C170 125 150 140 145 180 Z" fill="#1C1917"/>
+  <!-- Sideburns & Beard -->
+  <path d="M152 185 L155 215 C158 248 180 265 200 265 C220 265 242 248 245 215 L248 185 C244 205 240 220 232 230 C220 245 210 248 200 248 C190 248 180 245 168 230 C160 220 156 205 152 185 Z" fill="#1C1917" opacity="0.95"/>
+  <!-- Moustache -->
+  <path d="M175 224 Q200 232 225 224 Q200 216 175 224 Z" fill="#1C1917"/>
+
+  <!-- Eyes & Eyebrows -->
+  <path d="M168 172 Q182 166 192 172" fill="none" stroke="#1C1917" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M208 172 Q218 166 232 172" fill="none" stroke="#1C1917" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="180" cy="184" r="5" fill="#1C1917"/>
+  <circle cx="182" cy="182" r="1.5" fill="#FFFFFF"/>
+  <circle cx="220" cy="184" r="5" fill="#1C1917"/>
+  <circle cx="222" cy="182" r="1.5" fill="#FFFFFF"/>
+
+  <!-- Spectacles / Artistic Glasses -->
+  <rect x="165" y="172" width="30" height="24" rx="7" fill="rgba(255,255,255,0.15)" stroke="#FED7AA" stroke-width="2.5"/>
+  <rect x="205" y="172" width="30" height="24" rx="7" fill="rgba(255,255,255,0.15)" stroke="#FED7AA" stroke-width="2.5"/>
+  <line x1="195" y1="183" x2="205" y2="183" stroke="#FED7AA" stroke-width="2.5"/>
+
+  <!-- Nose & Smile -->
+  <path d="M200 184 L197 206 L205 206" fill="none" stroke="#9A3412" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M188 236 Q200 242 212 236" fill="none" stroke="#9A3412" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Subtle Theatre Mask Emblem in Corner -->
+  <g transform="translate(325, 325) scale(0.65)" opacity="0.85">
+    <circle cx="35" cy="35" r="32" fill="#F97316" stroke="#FED7AA" stroke-width="2"/>
+    <path d="M22 25 Q35 15 48 25 C50 45 45 55 35 55 C25 55 20 45 22 25 Z" fill="#FFFFFF"/>
+    <ellipse cx="28" cy="32" rx="3.5" ry="4" fill="#C2410C"/>
+    <ellipse cx="42" cy="32" rx="3.5" ry="4" fill="#C2410C"/>
+    <path d="M27 44 Q35 51 43 44" fill="none" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>

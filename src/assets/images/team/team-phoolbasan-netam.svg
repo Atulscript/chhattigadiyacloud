@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-phoolbasan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5B21B6"/>
+      <stop offset="60%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="skin-phoolbasan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EBC19B"/>
+      <stop offset="100%" stop-color="#C98F65"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="20" fill="url(#bg-phoolbasan)"/>
+  <circle cx="160" cy="160" r="135" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="5,5"/>
+  <circle cx="160" cy="140" r="95" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Body / Saree & Folk Dupatta -->
+  <path d="M85 320 C85 260 115 230 160 230 C205 230 235 260 235 320 Z" fill="#FDF4FF"/>
+  <path d="M100 280 C130 250 170 240 215 280 L230 320 L150 320 Z" fill="#9333EA"/>
+
+  <!-- Neck -->
+  <rect x="147" y="195" width="26" height="42" rx="4" fill="url(#skin-phoolbasan)"/>
+  <circle cx="160" cy="225" r="4" fill="#FDE047"/>
+
+  <!-- Head -->
+  <ellipse cx="160" cy="155" rx="42" ry="50" fill="url(#skin-phoolbasan)"/>
+  <ellipse cx="118" cy="155" rx="6" ry="11" fill="url(#skin-phoolbasan)"/>
+  <ellipse cx="202" cy="155" rx="6" ry="11" fill="url(#skin-phoolbasan)"/>
+
+  <!-- Hair & Floral Gajara -->
+  <path d="M118 150 C116 105 132 85 160 85 C188 85 204 105 202 150 C195 115 178 100 160 105 C142 100 125 115 118 150 Z" fill="#18181B"/>
+  <circle cx="112" cy="145" r="12" fill="#18181B"/>
+  <circle cx="208" cy="145" r="12" fill="#18181B"/>
+  <circle cx="108" cy="138" r="3" fill="#FFFFFF"/>
+  <circle cx="106" cy="146" r="3" fill="#FFFFFF"/>
+
+  <!-- Bindi -->
+  <circle cx="160" cy="132" r="3" fill="#DC2626"/>
+
+  <!-- Eyes & Eyebrows -->
+  <path d="M135 138 Q146 130 154 137" fill="none" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M166 137 Q174 130 185 138" fill="none" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="145" cy="146" rx="4.5" ry="4" fill="#18181B"/>
+  <ellipse cx="175" cy="146" rx="4.5" ry="4" fill="#18181B"/>
+  <path d="M160 146 L157 163 L163 163" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Vocalist Singing Lips -->
+  <ellipse cx="160" cy="180" rx="8" ry="6" fill="#BE185D"/>
+
+  <!-- Corner Folk Music Motif -->
+  <circle cx="265" cy="265" r="24" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="265" y="272" font-size="20" text-anchor="middle">🪕</text>
+</svg>

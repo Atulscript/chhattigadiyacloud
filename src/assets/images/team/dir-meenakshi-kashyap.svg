@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-meenakshi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C1D95"/>
+      <stop offset="50%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="skin-meenakshi" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5CBA7"/>
+      <stop offset="100%" stop-color="#DC9E70"/>
+    </linearGradient>
+    <linearGradient id="saree-meenakshi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF4FF"/>
+      <stop offset="100%" stop-color="#FBCFE8"/>
+    </linearGradient>
+    <linearGradient id="pallu-meenakshi" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#BE185D"/>
+      <stop offset="100%" stop-color="#DB2777"/>
+    </linearGradient>
+    <filter id="shadow-meenakshi" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="400" height="400" rx="24" fill="url(#bg-meenakshi)"/>
+
+  <!-- Decorative Lotus & Scenography Geometry -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="6,6"/>
+  <circle cx="200" cy="180" r="120" fill="rgba(255,255,255,0.07)"/>
+
+  <!-- Body / Saree & Draped Pallu -->
+  <g filter="url(#shadow-meenakshi)">
+    <path d="M120 400 C120 325 155 285 200 285 C245 285 280 325 280 400 Z" fill="url(#saree-meenakshi)"/>
+    <!-- Diagonal Handloom Pallu -->
+    <path d="M130 330 C160 300 200 285 250 330 L275 400 L185 400 Z" fill="url(#pallu-meenakshi)"/>
+    <path d="M135 345 L245 320" stroke="#FDE047" stroke-width="3" stroke-dasharray="5,3"/>
+  </g>
+
+  <!-- Neck & Necklace -->
+  <rect x="184" y="235" width="32" height="55" rx="6" fill="url(#skin-meenakshi)"/>
+  <path d="M178 265 Q200 280 222 265" fill="none" stroke="#FDE047" stroke-width="3.5"/>
+  <circle cx="200" cy="274" r="4.5" fill="#FDE047"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="190" rx="52" ry="62" fill="url(#skin-meenakshi)" filter="url(#shadow-meenakshi)"/>
+
+  <!-- Ears & Traditional Jhumkas -->
+  <ellipse cx="147" cy="190" rx="8" ry="14" fill="url(#skin-meenakshi)"/>
+  <circle cx="145" cy="208" r="4" fill="#FDE047"/>
+  <ellipse cx="253" cy="190" rx="8" ry="14" fill="url(#skin-meenakshi)"/>
+  <circle cx="255" cy="208" r="4" fill="#FDE047"/>
+
+  <!-- Elegant Hair Style (Parted & Low Bun) -->
+  <path d="M148 185 C145 130 165 105 200 105 C235 105 255 130 252 185 C245 145 225 125 200 132 C175 125 155 145 148 185 Z" fill="#18181B"/>
+  <circle cx="140" cy="180" r="18" fill="#18181B"/>
+  <circle cx="260" cy="180" r="18" fill="#18181B"/>
+  <!-- Jasmine Garland Detail in Hair -->
+  <circle cx="135" cy="172" r="3.5" fill="#FFFFFF"/>
+  <circle cx="132" cy="180" r="3.5" fill="#FFFFFF"/>
+  <circle cx="136" cy="188" r="3.5" fill="#FFFFFF"/>
+
+  <!-- Bindi -->
+  <circle cx="200" cy="162" r="3.5" fill="#DC2626"/>
+
+  <!-- Eyes & Delicate Eyebrows -->
+  <path d="M168 168 Q182 160 193 167" fill="none" stroke="#18181B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M207 167 Q218 160 232 168" fill="none" stroke="#18181B" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="180" cy="178" rx="6" ry="5.5" fill="#18181B"/>
+  <circle cx="182" cy="176" r="1.5" fill="#FFFFFF"/>
+  <ellipse cx="220" cy="178" rx="6" ry="5.5" fill="#18181B"/>
+  <circle cx="222" cy="176" r="1.5" fill="#FFFFFF"/>
+  <!-- Kajal Eyelash Flick -->
+  <path d="M187 178 Q193 176 195 174" stroke="#18181B" stroke-width="1.5"/>
+  <path d="M227 178 Q233 176 235 174" stroke="#18181B" stroke-width="1.5"/>
+
+  <!-- Nose & Smile -->
+  <path d="M200 178 L197 198 L204 198" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"/>
+  <path d="M188 218 Q200 228 212 218" fill="none" stroke="#BE185D" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Scenography Stage Spotlight Motif -->
+  <g transform="translate(325, 325) scale(0.65)" opacity="0.85">
+    <circle cx="35" cy="35" r="32" fill="#8B5CF6" stroke="#DDD6FE" stroke-width="2"/>
+    <path d="M20 22 L50 22 L42 48 L28 48 Z" fill="#FDE047"/>
+    <polygon points="35,12 40,22 30,22" fill="#DDD6FE"/>
+    <line x1="25" y1="52" x2="45" y2="52" stroke="#FFFFFF" stroke-width="2.5"/>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-punit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9A3412"/>
+      <stop offset="60%" stop-color="#EA580C"/>
+      <stop offset="100%" stop-color="#FB923C"/>
+    </linearGradient>
+    <linearGradient id="skin-punit" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D9976B"/>
+      <stop offset="100%" stop-color="#B26C3B"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="20" fill="url(#bg-punit)"/>
+  <!-- Drumbeat Dynamic Acoustic Rings -->
+  <circle cx="160" cy="160" r="135" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="5,5"/>
+  <circle cx="160" cy="140" r="95" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Body / Folk Percussionist Attire with Mandar Strap -->
+  <path d="M85 320 C85 255 115 225 160 225 C205 225 235 255 235 320 Z" fill="#FFF7ED"/>
+  <!-- Leather Instrument Shoulder Strap -->
+  <path d="M105 240 L215 320" stroke="#7C2D12" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Neck -->
+  <rect x="146" y="195" width="28" height="40" rx="4" fill="url(#skin-punit)"/>
+  <!-- Head -->
+  <ellipse cx="160" cy="155" rx="44" ry="52" fill="url(#skin-punit)"/>
+  <ellipse cx="116" cy="155" rx="7" ry="12" fill="url(#skin-punit)"/>
+  <ellipse cx="204" cy="155" rx="7" ry="12" fill="url(#skin-punit)"/>
+
+  <!-- Headband / Folk Bandana (Panthi/Karma style) -->
+  <path d="M116 138 C120 120 135 112 160 112 C185 112 200 120 204 138 Z" fill="#18181B"/>
+  <rect x="114" y="132" width="92" height="12" rx="3" fill="#DC2626"/>
+  <line x1="114" y1="138" x2="206" y2="138" stroke="#FDE047" stroke-width="2"/>
+
+  <!-- Moustache -->
+  <path d="M142 172 Q160 167 178 172 Q160 178 142 172 Z" fill="#18181B"/>
+
+  <!-- Eyes & Eyebrows -->
+  <path d="M135 142 Q146 135 154 142" fill="none" stroke="#18181B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M166 142 Q174 135 185 142" fill="none" stroke="#18181B" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="145" cy="150" r="4.5" fill="#18181B"/>
+  <circle cx="175" cy="150" r="4.5" fill="#18181B"/>
+  <path d="M160 150 L157 165 L164 165" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round"/>
+  <path d="M152 184 Q160 190 168 184" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Corner Mandar Drum Motif -->
+  <circle cx="265" cy="265" r="24" fill="#FFEDD5" stroke="#EA580C" stroke-width="2"/>
+  <text x="265" y="272" font-size="20" text-anchor="middle">🥁</text>
+</svg>

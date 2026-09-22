@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-anupama" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#075985"/>
+      <stop offset="60%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="skin-anupama" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EBC19B"/>
+      <stop offset="100%" stop-color="#C98F65"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="20" fill="url(#bg-anupama)"/>
+  <!-- Textile Weave Grid Accents -->
+  <line x1="40" y1="40" x2="280" y2="40" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="40" y1="60" x2="280" y2="60" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <circle cx="160" cy="160" r="135" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="5,5"/>
+
+  <!-- Body / Kosa Silk Kurti & Scarf -->
+  <path d="M85 320 C85 260 115 230 160 230 C205 230 235 260 235 320 Z" fill="#F0F9FF"/>
+  <path d="M120 250 C140 280 180 280 200 250 L210 320 L110 320 Z" fill="#0284C7"/>
+
+  <!-- Neck & Beads -->
+  <rect x="147" y="195" width="26" height="42" rx="4" fill="url(#skin-anupama)"/>
+  <circle cx="160" cy="225" r="4" fill="#F87171"/>
+
+  <!-- Head -->
+  <ellipse cx="160" cy="155" rx="42" ry="50" fill="url(#skin-anupama)"/>
+  <ellipse cx="118" cy="155" rx="6" ry="11" fill="url(#skin-anupama)"/>
+  <ellipse cx="202" cy="155" rx="6" ry="11" fill="url(#skin-anupama)"/>
+
+  <!-- Hair & Tribal Hairpin -->
+  <path d="M118 150 C116 105 132 85 160 85 C188 85 204 105 202 150 C195 115 178 100 160 105 C142 100 125 115 118 150 Z" fill="#18181B"/>
+  <line x1="140" y1="88" x2="190" y2="78" stroke="#FDE047" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Eyes & Eyebrows -->
+  <path d="M135 138 Q146 130 154 137" fill="none" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M166 137 Q174 130 185 138" fill="none" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="145" cy="146" rx="4.5" ry="4" fill="#18181B"/>
+  <ellipse cx="175" cy="146" rx="4.5" ry="4" fill="#18181B"/>
+  <path d="M160 146 L157 163 L163 163" fill="none" stroke="#0369A1" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M150 178 Q160 186 170 178" fill="none" stroke="#0369A1" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Corner Textile Thread Motif -->
+  <circle cx="265" cy="265" r="24" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+  <text x="265" y="272" font-size="20" text-anchor="middle">🧵</text>
+</svg>

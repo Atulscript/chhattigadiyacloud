@@ -889,41 +889,79 @@
     "team": [
       {
         "name": "Suresh Thakur",
+        "image": "/src/assets/images/team/dir-suresh-thakur.svg",
+        "icon": "🎭",
+        "color": "#C83200",
         "role": {
           "en": "Artistic Director & Playwright",
           "hi": "कला निर्देशक एवं नाटककार"
         },
+        "badge": {
+          "en": "Founder & Artistic Director",
+          "hi": "संस्थापक एवं कला निर्देशक"
+        },
         "bio": {
           "en": "Over 18 years shaping grassroots theatre, writing original scripts, and directing acclaimed productions nationwide.",
           "hi": "18 वर्षों से रंगमंच निर्देशन, लेखन और लोक कलाओं के संवर्धन में सक्रिय।"
+        },
+        "social": {
+          "linkedin": "https://www.linkedin.com/in/suresh-thakur-theatre",
+          "twitter": "https://x.com/suresh_thakur",
+          "instagram": "https://www.instagram.com/sureshthakur.theatre",
+          "portfolio": "/en/productions/"
         }
       },
       {
         "name": "Meenakshi Kashyap",
+        "image": "/src/assets/images/team/dir-meenakshi-kashyap.svg",
+        "icon": "🏛️",
+        "color": "#7C3AED",
         "role": {
           "en": "Festival Curator & Scenographer",
           "hi": "उत्सव संयोजक एवं मंच परिकल्पना"
         },
+        "badge": {
+          "en": "Curator & Scenography",
+          "hi": "संयोजक एवं मंच परिकल्पना"
+        },
         "bio": {
           "en": "Curates Jashrang National Theatre Festival and designs immersive stages inspired by indigenous architecture and murals.",
           "hi": "जशरंग की परिकल्पना और स्थानीय लोक-शिल्प पर आधारित मंच डिजाइन में विशेषज्ञ।"
+        },
+        "social": {
+          "linkedin": "https://www.linkedin.com/in/meenakshi-kashyap-curator",
+          "instagram": "https://www.instagram.com/meenakshi_scenography",
+          "portfolio": "/en/events/"
         }
       },
       {
         "name": "Hemant Banjare",
+        "image": "/src/assets/images/team/dir-hemant-banjare.svg",
+        "icon": "🪕",
+        "color": "#D97706",
         "role": {
           "en": "Folk Traditions & Music Director",
           "hi": "लोक संगीत एवं परंपरा प्रमुख"
         },
+        "badge": {
+          "en": "Folk Music & Nacha",
+          "hi": "लोक संगीत एवं नाचा"
+        },
         "bio": {
           "en": "Master of Nacha rhythms and archivist of Central Indian folk balladeers and oral verse.",
           "hi": "नाचा विधा और छत्तीसगढ़ी लोक संगीत के जाने-माने विशेषज्ञ।"
+        },
+        "social": {
+          "instagram": "https://www.instagram.com/hemant.banjare.folk",
+          "youtube": "https://youtube.com/@chhattisgadhiyacloud",
+          "twitter": "https://x.com/hemant_banjare"
         }
       }
     ],
     "members": [
       {
         "name": "Rameshwar Mandavi",
+        "image": "/src/assets/images/team/team-rameshwar-mandavi.svg",
         "role": {
           "en": "Lead Actor & Physical Theatre",
           "hi": "मुख्य अभिनेता एवं कायिक रंगमंच"
@@ -937,10 +975,15 @@
         "bio": {
           "en": "Veteran performer of Nacha acrobatics and lead protagonist in 'Vincent: A Flashback' and 'Karan'.",
           "hi": "विन्सेंट और कर्ण नाटकों में मुख्य भूमिका; नाचा के कायिक अभिनय और एक्रोबेटिक्स के अनुभवी कलाकार।"
+        },
+        "social": {
+          "instagram": "https://instagram.com/rameshwar_mandavi_actor",
+          "portfolio": "/en/productions/"
         }
       },
       {
         "name": "Phoolbasan Netam",
+        "image": "/src/assets/images/team/team-phoolbasan-netam.svg",
         "role": {
           "en": "Folk Vocalist & Nacha Performer",
           "hi": "लोक गायिका एवं नाचा अभिनेत्री"
@@ -954,10 +997,15 @@
         "bio": {
           "en": "Celebrated voice of Central Indian oral balladeers, blending traditional Suwa and Dadariya with contemporary theatre narratives.",
           "hi": "सुवा, ददरिया और लोकगाथाओं की सुरीली गायिका, मंच पर लोक सुरों को सजीव करने वाली कलाकार।"
+        },
+        "social": {
+          "youtube": "https://youtube.com/@chhattisgadhiyacloud",
+          "instagram": "https://instagram.com/phoolbasan_netam"
         }
       },
       {
         "name": "Devendra Sai",
+        "image": "/src/assets/images/team/team-devendra-sai.svg",
         "role": {
           "en": "Actor & Puppetry Artisan",
           "hi": "अभिनेता एवं कठपुतली शिल्पी"
@@ -971,10 +1019,15 @@
         "bio": {
           "en": "Spearheads traditional shadow and rod puppetry workshops across rural schools and performs in folk repertory.",
           "hi": "पारंपरिक कठपुतली कला के विशेषज्ञ एवं ग्रामीण विद्यालयों में बाल कार्यशालाओं के संचालक।"
+        },
+        "social": {
+          "instagram": "https://instagram.com/devendra_sai_puppetry",
+          "portfolio": "/en/training-workshops/"
         }
       },
       {
         "name": "Tushar Dewangan",
+        "image": "/src/assets/images/team/team-tushar-dewangan.svg",
         "role": {
           "en": "Stage Lighting & Technical Director",
           "hi": "प्रकाश विन्यास एवं तकनीकी प्रमुख"
@@ -988,10 +1041,15 @@
         "bio": {
           "en": "Creates atmospheric shadowplay, warm terracotta candle-tones, and dynamic lighting cues for touring productions.",
           "hi": "राष्ट्रीय नाट्य उत्सवों के लिए जैविक प्रकाश परिकल्पना और नाट्य छाया-शिल्प के तकनीकी निर्देशक।"
+        },
+        "social": {
+          "linkedin": "https://linkedin.com/in/tushar-dewangan-lighting",
+          "instagram": "https://instagram.com/tushar_stage_lighting"
         }
       },
       {
         "name": "Anupama Beck",
+        "image": "/src/assets/images/team/team-anupama-beck.svg",
         "role": {
           "en": "Costumes, Indigenous Textiles & Props",
           "hi": "वेशभूषा, पारंपरिक वस्त्र एवं सज्जा"
@@ -1005,10 +1063,15 @@
         "bio": {
           "en": "Weaves Kosa silk, raw cotton, and forest-dyed natural garments authentic to tribal Chhattisgarhi folklore.",
           "hi": "कोसा सिल्क, खादी और प्राकृतिक रंगों से आदिवासी संस्कृति के प्रामाणिक वस्त्रों का निर्माण।"
+        },
+        "social": {
+          "instagram": "https://instagram.com/anupama_beck_textiles",
+          "portfolio": "/en/about/"
         }
       },
       {
         "name": "Punit Ram Yadav",
+        "image": "/src/assets/images/team/team-punit-yadav.svg",
         "role": {
           "en": "Mandar & Folk Percussionist",
           "hi": "मांदर वादक एवं लोक ताल शिल्पी"
@@ -1022,10 +1085,15 @@
         "bio": {
           "en": "Over 20 years mastering Mandar, Dholak, and Timki rhythms driving the kinetic velocity of Panthi and Karma theatre.",
           "hi": "दो दशकों से मांदर, ढोलक और टिमकी वादन में पारंगत; पंथी और करमा रंगमंच के प्रमुख ताल शिल्पी।"
+        },
+        "social": {
+          "youtube": "https://youtube.com/@chhattisgadhiyacloud",
+          "instagram": "https://instagram.com/punit_ram_yadav_folk"
         }
       },
       {
         "name": "Kiran Toppo",
+        "image": "/src/assets/images/team/team-kiran-toppo.svg",
         "role": {
           "en": "Community Residency & Youth Coordinator",
           "hi": "बाल रंगशाला एवं युवा समन्वयक"
@@ -1039,10 +1107,15 @@
         "bio": {
           "en": "Coordinates Ullas Summer Theatre Camp, mobilizing 360+ rural children annually for creative arts immersion.",
           "hi": "उल्लास बाल ग्रीष्मकालीन नाट्य शिविर की मुख्य समन्वयक, ग्रामीण बच्चों को कला से जोड़ने का कार्य।"
+        },
+        "social": {
+          "linkedin": "https://linkedin.com/in/kiran-toppo-residency",
+          "instagram": "https://instagram.com/kiran_toppo_arts"
         }
       },
       {
         "name": "Dr. Prabhat Mishra",
+        "image": "/src/assets/images/team/team-prabhat-mishra.svg",
         "role": {
           "en": "Archive Fellow & Research Editor",
           "hi": "अभिलेखागार अध्येता एवं शोध संपादक"
@@ -1056,6 +1129,11 @@
         "bio": {
           "en": "Lead editor of Rang Sandesh monthly review; authors critical treatises on indigenous scenography and folk theatre.",
           "hi": "रंग संदेश मासिक पत्रिका के संपादक एवं लोक रंगमंच पर शोध व अभिलेखागार के प्रभारी।"
+        },
+        "social": {
+          "linkedin": "https://linkedin.com/in/dr-prabhat-mishra-archive",
+          "twitter": "https://x.com/prabhat_mishra",
+          "portfolio": "/en/magazine/"
         }
       }
     ]

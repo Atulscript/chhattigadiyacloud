@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-hemant" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#92400E"/>
+      <stop offset="50%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="skin-hemant" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DE9F72"/>
+      <stop offset="100%" stop-color="#BD7A49"/>
+    </linearGradient>
+    <linearGradient id="pagri-hemant" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC2626"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#FBBF24"/>
+    </linearGradient>
+    <linearGradient id="jacket-hemant" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#451A03"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </linearGradient>
+    <filter id="shadow-hemant" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="400" height="400" rx="24" fill="url(#bg-hemant)"/>
+
+  <!-- Decorative Musical Soundwaves & Geometric Mandar Circles -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,6"/>
+  <circle cx="200" cy="180" r="115" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Body / Traditional Bundi Jacket & Kurta -->
+  <g filter="url(#shadow-hemant)">
+    <!-- White Kurta base -->
+    <path d="M110 400 C110 325 145 290 200 290 C255 290 290 325 290 400 Z" fill="#FFFBEB"/>
+    <!-- Embroidered Folk Bundi / Nehru Vest -->
+    <path d="M140 295 C155 315 160 360 160 400 L240 400 C240 360 245 315 260 295 C235 290 165 290 140 295 Z" fill="url(#jacket-hemant)"/>
+    <!-- Traditional mirror-work/buttons -->
+    <circle cx="200" cy="325" r="4" fill="#FBBF24"/>
+    <circle cx="200" cy="355" r="4" fill="#FBBF24"/>
+    <circle cx="200" cy="385" r="4" fill="#FBBF24"/>
+  </g>
+
+  <!-- Neck -->
+  <rect x="183" y="245" width="34" height="48" rx="6" fill="url(#skin-hemant)"/>
+  <!-- Rudraksha / Folk Beads Mala -->
+  <path d="M172 275 Q200 295 228 275" fill="none" stroke="#78350F" stroke-width="4"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="205" rx="54" ry="64" fill="url(#skin-hemant)" filter="url(#shadow-hemant)"/>
+
+  <!-- Ears & Gold Kundal / Earring -->
+  <ellipse cx="146" cy="205" rx="8" ry="15" fill="url(#skin-hemant)"/>
+  <circle cx="146" cy="216" r="3.5" fill="#FBBF24"/>
+  <ellipse cx="254" cy="205" rx="8" ry="15" fill="url(#skin-hemant)"/>
+  <circle cx="254" cy="216" r="3.5" fill="#FBBF24"/>
+
+  <!-- Authentic Chhattisgarhi Pagri / Folk Turban -->
+  <g filter="url(#shadow-hemant)">
+    <!-- Turban base folds -->
+    <path d="M135 175 C135 130 165 110 200 110 C235 110 265 130 265 175 C250 160 220 150 200 155 C180 150 150 160 135 175 Z" fill="url(#pagri-hemant)"/>
+    <path d="M138 155 Q200 135 262 155 Q200 170 138 155 Z" fill="#DC2626"/>
+    <path d="M145 138 Q200 120 255 138" stroke="#FBBF24" stroke-width="4" fill="none"/>
+    <!-- Turban Crest / Turra Feather -->
+    <path d="M190 110 Q200 70 210 110 Z" fill="#F59E0B"/>
+    <circle cx="200" cy="115" r="5" fill="#FBBF24"/>
+  </g>
+
+  <!-- Moustache (Classic Folk Artist / Nacha performer style) -->
+  <path d="M168 232 Q185 225 200 234 Q215 225 232 232 Q242 225 246 215 Q235 232 215 238 Q200 240 185 238 Q165 232 154 215 Q158 225 168 232 Z" fill="#1C1917"/>
+
+  <!-- Eyes & Eyebrows -->
+  <path d="M168 185 Q182 178 192 185" fill="none" stroke="#1C1917" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M208 185 Q218 178 232 185" fill="none" stroke="#1C1917" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="180" cy="195" r="5" fill="#1C1917"/>
+  <circle cx="182" cy="193" r="1.5" fill="#FFFFFF"/>
+  <circle cx="220" cy="195" r="5" fill="#1C1917"/>
+  <circle cx="222" cy="193" r="1.5" fill="#FFFFFF"/>
+
+  <!-- Nose & Warm Smile -->
+  <path d="M200 195 L196 216 L204 216" fill="none" stroke="#78350F" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M190 248 Q200 255 210 248" fill="none" stroke="#78350F" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Folk Music Instrument (Mandar/Ektara Motif) -->
+  <g transform="translate(325, 325) scale(0.65)" opacity="0.85">
+    <circle cx="35" cy="35" r="32" fill="#F59E0B" stroke="#FEF3C7" stroke-width="2"/>
+    <ellipse cx="35" cy="35" rx="16" ry="24" fill="#78350F" stroke="#FDE68A" stroke-width="2"/>
+    <ellipse cx="35" cy="35" rx="8" ry="12" fill="#1C1917"/>
+    <line x1="12" y1="35" x2="58" y2="35" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="2,2"/>
+  </g>
+</svg>
