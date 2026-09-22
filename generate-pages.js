@@ -2500,157 +2500,265 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         <img src="${siteData.about.culturalRootsImage}" alt="Cultural Roots Artwork" style="width:100%; height:100%; object-fit:cover; display:block;">
       </div>` : '';
 
-    const teamHtml = siteData.about.team.map(m => {
+    const leadershipThemes = [
+      { color: '#C83200', bg: 'linear-gradient(180deg, #FFFFFF 0%, #FFF7ED 100%)', badgeEn: 'Founder & Artistic Director', badgeHi: 'संस्थापक एवं कला निर्देशक', badgeBg: '#FFEDD5', badgeColor: '#9A3412', icon: '🎭' },
+      { color: '#7C3AED', bg: 'linear-gradient(180deg, #FFFFFF 0%, #F5F3FF 100%)', badgeEn: 'Festival Curator & Scenography', badgeHi: 'उत्सव संयोजक एवं मंच परिकल्पना', badgeBg: '#EDE9FE', badgeColor: '#5B21B6', icon: '🏛️' },
+      { color: '#D97706', bg: 'linear-gradient(180deg, #FFFFFF 0%, #FFFBEB 100%)', badgeEn: 'Folk Music & Nacha Director', badgeHi: 'लोक संगीत एवं नाचा विधा प्रमुख', badgeBg: '#FEF3C7', badgeColor: '#92400E', icon: '🪕' }
+    ];
+
+    const teamHtml = siteData.about.team.map((m, idx) => {
+      const theme = leadershipThemes[idx % leadershipThemes.length];
       const avatarSrc = m.image || m.avatar || '';
       const avatarEl = avatarSrc ? `
-        <div style="width:64px; height:64px; border-radius:50%; overflow:hidden; border:2px solid var(--c-primary); margin-bottom:1rem; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+        <div style="width:72px; height:72px; border-radius:50%; overflow:hidden; border:3px solid ${theme.color}; margin-bottom:1.15rem; box-shadow:0 6px 16px ${theme.color}30;">
           <img src="${avatarSrc}" alt="${m.name}" style="width:100%; height:100%; object-fit:cover; display:block;">
         </div>` : `
-        <div style="width:54px; height:54px; border-radius:50%; background:var(--c-primary-light); border:1.5px solid var(--c-primary); display:flex; align-items:center; justify-content:center; color:var(--c-primary); font-size:1.5rem; margin-bottom:1rem;">
-          ${m.icon || '🎭'}
+        <div style="width:64px; height:64px; border-radius:50%; background:${theme.badgeBg}; border:2.5px solid ${theme.color}; display:flex; align-items:center; justify-content:center; color:${theme.color}; font-size:1.8rem; margin-bottom:1.15rem; box-shadow:0 4px 14px ${theme.color}25;">
+          ${m.icon || theme.icon}
         </div>`;
       return `
-      <div class="production-card" style="padding:2rem;">
-        ${avatarEl}
-        <h3 style="font-family:var(--font-serif); font-size:1.45rem; font-weight:700; color:var(--g-text-primary); margin-bottom:0.25rem;">${m.name}</h3>
-        <div style="font-size:0.88rem; font-weight:600; color:var(--c-primary); margin-bottom:0.85rem;">${m.role[lang]}</div>
-        <p style="font-size:0.92rem; color:var(--g-text-secondary); line-height:1.75;">${m.bio[lang]}</p>
+      <div class="leadership-card" style="background:${theme.bg}; border-color:${theme.color}35;">
+        <div class="leadership-card-top-bar" style="background:${theme.color};"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          ${avatarEl}
+          <span style="display:inline-block; padding:0.25rem 0.75rem; border-radius:9999px; font-size:0.75rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; background:${theme.badgeBg}; color:${theme.badgeColor}; border:1px solid ${theme.color}40;">
+            ${isHi ? theme.badgeHi : theme.badgeEn}
+          </span>
+        </div>
+        <h3 style="font-family:var(--font-serif); font-size:1.5rem; font-weight:700; color:var(--g-text-primary); margin-bottom:0.3rem;">${m.name}</h3>
+        <div style="font-size:0.92rem; font-weight:700; color:${theme.color}; margin-bottom:0.85rem;">${m.role[lang]}</div>
+        <p style="font-size:0.94rem; color:var(--g-text-secondary); line-height:1.75; margin-top:auto;">${m.bio[lang]}</p>
+      </div>
+      `;
+    }).join('\n');
+
+    const membersList = siteData.about.members || [];
+    const membersHtml = membersList.map(m => {
+      const color = m.color || '#EA580C';
+      const avatarSrc = m.image || m.avatar || '';
+      const avatarEl = avatarSrc ? `
+        <div style="width:54px; height:54px; border-radius:14px; overflow:hidden; border:2px solid ${color}; margin-bottom:0.85rem; box-shadow:0 4px 10px ${color}25;">
+          <img src="${avatarSrc}" alt="${m.name}" style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>` : `
+        <div class="ensemble-icon-circle" style="background:${color}15; color:${color}; border:1.5px solid ${color}35;">
+          ${m.icon || '🎭'}
+        </div>`;
+      const badgeText = m.badge ? (m.badge[lang] || m.badge.en) : (isHi ? 'नाट्य दल' : 'Ensemble');
+
+      return `
+      <div class="ensemble-card" style="border-color:${color}25; background:linear-gradient(180deg, #FFFFFF 0%, ${color}06 100%);">
+        <div class="ensemble-card-top-bar" style="background:${color};"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          ${avatarEl}
+          <span class="ensemble-badge" style="background:${color}15; color:${color}; border:1px solid ${color}35;">
+            ${badgeText}
+          </span>
+        </div>
+        <h4 class="ensemble-name">${m.name}</h4>
+        <div class="ensemble-role" style="color:${color};">${m.role[lang]}</div>
+        <p class="ensemble-bio">${m.bio[lang]}</p>
       </div>
       `;
     }).join('\n');
 
     const content = `
-    <div class="page-header">
+    <div class="page-header about-page-header">
       <div class="container">
-        <span class="page-eyebrow">✦ ${isHi ? 'सांस्कृतिक दर्शन एवं संस्था परिचय' : 'Artistic Ethos & Institutional Heritage'} ✦</span>
-        <h1 class="page-title">${isHi ? 'हमारे बारे में' : 'About Chhattisgadhiya Cloud'}</h1>
-        <p class="page-description">
+        <span class="about-eyebrow-pill">✦ ${isHi ? 'सांस्कृतिक दर्शन एवं संस्था परिचय' : 'Artistic Ethos & Institutional Heritage'} ✦</span>
+        <h1 class="page-title" style="font-family:var(--font-serif); font-weight:800; font-size:clamp(2.2rem, 4vw, 3.2rem);">${isHi ? 'हमारे बारे में' : 'About Chhattisgadhiya Cloud'}</h1>
+        <p class="page-description" style="max-width:820px; font-size:1.12rem; line-height:1.8; color:var(--g-text-secondary);">
           ${isHi ? 'छत्तीसगढ़िया क्लाउड — रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का सृजन करने वाला एक स्वायत्त सांस्कृतिक संस्थान, जो माटी की जीवंत धरोहर को समकालीन भारतीय मंचों तक पहुँचाता है।' : 'A cultural institution producing theatre, national festivals, youth workshops, and intellectual publications — bringing the living spirit of Chhattisgarhi soil to national and global stages.'}
         </p>
 
-        <!-- Subpage Stats Chips -->
-        <div class="subpage-stats-bar">
-          <div class="subpage-stat-chip">🏛️ <strong>Regd. Cultural Trust</strong></div>
-          <div class="subpage-stat-chip">📍 <strong>Jashpur & Raipur</strong></div>
-          <div class="subpage-stat-chip">⏳ <strong>10+ Years</strong> ${isHi ? 'कला साधना' : 'Artistic Practice'}</div>
-          <div class="subpage-stat-chip">🤝 <strong>Dept. of Culture Supported</strong></div>
+        <!-- Subpage Stats Chips with Semantic Earth Tones -->
+        <div class="subpage-stats-bar" style="margin-top:1.75rem;">
+          <div class="subpage-stat-chip about-stat-chip-orange">🏛️ <strong>${isHi ? 'पंजीकृत सांस्कृतिक न्यास' : 'Regd. Cultural Trust'}</strong></div>
+          <div class="subpage-stat-chip about-stat-chip-green">📍 <strong>${isHi ? 'जशपुर व रायपुर (छ.ग.)' : 'Jashpur & Raipur (C.G.)'}</strong></div>
+          <div class="subpage-stat-chip about-stat-chip-amber">⏳ <strong>10+ ${isHi ? 'वर्षों की कला साधना' : 'Years Artistic Practice'}</strong></div>
+          <div class="subpage-stat-chip about-stat-chip-blue">🤝 <strong>${isHi ? 'संस्कृति विभाग द्वारा समर्थित' : 'Dept. of Culture Supported'}</strong></div>
         </div>
       </div>
     </div>
 
     <div class="container page-content-container">
       ${aboutPageBanner}
-      <!-- Mission & Vision Dual Cards -->
-      <div class="responsive-two-col" style="margin-bottom:3.5rem;">
-        <div class="surface-card">
-          <div style="width:48px; height:48px; border-radius:12px; background:var(--c-primary-light); color:var(--c-primary); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
+
+      <!-- Mission & Vision Dual Themed Cards -->
+      <div class="responsive-two-col" style="margin-bottom:4rem; gap:1.75rem;">
+        <div class="about-mission-card">
+          <div style="width:52px; height:52px; border-radius:14px; background:#FFEDD5; color:#EA580C; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin-bottom:1.25rem; border:1px solid #FDBA74; box-shadow:0 4px 12px rgba(234,88,12,0.15);">
             🎯
           </div>
-          <h2 style="font-family:var(--font-serif); font-size:1.65rem; color:var(--g-text-primary); margin-bottom:0.75rem;">${isHi ? 'हमारा ध्येय (Mission)' : 'Our Mission'}</h2>
-          <p style="color:var(--g-text-secondary); line-height:1.8; font-size:1rem;">${siteData.about.mission[lang]}</p>
+          <h2 style="font-family:var(--font-serif); font-size:1.75rem; color:#9A3412; margin-bottom:0.75rem; font-weight:700;">${isHi ? 'हमारा ध्येय (Mission)' : 'Our Mission'}</h2>
+          <p style="color:var(--g-text-secondary); line-height:1.85; font-size:1.02rem;">${siteData.about.mission[lang]}</p>
         </div>
-        <div class="surface-card">
-          <div style="width:48px; height:48px; border-radius:12px; background:var(--c-blue-light); color:var(--c-blue); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1.25rem;">
+
+        <div class="about-vision-card">
+          <div style="width:52px; height:52px; border-radius:14px; background:#E0F2FE; color:#0284C7; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin-bottom:1.25rem; border:1px solid #7DD3FC; box-shadow:0 4px 12px rgba(2,132,199,0.15);">
             👁️
           </div>
-          <h2 style="font-family:var(--font-serif); font-size:1.65rem; color:var(--g-text-primary); margin-bottom:0.75rem;">${isHi ? 'हमारी दृष्टि (Vision)' : 'Our Vision'}</h2>
-          <p style="color:var(--g-text-secondary); line-height:1.8; font-size:1rem;">${siteData.about.vision[lang]}</p>
+          <h2 style="font-family:var(--font-serif); font-size:1.75rem; color:#075985; margin-bottom:0.75rem; font-weight:700;">${isHi ? 'हमारी दृष्टि (Vision)' : 'Our Vision'}</h2>
+          <p style="color:var(--g-text-secondary); line-height:1.85; font-size:1.02rem;">${siteData.about.vision[lang]}</p>
         </div>
       </div>
 
-      <!-- The Philosophical Triad (Three Pillars) -->
+      <!-- The Philosophical Triad (Three Distinct Colorful Pillars) -->
       <div style="margin-bottom:4.5rem;">
-        <span class="page-eyebrow">✦ ${isHi ? 'तीन मौलिक सांस्कृतिक स्तंभ' : 'The Cultural Triad'} ✦</span>
-        <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-bottom:1rem;">
-          ${isHi ? 'हमारे कला-सृजन की तीन बुनियादें' : 'The Three Pillars of Our Dramaturgy'}
-        </h2>
+        <div style="text-align:center; max-width:700px; margin:0 auto 2.5rem auto;">
+          <span class="about-eyebrow-pill" style="background:#FEF3C7; color:#B45309; border-color:#FDE68A;">✦ ${isHi ? 'तीन मौलिक सांस्कृतिक स्तंभ' : 'The Cultural Triad'} ✦</span>
+          <h2 style="font-family:var(--font-serif); font-size:clamp(1.9rem, 3.2vw, 2.5rem); color:var(--g-text-primary); margin-bottom:0.5rem; font-weight:800;">
+            ${isHi ? 'हमारे कला-सृजन की तीन बुनियादें' : 'The Three Pillars of Our Dramaturgy'}
+          </h2>
+          <p style="color:var(--g-text-secondary); font-size:1rem; line-height:1.65;">
+            ${isHi ? 'माटी की सुगंध, मंच का प्रयोग और नई पीढ़ी का सशक्तिकरण — हमारी प्रत्येक प्रस्तुति इन्हीं सूत्रों से बुनी जाती है।' : 'Organic soil, contemporary scenography, and youth empowerment form the three living axes of our work.'}
+          </p>
+        </div>
+
         <div class="about-triad-grid">
-          <div class="about-triad-card">
+          <div class="about-triad-card triad-maati">
             <div class="triad-number">01</div>
-            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:var(--g-text-primary); margin-bottom:0.65rem;">
+            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:#14532D; margin-bottom:0.65rem; font-weight:700;">
               🌱 ${isHi ? 'माटी (The Living Soil)' : 'Maati (The Soil)'}
             </h3>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+            <p style="color:var(--g-text-secondary); font-size:0.96rem; line-height:1.75;">
               ${isHi ? 'नाचा, गम्मत, पंथी नृत्य और सरगुजा-बस्तर की वाचिक लोकगाथाओं की जड़ों से सीधा जीवंत जुड़ाव।' : 'Direct organic roots in the oral epics, Nacha folk theatre, and ritual rhythms of rural Chhattisgarh.'}
             </p>
           </div>
 
-          <div class="about-triad-card">
+          <div class="about-triad-card triad-prayog">
             <div class="triad-number">02</div>
-            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:var(--g-text-primary); margin-bottom:0.65rem;">
+            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:#881337; margin-bottom:0.65rem; font-weight:700;">
               🎭 ${isHi ? 'प्रयोग (Contemporary Staging)' : 'Prayog (The Stage)'}
             </h3>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+            <p style="color:var(--g-text-secondary); font-size:0.96rem; line-height:1.75;">
               ${isHi ? 'पारंपरिक लोक रूपों का आधुनिक नाट्यशास्त्र, बहुआयामी प्रकाश विन्यास और राष्ट्रीय मंचों पर परिष्कृत रूपांतरण।' : 'Adapting traditional forms into avant-garde scenography, physical theatre, and national repertory showcases.'}
             </p>
           </div>
 
-          <div class="about-triad-card">
+          <div class="about-triad-card triad-shilp">
             <div class="triad-number">03</div>
-            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:var(--g-text-primary); margin-bottom:0.65rem;">
+            <h3 style="font-family:var(--font-serif); font-size:1.45rem; color:#78350F; margin-bottom:0.65rem; font-weight:700;">
               🎨 ${isHi ? 'शिल्प (Youth & Community)' : 'Shilp (Community Craft)'}
             </h3>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+            <p style="color:var(--g-text-secondary); font-size:0.96rem; line-height:1.75;">
               ${isHi ? 'उल्लास समर कैम्प एवं मासिक पत्रिका के माध्यम से नई पीढ़ी को कला में प्रशिक्षित व सशक्त करना।' : 'Democratising theatre through free youth residencies, puppet craft, and critical public scholarship.'}
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Cultural Roots Spotlight -->
-      <div class="accent-callout-box" style="margin-bottom:3.5rem;">
-        <span class="page-eyebrow">✦ ${isHi ? 'धरती से नाता' : 'Rooted in the Soil'} ✦</span>
-        <h2 style="font-family:var(--font-serif); font-size:2rem; color:var(--g-text-primary); margin-bottom:1rem; margin-top:0.4rem;">
+      <!-- Cultural Roots Spotlight Canvas with Festive Folk Badges -->
+      <div class="about-roots-canvas" style="margin-bottom:4.5rem;">
+        <span class="about-eyebrow-pill" style="background:#FFEDD5; color:#C2410C; border-color:#FDBA74;">✦ ${isHi ? 'धरती से अटूट नाता' : 'Rooted in the Living Soil'} ✦</span>
+        <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem, 3vw, 2.3rem); color:#78350F; margin-bottom:1rem; margin-top:0.5rem; font-weight:800;">
           ${isHi ? 'छत्तीसगढ़ी लोक परंपरा एवं हमारी नाटकीय भाषा' : 'Connection to Chhattisgarhi Culture'}
         </h2>
-        <p style="color:var(--g-text-primary); font-size:1.05rem; line-height:1.85; max-width:880px;">
+        <p style="color:#451A03; font-size:1.08rem; line-height:1.85; max-width:920px; font-weight:500;">
           ${siteData.about.culturalConnection[lang]}
         </p>
+
+        <!-- Cultural Heritage Badges -->
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.5rem;">
+          <span class="roots-pill-badge" style="background:#FEF3C7; color:#92400E; border:1px solid #F59E0B;">
+            🌾 ${isHi ? 'नाचा एवं गम्मत (लोक व्यंग्य)' : 'Nacha & Gammat Folk Satire'}
+          </span>
+          <span class="roots-pill-badge" style="background:#FEE2E2; color:#991B1B; border:1px solid #F87171;">
+            🥁 ${isHi ? 'पंथी एवं करमा (चक्रीय लयबद्ध गति)' : 'Panthi & Karma Kinetic Beats'}
+          </span>
+          <span class="roots-pill-badge" style="background:#FFEDD5; color:#9A3412; border:1px solid #FB923C;">
+            🪔 ${isHi ? 'ढोकरा व भित्ति मंच-शिल्प' : 'Dhokra & Bamboo Scenography'}
+          </span>
+          <span class="roots-pill-badge" style="background:#DCFCE7; color:#166534; border:1px solid #4ADE80;">
+            🌿 ${isHi ? 'सरगुजा व बस्तर वाचिक लोकगाथा' : 'Tribal Oral Ballads & Lore'}
+          </span>
+        </div>
+
         ${culturalRootsArt}
       </div>
 
       <!-- Core Leadership & Artists -->
       <div style="margin-bottom:4.5rem;">
-        <span class="page-eyebrow">✦ ${isHi ? 'रचनात्मक दल' : 'Creative Leadership'} ✦</span>
-        <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-bottom:2rem;">
-          ${isHi ? 'संस्था नेतृत्व एवं प्रमुख रंगकर्मी' : 'Our Directors & Artists'}
-        </h2>
-        <div class="card-grid">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;">
+          <div>
+            <span class="about-eyebrow-pill" style="background:#FFE4E6; color:#BE123C; border-color:#FDA4AF;">✦ ${isHi ? 'रचनात्मक नेतृत्व' : 'Creative Leadership'} ✦</span>
+            <h2 style="font-family:var(--font-serif); font-size:clamp(1.9rem, 3.2vw, 2.5rem); color:var(--g-text-primary); margin-top:0.25rem; font-weight:800;">
+              ${isHi ? 'संस्था नेतृत्व एवं प्रमुख रंगकर्मी' : 'Our Directors & Artists'}
+            </h2>
+          </div>
+          <span style="font-size:0.92rem; color:var(--g-text-secondary); font-weight:600;">
+            ${siteData.about.team.length} ${isHi ? 'प्रमुख निर्देशक व विशेषज्ञ' : 'Core Curators & Directors'}
+          </span>
+        </div>
+
+        <div class="leadership-grid">
           ${teamHtml}
         </div>
       </div>
 
-      <!-- Historical Journey Milestones -->
-      <div>
-        <span class="page-eyebrow">✦ ${isHi ? 'ऐतिहासिक यात्रा' : 'Our Journey'} ✦</span>
-        <h2 style="font-family:var(--font-serif); font-size:2.2rem; color:var(--g-text-primary); margin-bottom:1.5rem;">
+      <!-- Brand New "Our Team" Repertory Ensemble Section -->
+      <div style="margin-bottom:4.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;">
+          <div>
+            <span class="about-eyebrow-pill" style="background:#EDE9FE; color:#6D28D9; border-color:#C4B5FD;">✦ ${isHi ? 'नाट्य दल एवं तकनीकी शिल्पी' : 'Repertory Ensemble & Production Crew'} ✦</span>
+            <h2 style="font-family:var(--font-serif); font-size:clamp(1.9rem, 3.2vw, 2.5rem); color:var(--g-text-primary); margin-top:0.25rem; font-weight:800;">
+              ${isHi ? 'हमारा दल' : 'Our Team'}
+            </h2>
+          </div>
+          <span style="font-size:0.92rem; color:var(--g-text-secondary); font-weight:600;">
+            ${membersList.length} ${isHi ? 'कलाकार, शिल्पी एवं शोधकर्मी' : 'Ensemble Performers & Technicians'}
+          </span>
+        </div>
+
+        <div class="about-ensemble-grid">
+          ${membersHtml}
+        </div>
+      </div>
+
+      <!-- Historical Journey Milestones (Color-Coded Timeline) -->
+      <div style="margin-bottom:2rem;">
+        <span class="about-eyebrow-pill" style="background:#E0F2FE; color:#0369A1; border-color:#7DD3FC;">✦ ${isHi ? 'ऐतिहासिक यात्रा' : 'Our Journey'} ✦</span>
+        <h2 style="font-family:var(--font-serif); font-size:clamp(1.9rem, 3.2vw, 2.5rem); color:var(--g-text-primary); margin-bottom:1.5rem; font-weight:800;">
           ${isHi ? 'छत्तीसगढ़िया क्लाउड के प्रमुख मील के पत्थर' : 'Milestones in Cultural Preservation'}
         </h2>
-        <div class="about-milestone-list">
-          <div class="about-milestone-item">
-            <h4 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--g-text-primary); margin-bottom:0.25rem;">
+
+        <div class="about-milestone-colorful">
+          <div class="milestone-colorful-item" style="--milestone-color:#EA580C;">
+            <span class="milestone-year-badge" style="background:#FFEDD5; color:#C2410C; border:1px solid #FDBA74;">2014 • ${isHi ? 'संस्था स्थापना' : 'Trust Foundation'}</span>
+            <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.35rem; font-weight:700;">
               ${isHi ? 'संस्था की स्थापना एवं प्रथम लोक रंगशाला (जशपुर)' : 'Founding & First Grassroots Folk Workshop (Jashpur)'}
             </h4>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.7;">
-              ${isHi ? 'पारंपरिक नाचा कलाकारों एवं आदिवासी युवाओं को जोड़कर एक गैर-व्यावसायिक सांस्कृतिक संस्था का गठन।' : 'Established as a registered non-profit cultural trust to document oral Chhattisgarhi songs and train rural youth.'}
+            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+              ${isHi ? 'पारंपरिक नाचा कलाकारों एवं आदिवासी युवाओं को जोड़कर एक गैर-व्यावसायिक सांस्कृतिक संस्था का गठन किया गया।' : 'Established as a registered non-profit cultural trust to document oral Chhattisgarhi songs and train rural youth.'}
             </p>
           </div>
 
-          <div class="about-milestone-item">
-            <h4 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--g-text-primary); margin-bottom:0.25rem;">
+          <div class="milestone-colorful-item" style="--milestone-color:#D97706;">
+            <span class="milestone-year-badge" style="background:#FEF3C7; color:#B45309; border:1px solid #FCD34D;">2018 • ${isHi ? 'जशरंग राष्ट्रीय महोत्सव' : 'Jashrang National Festival'}</span>
+            <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.35rem; font-weight:700;">
               ${isHi ? 'जशरंग राष्ट्रीय नाट्य समारोह का शुभारंभ' : 'Launch of Jashrang National Theatre Festival'}
             </h4>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.7;">
-              ${isHi ? 'राष्ट्रीय स्तर के प्रसिद्ध नाट्य दलों और निर्देशकों को जशपुर के खुले मंच पर आमंत्रित करने की शुरुआत।' : 'Commenced annual winter festival hosting national repertories, tribal bards, and 12,000+ local spectators.'}
+            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+              ${isHi ? 'राष्ट्रीय स्तर के प्रसिद्ध नाट्य दलों और निर्देशकों को जशपुर के खुले मंच पर आमंत्रित करने की शुरुआत हुई, जिसमें प्रतिवर्ष 12,000+ दर्शक जुड़ते हैं।' : 'Commenced annual winter festival hosting national repertories, tribal bards, and 12,000+ spectators.'}
             </p>
           </div>
 
-          <div class="about-milestone-item">
-            <h4 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--g-text-primary); margin-bottom:0.25rem;">
+          <div class="milestone-colorful-item" style="--milestone-color:#059669;">
+            <span class="milestone-year-badge" style="background:#DCFCE7; color:#15803D; border:1px solid #86EFAC;">2022 • ${isHi ? 'रंग संदेश एवं अभिलेखागार' : 'Research & Archive'}</span>
+            <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.35rem; font-weight:700;">
               ${isHi ? 'मासिक विचार पत्रिका एवं डिजिटल अभिलेखागार' : 'Monthly Magazine & Digital Cultural Archive'}
             </h4>
-            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.7;">
-              ${isHi ? '१४ अंकों का नियमित प्रकाशन, ISSN पंजीकरण एवं शोधपरक सांस्कृतिक विमर्श का विस्तार।' : 'Published 14 volumes of critical essays on folk scenography, tribal oral poetry, and theatrical reform.'}
+            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+              ${isHi ? '१४ अंकों का नियमित प्रकाशन, ISSN पंजीकरण एवं लोक रंगमंच के दुर्लभ संदर्भों को डिजिटल स्वरूप में संरक्षित करने का कार्य।' : 'Published 14 volumes of critical essays on folk scenography, tribal oral poetry, and theatrical reform.'}
+            </p>
+          </div>
+
+          <div class="milestone-colorful-item" style="--milestone-color:#0284C7;">
+            <span class="milestone-year-badge" style="background:#E0F2FE; color:#0369A1; border:1px solid #7DD3FC;">2026 • ${isHi ? 'डिजिटल विस्तार एवं राष्ट्रीय रंगमंच' : 'Global & National Outreach'}</span>
+            <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--g-text-primary); margin-bottom:0.35rem; font-weight:700;">
+              ${isHi ? 'डिजिटल नाट्य प्रदर्शन एवं बहुभाषी सांस्कृतिक प्रसार' : 'Digital Repertory & Bilingual Cultural Outreach'}
+            </h4>
+            <p style="color:var(--g-text-secondary); font-size:0.95rem; line-height:1.75;">
+              ${isHi ? 'छत्तीसगढ़िया क्लाउड के नाटकों और पत्रिकाओं का राष्ट्रीय राजधानी एवं वैश्विक मंचों पर प्रदर्शन और डिजिटल अभिलेखागार का विस्तार।' : 'Expanded bilingual digital repository, touring productions across metro circuits, and inter-state youth residencies.'}
             </p>
           </div>
         </div>

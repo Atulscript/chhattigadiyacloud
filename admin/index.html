@@ -456,10 +456,25 @@
       </div>
       <div class="studio-modal-body">
         <input type="hidden" id="team-edit-index" value="-1">
+        <input type="hidden" id="team-modal-target" value="team">
 
         <div class="form-group">
           <label class="form-label" for="team-name-input">Full Name</label>
           <input type="text" id="team-name-input" class="form-control" placeholder="e.g. Suresh Thakur" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;" id="team-meta-row">
+          <div class="form-group">
+            <label class="form-label" for="team-icon-input">Emoji / Icon</label>
+            <input type="text" id="team-icon-input" class="form-control" placeholder="e.g. 🎭 or 🪕 or 🎪">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="team-color-input">Accent Color</label>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <input type="color" id="team-color-picker" value="#EA580C" style="width:36px; height:36px; border:none; padding:0; background:transparent; cursor:pointer;" onchange="document.getElementById('team-color-input').value = this.value">
+              <input type="text" id="team-color-input" class="form-control" placeholder="#EA580C" onchange="document.getElementById('team-color-picker').value = this.value">
+            </div>
+          </div>
         </div>
 
         <!-- Member Photo / Creative Avatar -->
@@ -488,6 +503,20 @@
             <div>
               <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
               <input type="text" id="team-role-hi" class="form-control" placeholder="उदा. संस्थापक एवं कला निर्देशक">
+            </div>
+          </div>
+        </div>
+
+        <div class="bilingual-tabs-wrap">
+          <div class="bilingual-header"><span class="bilingual-title">Department / Badge Tag (Optional)</span></div>
+          <div class="bilingual-grid">
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-en">English</span>
+              <input type="text" id="team-badge-en" class="form-control" placeholder="e.g. Acting Ensemble, Folk Vocals...">
+            </div>
+            <div>
+              <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+              <input type="text" id="team-badge-hi" class="form-control" placeholder="उदा. अभिनय दल, लोक गायन...">
             </div>
           </div>
         </div>

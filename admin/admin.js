@@ -937,81 +937,89 @@ function renderTeamAndAbout() {
 
   const about = state.content.about || {};
   const team = about.team || [];
+  const members = about.members || [];
 
-  const teamCardsHtml = team.map((member, index) => {
+  const renderCardRow = (member, index, target) => {
     const avatarVal = member.image || member.avatar || '';
+    const isLeadership = target === 'team';
+    const tagLabel = isLeadership ? `Leader #${index + 1}` : `Ensemble #${index + 1}`;
+    const badgeText = member.badge ? (member.badge.en || member.badge.hi || '') : '';
+    const colorVal = member.color || (isLeadership ? '#C83200' : '#EA580C');
+    const iconVal = member.icon || (isLeadership ? '🏛️' : '🎭');
+
     return `
-      <div class="team-card-editor" data-index="${index}">
+      <div class="team-card-editor" data-index="${index}" style="border-top: 3px solid ${escapeHtml(colorVal)};">
         <div class="team-card-header">
-          <span class="team-card-badge">Member #${index + 1}</span>
+          <span class="team-card-badge" style="background:${escapeHtml(colorVal)}15; color:${escapeHtml(colorVal)}; border: 1px solid ${escapeHtml(colorVal)}30;">
+            ${tagLabel} ${member.icon ? `• ${escapeHtml(member.icon)}` : ''}
+          </span>
           <div class="team-card-actions">
-            <button type="button" class="icon-btn" onclick="openEditTeamModal(${index})" title="Edit in Modal">✏️</button>
-            ${index > 0 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, -1)" title="Move Up">↑</button>` : ''}
-            ${index < team.length - 1 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, 1)" title="Move Down">↓</button>` : ''}
-            <button type="button" class="icon-btn danger" onclick="removeTeamMember(${index})" title="Delete Member">✕</button>
+            <button type="button" class="icon-btn" onclick="openEditTeamModal(${index}, '${target}')" title="Edit in Modal">✏️</button>
+            ${index > 0 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, -1, '${target}')" title="Move Up">↑</button>` : ''}
+            ${index < (isLeadership ? team.length : members.length) - 1 ? `<button type="button" class="icon-btn" onclick="moveTeamMember(${index}, 1, '${target}')" title="Move Down">↓</button>` : ''}
+            <button type="button" class="icon-btn danger" onclick="removeTeamMember(${index}, '${target}')" title="Delete Member">✕</button>
           </div>
         </div>
 
         <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; padding:0.6rem 0.75rem; background:var(--studio-surface-subtle); border-radius:var(--radius-sm); border:1px solid var(--studio-border-subtle);">
-          <div style="width:44px; height:44px; border-radius:50%; overflow:hidden; background:var(--studio-border-subtle); display:flex; align-items:center; justify-content:center; font-size:1.3rem; border:1.5px solid var(--studio-primary); flex-shrink:0;">
-            ${avatarVal ? `<img src="${escapeHtml(avatarVal)}" alt="${escapeHtml(member.name || '')}" style="width:100%; height:100%; object-fit:cover;">` : '👤'}
+          <div style="width:44px; height:44px; border-radius:50%; overflow:hidden; background:${escapeHtml(colorVal)}15; display:flex; align-items:center; justify-content:center; font-size:1.3rem; border:2px solid ${escapeHtml(colorVal)}; flex-shrink:0; color:${escapeHtml(colorVal)};">
+            ${avatarVal ? `<img src="${escapeHtml(avatarVal)}" alt="${escapeHtml(member.name || '')}" style="width:100%; height:100%; object-fit:cover;">` : escapeHtml(iconVal)}
           </div>
           <div style="flex:1; min-width:0;">
-            <div style="font-size:0.78rem; font-weight:700; color:var(--studio-text);">Profile Photo</div>
-            <div style="font-size:0.72rem; color:var(--studio-text-secondary); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${avatarVal ? 'Custom avatar set' : 'Default icon'}</div>
+            <div style="font-size:0.78rem; font-weight:700; color:var(--studio-text);">${escapeHtml(member.name || 'Unnamed')}</div>
+            <div style="font-size:0.72rem; color:var(--studio-text-secondary); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${badgeText ? escapeHtml(badgeText) + ' • ' : ''}${escapeHtml((member.role && member.role.en) || '')}</div>
           </div>
-          <button type="button" class="btn-studio btn-studio-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="openEditTeamModal(${index})">Change Photo</button>
+          <button type="button" class="btn-studio btn-studio-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="openEditTeamModal(${index}, '${target}')">Edit in Modal</button>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Full Name (English)</label>
-          <input type="text" class="form-control" value="${escapeHtml(member.name || '')}" onchange="updateTeamField(${index}, 'name', this.value)">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" value="${escapeHtml(member.name || '')}" onchange="updateTeamField(${index}, 'name', this.value, '${target}')">
         </div>
 
         <div class="bilingual-tabs-wrap">
-          <div class="bilingual-header">
-            <span class="bilingual-title">Role / Designation</span>
-          </div>
+          <div class="bilingual-header"><span class="bilingual-title">Role / Designation</span></div>
           <div class="bilingual-grid">
             <div>
               <span class="bilingual-col-tag bilingual-tag-en">English</span>
-              <input type="text" class="form-control" value="${escapeHtml(member.role && member.role.en || '')}" onchange="updateTeamBilingualField(${index}, 'role', 'en', this.value)">
+              <input type="text" class="form-control" value="${escapeHtml(member.role && member.role.en || '')}" onchange="updateTeamBilingualField(${index}, 'role', 'en', this.value, '${target}')">
             </div>
             <div>
               <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
-              <input type="text" class="form-control" value="${escapeHtml(member.role && member.role.hi || '')}" onchange="updateTeamBilingualField(${index}, 'role', 'hi', this.value)">
+              <input type="text" class="form-control" value="${escapeHtml(member.role && member.role.hi || '')}" onchange="updateTeamBilingualField(${index}, 'role', 'hi', this.value, '${target}')">
             </div>
           </div>
         </div>
 
         <div class="bilingual-tabs-wrap">
-          <div class="bilingual-header">
-            <span class="bilingual-title">Biography / Profile Summary</span>
-          </div>
+          <div class="bilingual-header"><span class="bilingual-title">Biography / Profile Summary</span></div>
           <div class="bilingual-grid">
             <div>
               <span class="bilingual-col-tag bilingual-tag-en">English</span>
-              <textarea class="form-control" onchange="updateTeamBilingualField(${index}, 'bio', 'en', this.value)">${escapeHtml(member.bio && member.bio.en || '')}</textarea>
+              <textarea class="form-control" onchange="updateTeamBilingualField(${index}, 'bio', 'en', this.value, '${target}')">${escapeHtml(member.bio && member.bio.en || '')}</textarea>
             </div>
             <div>
               <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
-              <textarea class="form-control" onchange="updateTeamBilingualField(${index}, 'bio', 'hi', this.value)">${escapeHtml(member.bio && member.bio.hi || '')}</textarea>
+              <textarea class="form-control" onchange="updateTeamBilingualField(${index}, 'bio', 'hi', this.value, '${target}')">${escapeHtml(member.bio && member.bio.hi || '')}</textarea>
             </div>
           </div>
         </div>
       </div>
     `;
-  }).join('');
+  };
+
+  const teamCardsHtml = team.map((member, index) => renderCardRow(member, index, 'team')).join('');
+  const membersCardsHtml = members.map((member, index) => renderCardRow(member, index, 'members')).join('');
 
   container.innerHTML = `
-    <!-- Team Members Section -->
+    <!-- Creative Leadership Section -->
     <div class="studio-card">
       <div class="studio-card-header">
         <div>
-          <h2 class="studio-card-title">👥 Team Members (${team.length})</h2>
-          <div class="studio-card-desc">Manage leadership, artists, playwrights, and coordinators shown on the About page.</div>
+          <h2 class="studio-card-title">🏛️ Creative Leadership & Directors (${team.length})</h2>
+          <div class="studio-card-desc">Core artistic directors, festival curators, and scenographers shown at the top of the About page.</div>
         </div>
-        <button type="button" class="btn-studio btn-studio-primary" onclick="openCreateTeamModal()">+ Add Member</button>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="openCreateTeamModal('team')">+ Add Leader</button>
       </div>
 
       <div class="team-grid">
@@ -1019,8 +1027,23 @@ function renderTeamAndAbout() {
       </div>
     </div>
 
+    <!-- Repertory Ensemble & Production Crew ("Our Team") Section -->
+    <div class="studio-card" style="margin-top:1.75rem;">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">🎭 Repertory Ensemble & Production Crew — "Our Team" (${members.length})</h2>
+          <div class="studio-card-desc">Actors, vocalists, puppeteers, lighting designers, costume artisans, and coordinators in the Our Team grid.</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="openCreateTeamModal('members')">+ Add Ensemble Member</button>
+      </div>
+
+      <div class="team-grid">
+        ${membersCardsHtml}
+      </div>
+    </div>
+
     <!-- About Mission & Institutional Statements -->
-    <div class="studio-card">
+    <div class="studio-card" style="margin-top:1.75rem;">
       <div class="studio-card-header">
         <div>
           <h2 class="studio-card-title">🏛️ Institutional Vision & Mission</h2>
@@ -1092,53 +1115,77 @@ function renderTeamAndAbout() {
 }
 
 // Team Member CRUD handlers
-window.updateTeamField = function(index, key, value) {
-  state.content.about.team[index][key] = value;
+window.updateTeamField = function(index, key, value, target = 'team') {
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
+  if (!list || !list[index]) return;
+  list[index][key] = value;
   markDirty(true);
 };
 
-window.updateTeamBilingualField = function(index, key, lang, value) {
-  if (!state.content.about.team[index][key]) {
-    state.content.about.team[index][key] = { en: '', hi: '' };
+window.updateTeamBilingualField = function(index, key, lang, value, target = 'team') {
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
+  if (!list || !list[index]) return;
+  if (!list[index][key]) {
+    list[index][key] = { en: '', hi: '' };
   }
-  state.content.about.team[index][key][lang] = value;
+  list[index][key][lang] = value;
   markDirty(true);
 };
 
-window.moveTeamMember = function(index, delta) {
-  const team = state.content.about.team;
+window.moveTeamMember = function(index, delta, target = 'team') {
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
+  if (!list) return;
   const newIndex = index + delta;
-  if (newIndex < 0 || newIndex >= team.length) return;
-  const temp = team[index];
-  team[index] = team[newIndex];
-  team[newIndex] = temp;
+  if (newIndex < 0 || newIndex >= list.length) return;
+  const temp = list[index];
+  list[index] = list[newIndex];
+  list[newIndex] = temp;
   markDirty(true);
   renderTeamAndAbout();
 };
 
-window.removeTeamMember = function(index) {
-  const member = state.content.about.team[index];
+window.removeTeamMember = function(index, target = 'team') {
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
+  if (!list || !list[index]) return;
+  const member = list[index];
+  const typeLabel = target === 'members' ? 'ensemble member' : 'team member';
   showConfirmModal(
-    'Remove Team Member',
-    `Are you sure you want to remove "${member.name || 'this team member'}" from the team?`,
+    'Remove ' + (target === 'members' ? 'Ensemble Member' : 'Team Member'),
+    `Are you sure you want to remove "${member.name || typeLabel}"?`,
     () => {
-      state.content.about.team.splice(index, 1);
+      list.splice(index, 1);
       markDirty(true);
       renderTeamAndAbout();
-      showToast('Team member removed.', 'info');
+      showToast(`${member.name || 'Member'} removed.`, 'info');
     },
     'Remove Member',
     true
   );
 };
 
-window.openCreateTeamModal = function() {
+window.openCreateTeamModal = function(target = 'team') {
   const modal = document.getElementById('team-modal');
   if (!modal) return;
-  document.getElementById('team-modal-title').textContent = '👤 Add Team Member';
+  const isLeadership = target === 'team';
+  document.getElementById('team-modal-title').textContent = isLeadership ? '👤 Add Leadership Director' : '🎭 Add Ensemble Member';
   document.getElementById('team-edit-index').value = '-1';
+  if (document.getElementById('team-modal-target')) {
+    document.getElementById('team-modal-target').value = target;
+  }
   document.getElementById('team-name-input').value = '';
   document.getElementById('team-avatar-input').value = '';
+  if (document.getElementById('team-icon-input')) {
+    document.getElementById('team-icon-input').value = isLeadership ? '🏛️' : '🎭';
+  }
+  if (document.getElementById('team-color-input')) {
+    const col = isLeadership ? '#C83200' : '#EA580C';
+    document.getElementById('team-color-input').value = col;
+    if (document.getElementById('team-color-picker')) {
+      document.getElementById('team-color-picker').value = col;
+    }
+  }
+  if (document.getElementById('team-badge-en')) document.getElementById('team-badge-en').value = '';
+  if (document.getElementById('team-badge-hi')) document.getElementById('team-badge-hi').value = '';
   updateTeamModalThumb('');
   document.getElementById('team-role-en').value = '';
   document.getElementById('team-role-hi').value = '';
@@ -1148,17 +1195,38 @@ window.openCreateTeamModal = function() {
   document.getElementById('team-name-input').focus();
 };
 
-window.openEditTeamModal = function(index) {
+window.openEditTeamModal = function(index, target = 'team') {
   const modal = document.getElementById('team-modal');
-  if (!modal || !state.content.about || !state.content.about.team) return;
-  const member = state.content.about.team[index];
-  if (!member) return;
+  if (!modal || !state.content.about) return;
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
+  if (!list || !list[index]) return;
+  const member = list[index];
+  const isLeadership = target === 'team';
 
-  document.getElementById('team-modal-title').textContent = `✏️ Edit Member: ${member.name || 'Team Member'}`;
+  document.getElementById('team-modal-title').textContent = `✏️ Edit: ${member.name || 'Member'}`;
   document.getElementById('team-edit-index').value = String(index);
+  if (document.getElementById('team-modal-target')) {
+    document.getElementById('team-modal-target').value = target;
+  }
   document.getElementById('team-name-input').value = member.name || '';
   const avatarVal = member.image || member.avatar || '';
   document.getElementById('team-avatar-input').value = avatarVal;
+  if (document.getElementById('team-icon-input')) {
+    document.getElementById('team-icon-input').value = member.icon || (isLeadership ? '🏛️' : '🎭');
+  }
+  if (document.getElementById('team-color-input')) {
+    const col = member.color || (isLeadership ? '#C83200' : '#EA580C');
+    document.getElementById('team-color-input').value = col;
+    if (document.getElementById('team-color-picker')) {
+      document.getElementById('team-color-picker').value = col;
+    }
+  }
+  if (document.getElementById('team-badge-en')) {
+    document.getElementById('team-badge-en').value = (member.badge && member.badge.en) || '';
+  }
+  if (document.getElementById('team-badge-hi')) {
+    document.getElementById('team-badge-hi').value = (member.badge && member.badge.hi) || '';
+  }
   updateTeamModalThumb(avatarVal);
   document.getElementById('team-role-en').value = (member.role && member.role.en) || '';
   document.getElementById('team-role-hi').value = (member.role && member.role.hi) || '';
@@ -1198,34 +1266,47 @@ window.closeTeamModal = function() {
 
 window.saveTeamMemberFromModal = function() {
   const index = parseInt(document.getElementById('team-edit-index').value, 10);
+  const target = (document.getElementById('team-modal-target') && document.getElementById('team-modal-target').value) || 'team';
   const name = document.getElementById('team-name-input').value.trim();
   const avatar = document.getElementById('team-avatar-input') ? document.getElementById('team-avatar-input').value.trim() : '';
+  const icon = document.getElementById('team-icon-input') ? document.getElementById('team-icon-input').value.trim() : '🎭';
+  const color = document.getElementById('team-color-input') ? document.getElementById('team-color-input').value.trim() : '#EA580C';
+  const badgeEn = document.getElementById('team-badge-en') ? document.getElementById('team-badge-en').value.trim() : '';
+  const badgeHi = document.getElementById('team-badge-hi') ? document.getElementById('team-badge-hi').value.trim() : '';
   const roleEn = document.getElementById('team-role-en').value.trim();
   const roleHi = document.getElementById('team-role-hi').value.trim();
   const bioEn = document.getElementById('team-bio-en').value.trim();
   const bioHi = document.getElementById('team-bio-hi').value.trim();
 
   if (!name) {
-    alert('Please enter a team member name.');
+    alert('Please enter a name.');
     document.getElementById('team-name-input').focus();
     return;
   }
 
   if (!state.content.about) state.content.about = {};
   if (!state.content.about.team) state.content.about.team = [];
+  if (!state.content.about.members) state.content.about.members = [];
+
+  const list = target === 'members' ? state.content.about.members : state.content.about.team;
 
   const memberData = {
     name: name,
     image: avatar,
+    icon: icon,
+    color: color,
     role: { en: roleEn, hi: roleHi },
     bio: { en: bioEn, hi: bioHi }
   };
+  if (badgeEn || badgeHi) {
+    memberData.badge = { en: badgeEn, hi: badgeHi };
+  }
 
   if (index === -1) {
-    state.content.about.team.push(memberData);
-    showToast(`Added "${name}" to team. Click "Publish" to save permanently.`, 'success');
+    list.push(memberData);
+    showToast(`Added "${name}". Click "Publish" to save permanently.`, 'success');
   } else {
-    state.content.about.team[index] = memberData;
+    list[index] = memberData;
     showToast(`Updated "${name}". Click "Publish" to save permanently.`, 'success');
   }
 
@@ -1235,7 +1316,7 @@ window.saveTeamMemberFromModal = function() {
 };
 
 window.addNewTeamMember = function() {
-  openCreateTeamModal();
+  openCreateTeamModal('team');
 };
 
 window.updateAboutField = function(field, lang, value) {

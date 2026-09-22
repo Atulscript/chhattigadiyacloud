@@ -920,6 +920,144 @@
           "hi": "नाचा विधा और छत्तीसगढ़ी लोक संगीत के जाने-माने विशेषज्ञ।"
         }
       }
+    ],
+    "members": [
+      {
+        "name": "Rameshwar Mandavi",
+        "role": {
+          "en": "Lead Actor & Physical Theatre",
+          "hi": "मुख्य अभिनेता एवं कायिक रंगमंच"
+        },
+        "badge": {
+          "en": "Acting Ensemble",
+          "hi": "अभिनय दल"
+        },
+        "icon": "🎭",
+        "color": "#E11D48",
+        "bio": {
+          "en": "Veteran performer of Nacha acrobatics and lead protagonist in 'Vincent: A Flashback' and 'Karan'.",
+          "hi": "विन्सेंट और कर्ण नाटकों में मुख्य भूमिका; नाचा के कायिक अभिनय और एक्रोबेटिक्स के अनुभवी कलाकार।"
+        }
+      },
+      {
+        "name": "Phoolbasan Netam",
+        "role": {
+          "en": "Folk Vocalist & Nacha Performer",
+          "hi": "लोक गायिका एवं नाचा अभिनेत्री"
+        },
+        "badge": {
+          "en": "Folk Vocals",
+          "hi": "लोक गायन"
+        },
+        "icon": "🪕",
+        "color": "#7C3AED",
+        "bio": {
+          "en": "Celebrated voice of Central Indian oral balladeers, blending traditional Suwa and Dadariya with contemporary theatre narratives.",
+          "hi": "सुवा, ददरिया और लोकगाथाओं की सुरीली गायिका, मंच पर लोक सुरों को सजीव करने वाली कलाकार।"
+        }
+      },
+      {
+        "name": "Devendra Sai",
+        "role": {
+          "en": "Actor & Puppetry Artisan",
+          "hi": "अभिनेता एवं कठपुतली शिल्पी"
+        },
+        "badge": {
+          "en": "Puppetry & Stage",
+          "hi": "कठपुतली व अभिनय"
+        },
+        "icon": "🎪",
+        "color": "#059669",
+        "bio": {
+          "en": "Spearheads traditional shadow and rod puppetry workshops across rural schools and performs in folk repertory.",
+          "hi": "पारंपरिक कठपुतली कला के विशेषज्ञ एवं ग्रामीण विद्यालयों में बाल कार्यशालाओं के संचालक।"
+        }
+      },
+      {
+        "name": "Tushar Dewangan",
+        "role": {
+          "en": "Stage Lighting & Technical Director",
+          "hi": "प्रकाश विन्यास एवं तकनीकी प्रमुख"
+        },
+        "badge": {
+          "en": "Lighting Design",
+          "hi": "प्रकाश विन्यास"
+        },
+        "icon": "💡",
+        "color": "#D97706",
+        "bio": {
+          "en": "Creates atmospheric shadowplay, warm terracotta candle-tones, and dynamic lighting cues for touring productions.",
+          "hi": "राष्ट्रीय नाट्य उत्सवों के लिए जैविक प्रकाश परिकल्पना और नाट्य छाया-शिल्प के तकनीकी निर्देशक।"
+        }
+      },
+      {
+        "name": "Anupama Beck",
+        "role": {
+          "en": "Costumes, Indigenous Textiles & Props",
+          "hi": "वेशभूषा, पारंपरिक वस्त्र एवं सज्जा"
+        },
+        "badge": {
+          "en": "Textiles & Craft",
+          "hi": "वस्त्र व सज्जा"
+        },
+        "icon": "🧵",
+        "color": "#0284C7",
+        "bio": {
+          "en": "Weaves Kosa silk, raw cotton, and forest-dyed natural garments authentic to tribal Chhattisgarhi folklore.",
+          "hi": "कोसा सिल्क, खादी और प्राकृतिक रंगों से आदिवासी संस्कृति के प्रामाणिक वस्त्रों का निर्माण।"
+        }
+      },
+      {
+        "name": "Punit Ram Yadav",
+        "role": {
+          "en": "Mandar & Folk Percussionist",
+          "hi": "मांदर वादक एवं लोक ताल शिल्पी"
+        },
+        "badge": {
+          "en": "Percussion & Beats",
+          "hi": "लोक वाद्य"
+        },
+        "icon": "🥁",
+        "color": "#EA580C",
+        "bio": {
+          "en": "Over 20 years mastering Mandar, Dholak, and Timki rhythms driving the kinetic velocity of Panthi and Karma theatre.",
+          "hi": "दो दशकों से मांदर, ढोलक और टिमकी वादन में पारंगत; पंथी और करमा रंगमंच के प्रमुख ताल शिल्पी।"
+        }
+      },
+      {
+        "name": "Kiran Toppo",
+        "role": {
+          "en": "Community Residency & Youth Coordinator",
+          "hi": "बाल रंगशाला एवं युवा समन्वयक"
+        },
+        "badge": {
+          "en": "Youth Residency",
+          "hi": "बाल प्रशिक्षण"
+        },
+        "icon": "👧",
+        "color": "#0D9488",
+        "bio": {
+          "en": "Coordinates Ullas Summer Theatre Camp, mobilizing 360+ rural children annually for creative arts immersion.",
+          "hi": "उल्लास बाल ग्रीष्मकालीन नाट्य शिविर की मुख्य समन्वयक, ग्रामीण बच्चों को कला से जोड़ने का कार्य।"
+        }
+      },
+      {
+        "name": "Dr. Prabhat Mishra",
+        "role": {
+          "en": "Archive Fellow & Research Editor",
+          "hi": "अभिलेखागार अध्येता एवं शोध संपादक"
+        },
+        "badge": {
+          "en": "Research & Archive",
+          "hi": "शोध व अभिलेख"
+        },
+        "icon": "📜",
+        "color": "#4F46E5",
+        "bio": {
+          "en": "Lead editor of Rang Sandesh monthly review; authors critical treatises on indigenous scenography and folk theatre.",
+          "hi": "रंग संदेश मासिक पत्रिका के संपादक एवं लोक रंगमंच पर शोध व अभिलेखागार के प्रभारी।"
+        }
+      }
     ]
   },
   "pressKit": {

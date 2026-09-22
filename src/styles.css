@@ -3205,25 +3205,341 @@ button {
 .about-triad-card {
   background: #FFFFFF;
   border: 1px solid var(--g-border);
-  border-radius: var(--radius-sm);
-  padding: 2rem 1.75rem;
-  transition: var(--transition);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .about-triad-card:hover {
   border-color: var(--c-primary);
-  box-shadow: 0 4px 12px rgba(60,64,67,0.1);
+  box-shadow: 0 10px 24px rgba(60,64,67,0.12);
+  transform: translateY(-4px);
+}
+
+.about-triad-card.triad-maati {
+  background: linear-gradient(155deg, #FFFFFF 0%, #F0FDF4 100%);
+  border: 1.5px solid #BBF7D0;
+  border-top: 5px solid #16A34A;
+}
+.about-triad-card.triad-maati:hover {
+  border-color: #16A34A;
+  box-shadow: 0 12px 28px rgba(22, 163, 74, 0.16);
+}
+.about-triad-card.triad-maati .triad-number {
+  color: #15803D;
+  text-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+}
+
+.about-triad-card.triad-prayog {
+  background: linear-gradient(155deg, #FFFFFF 0%, #FFF1F2 100%);
+  border: 1.5px solid #FECDD3;
+  border-top: 5px solid #E11D48;
+}
+.about-triad-card.triad-prayog:hover {
+  border-color: #E11D48;
+  box-shadow: 0 12px 28px rgba(225, 29, 72, 0.16);
+}
+.about-triad-card.triad-prayog .triad-number {
+  color: #BE123C;
+  text-shadow: 0 2px 8px rgba(225, 29, 72, 0.2);
+}
+
+.about-triad-card.triad-shilp {
+  background: linear-gradient(155deg, #FFFFFF 0%, #FFFBEB 100%);
+  border: 1.5px solid #FDE68A;
+  border-top: 5px solid #D97706;
+}
+.about-triad-card.triad-shilp:hover {
+  border-color: #D97706;
+  box-shadow: 0 12px 28px rgba(217, 119, 6, 0.16);
+}
+.about-triad-card.triad-shilp .triad-number {
+  color: #B45309;
+  text-shadow: 0 2px 8px rgba(217, 119, 6, 0.2);
 }
 
 .triad-number {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   color: var(--c-primary);
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
+  font-family: var(--font-serif);
 }
 
-/* Milestone Timeline */
+/* About Us Header & Distinct Surfaces */
+.about-page-header {
+  background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 35%, #FFF1F2 70%, #FDF4FF 100%);
+  border-bottom: 1px solid rgba(234, 88, 12, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.about-page-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.about-page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -5%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.about-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #FFEDD5 0%, #FEE2E2 100%);
+  color: #C2410C;
+  border: 1px solid #FDBA74;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(194, 65, 12, 0.08);
+}
+
+.about-stat-chip-orange {
+  background: #FFF7ED !important;
+  color: #9A3412 !important;
+  border: 1px solid #FDBA74 !important;
+}
+.about-stat-chip-green {
+  background: #F0FDF4 !important;
+  color: #166534 !important;
+  border: 1px solid #86EFAC !important;
+}
+.about-stat-chip-amber {
+  background: #FFFBEB !important;
+  color: #92400E !important;
+  border: 1px solid #FCD34D !important;
+}
+.about-stat-chip-blue {
+  background: #F0F9FF !important;
+  color: #075985 !important;
+  border: 1px solid #7DD3FC !important;
+}
+
+/* Mission & Vision Dual Cards */
+.about-mission-card {
+  background: linear-gradient(145deg, #FFFFFF 0%, #FFF7ED 100%);
+  border: 1.5px solid #FED7AA;
+  border-top: 4px solid #EA580C;
+  border-radius: var(--radius-md);
+  padding: 2.25rem;
+  box-shadow: 0 10px 25px rgba(234, 88, 12, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.about-mission-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(234, 88, 12, 0.12);
+}
+
+.about-vision-card {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F0F9FF 100%);
+  border: 1.5px solid #BAE6FD;
+  border-top: 4px solid #0284C7;
+  border-radius: var(--radius-md);
+  padding: 2.25rem;
+  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.about-vision-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(2, 132, 199, 0.12);
+}
+
+/* Cultural Roots Spotlight Canvas */
+.about-roots-canvas {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 50%, #FFEDD5 100%);
+  border: 2px solid #FDE047;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: 0 12px 32px rgba(217, 119, 6, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.about-roots-canvas::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #D97706, #EA580C, #E11D48, #7C3AED);
+}
+.roots-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+}
+
+/* Creative Leadership Enhanced Cards */
+.leadership-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 2.25rem 2rem;
+  border: 1.5px solid var(--g-border);
+  box-shadow: 0 8px 24px rgba(60, 64, 67, 0.06);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.leadership-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+}
+.leadership-card-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+/* Repertory Ensemble / Our Team Grid & Cards */
+.about-ensemble-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.ensemble-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.5rem;
+  border: 1.5px solid var(--g-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.ensemble-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.09);
+}
+.ensemble-card-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.ensemble-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+.ensemble-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  align-self: flex-start;
+}
+.ensemble-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--g-text-primary);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+.ensemble-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+.ensemble-bio {
+  font-size: 0.88rem;
+  color: var(--g-text-secondary);
+  line-height: 1.65;
+  margin-top: auto;
+}
+
+/* Colorful Milestones */
+.about-milestone-colorful {
+  border-left: 2.5px dashed var(--g-border);
+  margin: 2rem 0 3rem 1.25rem;
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.milestone-colorful-item {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.milestone-colorful-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+.milestone-colorful-item::before {
+  content: '';
+  position: absolute;
+  left: -2.85rem;
+  top: 1.4rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--milestone-color, var(--c-primary));
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 2px var(--milestone-color, var(--c-primary)), 0 4px 8px rgba(0,0,0,0.15);
+}
+.milestone-year-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+
+/* Milestone Timeline legacy */
 .about-milestone-list {
   border-left: 2px solid var(--g-border);
   margin: 2rem 0 3rem 1rem;
