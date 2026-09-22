@@ -966,5 +966,284 @@
         "hi": "समारोह सहयोगी"
       }
     }
-  ]
+  ],
+  "homepage": {
+    "hero": {
+      "eyebrow": {
+        "en": "Theatre • Festivals • Workshops • Publications",
+        "hi": "रंगमंच • राष्ट्रीय समारोह • बाल कार्यशालाएं • वैचारिक पत्रिका"
+      },
+      "rebusWord1": {
+        "en": "Think",
+        "hi": "थिंक"
+      },
+      "rebusMark": {
+        "en": "Art",
+        "hi": "कला"
+      },
+      "rebusWord2": {
+        "en": "Think Chhattisgadhiya Cloud",
+        "hi": "थिंक छत्तीसगढ़िया क्लाउड"
+      },
+      "statement": {
+        "en": "A Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications — bringing the living spirit of our soil to national and global stages.",
+        "hi": "छत्तीसगढ़िया क्लाउड — रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का सृजन करने वाला एक सांस्कृतिक संस्थान, जो माटी की जीवंत धरोहर को प्रतिष्ठित मंचों तक पहुँचाता है।"
+      },
+      "primaryCta": {
+        "text": {
+          "en": "View What's On",
+          "hi": "आगामी कार्यक्रम देखें"
+        },
+        "link": "/whats-on/"
+      },
+      "secondaryCta": {
+        "text": {
+          "en": "Read Magazine",
+          "hi": "मासिक पत्रिका पढ़ें"
+        },
+        "link": "/magazine/"
+      },
+      "badgeTop": {
+        "title": {
+          "en": "4 Original Plays",
+          "hi": "४ मौलिक नाटक"
+        },
+        "sub": {
+          "en": "National Touring Repertoire",
+          "hi": "राष्ट्रीय नाट्य मंचन"
+        }
+      },
+      "badgeBottom": {
+        "title": {
+          "en": "Jashrang & Kavita Utsav",
+          "hi": "जशरंग एवं कविता उत्सव"
+        },
+        "sub": {
+          "en": "Signature Annual Festivals",
+          "hi": "प्रतिष्ठित राष्ट्रीय समारोह"
+        }
+      }
+    },
+    "featuredTiles": [
+      {
+        "id": "theatre",
+        "theme": "theatre",
+        "tag": {
+          "en": "४ मौलिक नाटक",
+          "hi": "४ मौलिक नाटक"
+        },
+        "title": {
+          "en": "Stage Productions",
+          "hi": "नाट्य प्रस्तुतियां"
+        },
+        "desc": {
+          "en": "Four launch plays blending folk dramaturgy with contemporary narratives.",
+          "hi": "लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।"
+        },
+        "linkText": {
+          "en": "Explore Plays",
+          "hi": "नाटक देखें"
+        },
+        "href": "/productions/"
+      },
+      {
+        "id": "fest",
+        "theme": "fest",
+        "tag": {
+          "en": "Signature Festivals",
+          "hi": "वार्षिक समारोह"
+        },
+        "title": {
+          "en": "National Festivals",
+          "hi": "राष्ट्रीय समारोह"
+        },
+        "desc": {
+          "en": "Jashrang National Theatre Festival & Jaspur Kavita Utsav annual archives.",
+          "hi": "जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।"
+        },
+        "linkText": {
+          "en": "View Editions",
+          "hi": "संस्करण देखें"
+        },
+        "href": "/events/"
+      },
+      {
+        "id": "camp",
+        "theme": "camp",
+        "tag": {
+          "en": "Youth Residency",
+          "hi": "बाल रंगमंच"
+        },
+        "title": {
+          "en": "Ullas Summer Camp",
+          "hi": "उल्लास समर कैम्प"
+        },
+        "desc": {
+          "en": "Youth theatre training, puppet craft, and forward registration enquiries.",
+          "hi": "बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।"
+        },
+        "linkText": {
+          "en": "Join Workshops",
+          "hi": "शिविर में जुड़ें"
+        },
+        "href": "/training-workshops/"
+      },
+      {
+        "id": "mag",
+        "theme": "mag",
+        "tag": {
+          "en": "Issue 14 Live",
+          "hi": "अंक १४ उपलब्ध"
+        },
+        "title": {
+          "en": "Monthly Magazine",
+          "hi": "मासिक पत्रिका"
+        },
+        "desc": {
+          "en": "Web-readable critical essays with our in-browser hybrid reader & PDF tool.",
+          "hi": "वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।"
+        },
+        "linkText": {
+          "en": "Read Issue",
+          "hi": "अंक पढ़ें"
+        },
+        "href": "/magazine/"
+      }
+    ],
+    "impactStats": [
+      {
+        "number": "4",
+        "label": {
+          "en": "Original Repertoire Plays",
+          "hi": "मौलिक राष्ट्रीय नाटक"
+        },
+        "sub": {
+          "en": "Touring across national venues",
+          "hi": "विभिन्न राष्ट्रीय मंचों पर प्रस्तुत"
+        }
+      },
+      {
+        "number": "14",
+        "label": {
+          "en": "Magazine Issues",
+          "hi": "मासिक पत्रिका अंक"
+        },
+        "sub": {
+          "en": "Critical essays & research",
+          "hi": "सांस्कृतिक विमर्श व आलेख"
+        }
+      },
+      {
+        "number": "12,000+",
+        "label": {
+          "en": "Festival Spectators",
+          "hi": "समारोह दर्शक"
+        },
+        "sub": {
+          "en": "Across Jashrang & Kavita Utsav",
+          "hi": "जशरंग एवं कविता उत्सव"
+        }
+      },
+      {
+        "number": "500+",
+        "label": {
+          "en": "Youth Artists Mentored",
+          "hi": "प्रशिक्षित बाल कलाकार"
+        },
+        "sub": {
+          "en": "Through Ullas Camp residencies",
+          "hi": "उल्लास समर कैम्प एवं कार्यशालाएं"
+        }
+      }
+    ],
+    "traditions": [
+      {
+        "icon": "🎭",
+        "title": {
+          "en": "Nacha & Gammat",
+          "hi": "नाचा एवं गम्मत"
+        },
+        "subtitle": {
+          "en": "Folk Farce & Social Satire",
+          "hi": "लोक प्रहसन एवं सामाजिक व्यंग्य"
+        },
+        "desc": {
+          "en": "The improvisational circular folk theatre of Central India, using incisive comedy, colloquial dialect, and rhythmic song duels to challenge orthodoxy.",
+          "hi": "छत्तीसगढ़ का पारंपरिक खुला लोकनाट्य, जहाँ तीखा सामाजिक हास्य, तात्कालिक संवाद और ढोलक की थाप जनसामान्य के सरोकारों को मंच पर स्थापित करती है।"
+        }
+      },
+      {
+        "icon": "🥁",
+        "title": {
+          "en": "Panthi & Karma Dance",
+          "hi": "पंथी एवं करमा नृत्य"
+        },
+        "subtitle": {
+          "en": "Rhythmic Velocity & Physical Theatre",
+          "hi": "मांदर की थाप व शारीरिक वेग"
+        },
+        "desc": {
+          "en": "High-energy kinetic choreography fueled by the Mandar drum, building pyramids of human agility and grounding physical acting in tribal consciousness.",
+          "hi": "सतनामी परंपरा का आध्यात्मिक पंथी नृत्य और जनजातीय करमा नृत्य हमारे कलाकारों के शारीरिक रंगमंच, श्वास संतुलन और सामूहिक ऊर्जा की नींव हैं।"
+        }
+      },
+      {
+        "icon": "🏺",
+        "title": {
+          "en": "Dhokra & Mural Scenography",
+          "hi": "ढोकरा एवं भित्ति शिल्प"
+        },
+        "subtitle": {
+          "en": "Earth Pigments & Scenographic Craft",
+          "hi": "माटी के रंग व धातु-शिल्प मंच"
+        },
+        "desc": {
+          "en": "Lost-wax bell metal casting, bamboo minimalism, and natural ochre wall murals define our visual set designs and organic costume textures.",
+          "hi": "बस्तर का लॉस्ट-वैक्स धातु शिल्प और जशपुर की पारंपरिक भित्ति चित्रकला हमारे नाटकों के मंच-सज्जा, प्रकाश और वेशभूषा को जैविक सौंदर्य प्रदान करती है।"
+        }
+      }
+    ],
+    "criticsPraise": [
+      {
+        "quote": "A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative, bridging European expressionism with Indian folk earthiness.",
+        "publication": "Natya Varta",
+        "tag": "Review of Vincent"
+      },
+      {
+        "quote": "Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak — bringing the rural migrant reality to national consciousness.",
+        "publication": "Rang Manch Samiksha",
+        "tag": "Review of Gabar Ghichor"
+      },
+      {
+        "quote": "Chhattisgadhiya Cloud proves that the most powerful contemporary Indian theatre is rooted directly in tribal soil, not urban imitation.",
+        "publication": "The Cultural Chronicle",
+        "tag": "Festival Editorial"
+      }
+    ],
+    "visualHighlight": {
+      "title": {
+        "en": "Living Theatre from Central India",
+        "hi": "मध्य भारत का जीवंत रंगमंच"
+      },
+      "desc": {
+        "en": "From rural village squares to prestigious national auditoriums, our ensemble brings the Mandar rhythm, vibrant Nacha satire, and poetic folk drama to life.",
+        "hi": "ग्रामीण चौपालों से लेकर राष्ट्रीय नाट्य मंचों तक, हमारा दल मांदर की थाप, नाचा के तीखे हास्य और संवेदनशील लोकगाथाओं को निरंतर प्रस्तुत कर रहा है।"
+      },
+      "btnText": {
+        "en": "Our Cultural Story",
+        "hi": "हमारा सांस्कृतिक सफर"
+      },
+      "btnHref": "/about/"
+    }
+  },
+  "adminAuth": {
+    "users": [
+      {
+        "username": "admin",
+        "displayName": "Super Administrator",
+        "role": "admin",
+        "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+      }
+    ]
+  }
 }

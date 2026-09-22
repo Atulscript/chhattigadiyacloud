@@ -12,13 +12,23 @@ const BRANCH_NAME = 'main';
 const state = {
   token: localStorage.getItem('cgcloud_gh_token') || '',
   user: null,
+  adminSession: JSON.parse(sessionStorage.getItem('cgcloud_admin_session') || localStorage.getItem('cgcloud_admin_session') || 'null'),
   fileSha: '',
   content: null,
   originalContentJson: '',
   isDirty: false,
   activeTab: 'dashboard',
+  activeSubPage: 'homepage',
   editingPostIndex: null
 };
+
+// Native Web Crypto SHA-256 calculation
+async function sha256(str) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
 
 // UTF-8 Safe Base64 helpers for bilingual Hindi / English content
 function utf8ToBase64(str) {
@@ -33,9 +43,13 @@ function base64ToUtf8(str) {
 document.addEventListener('DOMContentLoaded', async () => {
   setupNavigation();
   setupEventListeners();
+  setupAdminAuth();
 
   // Load content (locally or from GitHub)
   await loadInitialContent();
+
+  // Check admin session security gate
+  const isAuthenticated = checkAdminAuthentication();
 
   // If token exists, verify with GitHub
   if (state.token) {
@@ -44,8 +58,103 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateAuthUI(null);
   }
 
-  renderActiveTab();
+  if (isAuthenticated) {
+    renderActiveTab();
+  }
 });
+
+function checkAdminAuthentication() {
+  const loginOverlay = document.getElementById('studio-login-screen');
+  const studioLayout = document.getElementById('studio-layout');
+  const adminUserEl = document.getElementById('sidebar-admin-user');
+
+  if (state.adminSession && state.adminSession.username) {
+    if (loginOverlay) loginOverlay.style.display = 'none';
+    if (studioLayout) studioLayout.style.display = 'flex';
+    if (adminUserEl) adminUserEl.textContent = `👤 ${state.adminSession.username}`;
+    return true;
+  } else {
+    if (loginOverlay) loginOverlay.style.display = 'flex';
+    if (studioLayout) studioLayout.style.display = 'none';
+    return false;
+  }
+}
+
+function setupAdminAuth() {
+  const loginForm = document.getElementById('studio-login-form');
+  const errorBox = document.getElementById('login-error-box');
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usernameInput = document.getElementById('login-username').value.trim();
+      const passwordInput = document.getElementById('login-password').value;
+      const rememberInput = document.getElementById('login-remember').checked;
+      const submitBtn = document.getElementById('login-submit-btn');
+
+      if (!usernameInput || !passwordInput) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying credentials...';
+      if (errorBox) errorBox.classList.remove('visible');
+
+      const passHash = await sha256(passwordInput);
+
+      // Authenticate against admin users configured in site-content.json (with fallback default)
+      const usersList = (state.content && state.content.adminAuth && state.content.adminAuth.users) || [
+        {
+          username: "admin",
+          displayName: "Super Administrator",
+          role: "admin",
+          passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+        }
+      ];
+
+      const foundUser = usersList.find(u => u.username.toLowerCase() === usernameInput.toLowerCase() && u.passwordHash === passHash);
+
+      if (foundUser) {
+        const session = {
+          username: foundUser.username,
+          displayName: foundUser.displayName || foundUser.username,
+          role: foundUser.role || 'admin',
+          timestamp: Date.now()
+        };
+        state.adminSession = session;
+        if (rememberInput) {
+          localStorage.setItem('cgcloud_admin_session', JSON.stringify(session));
+        } else {
+          sessionStorage.setItem('cgcloud_admin_session', JSON.stringify(session));
+        }
+
+        checkAdminAuthentication();
+        showToast(`Welcome back, ${session.displayName}!`, 'success');
+        renderActiveTab();
+      } else {
+        if (errorBox) {
+          errorBox.textContent = 'Invalid username or password. Please verify and try again.';
+          errorBox.classList.add('visible');
+        }
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In to Content Studio';
+    });
+  }
+
+  // Logout button
+  const logoutBtn = document.getElementById('admin-logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to sign out of Content Studio?')) {
+        localStorage.removeItem('cgcloud_admin_session');
+        sessionStorage.removeItem('cgcloud_admin_session');
+        state.adminSession = null;
+        checkAdminAuthentication();
+        showToast('Signed out of admin session.', 'info');
+      }
+    });
+  }
+}
 
 // Setup sidebar tab navigation
 function setupNavigation() {
@@ -908,28 +1017,698 @@ window.savePostFromModal = function() {
 };
 
 // ==========================================
-// 4. ALL PAGES CONTENT MANAGER
+// ==========================================
+// 4. ALL PAGES CONTENT MANAGER (Homepage & All Subpages)
 // ==========================================
 function renderPagesManager() {
   const container = document.getElementById('panel-pages');
   if (!container || !state.content) return;
 
-  const contact = state.content.contact || {};
-  const orgName = state.content.orgName || {};
-  const tagline = state.content.tagline || {};
+  const currentSub = state.activeSubPage || 'homepage';
 
   container.innerHTML = `
-    <!-- Brand & Contact Details -->
-    <div class="studio-card">
-      <div class="studio-card-header">
+    <!-- Sub-page Navigation Tabs -->
+    <div class="pages-subnav-bar">
+      <button type="button" class="pages-subnav-btn ${currentSub === 'homepage' ? 'active' : ''}" onclick="switchSubPage('homepage')">
+        🏠 Homepage
+      </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'productions' ? 'active' : ''}" onclick="switchSubPage('productions')">
+        🎭 Productions (${(state.content.productions || []).length})
+      </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'events' ? 'active' : ''}" onclick="switchSubPage('events')">
+        🎪 Events & Festivals
+      </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'workshops' ? 'active' : ''}" onclick="switchSubPage('workshops')">
+        ⛺ Workshops & Camps
+      </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'magazine' ? 'active' : ''}" onclick="switchSubPage('magazine')">
+        📖 Magazine
+      </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'brand' ? 'active' : ''}" onclick="switchSubPage('brand')">
+        📞 Brand & Contacts
+      </button>
+    </div>
+
+    <!-- Active Subpage Content Host -->
+    <div id="subpage-content-host"></div>
+  `;
+
+  renderCurrentSubPage();
+}
+
+window.switchSubPage = function(subId) {
+  state.activeSubPage = subId;
+  document.querySelectorAll('.pages-subnav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().includes(subId));
+  });
+  renderCurrentSubPage();
+};
+
+function renderCurrentSubPage() {
+  const host = document.getElementById('subpage-content-host');
+  if (!host || !state.content) return;
+
+  switch (state.activeSubPage) {
+    case 'homepage':
+      renderHomepageEditor(host);
+      break;
+    case 'productions':
+      renderProductionsPageEditor(host);
+      break;
+    case 'events':
+      renderEventsPageEditor(host);
+      break;
+    case 'workshops':
+      renderWorkshopsPageEditor(host);
+      break;
+    case 'magazine':
+      renderMagazinePageEditor(host);
+      break;
+    case 'brand':
+      renderBrandPageEditor(host);
+      break;
+    default:
+      renderHomepageEditor(host);
+      break;
+  }
+}
+
+// ----------------------------------------------------
+// 4.1 HOMEPAGE COMPLETE VISUAL CONTENT EDITOR
+// ----------------------------------------------------
+function renderHomepageEditor(host) {
+  if (!state.content.homepage) state.content.homepage = {};
+  const hp = state.content.homepage;
+  const hero = hp.hero || {};
+  const featuredTiles = hp.featuredTiles || [];
+  const impactStats = hp.impactStats || [];
+  const traditions = hp.traditions || [];
+  const criticsPraise = hp.criticsPraise || [];
+  const vh = hp.visualHighlight || {};
+
+  host.innerHTML = `
+    <!-- 1. Hero & Rebus Section -->
+    <div class="section-group-card">
+      <div class="section-group-header">
         <div>
-          <h2 class="studio-card-title">🌐 Brand & Organization Core</h2>
-          <div class="studio-card-desc">Main titles, Rebus tagline, and official contact numbers.</div>
+          <div class="section-group-title">👑 Homepage Hero & Rebus Lockup</div>
+          <div class="section-group-desc">Edit the top billboard eyebrow, iconic Rebus words ("Think Art Think Chhattisgadhiya Cloud"), and statement.</div>
         </div>
       </div>
 
       <div class="bilingual-tabs-wrap">
-        <div class="bilingual-header"><span class="bilingual-title">Organization Headline</span></div>
+        <div class="bilingual-header"><span class="bilingual-title">Hero Eyebrow Tagline</span></div>
+        <div class="bilingual-grid">
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-en">English</span>
+            <input type="text" class="form-control" value="${escapeHtml(hero.eyebrow && hero.eyebrow.en || '')}" onchange="updateHpField('hero.eyebrow.en', this.value)">
+          </div>
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+            <input type="text" class="form-control" value="${escapeHtml(hero.eyebrow && hero.eyebrow.hi || '')}" onchange="updateHpField('hero.eyebrow.hi', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">Rebus Line 1 (Word 1 - English)</label>
+          <input type="text" class="form-control" value="${escapeHtml(hero.rebusWord1 && hero.rebusWord1.en || 'Think')}" onchange="updateHpField('hero.rebusWord1.en', this.value)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rebus Line 1 (Word 1 - हिन्दी)</label>
+          <input type="text" class="form-control" value="${escapeHtml(hero.rebusWord1 && hero.rebusWord1.hi || 'थिंक')}" onchange="updateHpField('hero.rebusWord1.hi', this.value)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Art Mark Text (English)</label>
+          <input type="text" class="form-control" value="${escapeHtml(hero.rebusMark && hero.rebusMark.en || 'Art')}" onchange="updateHpField('hero.rebusMark.en', this.value)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">कला चिह्न पाठ (हिन्दी)</label>
+          <input type="text" class="form-control" value="${escapeHtml(hero.rebusMark && hero.rebusMark.hi || 'कला')}" onchange="updateHpField('hero.rebusMark.hi', this.value)">
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Rebus Line 2 (Brand Phrase)</span></div>
+        <div class="bilingual-grid">
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-en">English</span>
+            <input type="text" class="form-control" value="${escapeHtml(hero.rebusWord2 && hero.rebusWord2.en || 'Think Chhattisgadhiya Cloud')}" onchange="updateHpField('hero.rebusWord2.en', this.value)">
+          </div>
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+            <input type="text" class="form-control" value="${escapeHtml(hero.rebusWord2 && hero.rebusWord2.hi || 'थिंक छत्तीसगढ़िया क्लाउड')}" onchange="updateHpField('hero.rebusWord2.hi', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Hero Mission Statement</span></div>
+        <div class="bilingual-grid">
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-en">English</span>
+            <textarea class="form-control" onchange="updateHpField('hero.statement.en', this.value)">${escapeHtml(hero.statement && hero.statement.en || '')}</textarea>
+          </div>
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+            <textarea class="form-control" onchange="updateHpField('hero.statement.hi', this.value)">${escapeHtml(hero.statement && hero.statement.hi || '')}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin-top:1rem;">
+        <div class="tile-editor-box">
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Primary CTA Button</div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Text (EN)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.primaryCta && hero.primaryCta.text && hero.primaryCta.text.en || '')}" onchange="updateHpField('hero.primaryCta.text.en', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Text (HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.primaryCta && hero.primaryCta.text && hero.primaryCta.text.hi || '')}" onchange="updateHpField('hero.primaryCta.text.hi', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" style="font-size:0.75rem;">Link URL</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.primaryCta && hero.primaryCta.link || '/whats-on/')}" onchange="updateHpField('hero.primaryCta.link', this.value)">
+          </div>
+        </div>
+
+        <div class="tile-editor-box">
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Secondary CTA Button</div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Text (EN)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.secondaryCta && hero.secondaryCta.text && hero.secondaryCta.text.en || '')}" onchange="updateHpField('hero.secondaryCta.text.en', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Text (HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.secondaryCta && hero.secondaryCta.text && hero.secondaryCta.text.hi || '')}" onchange="updateHpField('hero.secondaryCta.text.hi', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" style="font-size:0.75rem;">Link URL</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.secondaryCta && hero.secondaryCta.link || '/magazine/')}" onchange="updateHpField('hero.secondaryCta.link', this.value)">
+          </div>
+        </div>
+
+        <div class="tile-editor-box">
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Top Floating Badge</div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Title (EN / HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.badgeTop && hero.badgeTop.title && hero.badgeTop.title.en || '')}" onchange="updateHpField('hero.badgeTop.title.en', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" style="font-size:0.75rem;">Sub (EN / HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.badgeTop && hero.badgeTop.sub && hero.badgeTop.sub.en || '')}" onchange="updateHpField('hero.badgeTop.sub.en', this.value)">
+          </div>
+        </div>
+
+        <div class="tile-editor-box">
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">Bottom Floating Badge</div>
+          <div class="form-group" style="margin-bottom:0.5rem;">
+            <label class="form-label" style="font-size:0.75rem;">Title (EN / HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.badgeBottom && hero.badgeBottom.title && hero.badgeBottom.title.en || '')}" onchange="updateHpField('hero.badgeBottom.title.en', this.value)">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" style="font-size:0.75rem;">Sub (EN / HI)</label>
+            <input type="text" class="form-control" value="${escapeHtml(hero.badgeBottom && hero.badgeBottom.sub && hero.badgeBottom.sub.en || '')}" onchange="updateHpField('hero.badgeBottom.sub.en', this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Featured 4 Cards Grid Section -->
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🗂️ 4 Featured Highlight Tiles</div>
+          <div class="section-group-desc">The 4 primary entry cards shown below the hero (Stage Productions, National Festivals, Ullas Camp, Monthly Magazine).</div>
+        </div>
+      </div>
+
+      <div class="tiles-editor-grid">
+        ${featuredTiles.map((tile, i) => `
+          <div class="tile-editor-box">
+            <span class="tile-editor-badge">Tile #${i + 1}: ${escapeHtml(tile.id || tile.theme || '')}</span>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Pill Tag (EN / HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.tag && tile.tag.en || '')}" onchange="updateTileField(${i}, 'tag', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Title (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.title && tile.title.en || '')}" onchange="updateTileField(${i}, 'title', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Title (HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.title && tile.title.hi || '')}" onchange="updateTileField(${i}, 'title', 'hi', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Description (EN)</label>
+              <textarea class="form-control" style="font-size:0.8rem; min-height:60px;" onchange="updateTileField(${i}, 'desc', 'en', this.value)">${escapeHtml(tile.desc && tile.desc.en || '')}</textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Description (HI)</label>
+              <textarea class="form-control" style="font-size:0.8rem; min-height:60px;" onchange="updateTileField(${i}, 'desc', 'hi', this.value)">${escapeHtml(tile.desc && tile.desc.hi || '')}</textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:0.75rem;">Target Href</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.href || '')}" onchange="updateTileRawField(${i}, 'href', this.value)">
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 3. Impact Statistics Strip -->
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">📊 4 Impact Counters Strip</div>
+          <div class="section-group-desc">Key institutional metrics shown across the counter strip on the homepage.</div>
+        </div>
+      </div>
+
+      <div class="stats-editor-grid">
+        ${impactStats.map((stat, i) => `
+          <div class="stat-editor-card">
+            <div style="font-weight:800; font-size:0.82rem; color:var(--studio-primary); margin-bottom:0.5rem;">Stat #${i + 1}</div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Number / Metric</label>
+              <input type="text" class="form-control" style="font-weight:800; font-size:1.1rem;" value="${escapeHtml(stat.number || '')}" onchange="updateStatField(${i}, 'number', null, this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Label (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(stat.label && stat.label.en || '')}" onchange="updateStatField(${i}, 'label', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Label (HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(stat.label && stat.label.hi || '')}" onchange="updateStatField(${i}, 'label', 'hi', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:0.75rem;">Subtitle Note (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(stat.sub && stat.sub.en || '')}" onchange="updateStatField(${i}, 'sub', 'en', this.value)">
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 4. Living Traditions Triad -->
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🎭 Living Heritage Triad (3 Pillars)</div>
+          <div class="section-group-desc">The 3 aesthetic traditions (Nacha & Gammat, Panthi & Karma, Dhokra & Scenography).</div>
+        </div>
+      </div>
+
+      <div class="traditions-editor-grid">
+        ${traditions.map((trad, i) => `
+          <div class="tradition-editor-card">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+              <input type="text" class="form-control" style="width:50px; text-align:center; font-size:1.2rem;" value="${escapeHtml(trad.icon || '🎭')}" onchange="updateTraditionRawField(${i}, 'icon', this.value)">
+              <div style="font-weight:800; font-size:0.9rem;">Pillar #${i + 1}</div>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Title (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(trad.title && trad.title.en || '')}" onchange="updateTraditionField(${i}, 'title', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Title (HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(trad.title && trad.title.hi || '')}" onchange="updateTraditionField(${i}, 'title', 'hi', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Subtitle (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(trad.subtitle && trad.subtitle.en || '')}" onchange="updateTraditionField(${i}, 'subtitle', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:0.75rem;">Description (EN)</label>
+              <textarea class="form-control" style="font-size:0.8rem; min-height:70px;" onchange="updateTraditionField(${i}, 'desc', 'en', this.value)">${escapeHtml(trad.desc && trad.desc.en || '')}</textarea>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 5. Critics Reviews & Press Praise -->
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">💬 Critics Praise & Press Quotes (3 Reviews)</div>
+          <div class="section-group-desc">Reviews from national theatre festivals and cultural chronicles.</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem;">
+        ${criticsPraise.map((critic, i) => `
+          <div class="tile-editor-box">
+            <div style="font-weight:800; font-size:0.85rem; color:var(--studio-amber); margin-bottom:0.5rem;">Review #${i + 1}</div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Quote Text</label>
+              <textarea class="form-control" style="font-size:0.8rem; min-height:75px;" onchange="updateCriticField(${i}, 'quote', this.value)">${escapeHtml(critic.quote || '')}</textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Publication / Journal</label>
+              <input type="text" class="form-control" value="${escapeHtml(critic.publication || '')}" onchange="updateCriticField(${i}, 'publication', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:0.75rem;">Context / Play Tag</label>
+              <input type="text" class="form-control" value="${escapeHtml(critic.tag || '')}" onchange="updateCriticField(${i}, 'tag', this.value)">
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 6. Visual Highlight Band -->
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🌟 Homepage Visual Highlight Band</div>
+          <div class="section-group-desc">The callout banner placed right above the footer ("Living Theatre from Central India").</div>
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Banner Headline</span></div>
+        <div class="bilingual-grid">
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-en">English</span>
+            <input type="text" class="form-control" value="${escapeHtml(vh.title && vh.title.en || '')}" onchange="updateHpField('visualHighlight.title.en', this.value)">
+          </div>
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+            <input type="text" class="form-control" value="${escapeHtml(vh.title && vh.title.hi || '')}" onchange="updateHpField('visualHighlight.title.hi', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Banner Description</span></div>
+        <div class="bilingual-grid">
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-en">English</span>
+            <textarea class="form-control" onchange="updateHpField('visualHighlight.desc.en', this.value)">${escapeHtml(vh.desc && vh.desc.en || '')}</textarea>
+          </div>
+          <div>
+            <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+            <textarea class="form-control" onchange="updateHpField('visualHighlight.desc.hi', this.value)">${escapeHtml(vh.desc && vh.desc.hi || '')}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem;">
+        <div class="form-group">
+          <label class="form-label">Button Text (EN)</label>
+          <input type="text" class="form-control" value="${escapeHtml(vh.btnText && vh.btnText.en || '')}" onchange="updateHpField('visualHighlight.btnText.en', this.value)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Button Text (HI)</label>
+          <input type="text" class="form-control" value="${escapeHtml(vh.btnText && vh.btnText.hi || '')}" onchange="updateHpField('visualHighlight.btnText.hi', this.value)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Button Destination URL</label>
+          <input type="text" class="form-control" value="${escapeHtml(vh.btnHref || '/about/')}" onchange="updateHpField('visualHighlight.btnHref', this.value)">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Deep field helper for homepage object
+window.updateHpField = function(path, value) {
+  if (!state.content.homepage) state.content.homepage = {};
+  const parts = path.split('.');
+  let curr = state.content.homepage;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!curr[parts[i]]) curr[parts[i]] = {};
+    curr = curr[parts[i]];
+  }
+  curr[parts[parts.length - 1]] = value;
+  markDirty(true);
+};
+
+window.updateTileField = function(index, field, lang, value) {
+  const tile = state.content.homepage.featuredTiles[index];
+  if (!tile[field]) tile[field] = {};
+  tile[field][lang] = value;
+  markDirty(true);
+};
+
+window.updateTileRawField = function(index, field, value) {
+  state.content.homepage.featuredTiles[index][field] = value;
+  markDirty(true);
+};
+
+window.updateStatField = function(index, field, lang, value) {
+  const stat = state.content.homepage.impactStats[index];
+  if (lang) {
+    if (!stat[field]) stat[field] = {};
+    stat[field][lang] = value;
+  } else {
+    stat[field] = value;
+  }
+  markDirty(true);
+};
+
+window.updateTraditionField = function(index, field, lang, value) {
+  const trad = state.content.homepage.traditions[index];
+  if (!trad[field]) trad[field] = {};
+  trad[field][lang] = value;
+  markDirty(true);
+};
+
+window.updateTraditionRawField = function(index, field, value) {
+  state.content.homepage.traditions[index][field] = value;
+  markDirty(true);
+};
+
+window.updateCriticField = function(index, field, value) {
+  state.content.homepage.criticsPraise[index][field] = value;
+  markDirty(true);
+};
+
+// ----------------------------------------------------
+// 4.2 PRODUCTIONS PAGE VISUAL CONTENT EDITOR
+// ----------------------------------------------------
+function renderProductionsPageEditor(host) {
+  const prods = state.content.productions || [];
+
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🎭 Repertoire Productions (${prods.length})</div>
+          <div class="section-group-desc">Manage touring plays, genres, directors, cast rosters, and bilingual synopses.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:1.5rem;">
+        ${prods.map((p, i) => `
+          <div class="tile-editor-box" style="background:#ffffff; border:1px solid var(--studio-border);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+              <span class="tile-editor-badge" style="margin-bottom:0;">Production #${i + 1}: ${escapeHtml(p.id)}</span>
+              <span style="font-size:0.8rem; font-weight:700; color:var(--studio-text-secondary);">${escapeHtml(p.year || '')} &bull; ${escapeHtml(p.duration || '')}</span>
+            </div>
+
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Production Title</span></div>
+              <div class="bilingual-grid">
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-en">English</span>
+                  <input type="text" class="form-control" value="${escapeHtml(p.title && p.title.en || '')}" onchange="updateProdBilingualField(${i}, 'title', 'en', this.value)">
+                </div>
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+                  <input type="text" class="form-control" value="${escapeHtml(p.title && p.title.hi || '')}" onchange="updateProdBilingualField(${i}, 'title', 'hi', this.value)">
+                </div>
+              </div>
+            </div>
+
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Genre & Subtitle</span></div>
+              <div class="bilingual-grid">
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-en">English</span>
+                  <input type="text" class="form-control" value="${escapeHtml(p.genre && p.genre.en || '')}" onchange="updateProdBilingualField(${i}, 'genre', 'en', this.value)">
+                </div>
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+                  <input type="text" class="form-control" value="${escapeHtml(p.genre && p.genre.hi || '')}" onchange="updateProdBilingualField(${i}, 'genre', 'hi', this.value)">
+                </div>
+              </div>
+            </div>
+
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Full Play Synopsis</span></div>
+              <div class="bilingual-grid">
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-en">English</span>
+                  <textarea class="form-control" style="min-height:75px;" onchange="updateProdBilingualField(${i}, 'synopsis', 'en', this.value)">${escapeHtml(p.synopsis && p.synopsis.en || '')}</textarea>
+                </div>
+                <div>
+                  <span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>
+                  <textarea class="form-control" style="min-height:75px;" onchange="updateProdBilingualField(${i}, 'synopsis', 'hi', this.value)">${escapeHtml(p.synopsis && p.synopsis.hi || '')}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:0.75rem;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" style="font-size:0.75rem;">Director Name</label>
+                <input type="text" class="form-control" value="${escapeHtml(p.director || '')}" onchange="updateProdRawField(${i}, 'director', this.value)">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" style="font-size:0.75rem;">Cast Ensemble (Comma-separated)</label>
+                <input type="text" class="form-control" value="${escapeHtml((p.cast || []).join(', '))}" onchange="updateProdCast(${i}, this.value)">
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+window.updateProdBilingualField = function(i, field, lang, val) {
+  if (!state.content.productions[i][field]) state.content.productions[i][field] = {};
+  state.content.productions[i][field][lang] = val;
+  markDirty(true);
+};
+
+window.updateProdRawField = function(i, field, val) {
+  state.content.productions[i][field] = val;
+  markDirty(true);
+};
+
+window.updateProdCast = function(i, val) {
+  state.content.productions[i].cast = val.split(',').map(s => s.trim()).filter(Boolean);
+  markDirty(true);
+};
+
+// ----------------------------------------------------
+// 4.3 EVENTS, WORKSHOPS, MAGAZINE, BRAND SUB-EDITORS
+// ----------------------------------------------------
+function renderEventsPageEditor(host) {
+  const events = state.content.events || [];
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🎪 Events & National Festivals (${events.length})</div>
+          <div class="section-group-desc">Jashrang National Theatre Festival & Jaspur Kavita Utsav archives.</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+        ${events.map((ev, i) => `
+          <div class="tile-editor-box">
+            <span class="tile-editor-badge">Festival #${i + 1}: ${escapeHtml(ev.id)}</span>
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Festival Name</span></div>
+              <div class="bilingual-grid">
+                <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(ev.name && ev.name.en || '')}" onchange="state.content.events[${i}].name.en = this.value; markDirty(true);"></div>
+                <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(ev.name && ev.name.hi || '')}" onchange="state.content.events[${i}].name.hi = this.value; markDirty(true);"></div>
+              </div>
+            </div>
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Description</span></div>
+              <div class="bilingual-grid">
+                <div><span class="bilingual-col-tag bilingual-tag-en">English</span><textarea class="form-control" onchange="state.content.events[${i}].description.en = this.value; markDirty(true);">${escapeHtml(ev.description && ev.description.en || '')}</textarea></div>
+                <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><textarea class="form-control" onchange="state.content.events[${i}].description.hi = this.value; markDirty(true);">${escapeHtml(ev.description && ev.description.hi || '')}</textarea></div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderWorkshopsPageEditor(host) {
+  const camps = state.content.workshops || [];
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">⛺ Workshops & Youth Residencies (${camps.length})</div>
+          <div class="section-group-desc">Ullas Summer Camp and theatre arts training modules.</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+        ${camps.map((w, i) => `
+          <div class="tile-editor-box">
+            <span class="tile-editor-badge">Residency #${i + 1}: ${escapeHtml(w.id)}</span>
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Title</span></div>
+              <div class="bilingual-grid">
+                <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(w.title && w.title.en || '')}" onchange="state.content.workshops[${i}].title.en = this.value; markDirty(true);"></div>
+                <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(w.title && w.title.hi || '')}" onchange="state.content.workshops[${i}].title.hi = this.value; markDirty(true);"></div>
+              </div>
+            </div>
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Overview</span></div>
+              <div class="bilingual-grid">
+                <div><span class="bilingual-col-tag bilingual-tag-en">English</span><textarea class="form-control" onchange="state.content.workshops[${i}].description.en = this.value; markDirty(true);">${escapeHtml(w.description && w.description.en || '')}</textarea></div>
+                <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><textarea class="form-control" onchange="state.content.workshops[${i}].description.hi = this.value; markDirty(true);">${escapeHtml(w.description && w.description.hi || '')}</textarea></div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderMagazinePageEditor(host) {
+  const mag = state.content.magazine || {};
+  const current = mag.currentIssue || {};
+
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">📖 Monthly Magazine: Current Issue (Issue 14)</div>
+          <div class="section-group-desc">Critical cultural essays, in-browser reader contents, and release metadata.</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">Issue Number</label>
+          <input type="number" class="form-control" value="${escapeHtml(current.issueNumber || 14)}" onchange="state.content.magazine.currentIssue.issueNumber = parseInt(this.value); markDirty(true);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Publication Month / Date</label>
+          <input type="text" class="form-control" value="${escapeHtml(current.publishDate || '')}" onchange="state.content.magazine.currentIssue.publishDate = this.value; markDirty(true);">
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Current Issue Title / Theme</span></div>
+        <div class="bilingual-grid">
+          <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(current.title && current.title.en || '')}" onchange="state.content.magazine.currentIssue.title.en = this.value; markDirty(true);"></div>
+          <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(current.title && current.title.hi || '')}" onchange="state.content.magazine.currentIssue.title.hi = this.value; markDirty(true);"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderBrandPageEditor(host) {
+  const contact = state.content.contact || {};
+  const orgName = state.content.orgName || {};
+  const tagline = state.content.tagline || {};
+
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🌐 Brand & Organization Profile</div>
+          <div class="section-group-desc">Core institutional names, Rebus slogan, official emails, and phones.</div>
+        </div>
+      </div>
+
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Organization Name</span></div>
         <div class="bilingual-grid">
           <div>
             <span class="bilingual-col-tag bilingual-tag-en">English</span>
@@ -943,7 +1722,7 @@ function renderPagesManager() {
       </div>
 
       <div class="bilingual-tabs-wrap">
-        <div class="bilingual-header"><span class="bilingual-title">Motto / Tagline</span></div>
+        <div class="bilingual-header"><span class="bilingual-title">Global Motto / Tagline</span></div>
         <div class="bilingual-grid">
           <div>
             <span class="bilingual-col-tag bilingual-tag-en">English</span>
@@ -962,11 +1741,11 @@ function renderPagesManager() {
           <input type="email" class="form-control" value="${escapeHtml(contact.email || '')}" onchange="state.content.contact.email = this.value; markDirty(true);">
         </div>
         <div class="form-group">
-          <label class="form-label">Repertoire Bookings Email</label>
+          <label class="form-label">Stage Bookings Email</label>
           <input type="email" class="form-control" value="${escapeHtml(contact.bookingEmail || '')}" onchange="state.content.contact.bookingEmail = this.value; markDirty(true);">
         </div>
         <div class="form-group">
-          <label class="form-label">Helpline Phone Number</label>
+          <label class="form-label">Official Phone Helpline</label>
           <input type="text" class="form-control" value="${escapeHtml(contact.phone || '')}" onchange="state.content.contact.phone = this.value; markDirty(true);">
         </div>
       </div>
@@ -975,61 +1754,233 @@ function renderPagesManager() {
 }
 
 // ==========================================
-// 5. USERS & ACCESS MANAGEMENT
+// 5. USERS & ACCESS MANAGEMENT (Proper Admin Credentials & Security)
 // ==========================================
 function renderUsersManager() {
   const container = document.getElementById('panel-users');
-  if (!container) return;
+  if (!container || !state.content) return;
 
-  const currentUserHtml = state.user ? `
+  const currentAdmin = state.adminSession || { username: 'admin', displayName: 'Super Administrator', role: 'admin' };
+  const adminUsers = (state.content.adminAuth && state.content.adminAuth.users) || [
+    { username: 'admin', displayName: 'Super Administrator', role: 'admin', passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' }
+  ];
+
+  const githubAuthHtml = state.user ? `
     <div style="display:flex; align-items:center; gap:1rem; padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem;">
       <img src="${state.user.avatar}" alt="${state.user.login}" style="width:48px; height:48px; border-radius:50%;">
       <div>
         <div style="font-weight:800; font-size:1.05rem;">${escapeHtml(state.user.name)} (@${state.user.login})</div>
         <div style="font-size:0.82rem; color:var(--studio-text-secondary); margin-top:2px;">
-          Repository Access Role: <span class="user-role-tag">${state.user.role.toUpperCase()}</span>
+          GitHub Repository Role: <span class="user-role-tag">${state.user.role.toUpperCase()}</span>
         </div>
       </div>
       <div style="margin-left:auto;">
-        <span style="font-size:0.8rem; font-weight:700; color:var(--studio-green);">● Authenticated via GitHub</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--studio-green);">● GitHub Connected</span>
       </div>
     </div>
   ` : `
-    <div style="padding:1.5rem; text-align:center; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem;">
-      <p style="margin-bottom:1rem; color:var(--studio-text-secondary);">You are currently in local read-only preview mode.</p>
-      <button type="button" class="btn-studio btn-studio-primary" onclick="showAuthModal()">Connect GitHub Account to View Permissions</button>
+    <div style="padding:1.25rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md); margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:gap; gap:1rem;">
+      <div>
+        <div style="font-weight:700; font-size:0.95rem;">GitHub Publishing Integration</div>
+        <div style="font-size:0.82rem; color:var(--studio-text-secondary);">Connect a Personal Access Token with repo scope to commit directly to GitHub Pages.</div>
+      </div>
+      <button type="button" class="btn-studio btn-studio-primary" onclick="showAuthModal()">Connect GitHub Account</button>
     </div>
   `;
 
   container.innerHTML = `
+    <!-- Current Active Admin Profile Card -->
     <div class="studio-card">
       <div class="studio-card-header">
         <div>
-          <h2 class="studio-card-title">🔐 User Access & Collaborators</h2>
-          <div class="studio-card-desc">Permissions are strictly enforced via your GitHub repository access control.</div>
+          <h2 class="studio-card-title">🔐 Current Admin Session</h2>
+          <div class="studio-card-desc">Your active authenticated Content Studio administrator account.</div>
+        </div>
+        <span style="padding:0.35rem 0.85rem; background:var(--studio-green-light); color:var(--studio-green); border-radius:var(--radius-pill); font-size:0.8rem; font-weight:800;">● Active Session</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:1rem; padding:1rem; background:var(--studio-surface-subtle); border-radius:var(--radius-md);">
+        <div style="width:44px; height:44px; border-radius:50%; background:var(--studio-primary); color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem;">
+          ${(currentAdmin.username || 'A')[0].toUpperCase()}
+        </div>
+        <div>
+          <div style="font-weight:800; font-size:1.05rem;">${escapeHtml(currentAdmin.displayName || currentAdmin.username)}</div>
+          <div style="font-size:0.82rem; color:var(--studio-text-secondary);">
+            Username: <code>${escapeHtml(currentAdmin.username)}</code> &bull; Role: <span class="user-role-tag">${escapeHtml(currentAdmin.role.toUpperCase())}</span>
+          </div>
         </div>
       </div>
 
-      ${currentUserHtml}
-
-      <div style="background:#FFFFFF; border:1px solid var(--studio-border); border-radius:var(--radius-md); padding:1.5rem;">
-        <h3 style="font-size:1rem; font-weight:800; margin-bottom:0.75rem;">How User Management Works</h3>
-        <p style="font-size:0.88rem; color:var(--studio-text-secondary); line-height:1.6; margin-bottom:1rem;">
-          To grant other team members or writers access to publish content:
+      <!-- Change Password Box -->
+      <div class="change-password-box">
+        <h3 style="font-size:1rem; font-weight:800; margin-bottom:0.35rem;">🔑 Change Admin Password</h3>
+        <p style="font-size:0.82rem; color:var(--studio-text-secondary); margin-bottom:1rem;">
+          Update your login password. The new password hash will be committed to your repository content security policy.
         </p>
-        <ol style="font-size:0.88rem; color:var(--studio-text-secondary); line-height:1.7; padding-left:1.5rem; margin-bottom:1.25rem;">
-          <li>Visit your GitHub repository collaborators page: <a href="https://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/settings/access" target="_blank" style="color:var(--studio-primary); font-weight:700;">GitHub Settings → Collaborators ↗</a></li>
-          <li>Click <strong>Add people</strong> and invite the collaborator's GitHub username.</li>
-          <li>Assign them the <strong>Write</strong> role (or <strong>Admin</strong>).</li>
-          <li>Once accepted, they can navigate to <code>/admin/</code>, connect their GitHub token, and immediately edit and publish!</li>
-        </ol>
-        <a href="https://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/settings/access" target="_blank" class="btn-studio btn-studio-secondary">
-          Manage Collaborators on GitHub ↗
-        </a>
+
+        <form id="change-pwd-form" onsubmit="handleChangePassword(event)">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1rem;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Current Password</label>
+              <input type="password" id="current-pwd-input" class="form-control" placeholder="••••••••" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">New Password (min 6 chars)</label>
+              <input type="password" id="new-pwd-input" class="form-control" placeholder="••••••••" minlength="6" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Confirm New Password</label>
+              <input type="password" id="confirm-pwd-input" class="form-control" placeholder="••••••••" minlength="6" required>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn-studio btn-studio-primary" id="change-pwd-btn">Update Password</button>
+          </div>
+        </form>
       </div>
+    </div>
+
+    <!-- Admin Accounts & Access Control -->
+    <div class="studio-card">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">👥 Studio Admin Accounts (${adminUsers.length})</h2>
+          <div class="studio-card-desc">Accounts authorized to access the <code>/admin/</code> Studio portal.</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-secondary" onclick="promptAddNewUser()">+ Add User Account</button>
+      </div>
+
+      <div class="blog-table-card">
+        <table class="studio-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Display Name</th>
+              <th>Role</th>
+              <th>Password Hash</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${adminUsers.map((u, idx) => `
+              <tr>
+                <td style="font-weight:700;"><code>${escapeHtml(u.username)}</code></td>
+                <td>${escapeHtml(u.displayName || u.username)}</td>
+                <td><span class="user-role-tag">${escapeHtml(u.role.toUpperCase())}</span></td>
+                <td style="font-family:monospace; font-size:0.75rem; color:var(--studio-text-muted);">${(u.passwordHash || '').substring(0, 16)}...</td>
+                <td>
+                  ${adminUsers.length > 1 && u.username !== currentAdmin.username ? `
+                    <button type="button" class="icon-btn danger" onclick="deleteAdminUser(${idx})" title="Delete user">✕</button>
+                  ` : `<span style="font-size:0.75rem; color:var(--studio-text-muted);">Current User</span>`}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- GitHub Integration Sync -->
+    <div class="studio-card">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">☁️ GitHub Deployment Sync</h2>
+          <div class="studio-card-desc">Repository permissions and GitHub Pages live workflow synchronisation.</div>
+        </div>
+      </div>
+      ${githubAuthHtml}
     </div>
   `;
 }
+
+// Password Change Handler
+window.handleChangePassword = async function(e) {
+  e.preventDefault();
+  const currentVal = document.getElementById('current-pwd-input').value;
+  const newVal = document.getElementById('new-pwd-input').value;
+  const confirmVal = document.getElementById('confirm-pwd-input').value;
+  const btn = document.getElementById('change-pwd-btn');
+
+  if (newVal !== confirmVal) {
+    alert('New passwords do not match. Please retype them.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Updating...';
+
+  try {
+    const currentHash = await sha256(currentVal);
+    const users = (state.content.adminAuth && state.content.adminAuth.users) || [];
+    const activeUsername = (state.adminSession && state.adminSession.username) || 'admin';
+    const userIndex = users.findIndex(u => u.username.toLowerCase() === activeUsername.toLowerCase());
+
+    if (userIndex === -1 || users[userIndex].passwordHash !== currentHash) {
+      alert('The current password you entered is incorrect.');
+      btn.disabled = false;
+      btn.textContent = 'Update Password';
+      return;
+    }
+
+    const newHash = await sha256(newVal);
+    state.content.adminAuth.users[userIndex].passwordHash = newHash;
+    markDirty(true);
+
+    showToast('Admin password updated successfully! Click "Publish to GitHub" to permanently commit it.', 'success');
+    document.getElementById('change-pwd-form').reset();
+    renderUsersManager();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to update password: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Update Password';
+  }
+};
+
+window.promptAddNewUser = async function() {
+  const username = prompt('Enter new Admin/Editor Username:');
+  if (!username || !username.trim()) return;
+
+  const displayName = prompt('Enter Display Name (e.g. Rahul Sharma):', username);
+  const password = prompt('Enter initial password (min 6 characters):');
+  if (!password || password.length < 6) {
+    alert('Password must be at least 6 characters.');
+    return;
+  }
+
+  if (!state.content.adminAuth) state.content.adminAuth = { users: [] };
+  if (!state.content.adminAuth.users) state.content.adminAuth.users = [];
+
+  const existing = state.content.adminAuth.users.find(u => u.username.toLowerCase() === username.trim().toLowerCase());
+  if (existing) {
+    alert(`User "${username}" already exists!`);
+    return;
+  }
+
+  const passHash = await sha256(password);
+  state.content.adminAuth.users.push({
+    username: username.trim().toLowerCase(),
+    displayName: displayName || username,
+    role: 'editor',
+    passwordHash: passHash
+  });
+
+  markDirty(true);
+  renderUsersManager();
+  showToast(`Added user "${username}". Remember to Publish changes to GitHub.`, 'success');
+};
+
+window.deleteAdminUser = function(index) {
+  const user = state.content.adminAuth.users[index];
+  if (confirm(`Are you sure you want to delete user "${user.username}"?`)) {
+    state.content.adminAuth.users.splice(index, 1);
+    markDirty(true);
+    renderUsersManager();
+    showToast('User removed.', 'info');
+  }
+};
 
 // ==========================================
 // 6. SETTINGS & JSON BACKUP

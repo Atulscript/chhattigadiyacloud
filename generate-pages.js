@@ -685,6 +685,125 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
 
     const productionCardsPreview = siteData.productions.map(prod => renderProductionCard(prod, lang)).join('\n');
 
+    const hp = siteData.homepage || {};
+    const hero = hp.hero || {};
+    const eyebrowText = (hero.eyebrow && hero.eyebrow[lang]) || (isHi ? 'रंगमंच • राष्ट्रीय समारोह • बाल कार्यशालाएं • वैचारिक पत्रिका' : 'Theatre • Festivals • Workshops • Publications');
+    const rebusWord1 = (hero.rebusWord1 && hero.rebusWord1[lang]) || (isHi ? 'थिंक' : 'Think');
+    const rebusMark = (hero.rebusMark && hero.rebusMark[lang]) || (isHi ? 'कला' : 'Art');
+    const rebusWord2 = (hero.rebusWord2 && hero.rebusWord2[lang]) || (isHi ? 'थिंक छत्तीसगढ़िया क्लाउड' : 'Think Chhattisgadhiya Cloud');
+    const statement = (hero.statement && hero.statement[lang]) || (isHi ? 'छत्तीसगढ़िया क्लाउड — रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का सृजन करने वाला एक सांस्कृतिक संस्थान, जो माटी की जीवंत धरोहर को प्रतिष्ठित मंचों तक पहुँचाता है।' : 'A Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications — bringing the living spirit of our soil to national and global stages.');
+    const heroAriaLabel = isHi ? `${rebusWord1} ${rebusMark} ${rebusWord2}` : `${rebusWord1} ${rebusMark} ${rebusWord2}`;
+
+    const primaryCtaText = (hero.primaryCta && hero.primaryCta.text && hero.primaryCta.text[lang]) || (isHi ? 'आगामी कार्यक्रम देखें' : "View What's On");
+    const primaryCtaLink = (hero.primaryCta && hero.primaryCta.link) ? (hero.primaryCta.link.startsWith('/') ? `/${lang}${hero.primaryCta.link.replace(/^\/(en|hi)\//, '/')}` : hero.primaryCta.link) : `/${lang}/whats-on/`;
+
+    const secondaryCtaText = (hero.secondaryCta && hero.secondaryCta.text && hero.secondaryCta.text[lang]) || (isHi ? 'मासिक पत्रिका पढ़ें' : 'Read Magazine');
+    const secondaryCtaLink = (hero.secondaryCta && hero.secondaryCta.link) ? (hero.secondaryCta.link.startsWith('/') ? `/${lang}${hero.secondaryCta.link.replace(/^\/(en|hi)\//, '/')}` : hero.secondaryCta.link) : `/${lang}/magazine/`;
+
+    const badgeTopTitle = (hero.badgeTop && hero.badgeTop.title && hero.badgeTop.title[lang]) || (isHi ? '४ मौलिक नाटक' : '4 Original Plays');
+    const badgeTopSub = (hero.badgeTop && hero.badgeTop.sub && hero.badgeTop.sub[lang]) || (isHi ? 'राष्ट्रीय नाट्य मंचन' : 'National Touring Repertoire');
+
+    const badgeBottomTitle = (hero.badgeBottom && hero.badgeBottom.title && hero.badgeBottom.title[lang]) || (isHi ? 'जशरंग एवं कविता उत्सव' : 'Jashrang & Kavita Utsav');
+    const badgeBottomSub = (hero.badgeBottom && hero.badgeBottom.sub && hero.badgeBottom.sub[lang]) || (isHi ? 'प्रतिष्ठित राष्ट्रीय समारोह' : 'Signature Annual Festivals');
+
+    // Tile SVG Icon Helper
+    const tileSvgIcons = {
+      theatre: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>',
+      fest: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>',
+      camp: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
+      mag: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>'
+    };
+
+    // Render 4 Featured Tiles dynamically
+    const featuredTilesList = hp.featuredTiles || [
+      { id: 'theatre', theme: 'theatre', tag: { en: '4 Original Plays', hi: '४ मौलिक नाटक' }, title: { en: 'Stage Productions', hi: 'नाट्य प्रस्तुतियां' }, desc: { en: 'Four launch plays blending folk dramaturgy with contemporary narratives.', hi: 'लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।' }, linkText: { en: 'Explore Plays', hi: 'नाटक देखें' }, href: '/productions/' },
+      { id: 'fest', theme: 'fest', tag: { en: 'Signature Festivals', hi: 'वार्षिक समारोह' }, title: { en: 'National Festivals', hi: 'राष्ट्रीय समारोह' }, desc: { en: 'Jashrang National Theatre Festival & Jaspur Kavita Utsav annual archives.', hi: 'जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।' }, linkText: { en: 'View Editions', hi: 'संस्करण देखें' }, href: '/events/' },
+      { id: 'camp', theme: 'camp', tag: { en: 'Youth Residency', hi: 'बाल रंगमंच' }, title: { en: 'Ullas Summer Camp', hi: 'उल्लास समर कैम्प' }, desc: { en: 'Youth theatre training, puppet craft, and forward registration enquiries.', hi: 'बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।' }, linkText: { en: 'Join Workshops', hi: 'शिविर में जुड़ें' }, href: '/training-workshops/' },
+      { id: 'mag', theme: 'mag', tag: { en: 'Issue 14 Live', hi: 'अंक १४ उपलब्ध' }, title: { en: 'Monthly Magazine', hi: 'मासिक पत्रिका' }, desc: { en: 'Web-readable critical essays with our in-browser hybrid reader & PDF tool.', hi: 'वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।' }, linkText: { en: 'Read Issue', hi: 'अंक पढ़ें' }, href: '/magazine/' }
+    ];
+
+    const renderedFeaturedTiles = featuredTilesList.map(tile => {
+      const tileHref = tile.href.startsWith('/') ? `/${lang}${tile.href.replace(/^\/(en|hi)\//, '/')}` : tile.href;
+      const tileTag = (tile.tag && tile.tag[lang]) || '';
+      const tileTitle = (tile.title && tile.title[lang]) || '';
+      const tileDesc = (tile.desc && tile.desc[lang]) || '';
+      const tileLinkText = (tile.linkText && tile.linkText[lang]) || (isHi ? 'देखें' : 'Explore');
+      const iconSvg = tileSvgIcons[tile.theme] || tileSvgIcons.theatre;
+
+      return `
+          <a href="${tileHref}" class="featured-tile tile-theme-${tile.theme}">
+            <div class="tile-header">
+              <div class="tile-badge-icon">
+                ${iconSvg}
+              </div>
+              <span class="tile-tag">${tileTag}</span>
+            </div>
+            <h2 class="tile-title">${tileTitle}</h2>
+            <p class="tile-desc">${tileDesc}</p>
+            <div class="tile-footer">
+              <span class="tile-link">${tileLinkText} <span class="arrow-glyph" aria-hidden="true">→</span></span>
+            </div>
+          </a>`;
+    }).join('\n');
+
+    // Impact Stats Strip
+    const impactStatsList = hp.impactStats || [
+      { number: '4', label: { en: 'Original Repertoire Plays', hi: 'मौलिक राष्ट्रीय नाटक' }, sub: { en: 'Touring across national venues', hi: 'विभिन्न राष्ट्रीय मंचों पर प्रस्तुत' } },
+      { number: '14', label: { en: 'Magazine Issues', hi: 'मासिक पत्रिका अंक' }, sub: { en: 'Critical essays & research', hi: 'सांस्कृतिक विमर्श व आलेख' } },
+      { number: '12,000+', label: { en: 'Festival Spectators', hi: 'समारोह दर्शक' }, sub: { en: 'Across Jashrang & Kavita Utsav', hi: 'जशरंग एवं कविता उत्सव' } },
+      { number: '500+', label: { en: 'Youth Artists Mentored', hi: 'प्रशिक्षित बाल कलाकार' }, sub: { en: 'Through Ullas Camp residencies', hi: 'उल्लास समर कैम्प एवं कार्यशालाएं' } }
+    ];
+
+    const renderedImpactStats = impactStatsList.map(stat => `
+          <div class="impact-stat-item">
+            <div class="impact-stat-number">${stat.number}</div>
+            <div class="impact-stat-label">${(stat.label && stat.label[lang]) || ''}</div>
+            <div class="impact-stat-sub">${(stat.sub && stat.sub[lang]) || ''}</div>
+          </div>`).join('\n');
+
+    // Cultural Traditions Triad
+    const traditionsList = hp.traditions || [
+      { icon: '🎭', title: { en: 'Nacha & Gammat', hi: 'नाचा एवं गम्मत' }, subtitle: { en: 'Folk Farce & Social Satire', hi: 'लोक प्रहसन एवं सामाजिक व्यंग्य' }, desc: { en: 'The improvisational circular folk theatre of Central India, using incisive comedy, colloquial dialect, and rhythmic song duels to challenge orthodoxy.', hi: 'छत्तीसगढ़ का पारंपरिक खुला लोकनाट्य, जहाँ तीखा सामाजिक हास्य, तात्कालिक संवाद और ढोलक की थाप जनसामान्य के सरोकारों को मंच पर स्थापित करती है।' } },
+      { icon: '🥁', title: { en: 'Panthi & Karma Dance', hi: 'पंथी एवं करमा नृत्य' }, subtitle: { en: 'Rhythmic Velocity & Physical Theatre', hi: 'मांदर की थाप व शारीरिक वेग' }, desc: { en: 'High-energy kinetic choreography fueled by the Mandar drum, building pyramids of human agility and grounding physical acting in tribal consciousness.', hi: 'सतनामी परंपरा का आध्यात्मिक पंथी नृत्य और जनजातीय करमा नृत्य हमारे कलाकारों के शारीरिक रंगमंच, श्वास संतुलन और सामूहिक ऊर्जा की नींव हैं।' } },
+      { icon: '🏺', title: { en: 'Dhokra & Mural Scenography', hi: 'ढोकरा एवं भित्ति शिल्प' }, subtitle: { en: 'Earth Pigments & Scenographic Craft', hi: 'माटी के रंग व धातु-शिल्प मंच' }, desc: { en: 'Lost-wax bell metal casting, bamboo minimalism, and natural ochre wall murals define our visual set designs and organic costume textures.', hi: 'बस्तर का लॉस्ट-वैक्स धातु शिल्प और जशपुर की पारंपरिक भित्ति चित्रकला हमारे नाटकों के मंच-सज्जा, प्रकाश और वेशभूषा को जैविक सौंदर्य प्रदान करती है।' } }
+    ];
+
+    const renderedTraditions = traditionsList.map(trad => `
+          <div class="tradition-card">
+            <div class="tradition-icon-badge">${trad.icon || '🎭'}</div>
+            <h3 class="tradition-title">${(trad.title && trad.title[lang]) || ''}</h3>
+            <div class="tradition-subtitle">${(trad.subtitle && trad.subtitle[lang]) || ''}</div>
+            <p class="tradition-desc">
+              ${(trad.desc && trad.desc[lang]) || ''}
+            </p>
+          </div>`).join('\n');
+
+    // Critics Praise
+    const criticsList = hp.criticsPraise || [
+      { quote: 'A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative, bridging European expressionism with Indian folk earthiness.', publication: 'Natya Varta', tag: 'Review of Vincent' },
+      { quote: 'Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak — bringing the rural migrant reality to national consciousness.', publication: 'Rang Manch Samiksha', tag: 'Review of Gabar Ghichor' },
+      { quote: 'Chhattisgadhiya Cloud proves that the most powerful contemporary Indian theatre is rooted directly in tribal soil, not urban imitation.', publication: 'The Cultural Chronicle', tag: 'Festival Editorial' }
+    ];
+
+    const renderedCritics = criticsList.map(critic => `
+          <div class="critic-card">
+            <div class="critic-quote-mark">“</div>
+            <p class="critic-quote-text">
+              “${critic.quote}”
+            </p>
+            <div class="critic-source">
+              <span class="critic-publication">${critic.publication}</span>
+              <span class="critic-tag">${critic.tag}</span>
+            </div>
+          </div>`).join('\n');
+
+    // Visual Highlight Band
+    const vh = hp.visualHighlight || {};
+    const vhTitle = (vh.title && vh.title[lang]) || (isHi ? 'मध्य भारत का जीवंत रंगमंच' : 'Living Theatre from Central India');
+    const vhDesc = (vh.desc && vh.desc[lang]) || (isHi ? 'ग्रामीण चौपालों से लेकर राष्ट्रीय नाट्य मंचों तक, हमारा दल मांदर की थाप, नाचा के तीखे हास्य और संवेदनशील लोकगाथाओं को निरंतर प्रस्तुत कर रहा है।' : 'From rural village squares to prestigious national auditoriums, our ensemble brings the Mandar rhythm, vibrant Nacha satire, and poetic folk drama to life.');
+    const vhBtnText = (vh.btnText && vh.btnText[lang]) || (isHi ? 'हमारा सांस्कृतिक सफर' : 'Our Cultural Story');
+    const vhBtnHref = vh.btnHref ? (vh.btnHref.startsWith('/') ? `/${lang}${vh.btnHref.replace(/^\/(en|hi)\//, '/')}` : vh.btnHref) : `/${lang}/about/`;
+
     const content = `
     <!-- Hero with Rebus Tagline & Two-Column Grid (Section 1.3 & 3.1) -->
     <section class="hero-section">
@@ -693,36 +812,36 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
           <div class="hero-content">
             <!-- Hero Eyebrow Tagline -->
             <div class="hero-eyebrow-unified">
-              <span class="hero-eyebrow-text">✦ ${isHi ? 'रंगमंच • राष्ट्रीय समारोह • बाल कार्यशालाएं • वैचारिक पत्रिका' : 'Theatre • Festivals • Workshops • Publications'} ✦</span>
+              <span class="hero-eyebrow-text">✦ ${eyebrowText} ✦</span>
             </div>
 
-            <h1 class="hero-rebus" aria-label="${isHi ? 'थिंक कला थिंक छत्तीसगढ़िया क्लाउड' : 'Think Art Think Chhattisgadhiya Cloud'}">
+            <h1 class="hero-rebus" aria-label="${heroAriaLabel}">
               <span class="hero-line hero-line-1">
-                <span class="rebus-word">${isHi ? 'थिंक' : 'Think'}</span>
-                <span class="rebus-art-mark" aria-label="${isHi ? 'कला' : 'Art'}">
+                <span class="rebus-word">${rebusWord1}</span>
+                <span class="rebus-art-mark" aria-label="${rebusMark}">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
                   </svg>
-                  <span>${isHi ? 'कला' : 'Art'}</span>
+                  <span>${rebusMark}</span>
                 </span>
               </span>
               <span class="hero-line hero-line-2">
-                <span class="rebus-word">${isHi ? 'थिंक छत्तीसगढ़िया क्लाउड' : 'Think Chhattisgadhiya Cloud'}</span>
+                <span class="rebus-word">${rebusWord2}</span>
               </span>
             </h1>
 
             <p class="hero-statement">
-              ${isHi ? 'छत्तीसगढ़िया क्लाउड — रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का सृजन करने वाला एक सांस्कृतिक संस्थान, जो माटी की जीवंत धरोहर को प्रतिष्ठित मंचों तक पहुँचाता है।' : 'A Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications — bringing the living spirit of our soil to national and global stages.'}
+              ${statement}
             </p>
 
             <div class="hero-cta-group">
-              <a href="/${lang}/whats-on/" class="btn-primary">
+              <a href="${primaryCtaLink}" class="btn-primary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-                <span>${isHi ? 'आगामी कार्यक्रम देखें' : "View What's On"}</span>
+                <span>${primaryCtaText}</span>
               </a>
-              <a href="/${lang}/magazine/" class="btn-secondary">
+              <a href="${secondaryCtaLink}" class="btn-secondary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
-                <span>${isHi ? 'मासिक पत्रिका पढ़ें' : 'Read Magazine'}</span>
+                <span>${secondaryCtaText}</span>
               </a>
             </div>
           </div>
@@ -743,85 +862,31 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
               <div class="hero-badge hero-badge-top" aria-hidden="true">
                 <span class="badge-icon">🎭</span>
                 <div class="badge-text">
-                  <strong>${isHi ? '४ मौलिक नाटक' : '4 Original Plays'}</strong>
-                  <span>${isHi ? 'राष्ट्रीय नाट्य मंचन' : 'National Touring Repertoire'}</span>
+                  <strong>${badgeTopTitle}</strong>
+                  <span>${badgeTopSub}</span>
                 </div>
               </div>
 
               <div class="hero-badge hero-badge-bottom" aria-hidden="true">
                 <span class="badge-icon">🎪</span>
                 <div class="badge-text">
-                  <strong>${isHi ? 'जशरंग एवं कविता उत्सव' : 'Jashrang & Kavita Utsav'}</strong>
-                  <span>${isHi ? 'प्रतिष्ठित राष्ट्रीय समारोह' : 'Signature Annual Festivals'}</span>
+                  <strong>${badgeBottomTitle}</strong>
+                  <span>${badgeBottomSub}</span>
                 </div>
               </div>
             </div>
 
             <!-- Mobile Inline Quick Chips (Visible only on mobile screens) -->
             <div class="hero-mobile-badges" aria-hidden="true">
-              <span class="hero-mobile-chip">🎭 ${isHi ? '४ मौलिक नाटक' : '4 Original Plays'}</span>
-              <span class="hero-mobile-chip">🎪 ${isHi ? 'जशरंग राष्ट्रीय समारोह' : 'Jashrang Festival'}</span>
+              <span class="hero-mobile-chip">🎭 ${badgeTopTitle}</span>
+              <span class="hero-mobile-chip">🎪 ${badgeBottomTitle}</span>
             </div>
           </div>
         </div>
 
         <!-- Featured Section Cards (Section 3.1) -->
         <div class="featured-tiles-grid">
-          <a href="/${lang}/productions/" class="featured-tile tile-theme-theatre">
-            <div class="tile-header">
-              <div class="tile-badge-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>
-              </div>
-              <span class="tile-tag">${isHi ? '४ मौलिक नाटक' : '4 Original Plays'}</span>
-            </div>
-            <h2 class="tile-title">${isHi ? 'नाट्य प्रस्तुतियां' : 'Stage Productions'}</h2>
-            <p class="tile-desc">${isHi ? 'लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।' : 'Four launch plays blending folk dramaturgy with contemporary narratives.'}</p>
-            <div class="tile-footer">
-              <span class="tile-link">${isHi ? 'नाटक देखें' : 'Explore Plays'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
-            </div>
-          </a>
-
-          <a href="/${lang}/events/" class="featured-tile tile-theme-fest">
-            <div class="tile-header">
-              <div class="tile-badge-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
-              </div>
-              <span class="tile-tag">${isHi ? 'वार्षिक समारोह' : 'Signature Festivals'}</span>
-            </div>
-            <h2 class="tile-title">${isHi ? 'राष्ट्रीय समारोह' : 'National Festivals'}</h2>
-            <p class="tile-desc">${isHi ? 'जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।' : 'Jashrang National Theatre Festival & Jaspur Kavita Utsav annual archives.'}</p>
-            <div class="tile-footer">
-              <span class="tile-link">${isHi ? 'संस्करण देखें' : 'View Editions'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
-            </div>
-          </a>
-
-          <a href="/${lang}/training-workshops/" class="featured-tile tile-theme-camp">
-            <div class="tile-header">
-              <div class="tile-badge-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-              </div>
-              <span class="tile-tag">${isHi ? 'बाल रंगमंच' : 'Youth Residency'}</span>
-            </div>
-            <h2 class="tile-title">${isHi ? 'उल्लास समर कैम्प' : 'Ullas Summer Camp'}</h2>
-            <p class="tile-desc">${isHi ? 'बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।' : 'Youth theatre training, puppet craft, and forward registration enquiries.'}</p>
-            <div class="tile-footer">
-              <span class="tile-link">${isHi ? 'शिविर में जुड़ें' : 'Join Workshops'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
-            </div>
-          </a>
-
-          <a href="/${lang}/magazine/" class="featured-tile tile-theme-mag">
-            <div class="tile-header">
-              <div class="tile-badge-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
-              </div>
-              <span class="tile-tag">${isHi ? 'अंक १४ उपलब्ध' : 'Issue 14 Live'}</span>
-            </div>
-            <h2 class="tile-title">${isHi ? 'मासिक पत्रिका' : 'Monthly Magazine'}</h2>
-            <p class="tile-desc">${isHi ? 'वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।' : 'Web-readable critical essays with our in-browser hybrid reader & PDF tool.'}</p>
-            <div class="tile-footer">
-              <span class="tile-link">${isHi ? 'अंक पढ़ें' : 'Read Issue'} <span class="arrow-glyph" aria-hidden="true">→</span></span>
-            </div>
-          </a>
+          ${renderedFeaturedTiles}
         </div>
       </div>
     </section>
@@ -830,26 +895,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     <section class="impact-stats-section">
       <div class="container">
         <div class="impact-stats-grid">
-          <div class="impact-stat-item">
-            <div class="impact-stat-number">4</div>
-            <div class="impact-stat-label">${isHi ? 'मौलिक राष्ट्रीय नाटक' : 'Original Repertoire Plays'}</div>
-            <div class="impact-stat-sub">${isHi ? 'विभिन्न राष्ट्रीय मंचों पर प्रस्तुत' : 'Touring across national venues'}</div>
-          </div>
-          <div class="impact-stat-item">
-            <div class="impact-stat-number">14</div>
-            <div class="impact-stat-label">${isHi ? 'मासिक पत्रिका अंक' : 'Magazine Issues'}</div>
-            <div class="impact-stat-sub">${isHi ? 'सांस्कृतिक विमर्श व आलेख' : 'Critical essays & research'}</div>
-          </div>
-          <div class="impact-stat-item">
-            <div class="impact-stat-number">12,000+</div>
-            <div class="impact-stat-label">${isHi ? 'समारोह दर्शक' : 'Festival Spectators'}</div>
-            <div class="impact-stat-sub">${isHi ? 'जशरंग एवं कविता उत्सव' : 'Across Jashrang & Kavita Utsav'}</div>
-          </div>
-          <div class="impact-stat-item">
-            <div class="impact-stat-number">500+</div>
-            <div class="impact-stat-label">${isHi ? 'प्रशिक्षित बाल कलाकार' : 'Youth Artists Mentored'}</div>
-            <div class="impact-stat-sub">${isHi ? 'उल्लास समर कैम्प एवं कार्यशालाएं' : 'Through Ullas Camp residencies'}</div>
-          </div>
+          ${renderedImpactStats}
         </div>
       </div>
     </section>
@@ -918,32 +964,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
 
         <div class="traditions-grid">
-          <div class="tradition-card">
-            <div class="tradition-icon-badge">🎭</div>
-            <h3 class="tradition-title">${isHi ? 'नाचा एवं गम्मत' : 'Nacha & Gammat'}</h3>
-            <div class="tradition-subtitle">${isHi ? 'लोक प्रहसन एवं सामाजिक व्यंग्य' : 'Folk Farce & Social Satire'}</div>
-            <p class="tradition-desc">
-              ${isHi ? 'छत्तीसगढ़ का पारंपरिक खुला लोकनाट्य, जहाँ तीखा सामाजिक हास्य, तात्कालिक संवाद और ढोलक की थाप जनसामान्य के सरोकारों को मंच पर स्थापित करती है।' : 'The improvisational circular folk theatre of Central India, using incisive comedy, colloquial dialect, and rhythmic song duels to challenge orthodoxy.'}
-            </p>
-          </div>
-
-          <div class="tradition-card">
-            <div class="tradition-icon-badge">🥁</div>
-            <h3 class="tradition-title">${isHi ? 'पंथी एवं करमा नृत्य' : 'Panthi & Karma Dance'}</h3>
-            <div class="tradition-subtitle">${isHi ? 'मांदर की थाप व शारीरिक वेग' : 'Rhythmic Velocity & Physical Theatre'}</div>
-            <p class="tradition-desc">
-              ${isHi ? 'सतनामी परंपरा का आध्यात्मिक पंथी नृत्य और जनजातीय करमा नृत्य हमारे कलाकारों के शारीरिक रंगमंच, श्वास संतुलन और सामूहिक ऊर्जा की नींव हैं।' : 'High-energy kinetic choreography fueled by the Mandar drum, building pyramids of human agility and grounding physical acting in tribal consciousness.'}
-            </p>
-          </div>
-
-          <div class="tradition-card">
-            <div class="tradition-icon-badge">🏺</div>
-            <h3 class="tradition-title">${isHi ? 'ढोकरा एवं भित्ति शिल्प' : 'Dhokra & Mural Scenography'}</h3>
-            <div class="tradition-subtitle">${isHi ? 'माटी के रंग व धातु-शिल्प मंच' : 'Earth Pigments & Scenographic Craft'}</div>
-            <p class="tradition-desc">
-              ${isHi ? 'बस्तर का लॉस्ट-वैक्स धातु शिल्प और जशपुर की पारंपरिक भित्ति चित्रकला हमारे नाटकों के मंच-सज्जा, प्रकाश और वेशभूषा को जैविक सौंदर्य प्रदान करती है।' : 'Lost-wax bell metal casting, bamboo minimalism, and natural ochre wall murals define our visual set designs and organic costume textures.'}
-            </p>
-          </div>
+          ${renderedTraditions}
         </div>
       </div>
     </section>
@@ -962,38 +983,7 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
         </div>
 
         <div class="critics-grid">
-          <div class="critic-card">
-            <div class="critic-quote-mark">“</div>
-            <p class="critic-quote-text">
-              “A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative, bridging European expressionism with Indian folk earthiness.”
-            </p>
-            <div class="critic-source">
-              <span class="critic-publication">Natya Varta</span>
-              <span class="critic-tag">Review of Vincent</span>
-            </div>
-          </div>
-
-          <div class="critic-card">
-            <div class="critic-quote-mark">“</div>
-            <p class="critic-quote-text">
-              “Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak — bringing the rural migrant reality to national consciousness.”
-            </p>
-            <div class="critic-source">
-              <span class="critic-publication">Rang Manch Samiksha</span>
-              <span class="critic-tag">Review of Gabar Ghichor</span>
-            </div>
-          </div>
-
-          <div class="critic-card">
-            <div class="critic-quote-mark">“</div>
-            <p class="critic-quote-text">
-              “Chhattisgadhiya Cloud proves that the most powerful contemporary Indian theatre is rooted directly in tribal soil, not urban imitation.”
-            </p>
-            <div class="critic-source">
-              <span class="critic-publication">The Cultural Chronicle</span>
-              <span class="critic-tag">Festival Editorial</span>
-            </div>
-          </div>
+          ${renderedCritics}
         </div>
       </div>
     </section>
@@ -1002,12 +992,12 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
     <div class="container">
       <div class="visual-highlight-band">
         <div class="highlight-content">
-          <h3>${isHi ? 'मध्य भारत का जीवंत रंगमंच' : 'Living Theatre from Central India'}</h3>
+          <h3>${vhTitle}</h3>
           <p>
-            ${isHi ? 'ग्रामीण चौपालों से लेकर राष्ट्रीय नाट्य मंचों तक, हमारा दल मांदर की थाप, नाचा के तीखे हास्य और संवेदनशील लोकगाथाओं को निरंतर प्रस्तुत कर रहा है।' : 'From rural village squares to prestigious national auditoriums, our ensemble brings the Mandar rhythm, vibrant Nacha satire, and poetic folk drama to life.'}
+            ${vhDesc}
           </p>
         </div>
-        <a href="/${lang}/about/" class="btn-primary">${isHi ? 'हमारा सांस्कृतिक सफर' : 'Our Cultural Story'}</a>
+        <a href="${vhBtnHref}" class="btn-primary">${vhBtnText}</a>
       </div>
     </div>
     `;
