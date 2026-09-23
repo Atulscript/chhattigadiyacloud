@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../../src/site/site.css?v=4">
+  <link rel="stylesheet" href="../../src/site/site.css?v=5">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js', { scope: '../../' }).catch(function () {}); });
   </script>
@@ -104,20 +104,23 @@
   <main id="main">
     
   
-  <header class="cc-page-head">
-    <div class="cc-wrap">
+  <header class="cc-page-head cc-page-head--events">
+    <div class="cc-wrap cc-page-head__inner">
       <nav class="cc-crumbs" aria-label="Breadcrumb">
         <a href="../../en/">Home</a><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg><span aria-current="page">Festivals</span>
       </nav>
-      
-      <h1 class="cc-h1">Festivals</h1>
-      <p class="cc-lead">Two free festivals in Jashpur every year: Jashrang for theatre, Kavita Utsav for poetry.</p>
-      
-      <span class="cc-motif cc-motif--short" aria-hidden="true"></span>
+      <div class="cc-page-head__text">
+        <p class="cc-kicker cc-page-head__kicker">Every year in Jashpur</p>
+        <h1 class="cc-h1">Festivals</h1>
+        <p class="cc-lead">Two free festivals in Jashpur every year: Jashrang for theatre, Kavita Utsav for poetry.</p>
+        
+        <span class="cc-motif cc-motif--short" aria-hidden="true"></span>
+      </div>
+      <span class="cc-page-head__emblem" aria-hidden="true"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 20h20M4.5 20 12 4l7.5 16"/><path d="M12 4v16M9 20l3-5 3 5"/></svg></span>
     </div>
   </header>
   <section class="cc-section">
-    <div class="cc-wrap" style="display:grid; gap:1.5rem">
+    <div class="cc-wrap cc-stack">
     <article class="cc-feature cc-feature--banner" id="jashrang" aria-labelledby="fest-jashrang">
       <div class="cc-feature__media"><img src="../../src/assets/images/festival-jashrang.svg" alt="Illustration for Jashrang National Theatre Festival" width="800" height="360" loading="lazy" decoding="async"></div>
       <div class="cc-feature__body">
@@ -131,8 +134,8 @@
         </ul>
         
         <details open>
-          <summary class="cc-link" style="cursor:pointer">Programme</summary>
-          <ol class="cc-schedule" style="margin-top:0.5rem">
+          <summary class="cc-link cc-disclosure">Programme</summary>
+          <ol class="cc-schedule cc-disclosure__body">
             <li><span class="cc-schedule__when">Day 1 · 6:00 PM</span><span class="cc-schedule__what" lang="en"><strong>Inaugural Ceremony &amp; Karma Folk Circle</strong><span>Jashpur Folk Troupe</span></span></li><li><span class="cc-schedule__when">Day 2 · 7:00 PM</span><span class="cc-schedule__what" lang="en"><strong>Gabar Ghichor</strong><span>Chhattisgadhiya Cloud Ensemble</span></span></li><li><span class="cc-schedule__when">Day 3 · 6:30 PM</span><span class="cc-schedule__what" lang="en"><strong>Andha Yug (Contemporary Adaptation)</strong><span>Bhopal Repertory</span></span></li><li><span class="cc-schedule__when">Day 4 · 7:00 PM</span><span class="cc-schedule__what" lang="en"><strong>Charandas Chor Revival</strong><span>Naya Theatre Legacy Ensembles</span></span></li><li><span class="cc-schedule__when">Day 5 · 5:30 PM</span><span class="cc-schedule__what" lang="en"><strong>National Directors Conclave &amp; Valedictory Gala</strong><span>All Participating Artists</span></span></li>
           </ol>
         </details>
@@ -155,8 +158,8 @@
         </ul>
         
         <details open>
-          <summary class="cc-link" style="cursor:pointer">Programme</summary>
-          <ol class="cc-schedule" style="margin-top:0.5rem">
+          <summary class="cc-link cc-disclosure">Programme</summary>
+          <ol class="cc-schedule cc-disclosure__body">
             <li><span class="cc-schedule__when">Day 1 · 11:00 AM</span><span class="cc-schedule__what" lang="en"><strong>Tribal Oral Poetry Symposium</strong><span>Elders &amp; Folk Lyricists</span></span></li><li><span class="cc-schedule__when">Day 1 · 5:00 PM</span><span class="cc-schedule__what" lang="en"><strong>Jashpur Sham-e-Shayari &amp; Geeth Sandhya</strong><span>Regional Poets</span></span></li><li><span class="cc-schedule__when">Day 2 · 10:30 AM</span><span class="cc-schedule__what" lang="en"><strong>Youth Open-Mic &amp; Slam Poetry Round</strong><span>Student Delegates</span></span></li><li><span class="cc-schedule__when">Day 2 · 4:00 PM</span><span class="cc-schedule__what" lang="en"><strong>Grand Chhattisgarhi Kavi Sammelan</strong><span>Eminent National Guests</span></span></li>
           </ol>
         </details>
@@ -188,7 +191,7 @@
             <li><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Town Hall Cultural Complex, Jashpur</span></li>
           </ul>
           <p class="cc-card__text">Featured acclaimed productions from NSD Delhi, Kolkata, Bhopal &amp; Raipur with over 4,500 attendees.</p>
-          <p class="cc-muted" style="font-size:0.95rem">Supported by: District Administration Jashpur, State Art Council</p>
+          <p class="cc-muted cc-small">Supported by: District Administration Jashpur, State Art Council</p>
         </div></li>
       </ul>
     </div>
@@ -215,10 +218,10 @@
         <form class="cc-connect__form" data-cc-signup data-cc-endpoint="" data-cc-mailto="contact@chhattisgadhiyacloud.org" novalidate>
           <label class="cc-visually-hidden" for="cc-signup-email">Email address</label>
           <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="Email address" required>
-          <button type="submit" class="cc-btn cc-btn--primary">Subscribe</button>
+          <button type="submit" class="cc-btn cc-btn--primary"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Subscribe</button>
           <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="Thank you! Please send the email that just opened to confirm." data-invalid="Please enter a valid email address."></p>
         </form>
-        <p class="cc-kicker" style="margin-top:0.5rem">Follow us</p>
+        <p class="cc-kicker cc-connect__follow">Follow us</p>
         <ul class="cc-social">
           <li><a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a></li><li><a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a></li><li><a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg></a></li><li><a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg></a></li>
         </ul>
@@ -237,21 +240,21 @@
         
         <div class="cc-footer__col">
           <h2 class="cc-kicker cc-footer__title">Explore</h2>
-          <ul class="cc-footer__list"><li><a href="../../en/whats-on/">What's On</a></li><li><a href="../../en/productions/">Plays</a></li><li><a href="../../en/events/">Festivals</a></li><li><a href="../../en/training-workshops/">Workshops</a></li><li><a href="../../en/magazine/">Magazine</a></li></ul>
+          <ul class="cc-footer__list"><li><a href="../../en/whats-on/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>What's On</span></a></li><li><a href="../../en/productions/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v7a8 8 0 0 1-16 0z"/><path d="M8.5 9.5h1.5M14 9.5h1.5M9 14.5a3.5 3.5 0 0 0 6 0"/></svg><span>Plays</span></a></li><li><a href="../../en/events/" aria-current="page"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 20h20M4.5 20 12 4l7.5 16"/><path d="M12 4v16M9 20l3-5 3 5"/></svg><span>Festivals</span></a></li><li><a href="../../en/training-workshops/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.6.4 4.5 2.6 4.5 5.8"/></svg><span>Workshops</span></a></li><li><a href="../../en/magazine/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5.5C5.5 4 9 4 12 6c3-2 6.5-2 9-.5V19c-2.5-1.5-6-1.5-9 .5-3-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/></svg><span>Magazine</span></a></li></ul>
         </div>
         
         <div class="cc-footer__col">
           <h2 class="cc-kicker cc-footer__title">Organisation</h2>
-          <ul class="cc-footer__list"><li><a href="../../en/about/">About</a></li><li><a href="../../en/blog/">Blog</a></li><li><a href="../../en/press/">Press kit</a></li><li><a href="../../en/support/">Support us</a></li><li><a href="../../en/contact/">Contact</a></li></ul>
+          <ul class="cc-footer__list"><li><a href="../../en/about/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.4"/></svg><span>About</span></a></li><li><a href="../../en/blog/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M14.5 7.5l3 3"/></svg><span>Blog</span></a></li><li><a href="../../en/press/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="14" height="14" rx="1.5"/><path d="M17 8h3v9a2 2 0 0 1-2 2M7 9h6M7 12.5h6M7 16h4"/></svg><span>Press kit</span></a></li><li><a href="../../en/support/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-8-4.6-8-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15.4 12 20 12 20z"/></svg><span>Support us</span></a></li><li><a href="../../en/contact/"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Contact</span></a></li></ul>
         </div>
         <div class="cc-footer__col cc-footer__col--contact">
           <h2 class="cc-kicker cc-footer__title">Contact</h2>
-          <ul class="cc-footer__list">
+          <ul class="cc-footer__list cc-footer__contact">
             <li><a href="mailto:contact@chhattisgadhiyacloud.org"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>contact@chhattisgadhiyacloud.org</span></a></li>
             <li><a href="tel:+919876543210"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>+91 98765 43210</span></a></li>
             <li class="cc-footer__addr"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Kala Kendra Marg, Jashpur / Raipur, Chhattisgarh, India</span></li>
           </ul>
-          <a class="cc-btn cc-btn--on-dark cc-btn--sm" href="../../en/contact/#form-booking" data-cc-form="booking">Book a play</a>
+          <a class="cc-btn cc-btn--primary cc-btn--sm cc-footer__cta" href="../../en/contact/#form-booking" data-cc-form="booking"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/><path d="M14 6v2M14 11v2M14 16v2"/></svg>Book a play</a>
         </div>
       </div>
       <div class="cc-footer__bottom">
@@ -424,7 +427,7 @@
       </div>
     </div>
   </dialog>
-  <script src="../../src/site/site.js?v=4" defer></script>
+  <script src="../../src/site/site.js?v=5" defer></script>
   
 </body>
 </html>

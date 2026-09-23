@@ -186,10 +186,10 @@ function renderConnect({ lang, siteData, currentPath }) {
         <form class="cc-connect__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
           <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
           <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
-          <button type="submit" class="cc-btn cc-btn--primary">${t.subscribe}</button>
+          <button type="submit" class="cc-btn cc-btn--primary">${icon('mail')}${t.subscribe}</button>
           <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
         </form>
-        <p class="cc-kicker" style="margin-top:0.5rem">${t.follow}</p>
+        <p class="cc-kicker cc-connect__follow">${t.follow}</p>
         <ul class="cc-social">
           ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
         </ul>
@@ -204,7 +204,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const col = (title, pages) => `
         <div class="cc-footer__col">
           <h2 class="cc-kicker cc-footer__title">${title}</h2>
-          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/">${p.label[lang]}</a></li>`).join('')}</ul>
+          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`).join('')}</ul>
         </div>`;
   return `
   ${renderConnect({ lang, siteData, currentPath })}
@@ -221,12 +221,12 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
         ${col(t.organisation, PAGES.organisation)}
         <div class="cc-footer__col cc-footer__col--contact">
           <h2 class="cc-kicker cc-footer__title">${t.contact}</h2>
-          <ul class="cc-footer__list">
+          <ul class="cc-footer__list cc-footer__contact">
             ${c.email ? `<li><a href="mailto:${c.email}">${icon('mail')}<span>${esc(c.email)}</span></a></li>` : ''}
             ${c.phone ? `<li><a href="tel:${c.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(c.phone)}</span></a></li>` : ''}
             ${c.address ? `<li class="cc-footer__addr">${icon('pin')}<span>${esc(c.address[lang])}</span></li>` : ''}
           </ul>
-          <a class="cc-btn cc-btn--on-dark cc-btn--sm" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
+          <a class="cc-btn cc-btn--primary cc-btn--sm cc-footer__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking">${icon('ticket')}${t.cta}</a>
         </div>
       </div>
       <div class="cc-footer__bottom">

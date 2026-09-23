@@ -39,6 +39,14 @@ const STRINGS = {
     archiveCount: (n) => `${n} issues in the archive`,
     buy: 'Buy',
     order: 'Order',
+    archiveTitle: 'The Issue Library',
+    archiveSub: (n) => `${n} monthly issues · newest first`,
+    latest: 'Latest',
+    pagesCount: (n) => `${n} pages`,
+    insideIssue: 'Inside',
+    showMore: (n) => `Show ${n} more ${n === 1 ? 'issue' : 'issues'}`,
+    showFewer: 'Show fewer issues',
+    readPreviewShort: 'Read preview',
     readHeading: 'Read the magazine',
     readSub: (preview, total) => `Pages 1–${preview} are free to read. The remaining ${total - preview} pages open with a Digital Copy or a subscription.`,
     fullIssue: 'Full issue',
@@ -92,6 +100,14 @@ const STRINGS = {
     archiveCount: (n) => `अभिलेखागार में ${n} अंक`,
     buy: 'खरीदें',
     order: 'मंगाएं',
+    archiveTitle: 'अंक संग्रह',
+    archiveSub: (n) => `${n} मासिक अंक · नवीनतम पहले`,
+    latest: 'नवीनतम',
+    pagesCount: (n) => `${n} पृष्ठ`,
+    insideIssue: 'इस अंक में',
+    showMore: (n) => `${n} और अंक देखें`,
+    showFewer: 'कम अंक दिखाएं',
+    readPreviewShort: 'पूर्वावलोकन पढ़ें',
     readHeading: 'पत्रिका पढ़ें',
     readSub: (preview, total) => `पृष्ठ 1–${preview} निःशुल्क पढ़ें। शेष ${total - preview} पृष्ठ डिजिटल प्रति या सदस्यता के साथ खुलते हैं।`,
     fullIssue: 'संपूर्ण अंक',
@@ -239,6 +255,8 @@ function getMagazineModel(magazine, pagesData, lang) {
     coverImg: raw.coverImg || '/src/assets/images/mag-issue-14-cover.svg',
     publishDate: formatDate(raw.publishDate, lang),
     totalPages: raw.totalPages || 0,
+    badge: pick(raw.badge, lang),
+    leadArticle: pick(raw.leadArticle, lang) || (raw.articles && raw.articles[0] ? pick(raw.articles[0].title, lang) : ''),
     digitalPrice: price(raw.digitalPrice || config.digitalPrice),
     printPrice: price(raw.printPrice || config.printPrice),
   });
@@ -372,38 +390,60 @@ function renderPurchaseOptions(m) {
   </section>`;
 }
 
-function renderMagazineCard(issue, lang) {
+// Library card: cover on a lit "shelf", month + issue number, edition badge,
+// lead article and a compact buy row. `latest` marks the current issue.
+function renderMagazineCard(issue, lang, { latest = false, index = 0 } = {}) {
   const t = STRINGS[lang];
+  const titleId = `mz-card-${esc(issue.id)}`;
   return `
-    <article class="mz-card">
-      <div class="mz-card__cover mz-cover">
-        <img src="${esc(issue.coverImg)}" alt="${esc(t.coverAlt(issue.month))}" width="400" height="560" loading="lazy">
+    <article class="mz-card${latest ? ' mz-card--latest' : ''}" aria-labelledby="${titleId}" data-mz-card="${index}">
+      <div class="mz-card__shelf">
+        ${latest ? `<a class="mz-card__cover mz-cover" href="#mz-reader" tabindex="-1">` : '<div class="mz-card__cover mz-cover">'}
+          <img src="${esc(issue.coverImg)}" alt="${esc(t.coverAlt(issue.month))}" width="400" height="560" loading="lazy" decoding="async">
+        ${latest ? '</a>' : '</div>'}
+        <span class="mz-card__month">${latest ? `<b>${t.latest}</b>` : ''}${esc(issue.month)}</span>
       </div>
       <div class="mz-card__body">
-        <p class="mz-card__meta"><span>${esc(issue.month)}</span><span>${esc(issue.number)}</span></p>
-        <h3 class="mz-card__title">${esc(issue.title)}</h3>
-        <p class="mz-card__desc">${esc(issue.description)}</p>
+        <p class="mz-card__meta"><span>${esc(issue.number)}</span>${issue.totalPages ? `<span>${esc(t.pagesCount(issue.totalPages))}</span>` : ''}</p>
+        <h3 class="mz-card__title" id="${titleId}">${esc(issue.title)}</h3>
+        ${issue.badge ? `<p class="mz-card__badge">${esc(issue.badge)}</p>` : ''}
+        ${issue.leadArticle ? `<p class="mz-card__lead"><span>${t.insideIssue}</span>${esc(issue.leadArticle)}</p>` : `<p class="mz-card__desc">${esc(issue.description)}</p>`}
       </div>
-      <ul class="mz-card__prices">
-        <li><span class="mz-card__format">${t.digitalCopy}</span><span class="mz-card__price">${esc(issue.digitalPrice)}</span>${renderPurchaseCta({ product: 'digital', issueId: issue.id, label: t.buy, size: 'sm' })}</li>
-        <li><span class="mz-card__format">${t.printCopy}</span><span class="mz-card__price">${esc(issue.printPrice)}</span>${renderPurchaseCta({ product: 'print', issueId: issue.id, label: t.order, variant: 'outline', size: 'sm' })}</li>
-      </ul>
+      <div class="mz-card__actions">
+        ${latest ? `<a class="mz-btn mz-btn--primary mz-btn--sm mz-btn--block" href="#mz-reader">${t.readPreviewShort}</a>` : ''}
+        <ul class="mz-card__prices">
+          <li><span class="mz-card__format">${t.digitalCopy}</span><span class="mz-card__price">${esc(issue.digitalPrice)}</span>${renderPurchaseCta({ product: 'digital', issueId: issue.id, label: t.buy, variant: latest ? 'outline' : 'primary', size: 'sm' })}</li>
+          <li><span class="mz-card__format">${t.printCopy}</span><span class="mz-card__price">${esc(issue.printPrice)}</span>${renderPurchaseCta({ product: 'print', issueId: issue.id, label: t.order, variant: 'outline', size: 'sm' })}</li>
+        </ul>
+      </div>
     </article>`;
 }
 
+// The issue library: every issue, newest first. The first ARCHIVE_VISIBLE cards
+// show at once; the rest open with "Show more" (magazine-reader.js). Without
+// JavaScript every card is visible and the button stays hidden.
+const ARCHIVE_VISIBLE = 4;
 function renderPreviousIssues(m) {
-  if (!m.previous.length) return '';
   const t = STRINGS[m.lang];
-  const many = m.previous.length > 1;
+  const issues = [m.current, ...m.previous];
+  if (issues.length < 2) return '';
+  const extra = Math.max(0, issues.length - ARCHIVE_VISIBLE);
   return `
-  <section class="mz-section mz-archive" aria-labelledby="mz-archive-title">
+  <section class="mz-section mz-archive" id="mz-archive" aria-labelledby="mz-archive-title">
     <div class="mz-wrap">
       <div class="mz-section__head">
-        <h2 class="mz-section__title" id="mz-archive-title">${many ? t.previousIssues : t.previousIssue}</h2>
-        ${many ? `<p class="mz-section__sub">${t.archiveCount(m.previous.length)}</p>` : ''}
+        <h2 class="mz-section__title" id="mz-archive-title">${t.archiveTitle}</h2>
+        <p class="mz-section__sub">${t.archiveSub(issues.length)}</p>
       </div>
-      <div class="mz-archive__grid">
-        ${m.previous.map((issue) => renderMagazineCard(issue, m.lang)).join('')}
+      <div class="mz-archive__grid" id="mz-archive-grid" data-mz-archive data-visible="${ARCHIVE_VISIBLE}">
+        ${issues.map((issue, i) => renderMagazineCard(issue, m.lang, { latest: i === 0, index: i })).join('')}
+      </div>
+      <div class="mz-archive__more">
+        <button type="button" class="mz-btn mz-btn--outline mz-archive__toggle" data-mz-archive-toggle aria-controls="mz-archive-grid" aria-expanded="false"
+          data-more="${esc(t.showMore(extra))}" data-fewer="${esc(t.showFewer)}" hidden${extra ? '' : ' disabled'}>
+          <span data-mz-archive-label>${esc(t.showMore(extra))}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
       </div>
     </div>
   </section>`;

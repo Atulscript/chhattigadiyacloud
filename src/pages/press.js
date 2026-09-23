@@ -22,9 +22,9 @@ function render(siteData, lang) {
     title: t.title,
     desc: pick(kit.description, lang),
     content: `
-  ${pageHead({ lang, title: t.title, lead: pick(kit.description, lang) })}
+  ${pageHead({ lang, page: 'press', title: t.title, lead: pick(kit.description, lang) })}
   <section class="cc-section">
-    <div class="cc-wrap" style="display:grid; gap:1.5rem">
+    <div class="cc-wrap cc-stack">
       <div class="cc-card"><div class="cc-card__body">
         <h2 class="cc-h3">${t.about}</h2>
         <p class="cc-prose">${esc(pick(kit.boilerplateShort, lang))}</p>
@@ -42,7 +42,7 @@ function render(siteData, lang) {
         </div></div>
       </div>
       <div>
-        <h2 class="cc-h3" style="margin-bottom:1rem">${t.numbers}</h2>
+        <h2 class="cc-h3 cc-mb-1">${t.numbers}</h2>
         ${stats((siteData.homepage || {}).impactStats, lang)}
       </div>
     </div>
