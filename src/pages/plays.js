@@ -44,11 +44,11 @@ function renderPlay(p, lang) {
           ${p.ageSuitability ? `<li>${icon('users')}<span><strong>${t.age}:</strong> ${esc(p.ageSuitability)}</span></li>` : ''}
           ${(p.cast || []).length ? `<li>${icon('star')}<span><strong>${t.cast}:</strong> ${esc(p.cast.slice(0, 4).join(', '))}</span></li>` : ''}
         </ul>
-        ${review ? `<figure class="cc-quote cc-quote--inline"><blockquote lang="en">“${esc(review.quote)}”</blockquote><figcaption><strong>${esc(review.critic)}</strong></figcaption></figure>` : ''}
+        ${review ? `<figure class="cc-quote" style="height:auto"><blockquote lang="en">“${esc(review.quote)}”</blockquote><figcaption><strong>${esc(review.critic)}</strong></figcaption></figure>` : ''}
         ${history.length ? `
         <details>
-          <summary class="cc-link cc-disclosure">${t.past}</summary>
-          <ul class="cc-facts cc-disclosure__body">${history.map((h) => `<li>${icon('pin')}<span><strong>${esc(h.date)}</strong> · ${esc(h.venue)}</span></li>`).join('')}</ul>
+          <summary class="cc-link" style="cursor:pointer">${t.past}</summary>
+          <ul class="cc-facts" style="margin-top:0.5rem">${history.map((h) => `<li>${icon('pin')}<span><strong>${esc(h.date)}</strong> · ${esc(h.venue)}</span></li>`).join('')}</ul>
         </details>` : ''}
         <div class="cc-actions">${formButton({ lang, form: 'booking', label: t.book, prefill: { play: p.id } })}</div>
       </div>
@@ -62,9 +62,9 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'productions', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
-    <div class="cc-wrap cc-stack">${plays.map((p) => renderPlay(p, lang)).join('')}</div>
+    <div class="cc-wrap" style="display:grid; gap:1.5rem">${plays.map((p) => renderPlay(p, lang)).join('')}</div>
   </section>
   <section class="cc-section">
     <div class="cc-wrap">

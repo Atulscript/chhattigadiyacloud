@@ -188,7 +188,7 @@ function renderRoots(ctx) {
       <ul class="cc-grid cc-grid--3">
         ${items.map((r, i) => `
         <li class="cc-card"><div class="cc-card__body">
-          ${r.image ? `<img class="hm-root__img" src="${esc(r.image)}" alt="${esc(pick(r.title, lang))}" loading="lazy">` : `<span class="cc-icon-chip cc-icon-chip--clay">${icon(icons[i % icons.length])}</span>`}
+          ${r.image ? `<img class="hm-root__img" src="${esc(r.image)}" alt="${esc(pick(r.title, lang))}" loading="lazy">` : `<span class="cc-tag cc-tag--clay" style="align-self:flex-start; padding:0.5rem">${icon(icons[i % icons.length])}</span>`}
           <p class="cc-kicker">${esc(pick(r.subtitle, lang))}</p>
           <h3 class="cc-h3">${esc(pick(r.title, lang))}</h3>
           <p class="cc-card__text">${esc(pick(r.desc, lang))}</p>

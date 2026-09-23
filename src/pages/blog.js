@@ -20,9 +20,9 @@ function render(siteData, lang) {
     title: t.title,
     desc: lead,
     content: `
-  ${pageHead({ lang, page: 'blog', title: t.title, lead })}
+  ${pageHead({ lang, title: t.title, lead })}
   <section class="cc-section">
-    <div class="cc-wrap cc-wrap--narrow cc-stack">
+    <div class="cc-wrap cc-wrap--narrow" style="display:grid; gap:1.25rem">
       ${posts.map((p) => `
       <article class="cc-card" id="${esc(p.slug || p.id)}">
         ${p.coverImage || p.image ? `<div class="cc-card__media"><img src="${esc(p.coverImage || p.image)}" alt="${esc(p.imageAlt || pick(p.title, lang))}" loading="lazy" decoding="async"></div>` : ''}
@@ -32,8 +32,8 @@ function render(siteData, lang) {
           <p class="cc-muted">${t.by} ${esc(p.author)}</p>
           <p class="cc-prose">${esc(pick(p.excerpt, lang))}</p>
           <details>
-            <summary class="cc-link cc-disclosure">${t.read}</summary>
-            <div class="cc-prose cc-disclosure__body">${pick(p.content, lang).split(/\n{2,}/).map((para) => `<p>${esc(para)}</p>`).join('')}</div>
+            <summary class="cc-link" style="cursor:pointer">${t.read}</summary>
+            <div class="cc-prose" style="margin-top:0.5rem">${pick(p.content, lang).split(/\n{2,}/).map((para) => `<p>${esc(para)}</p>`).join('')}</div>
           </details>
         </div>
       </article>`).join('')}

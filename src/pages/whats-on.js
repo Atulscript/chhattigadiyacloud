@@ -28,7 +28,7 @@ function renderEvent(item, lang) {
       <li class="cc-event">
         <time class="cc-event__date" datetime="${d.iso}"><span class="cc-event__day">${esc(d.day)}</span><span class="cc-event__month">${esc(d.month)}</span></time>
         <div class="cc-event__body">
-          <span class="cc-tag${isCamp ? '' : ' cc-tag--clay'}">${isCamp ? t.camp : t.festival}</span>
+          <span class="cc-tag${isCamp ? '' : ' cc-tag--clay'}" style="align-self:flex-start">${isCamp ? t.camp : t.festival}</span>
           <h2 class="cc-h3">${esc(pick(item.title, lang))}</h2>
           <ul class="cc-facts">
             <li>${icon('calendar')}<span>${esc(pick(item.dates, lang))}</span></li>
@@ -49,7 +49,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'whats-on', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap cc-wrap--narrow">${list}</div>
   </section>

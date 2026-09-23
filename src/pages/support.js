@@ -28,13 +28,13 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'support', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap">
       <ul class="cc-grid cc-grid--3">
         ${t.ways.map(([ic, title, text, form, cta]) => `
         <li class="cc-card"><div class="cc-card__body">
-          <span class="cc-icon-chip">${icon(ic)}</span>
+          <span class="cc-tag" style="align-self:flex-start; padding:0.5rem">${icon(ic)}</span>
           <h2 class="cc-h3">${title}</h2>
           <p class="cc-card__text">${text}</p>
           ${formButton({ lang, form, label: cta, variant: form === 'volunteer' ? 'secondary' : 'primary', size: 'sm' })}
@@ -50,7 +50,7 @@ function render(siteData, lang) {
         ${siteData.partners.map((p) => `
         <li class="cc-card"><div class="cc-card__body">
           <p class="cc-kicker">${esc(pick(p.category, lang))}</p>
-          <h3 class="cc-h3 cc-h3--sm">${esc(p.name)}</h3>
+          <h3 class="cc-h3" style="font-size:1.15rem">${esc(p.name)}</h3>
         </div></li>`).join('')}
       </ul>
     </div>

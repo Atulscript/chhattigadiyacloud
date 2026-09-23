@@ -487,38 +487,3 @@
 
   window.MasikPatrika = { reader: reader, checkout: checkout, access: access };
 })();
-
-// Issue library: shows the first few issues, "Show more" reveals the rest.
-// The button only appears when there are more issues than fit the first view.
-(function () {
-  'use strict';
-  var grid = document.querySelector('[data-mz-archive]');
-  var btn = document.querySelector('[data-mz-archive-toggle]');
-  if (!grid || !btn) return;
-  var cards = grid.querySelectorAll('[data-mz-card]');
-  var visible = parseInt(grid.getAttribute('data-visible'), 10) || 4;
-  if (cards.length <= visible) { btn.hidden = true; btn.disabled = true; return; }
-
-  var label = btn.querySelector('[data-mz-archive-label]');
-  function setOpen(open) {
-    grid.classList.toggle('is-collapsed', !open);
-    btn.setAttribute('aria-expanded', String(open));
-    btn.classList.toggle('is-open', open);
-    label.textContent = btn.getAttribute(open ? 'data-fewer' : 'data-more');
-  }
-  setOpen(false);
-  btn.hidden = false;
-  btn.disabled = false;
-  btn.addEventListener('click', function () {
-    var open = btn.getAttribute('aria-expanded') !== 'true';
-    setOpen(open);
-    if (open) {
-      // Move focus to the first newly shown issue so keyboard users land on it.
-      var first = cards[visible];
-      if (first) { first.setAttribute('tabindex', '-1'); first.focus({ preventScroll: false }); }
-    } else {
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      grid.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
-    }
-  });
-})();

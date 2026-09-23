@@ -835,62 +835,6 @@
           "en": "Critical reflections on four years of youth summer residencies in Jashpur, evaluating theatre games as a vehicle for self-confidence.",
           "hi": "जशपुर में चार वर्षों के समर कैम्प के अनुभवों पर आधारित विमर्श कि नाट्य खेल बच्चों में आत्मविश्वास का माध्यम कैसे बनते हैं।"
         }
-      },
-      {
-        "id": "issue-10",
-        "number": "Vol. IV • Issue 05",
-        "month": {
-          "en": "May 2026",
-          "hi": "मई 2026"
-        },
-        "title": {
-          "en": "Rhythms of the Karma Dance: Mandar & Movement",
-          "hi": "करमा नृत्य की लय: मांदर और देह-गति"
-        },
-        "coverTheme": "Drum-makers, Dancers & Seasonal Songs",
-        "badge": {
-          "en": "Folk Rhythm Edition",
-          "hi": "लोक लय विशेषांक"
-        },
-        "coverImg": "/src/assets/images/mag-issue-10.svg",
-        "totalPages": 10,
-        "leadArticle": {
-          "en": "Inside a Mandar Maker's Workshop",
-          "hi": "मांदर बनाने वाले कारीगर की कार्यशाला में"
-        },
-        "downloadUrl": "#",
-        "readExcerpt": {
-          "en": "Field notes on the Karma dance of northern Chhattisgarh: the Mandar makers, the village circle and the seasonal songs that keep its rhythm alive.",
-          "hi": "उत्तरी छत्तीसगढ़ के करमा नृत्य पर क्षेत्रीय टिप्पणियां: मांदर बनाने वाले कारीगर, गांव का घेरा और मौसमी गीत जो इसकी लय को जीवित रखते हैं।"
-        }
-      },
-      {
-        "id": "issue-09",
-        "number": "Vol. IV • Issue 04",
-        "month": {
-          "en": "April 2026",
-          "hi": "अप्रैल 2026"
-        },
-        "title": {
-          "en": "Painted Walls, Painted Stages: Folk Art in Theatre Design",
-          "hi": "भित्ति से मंच तक: रंग-परिकल्पना में लोक कला"
-        },
-        "coverTheme": "Gond & Bhitti Art in Scenography",
-        "badge": {
-          "en": "Visual Arts Edition",
-          "hi": "दृश्य कला विशेषांक"
-        },
-        "coverImg": "/src/assets/images/mag-issue-09.svg",
-        "totalPages": 8,
-        "leadArticle": {
-          "en": "Village Walls as the First Stage Sets",
-          "hi": "गांव की दीवारें: पहले मंच-सज्जा"
-        },
-        "downloadUrl": "#",
-        "readExcerpt": {
-          "en": "How Gond and Bhitti wall painting shape the masks, costumes and backdrops of Chhattisgarhi theatre, with a portfolio from Jashpur painters.",
-          "hi": "गोंड और भित्ति चित्रकला कैसे छत्तीसगढ़ी रंगमंच के मुखौटों, वेशभूषा और पृष्ठभूमि को आकार देती है — जशपुर के चित्रकारों के पोर्टफोलियो के साथ।"
-        }
       }
     ]
   },
@@ -1536,14 +1480,7 @@
         "displayName": "Super Administrator",
         "role": "admin",
         "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
-        "permissions": [
-          "dashboard",
-          "pages",
-          "team",
-          "blog",
-          "users",
-          "settings"
-        ]
+        "permissions": ["dashboard", "pages", "team", "blog", "users", "settings"]
       }
     ]
   }
