@@ -1,0 +1,81 @@
+{
+  "_note": "Page bodies ship publicly ONLY for preview pages. Locked pages keep metadata (shown as 'Still in this issue' teasers) and are served by config.accessEndpoint after purchase. Never add a locked page's body here: this repository and the static site are public.",
+  "issue-14": {
+    "totalPages": 8,
+    "pages": [
+      {
+        "page": 1,
+        "category": { "en": "Editorial", "hi": "संपादकीय" },
+        "title": { "en": "Folk Idiom in Contemporary Scenography", "hi": "लोक नाट्य और समकालीन रंग-चेतना" },
+        "author": { "en": "Suresh Thakur", "hi": "सुरेश ठाकुर" },
+        "excerpt": { "en": "Folk theatre in modern times: continuity, dance and scenography.", "hi": "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और मंच-शिल्प।" },
+        "content": {
+          "en": "This fourteenth edition of Chhattisgadhiya Cloud Masik Patrika is dedicated to the living soil and evolving stage forms of Central India. Nacha, Panthi and Karma are not museum artefacts; they are kinetic, critical tools in dialogue with the modern world.\n\n> \"Theatre remains invincible as long as its bare feet touch the living earth.\"\n\nIn these pages we travel from the village akhara to the proscenium, asking what the folk idiom gains — and what it risks — when it meets new audiences. We dedicate this issue to the grassroots torchbearers of regional oral performance, who kept the flame alive with little more than a dholak and a clearing under the sal trees.",
+          "hi": "छत्तीसगढ़िया क्लाउड मासिक पत्रिका का यह अंक माटी की सुगंध और रंगमंच की नई संभावनाओं को समर्पित है। नाचा, पंथी और करमा केवल अतीत की स्मृतियां नहीं हैं; वे वर्तमान समाज के ज्वलंत सवालों से टकराने वाले सबसे जीवंत औजार हैं।\n\n> \"रंगमंच जब तक माटी से जुड़ा है, तब तक वह पराजित नहीं हो सकता।\"\n\nइन पृष्ठों में हम गांव के अखाड़े से प्रोसीनियम मंच तक की यात्रा करते हैं और पूछते हैं कि नए दर्शकों से मिलकर लोक-मुहावरा क्या पाता है और क्या खोने का जोखिम उठाता है। हम इस अंक के माध्यम से उन सभी अनाम लोक कलाकारों को नमन करते हैं जिन्होंने अभावों में भी कला की मशाल जलाए रखी।"
+        }
+      },
+      {
+        "page": 2,
+        "category": { "en": "Curator's Note", "hi": "संयोजक स्तंभ" },
+        "title": { "en": "In This Issue", "hi": "इस अंक में" },
+        "author": { "en": "Meenakshi Kashyap", "hi": "मीनाक्षी कश्यप" },
+        "excerpt": { "en": "What you will find across the eight pages of this month's issue.", "hi": "इस माह के आठ पृष्ठों में आपके लिए क्या है।" },
+        "content": {
+          "en": "Each issue of the Patrika is built as a small field archive: essays from practitioners, notes from the rehearsal floor, and verse gathered from the hills.\n\n1. **Pages 3–4** — The Revival of Nacha in Urban Spaces, Dr. Prabhat Mishra\n2. **Page 5** — Remembering Habib Tanvir's Scenography, Kavita S. Joshi\n3. **Page 6** — Unpublished Stage Geometry & Chorus Notes\n4. **Page 7** — Voices of Jashpur: Hill-Valley Ballads & Kurukh Verses\n5. **Page 8** — Ensemble Directory & Archival Bibliography\n\n> \"An open laboratory bridging folk traditions with modern scenography.\"",
+          "hi": "पत्रिका का हर अंक एक छोटा क्षेत्रीय अभिलेख है: कलाकारों के आलेख, पूर्वाभ्यास के नोट्स और पहाड़ों से संकलित कविताएं।\n\n1. **पृष्ठ ३–४** — शहरी मंचों पर नाचा का पुनरुत्थान, डॉ. प्रभात मिश्रा\n2. **पृष्ठ ५** — हबीब तनवीर की रंग-शिल्प दृष्टि, कविता एस. जोशी\n3. **पृष्ठ ६** — अप्रकाशित मंच आरेख एवं कोरस ज्यामिति\n4. **पृष्ठ ७** — जशपुर के स्वर: घाटियों के लोकगीत एवं कुरुख अनुवाद\n5. **पृष्ठ ८** — नाट्य दल निर्देशिका एवं संदर्भ ग्रंथ-सूची\n\n> \"यह पत्रिका शोधार्थियों और कलाकारों के बीच एक सेतु है।\""
+        }
+      },
+      {
+        "page": 3,
+        "category": { "en": "Theatre Essay", "hi": "नाट्य आलेख" },
+        "title": { "en": "The Revival of Nacha in Urban Spaces", "hi": "शहरी मंचों पर नाचा परंपरा का पुनरुत्थान" },
+        "author": { "en": "Dr. Prabhat Mishra", "hi": "डॉ. प्रभात मिश्रा" },
+        "excerpt": { "en": "How rustic satire and Panthi rhythms are captivating proscenium stages.", "hi": "कैसे ग्रामीण छत्तीसगढ़ का पारंपरिक नाचा आधुनिक दर्शकों को अपनी धारदार अभिव्यक्ति से जोड़ रहा है।" },
+        "content": {
+          "en": "Nacha has never been merely entertainment; it is the living courtroom of the village commoner. When the actors step into the circle, social barriers soften and the powerful become the easiest targets of laughter.\n\n> \"The laughter generated in Nacha is not an escape from reality; it is a profound confrontation with reality itself.\"\n\nIn this edition we document the experiences of three generations of Nacha practitioners who have carried their repertoire into contemporary theatre halls while keeping the rural hearth glowing. Their testimony reveals a form that bends without breaking — shortening a night-long performance to ninety minutes, yet refusing to surrender its improvised heart.",
+          "hi": "नाचा मात्र मनोरंजन का माध्यम नहीं, बल्कि ग्रामीण समाज का खुला मंच और न्याय-कक्ष रहा है। जब कलाकार अखाड़े में कदम रखते हैं, तो सामाजिक दीवारें पिघलने लगती हैं और सत्ताधारी ही हंसी के सबसे आसान निशाने बन जाते हैं।\n\n> \"नाचा में उत्पन्न हास्य यथार्थ से पलायन नहीं है; यह यथार्थ का सबसे निर्भीक और गहरा सामना है।\"\n\nइस अंक में हम नाचा के तीन पीढ़ियों के कलाकारों के अनुभवों का दस्तावेजीकरण कर रहे हैं, जिन्होंने गांव की चौपाल को जीवित रखते हुए अपनी प्रस्तुतियां आधुनिक सभागारों तक पहुंचाईं। उनकी गवाही एक ऐसी विधा को सामने लाती है जो झुकती है पर टूटती नहीं — रात भर के प्रदर्शन को नब्बे मिनट में समेटती है, फिर भी अपने तात्कालिक हृदय को नहीं छोड़ती।"
+        }
+      },
+      {
+        "page": 4,
+        "category": { "en": "Performance Analysis", "hi": "रंग विश्लेषण" },
+        "title": { "en": "Dialect, Cadence and Spontaneous Wit", "hi": "माटी की बोली और तात्कालिकता" },
+        "author": { "en": "Dr. Prabhat Mishra", "hi": "डॉ. प्रभात मिश्रा" },
+        "excerpt": { "en": "The dholak's crescendo and the improviser's craft — Nacha, part two.", "hi": "ढोलक, मंजीरे की थाप और मुहावरों की अचूक शक्ति — नाचा, भाग दो।" },
+        "content": {
+          "en": "What keeps Nacha modern is not its subject matter but its method. Three elements recur in every performance we recorded:\n\n1. **Language of the earth** — vernacular idiom that refuses formal stiffness and lands instantly with a local audience.\n2. **Music as dramatic pulse** — the dholak and manjeera drive each scene towards its comic crescendo.\n3. **Spontaneous improvisation** — punchlines rewritten in the moment, in response to the crowd and the day's news.\n\nThis organic elasticity is also its vulnerability. On a ticketed stage with fixed lights and a printed script, improvisation must be defended deliberately — or it quietly disappears.",
+          "hi": "नाचा को आधुनिक उसकी विषय-वस्तु नहीं, उसकी पद्धति बनाती है। हमारे द्वारा रिकॉर्ड किए गए हर प्रदर्शन में तीन तत्व बार-बार लौटते हैं:\n\n1. **माटी की बोली** — मुहावरों की ऐसी भाषा जो व्याकरण की जकड़ से मुक्त है और स्थानीय दर्शकों तक तुरंत पहुंचती है।\n2. **संगीत की धड़कन** — ढोलक और मंजीरे हर दृश्य को उसके हास्य-चरम तक ले जाते हैं।\n3. **तात्कालिकता** — दर्शकों और दिन की खबरों के अनुसार उसी क्षण गढ़े गए संवाद।\n\nयही लचीलापन इसकी कमजोरी भी है। टिकट वाले मंच पर, तय रोशनी और छपी हुई पटकथा के बीच, तात्कालिकता को सचेत रूप से बचाना पड़ता है — वरना वह चुपचाप खो जाती है।"
+        }
+      },
+      {
+        "page": 5,
+        "category": { "en": "Tribute", "hi": "स्मृति आलेख" },
+        "title": { "en": "Remembering Habib Tanvir's Scenography", "hi": "हबीब तनवीर की रंग-शिल्प दृष्टि का स्मरण" },
+        "author": { "en": "Kavita S. Joshi", "hi": "कविता एस. जोशी" },
+        "excerpt": { "en": "Space, Brecht and the bamboo screen.", "hi": "रिक्त स्थान, ब्रेख्त और बांस का पर्दा।" },
+        "content": {
+          "en": "Habib Tanvir stripped the proscenium arch of its Victorian clutter. Instead of heavy velvet and cardboard walls, he brought the open sky and simple bamboo frames.\n\nHis actors carried the set within their bodies. A step forward became a journey across a river; a sudden song opened the gates of an emperor's palace. The audience was trusted to complete the picture.\n\n> \"Simplicity is the most formidable spectacle.\"\n\nThis organic synthesis — of folk performers, Brechtian distance and an almost empty stage — remains the guiding star of our own work at Chhattisgadhiya Cloud. On the next page, the archive opens his rehearsal notebooks.",
+          "hi": "हबीब तनवीर ने विक्टोरियन शैली के भारी-भरकम पर्दों और गत्ते की दीवारों को हटाकर रंगमंच को खुला आकाश और बांस की सादगी दी।\n\nउनके अभिनेताओं का शरीर ही पूरा सेट बन जाता था। एक कदम बढ़ाना नदी पार करना बन जाता था, और एक लोकगीत राजमहल के द्वार खोल देता था। दर्शकों पर भरोसा किया जाता था कि वे चित्र को स्वयं पूरा करेंगे।\n\n> \"सादगी ही सबसे महान भव्यता है।\"\n\nलोक कलाकारों, ब्रेख्तियन दूरी और लगभग खाली मंच का यह जैविक संगम छत्तीसगढ़िया क्लाउड के रंगकर्म की प्रेरणा है। अगले पृष्ठ पर अभिलेखागार उनकी रिहर्सल डायरियां खोलता है।"
+        }
+      },
+      {
+        "page": 6,
+        "category": { "en": "From the Archive", "hi": "अभिलेखागार से" },
+        "title": { "en": "Habib Tanvir's Unpublished Stage Geometry & Chorus Notes", "hi": "हबीब तनवीर के अप्रकाशित मंच आरेख एवं कोरस ज्यामिति" },
+        "author": { "en": "Archive Editorial Board", "hi": "अभिलेख दल" }
+      },
+      {
+        "page": 7,
+        "category": { "en": "Poetry", "hi": "कविता" },
+        "title": { "en": "Voices of Jashpur: Hill-Valley Ballads & Kurukh Verses", "hi": "जशपुर के स्वर: पहाड़ी घाटियों से लोकगीत एवं कुरुख अनुवाद" },
+        "author": { "en": "Selected Poets of Jashpur", "hi": "जशपुर के प्रतिनिधि कवि" }
+      },
+      {
+        "page": 8,
+        "category": { "en": "Directory", "hi": "निर्देशिका" },
+        "title": { "en": "Ensemble Directory & Archival Bibliography", "hi": "नाट्य दल निर्देशिका एवं संदर्भ ग्रंथ-सूची" },
+        "author": { "en": "Editorial Guild", "hi": "संपादकीय मंडल" }
+      }
+    ]
+  }
+}

@@ -641,15 +641,31 @@
       "en": "Subscribe to receive monthly print or high-resolution PDF editions delivered straight to your home or inbox. No payment gateway or accounts needed on-site.",
       "hi": "मासिक प्रिंट संस्करण अथवा उच्च गुणवत्ता PDF सीधे अपने पते या ईमेल पर प्राप्त करने हेतु सदस्यता लें। किसी ऑन-साइट खाते की आवश्यकता नहीं।"
     },
+    "config": {
+      "currency": "₹",
+      "digitalPrice": 99,
+      "printPrice": 199,
+      "subscriptionPrice": 99,
+      "previewPages": 5,
+      "accessEndpoint": "",
+      "checkoutEndpoint": ""
+    },
     "currentIssue": {
+      "id": "issue-14",
       "number": "Vol. IV • Issue 09",
       "month": {
         "en": "September 2026",
         "hi": "सितंबर 2026"
       },
+      "publishDate": "2026-09-01",
+      "coverImg": "/src/assets/images/mag-issue-14-cover.svg",
       "title": {
         "en": "Folk Theatre in Modern Times: Continuity, Dance & Scenography",
         "hi": "आधुनिक युग में लोक नाट्य: निरंतरता, नृत्य और रंग-शिल्प"
+      },
+      "description": {
+        "en": "Nacha on city stages, Habib Tanvir's bamboo scenography and the hill-valley ballads of Jashpur — this month we follow Chhattisgarh's folk forms as they meet contemporary audiences.",
+        "hi": "शहरी मंचों पर नाचा, हबीब तनवीर का बांस-मंच और जशपुर की घाटियों के लोकगीत — इस अंक में हम छत्तीसगढ़ की लोक विधाओं को समकालीन दर्शकों से मिलते हुए देखते हैं।"
       },
       "totalPages": 8,
       "downloadUrl": "#",
