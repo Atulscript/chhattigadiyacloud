@@ -2653,7 +2653,7 @@ function renderEventsPageEditor(host) {
       <div class="section-group-header">
         <div>
           <div class="section-group-title">🎪 Events & National Festivals (${events.length})</div>
-          <div class="section-group-desc">Jashrang National Theatre Festival & Jaspur Kavita Utsav archives.</div>
+          <div class="section-group-desc">Jashrang National Theatre Festival & Jashpur Kavita Utsav archives.</div>
         </div>
       </div>
 

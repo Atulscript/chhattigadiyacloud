@@ -310,7 +310,7 @@ class ChhattisgadhiyaCloudApp {
   }
 
   openEventYearDetail(eventId, year) {
-    const event = siteData.events.find(e => e.id === eventId || (eventId === 'kavita' && e.id === 'jaspur-kavita-utsav'));
+    const event = siteData.events.find(e => e.id === eventId || (eventId === 'kavita' && e.id === 'jashpur-kavita-utsav'));
     if (!event) return;
     const edition = event.years.find(y => y.year === year);
     if (!edition) return;

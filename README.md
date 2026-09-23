@@ -26,7 +26,7 @@ All code is strictly local and self-contained within this repository. No code ha
 4. **All Sections from Website Brief**:
    - **What's On**: Chronological list with designed empty state for launch.
    - **Productions**: 4 initial plays (*Kahani Vasu Ki*, *Vincent: A Flashback*, *Gabar Ghichor*, *Raja Ravi Verma*) with cast, duration, director, and booking enquiry.
-   - **Events & Festivals**: Year-tile archive for *Jashrang National Theater Festival* and *Jaspur Kavita Utsav*.
+   - **Events & Festivals**: Year-tile archive for *Jashrang National Theatre Festival* and *Jashpur Kavita Utsav*.
    - **Training & Workshops**: *Ullas Summer Camp* year archive and mobile-friendly zero-backend registration modal.
    - **Migrated Blog**: Blogspot migration archive with 301 redirect notices.
    - **About Us & Core Team**: Cultural mission, history, and artist profiles.

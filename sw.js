@@ -1,6 +1,6 @@
 // Chhattisgadhiya Cloud - Progressive Web App Service Worker
 // Version: 1.0.0
-const CACHE_NAME = 'cgcloud-pwa-v1';
+const CACHE_NAME = 'cgcloud-pwa-v2';
 
 const PRECACHE_ASSETS = [
   './',

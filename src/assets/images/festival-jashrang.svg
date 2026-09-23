@@ -75,7 +75,7 @@
 
     <!-- Clean Typography -->
     <text x="0" y="65" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="800" font-size="28" fill="#202124" letter-spacing="-0.5">Jashrang Festival</text>
-    <text x="0" y="94" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="14" fill="#5F6368">National Theater Festival • Jashpur, CG</text>
+    <text x="0" y="94" font-family="'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="14" fill="#5F6368">National Theatre Festival • Jashpur, CG</text>
 
     <!-- Key Stats Pill Row -->
     <g transform="translate(0, 115)">

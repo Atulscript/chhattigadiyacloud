@@ -1,24 +1,8 @@
 // Chhattisgadhiya Cloud - shared page chrome (build time, Node).
-// Header, mobile menu, mobile tab bar and footer used by every generated page.
-// Styles: src/site/site.css. Behaviour: src/site/site.js.
+// Header, menu sheet, mobile tab bar, "Stay connected" band and footer.
+// Nav labels come from one list so desktop, mobile and footer always match.
 
-const ICON_PATHS = {
-  home: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
-  calendar: 'M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z',
-  mask: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z',
-  star: 'M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z',
-  palette: 'M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
-  book: 'M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z',
-  info: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z',
-  menu: 'M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z',
-  close: 'M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
-  globe: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.99 7.99 0 0 1 5.08 16zm2.95-8H5.08a7.99 7.99 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z',
-  phone: 'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z',
-  mail: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z',
-  pin: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z',
-  arrowUp: 'M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z',
-  download: 'M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z',
-};
+const { esc, icon } = require('./ui.js');
 
 const SOCIAL = [
   { name: 'YouTube', href: 'https://youtube.com', path: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
@@ -29,74 +13,94 @@ const SOCIAL = [
 
 const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg>`;
 
-const icon = (name, cls = 'cc-icon') => `<svg class="${cls}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${ICON_PATHS[name]}"/></svg>`;
-
-// Site map: `primary` shows in the desktop bar; everything shows in the menu.
+// Single source for nav labels.
 const PAGES = {
   primary: [
-    { id: 'whats-on', icon: 'calendar', label: { en: "What's On", hi: 'आगामी कार्यक्रम' } },
+    { id: 'whats-on', icon: 'calendar', label: { en: "What's On", hi: 'कार्यक्रम' } },
     { id: 'productions', icon: 'mask', label: { en: 'Plays', hi: 'नाटक' } },
-    { id: 'events', icon: 'star', label: { en: 'Festivals', hi: 'समारोह' } },
-    { id: 'training-workshops', icon: 'palette', label: { en: 'Workshops', hi: 'कार्यशालाएं' } },
+    { id: 'events', icon: 'tent', label: { en: 'Festivals', hi: 'समारोह' } },
+    { id: 'training-workshops', icon: 'users', label: { en: 'Workshops', hi: 'कार्यशालाएं' } },
     { id: 'magazine', icon: 'book', label: { en: 'Magazine', hi: 'पत्रिका' } },
-    { id: 'about', icon: 'info', label: { en: 'About', hi: 'परिचय' } },
   ],
   more: [
-    { id: 'blog', label: { en: 'Blog', hi: 'ब्लॉग' } },
-    { id: 'press', label: { en: 'Press kit', hi: 'प्रेस किट' } },
-    { id: 'support', label: { en: 'Support us', hi: 'सहयोग करें' } },
-    { id: 'contact', label: { en: 'Contact', hi: 'संपर्क' } },
+    { id: 'about', icon: 'info', label: { en: 'About', hi: 'परिचय' } },
+    { id: 'blog', icon: 'pen', label: { en: 'Blog', hi: 'ब्लॉग' } },
+    { id: 'press', icon: 'news', label: { en: 'Press kit', hi: 'प्रेस किट' } },
+    { id: 'support', icon: 'heart', label: { en: 'Support us', hi: 'सहयोग करें' } },
+    { id: 'contact', icon: 'chat', label: { en: 'Contact', hi: 'संपर्क' } },
   ],
 };
+const TABS = ['whats-on', 'productions', 'magazine'];
 
 const T = {
   en: {
-    skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu', contact: 'Contact',
-    explore: 'Explore', organisation: 'Organisation', switchLang: 'हिन्दी', switchLangLabel: 'हिन्दी में देखें',
-    quickNav: 'Quick links', installApp: 'Install the app', installSub: 'Read offline, open faster',
-    install: 'Install', notNow: 'Not now',
-    signupTitle: 'Stay in the loop',
-    signupText: 'New plays, festival dates and magazine issues, straight to your inbox.',
-    email: 'Email address', subscribe: 'Subscribe',
-    signupDone: 'Thank you! Please send the email that just opened to confirm.',
-    signupInvalid: 'Please enter a valid email address.',
-    about: 'Theatre, festivals, workshops and a monthly magazine from Chhattisgarh.',
-    follow: 'Follow us', bookPlay: 'Book a play', rights: 'All rights reserved.', backToTop: 'Back to top',
+    skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
+    explore: 'Explore', organisation: 'Organisation', contact: 'Contact', language: 'Language',
+    theme: 'Theme', themeAuto: 'Match device', themeLight: 'Light', themeDark: 'Dark',
+    cta: 'Book a play', quickNav: 'Quick links',
+    installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
+    email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us',
+    signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
+    about: 'Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.',
+    rights: 'All rights reserved.', backToTop: 'Back to top',
   },
   hi: {
-    skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें', contact: 'संपर्क',
-    explore: 'देखें', organisation: 'संस्था', switchLang: 'English', switchLangLabel: 'View in English',
-    quickNav: 'त्वरित लिंक', installApp: 'ऐप इंस्टॉल करें', installSub: 'ऑफ़लाइन पढ़ें, तेज़ खोलें',
-    install: 'इंस्टॉल', notNow: 'अभी नहीं',
-    signupTitle: 'जुड़े रहें',
-    signupText: 'नए नाटक, समारोह की तिथियां और पत्रिका के अंक, सीधे आपके ईमेल पर।',
-    email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें',
-    signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।',
-    signupInvalid: 'कृपया सही ईमेल पता लिखें।',
-    about: 'छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
-    follow: 'हमें फ़ॉलो करें', bookPlay: 'नाटक बुक करें', rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
+    skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
+    explore: 'देखें', organisation: 'संस्था', contact: 'संपर्क', language: 'भाषा',
+    theme: 'रंग', themeAuto: 'डिवाइस जैसा', themeLight: 'हल्का', themeDark: 'गहरा',
+    cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
+    installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
+    email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें',
+    signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
+    about: 'जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
+    rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
   },
+};
+
+// "Stay connected" copy per page, so each page pitches what its visitors care about.
+const CONNECT = {
+  home: { en: ['Stay connected', 'New plays, festival dates and magazine issues, about once a month.'], hi: ['जुड़े रहें', 'नए नाटक, समारोह की तिथियां और पत्रिका के अंक, लगभग महीने में एक बार।'] },
+  'whats-on': { en: ['Hear about new dates first', 'We email you when shows, festivals and camps are announced.'], hi: ['नई तिथियां सबसे पहले जानें', 'नाटक, समारोह और शिविर घोषित होते ही हम आपको ईमेल करेंगे।'] },
+  productions: { en: ['Know when we play near you', 'Tour dates and new plays, straight to your inbox.'], hi: ['जानें कि हम आपके पास कब आ रहे हैं', 'दौरे की तिथियां और नए नाटक, सीधे आपके ईमेल पर।'] },
+  events: { en: ['Festival news, first', 'Programme announcements, free passes and volunteer calls for Jashrang and Kavita Utsav.'], hi: ['समारोह की खबरें, सबसे पहले', 'जशरंग और कविता उत्सव के कार्यक्रम, निःशुल्क पास और स्वयंसेवक सूचनाएं।'] },
+  'training-workshops': { en: ['Camp updates for parents', 'Registration dates, batch details and what to bring to Ullas camps.'], hi: ['अभिभावकों के लिए शिविर सूचनाएं', 'उल्लास शिविर की पंजीकरण तिथियां, बैच की जानकारी और क्या साथ लाएं।'] },
+  magazine: { en: ['Get each new issue', 'A short email when a new issue of the magazine is out.'], hi: ['हर नया अंक पाएं', 'पत्रिका का नया अंक आते ही एक छोटा ईमेल।'] },
+  blog: { en: ['New stories from the field', 'Rehearsal notes and tour diaries when we publish them.'], hi: ['क्षेत्र से नई कहानियां', 'रिहर्सल नोट्स और यात्रा डायरियां, प्रकाशित होते ही।'] },
+  about: { en: ['Follow our work', 'Occasional news from Jashpur and from the road.'], hi: ['हमारे काम से जुड़े रहें', 'जशपुर और दौरों से समय-समय पर खबरें।'] },
+  contact: { en: ['Stay connected', 'News about plays, festivals and camps, about once a month.'], hi: ['जुड़े रहें', 'नाटक, समारोह और शिविर की खबरें, लगभग महीने में एक बार।'] },
+  press: { en: ['Press releases', 'Receive our announcements and festival press notes.'], hi: ['प्रेस विज्ञप्तियां', 'हमारी घोषणाएं और समारोह की प्रेस सूचनाएं पाएं।'] },
+  support: { en: ['See where your support goes', 'Updates on the festivals, camps and plays our supporters make possible.'], hi: ['देखें आपका सहयोग कहां जाता है', 'सहयोगियों की मदद से होने वाले समारोहों, शिविरों और नाटकों की जानकारी।'] },
 };
 
 const isActive = (id, currentPath) => currentPath.includes(`/${id}/`);
 const isHomePath = (lang, currentPath) => currentPath === `/${lang}/` || currentPath === `/${lang}`;
 const current = (on) => (on ? ' aria-current="page"' : '');
+const pageKey = (lang, currentPath) => (isHomePath(lang, currentPath) ? 'home' : [...PAGES.primary, ...PAGES.more].map((p) => p.id).find((id) => isActive(id, currentPath)) || 'home');
+
+function langToggle(lang, altUrl, label) {
+  const en = lang === 'en' ? '<span aria-current="true" lang="en">EN</span>' : `<a href="${altUrl}" hreflang="en" lang="en" aria-label="English">EN</a>`;
+  const hi = lang === 'hi' ? '<span aria-current="true" lang="hi">हिं</span>' : `<a href="${altUrl}" hreflang="hi" lang="hi" aria-label="हिन्दी">हिं</a>`;
+  return `<div class="cc-lang" role="group" aria-label="${label}">${en}${hi}</div>`;
+}
+
+function themeToggle(t) {
+  return `<div class="cc-theme" role="group" aria-label="${t.theme}" data-cc-theme>
+      <button type="button" data-theme-value="auto" aria-pressed="true" aria-label="${t.themeAuto}" title="${t.themeAuto}">${icon('monitor')}</button>
+      <button type="button" data-theme-value="light" aria-pressed="false" aria-label="${t.themeLight}" title="${t.themeLight}">${icon('sun')}</button>
+      <button type="button" data-theme-value="dark" aria-pressed="false" aria-label="${t.themeDark}" title="${t.themeDark}">${icon('moon')}</button>
+    </div>`;
+}
 
 function renderHeader({ lang, currentPath, altUrl, siteData }) {
   const t = T[lang];
-  const altLang = lang === 'hi' ? 'en' : 'hi';
-  const link = (p) => `<li><a class="cc-nav__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${p.label[lang]}</a></li>`;
-  const drawerLink = (p) => `<li><a class="cc-drawer__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${p.icon ? icon(p.icon) : ''}<span>${p.label[lang]}</span></a></li>`;
   const home = isHomePath(lang, currentPath);
   const phone = (siteData.contact && siteData.contact.phone) || '';
   const email = (siteData.contact && siteData.contact.email) || '';
-
-  const tabs = [
-    { href: `/${lang}/`, label: t.home, icon: 'home', on: home },
-    { href: `/${lang}/whats-on/`, label: PAGES.primary[0].label[lang], icon: 'calendar', on: isActive('whats-on', currentPath) },
-    { href: `/${lang}/productions/`, label: PAGES.primary[1].label[lang], icon: 'mask', on: isActive('productions', currentPath) },
-    { href: `/${lang}/magazine/`, label: PAGES.primary[4].label[lang], icon: 'book', on: isActive('magazine', currentPath) },
-  ];
+  const drawerLink = (p) => `<li><a class="cc-drawer__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`;
+  const tab = (id) => {
+    const p = PAGES.primary.find((x) => x.id === id);
+    return `<a class="cc-tabbar__item" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a>`;
+  };
 
   return `
   <a class="cc-skip" href="#main">${t.skip}</a>
@@ -107,11 +111,11 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
         <span class="cc-brand__name">${siteData.orgName[lang]}</span>
       </a>
       <nav class="cc-nav" aria-label="${t.mainNav}">
-        <ul>${PAGES.primary.map(link).join('')}</ul>
+        <ul class="cc-nav__list">${PAGES.primary.map((p) => `<li><a class="cc-nav__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${p.label[lang]}</a></li>`).join('')}</ul>
       </nav>
       <div class="cc-header__actions">
-        <a class="cc-lang" href="${altUrl}" hreflang="${altLang}" lang="${altLang}" aria-label="${t.switchLangLabel}">${icon('globe')}<span>${t.switchLang}</span></a>
-        <a class="cc-btn cc-btn--dark cc-header__cta" href="/${lang}/contact/"${current(isActive('contact', currentPath))}>${t.contact}</a>
+        ${langToggle(lang, altUrl, t.language)}
+        <a class="cc-btn cc-btn--primary cc-header__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
         <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}</button>
       </div>
     </div>
@@ -123,92 +127,102 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
       <button type="button" class="cc-icon-btn" data-cc-menu-close aria-label="${t.closeMenu}">${icon('close')}</button>
     </div>
     <nav class="cc-drawer__nav" aria-label="${t.menu}">
-      <p class="cc-drawer__label">${t.explore}</p>
-      <ul>
+      <p class="cc-kicker cc-drawer__label">${t.explore}</p>
+      <ul class="cc-drawer__list">
         <li><a class="cc-drawer__link" href="/${lang}/"${current(home)}>${icon('home')}<span>${t.home}</span></a></li>
         ${PAGES.primary.map(drawerLink).join('')}
       </ul>
-      <p class="cc-drawer__label">${t.organisation}</p>
-      <ul class="cc-drawer__more">${PAGES.more.map(drawerLink).join('')}</ul>
+      <p class="cc-kicker cc-drawer__label">${t.organisation}</p>
+      <ul class="cc-drawer__list cc-drawer__more">${PAGES.more.map(drawerLink).join('')}</ul>
     </nav>
     <div class="cc-drawer__foot">
-      <a class="cc-drawer__lang" href="${altUrl}" hreflang="${altLang}" lang="${altLang}">${icon('globe')}<span>${t.switchLangLabel}</span></a>
-      ${phone ? `<a class="cc-drawer__contact" href="tel:${phone.replace(/\s+/g, '')}">${icon('phone')}<span>${phone}</span></a>` : ''}
-      ${email ? `<a class="cc-drawer__contact" href="mailto:${email}">${icon('mail')}<span>${email}</span></a>` : ''}
-      <button type="button" class="cc-drawer__install" data-cc-install hidden>${icon('download')}<span>${t.installApp}</span></button>
+      <a class="cc-btn cc-btn--primary cc-btn--block" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
+      <div class="cc-drawer__row"><span class="cc-muted">${t.language}</span>${langToggle(lang, altUrl, t.language)}</div>
+      <div class="cc-drawer__row"><span class="cc-muted">${t.theme}</span>${themeToggle(t)}</div>
+      ${phone ? `<a class="cc-drawer__contact" href="tel:${phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(phone)}</span></a>` : ''}
+      ${email ? `<a class="cc-drawer__contact" href="mailto:${email}">${icon('mail')}<span>${esc(email)}</span></a>` : ''}
     </div>
   </dialog>
 
   <nav class="cc-tabbar" aria-label="${t.quickNav}">
-    ${tabs.map((tab) => `<a class="cc-tabbar__item" href="${tab.href}"${current(tab.on)}>${icon(tab.icon)}<span>${tab.label}</span></a>`).join('')}
+    ${TABS.map(tab).join('')}
     <button type="button" class="cc-tabbar__item" data-cc-menu aria-controls="cc-drawer" aria-expanded="false">${icon('menu')}<span>${t.menu}</span></button>
   </nav>`;
 }
 
-function renderFooter({ lang, siteData, altUrl }) {
+function renderConnect({ lang, siteData, currentPath }) {
   const t = T[lang];
-  const altLang = lang === 'hi' ? 'en' : 'hi';
+  const [title, text] = (CONNECT[pageKey(lang, currentPath)] || CONNECT.home)[lang];
+  const c = siteData.contact || {};
+  return `
+  <section class="cc-connect" id="newsletter" aria-labelledby="cc-connect-title">
+    <span class="cc-motif" aria-hidden="true"></span>
+    <div class="cc-wrap cc-connect__inner">
+      <div class="cc-connect__text">
+        <h2 class="cc-h2" id="cc-connect-title">${esc(title)}</h2>
+        <p>${esc(text)}</p>
+      </div>
+      <div>
+        <form class="cc-connect__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
+          <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
+          <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
+          <button type="submit" class="cc-btn cc-btn--primary">${t.subscribe}</button>
+          <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
+        </form>
+        <p class="cc-kicker" style="margin-top:0.5rem">${t.follow}</p>
+        <ul class="cc-social">
+          ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
+  const t = T[lang];
   const c = siteData.contact || {};
   const col = (title, pages) => `
         <div class="cc-footer__col">
-          <h2 class="cc-footer__title">${title}</h2>
-          <ul>${pages.map((p) => `<li><a href="/${lang}/${p.id}/">${p.label[lang]}</a></li>`).join('')}</ul>
+          <h2 class="cc-kicker cc-footer__title">${title}</h2>
+          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/">${p.label[lang]}</a></li>`).join('')}</ul>
         </div>`;
   return `
-  <section class="cc-signup" id="newsletter" aria-labelledby="cc-signup-title">
-    <div class="cc-wrap cc-signup__inner">
-      <div>
-        <h2 class="cc-signup__title" id="cc-signup-title">${t.signupTitle}</h2>
-        <p class="cc-signup__text">${t.signupText}</p>
-      </div>
-      <form class="cc-signup__form" data-cc-signup data-cc-endpoint="${siteData.newsletterEndpoint || ''}" data-cc-mailto="${c.email || ''}" novalidate>
-        <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
-        <input id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
-        <button type="submit" class="cc-btn cc-btn--accent">${t.subscribe}</button>
-        <p class="cc-signup__msg" role="status" data-cc-signup-msg data-done="${t.signupDone}" data-invalid="${t.signupInvalid}"></p>
-      </form>
-    </div>
-  </section>
-
-  <div class="footer-artistic-ribbon cc-footer__art" aria-hidden="true"></div>
-
+  ${renderConnect({ lang, siteData, currentPath })}
   <footer class="cc-footer">
+    <span class="cc-motif" aria-hidden="true"></span>
     <div class="cc-wrap">
       <div class="cc-footer__grid">
         <div class="cc-footer__brand">
           <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
           <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
           <p class="cc-footer__about">${t.about}</p>
-          <p class="cc-footer__label">${t.follow}</p>
-          <ul class="cc-social">
-            ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
-          </ul>
         </div>
-        ${col(t.explore, PAGES.primary.slice(0, 5))}
-        ${col(t.organisation, [PAGES.primary[5], ...PAGES.more])}
-        <div class="cc-footer__col">
-          <h2 class="cc-footer__title">${t.contact}</h2>
-          <ul class="cc-footer__contact">
-            ${c.email ? `<li><a href="mailto:${c.email}">${icon('mail')}<span>${c.email}</span></a></li>` : ''}
-            ${c.phone ? `<li><a href="tel:${c.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${c.phone}</span></a></li>` : ''}
-            ${c.address ? `<li><span class="cc-footer__addr">${icon('pin')}<span>${c.address[lang]}</span></span></li>` : ''}
+        ${col(t.explore, PAGES.primary)}
+        ${col(t.organisation, PAGES.more)}
+        <div class="cc-footer__col cc-footer__col--contact">
+          <h2 class="cc-kicker cc-footer__title">${t.contact}</h2>
+          <ul class="cc-footer__list">
+            ${c.email ? `<li><a href="mailto:${c.email}">${icon('mail')}<span>${esc(c.email)}</span></a></li>` : ''}
+            ${c.phone ? `<li><a href="tel:${c.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(c.phone)}</span></a></li>` : ''}
+            ${c.address ? `<li class="cc-footer__addr">${icon('pin')}<span>${esc(c.address[lang])}</span></li>` : ''}
           </ul>
-          <a class="cc-btn cc-btn--light cc-footer__book" href="/${lang}/contact/?subject=Tour-Booking">${t.bookPlay}</a>
+          <a class="cc-btn cc-btn--on-dark cc-btn--sm" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
         </div>
       </div>
       <div class="cc-footer__bottom">
         <p>© ${new Date().getFullYear()} ${siteData.orgName[lang]}. ${t.rights}</p>
-        <p class="cc-footer__links">
-          <a href="${altUrl}" hreflang="${altLang}" lang="${altLang}">${t.switchLang}</a>
+        <div class="cc-footer__bottom-links">
+          ${themeToggle(t)}
+          <a href="${altUrl}" hreflang="${lang === 'hi' ? 'en' : 'hi'}" lang="${lang === 'hi' ? 'en' : 'hi'}">${lang === 'hi' ? 'English' : 'हिन्दी'}</a>
           <a href="#top" data-cc-top>${icon('arrowUp')}<span>${t.backToTop}</span></a>
-        </p>
+        </div>
       </div>
     </div>
   </footer>
 
   <aside class="cc-install" data-cc-install-toast hidden aria-label="${t.installApp}">
     <span class="cc-install__text"><strong>${t.installApp}</strong><span>${t.installSub}</span></span>
-    <button type="button" class="cc-btn cc-btn--accent cc-btn--sm" data-cc-install>${t.install}</button>
+    <button type="button" class="cc-btn cc-btn--primary cc-btn--sm" data-cc-install>${t.install}</button>
     <button type="button" class="cc-icon-btn" data-cc-install-dismiss aria-label="${t.notNow}">${icon('close')}</button>
   </aside>`;
 }

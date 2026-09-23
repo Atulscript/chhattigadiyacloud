@@ -32,7 +32,7 @@
     <circle cx="100" cy="80" r="45" fill="#FEF7E0"/>
     <circle cx="100" cy="80" r="28" fill="#FBBC04"/>
 
-    <!-- Theater Mask in Google Green &amp; Yellow -->
+    <!-- Theatre mask in Google Green &amp; Yellow -->
     <rect x="150" y="50" width="120" height="150" rx="24" fill="#FFFFFF" stroke="#E8EAED" stroke-width="2" filter="drop-shadow(0 4px 12px rgba(60,64,67,0.08))"/>
     <ellipse cx="185" cy="105" rx="10" ry="14" fill="#34A853"/>
     <ellipse cx="235" cy="105" rx="10" ry="14" fill="#34A853"/>

@@ -310,7 +310,7 @@
     {
       "id": "jashrang",
       "name": {
-        "en": "Jashrang National Theater Festival",
+        "en": "Jashrang National Theatre Festival",
         "hi": "जशरंग राष्ट्रीय नाट्य समारोह"
       },
       "tagline": {
@@ -430,17 +430,17 @@
       ]
     },
     {
-      "id": "jaspur-kavita-utsav",
+      "id": "jashpur-kavita-utsav",
       "name": {
-        "en": "Jaspur Kavita Utsav",
-        "hi": "जसपुर कविता उत्सव"
+        "en": "Jashpur Kavita Utsav",
+        "hi": "जशपुर कविता उत्सव"
       },
       "tagline": {
         "en": "Conclave of Poets, Bards & Oral Balladeers",
         "hi": "कवियों, गीतकारों एवं वाचिक परंपरा का समागम"
       },
       "description": {
-        "en": "Built with the year-tile drill-down from the start, celebrating Chhattisgarhi, Hindi, Kurukh, and regional tribal poetic traditions in the lap of nature.",
+        "en": "An annual gathering of poets, bards and oral storytellers in Jashpur, celebrating Chhattisgarhi, Hindi, Kurukh and tribal poetry.",
         "hi": "कवियों, गीतकारों और वाचिक परंपरा के रचनाकारों का वार्षिक समागम, जहां छत्तीसगढ़ी, हिंदी व जनजातीय काव्यधाराएं गूंजती हैं।"
       },
       "years": [
@@ -459,7 +459,7 @@
             "hi": "अंबेडकर सांस्कृतिक भवन, जशपुर"
           },
           "highlight": {
-            "en": "40+ eminent poets, tribal verses recited with flute and mandhar, youth open mic.",
+            "en": "40+ eminent poets, tribal verses recited with flute and Mandar, youth open mic.",
             "hi": "40 से अधिक प्रमुख कवि, आदिवासी काव्य पाठ एवं युवा खुला मंच।"
           },
           "schedule": [
@@ -634,12 +634,12 @@
       "hi": "रंगमंच, लोक कला और साहित्य पर विचारशील विमर्श"
     },
     "description": {
-      "en": "A selection of articles published as accessible web pages for search indexation and public discovery, ending with off-site subscription calls to action.",
-      "hi": "हमारी मासिक सांस्कृतिक व साहित्यिक पत्रिका — जिसके चयनित लेख वेब पर उपलब्ध हैं और संपूर्ण पत्रिका की सदस्यता ऑफ-साइट उपलब्ध है।"
+      "en": "Our monthly magazine on theatre, folk arts and literature.",
+      "hi": "रंगमंच, लोक कला और साहित्य पर हमारी मासिक पत्रिका।"
     },
     "subscriptionInfo": {
-      "en": "Subscribe to receive monthly print or high-resolution PDF editions delivered straight to your home or inbox. No payment gateway or accounts needed on-site.",
-      "hi": "मासिक प्रिंट संस्करण अथवा उच्च गुणवत्ता PDF सीधे अपने पते या ईमेल पर प्राप्त करने हेतु सदस्यता लें। किसी ऑन-साइट खाते की आवश्यकता नहीं।"
+      "en": "Get each new issue as a digital copy or a printed copy by post.",
+      "hi": "हर नया अंक डिजिटल प्रति या डाक से मुद्रित प्रति के रूप में पाएं।"
     },
     "config": {
       "currency": "₹",
@@ -839,8 +839,8 @@
   },
   "blog": {
     "migratedNotice": {
-      "en": "Migrated from chhattisgadiyacloud.blogspot.com (301 permanent redirects active)",
-      "hi": "chhattisgadiyacloud.blogspot.com से स्थानांतरित (301 स्थायी अनुप्रेषण सक्रिय)"
+      "en": "Notes from rehearsals, tours and field work.",
+      "hi": "रिहर्सल, यात्राओं और क्षेत्र-कार्य से लिखे गए नोट्स।"
     },
     "posts": [
       {
@@ -1354,8 +1354,8 @@
           "hi": "मौलिक नाटक"
         },
         "sub": {
-          "en": "On stages across India",
-          "hi": "देश भर के मंचों पर"
+          "en": "In our repertoire, 2026",
+          "hi": "हमारे रंगमंच में, 2026"
         }
       },
       {
@@ -1365,30 +1365,30 @@
           "hi": "पत्रिका अंक"
         },
         "sub": {
-          "en": "Published monthly",
-          "hi": "हर महीने प्रकाशित"
+          "en": "Published to September 2026",
+          "hi": "सितंबर 2026 तक प्रकाशित"
         }
       },
       {
-        "number": "12,000+",
+        "number": "4,500",
         "label": {
           "en": "Festival visitors",
           "hi": "समारोह दर्शक"
         },
         "sub": {
-          "en": "At Jashrang and Kavita Utsav",
-          "hi": "जशरंग और कविता उत्सव में"
+          "en": "Jashrang 2025",
+          "hi": "जशरंग 2025"
         }
       },
       {
-        "number": "500+",
+        "number": "360",
         "label": {
-          "en": "Young artists trained",
-          "hi": "प्रशिक्षित बाल कलाकार"
+          "en": "Children trained",
+          "hi": "प्रशिक्षित बच्चे"
         },
         "sub": {
-          "en": "Through Ullas camps",
-          "hi": "उल्लास शिविरों से"
+          "en": "Ullas camps, 2023–2026",
+          "hi": "उल्लास शिविर, 2023–2026"
         }
       }
     ],
