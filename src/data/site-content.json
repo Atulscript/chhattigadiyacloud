@@ -1202,8 +1202,12 @@
   "homepage": {
     "hero": {
       "eyebrow": {
-        "en": "Theatre • Festivals • Workshops • Publications",
-        "hi": "रंगमंच • राष्ट्रीय समारोह • बाल कार्यशालाएं • वैचारिक पत्रिका"
+        "en": "Theatre · Festivals · Workshops · Magazine",
+        "hi": "रंगमंच · समारोह · कार्यशालाएं · पत्रिका"
+      },
+      "headline": {
+        "en": "Theatre and folk art from Chhattisgarh",
+        "hi": "छत्तीसगढ़ का रंगमंच और लोक कला"
       },
       "rebusWord1": {
         "en": "Think",
@@ -1218,20 +1222,20 @@
         "hi": "थिंक छत्तीसगढ़िया क्लाउड"
       },
       "statement": {
-        "en": "A Chhattisgarhi art and culture organisation producing theatre, festivals, workshops and publications — bringing the living spirit of our soil to national and global stages.",
-        "hi": "छत्तीसगढ़िया क्लाउड — रंगमंच, राष्ट्रीय समारोहों, बाल कार्यशालाओं और वैचारिक पत्रिकाओं का सृजन करने वाला एक सांस्कृतिक संस्थान, जो माटी की जीवंत धरोहर को प्रतिष्ठित मंचों तक पहुँचाता है।"
+        "en": "We create plays, host festivals, train young artists and publish a monthly magazine.",
+        "hi": "हम नाटक रचते हैं, समारोह करते हैं, युवा कलाकारों को सिखाते हैं और मासिक पत्रिका निकालते हैं।"
       },
       "primaryCta": {
         "text": {
-          "en": "View What's On",
-          "hi": "आगामी कार्यक्रम देखें"
+          "en": "See our plays",
+          "hi": "हमारे नाटक देखें"
         },
-        "link": "/whats-on/"
+        "link": "/productions/"
       },
       "secondaryCta": {
         "text": {
-          "en": "Read Magazine",
-          "hi": "मासिक पत्रिका पढ़ें"
+          "en": "Read the magazine",
+          "hi": "पत्रिका पढ़ें"
         },
         "link": "/magazine/"
       },
@@ -1261,19 +1265,19 @@
         "id": "theatre",
         "theme": "theatre",
         "tag": {
-          "en": "४ मौलिक नाटक",
-          "hi": "४ मौलिक नाटक"
+          "en": "4 plays",
+          "hi": "4 नाटक"
         },
         "title": {
-          "en": "Stage Productions",
-          "hi": "नाट्य प्रस्तुतियां"
+          "en": "Plays",
+          "hi": "नाटक"
         },
         "desc": {
-          "en": "Four launch plays blending folk dramaturgy with contemporary narratives.",
-          "hi": "लोक नाट्य शिल्प और समकालीन रंगमंच के संगम से तैयार चार मौलिक नाटक।"
+          "en": "Folk stories told for today's stage.",
+          "hi": "लोक कथाएं, आज के मंच के लिए।"
         },
         "linkText": {
-          "en": "Explore Plays",
+          "en": "See plays",
           "hi": "नाटक देखें"
         },
         "href": "/productions/"
@@ -1282,20 +1286,20 @@
         "id": "fest",
         "theme": "fest",
         "tag": {
-          "en": "Signature Festivals",
-          "hi": "वार्षिक समारोह"
+          "en": "Every year",
+          "hi": "हर वर्ष"
         },
         "title": {
-          "en": "National Festivals",
-          "hi": "राष्ट्रीय समारोह"
+          "en": "Festivals",
+          "hi": "समारोह"
         },
         "desc": {
-          "en": "Jashrang National Theatre Festival & Jaspur Kavita Utsav annual archives.",
-          "hi": "जशरंग राष्ट्रीय नाट्य महोत्सव एवं जसपुर कविता उत्सव के वार्षिक अभिलेखागार।"
+          "en": "Jashrang theatre festival and Kavita Utsav.",
+          "hi": "जशरंग नाट्य समारोह और कविता उत्सव।"
         },
         "linkText": {
-          "en": "View Editions",
-          "hi": "संस्करण देखें"
+          "en": "See festivals",
+          "hi": "समारोह देखें"
         },
         "href": "/events/"
       },
@@ -1303,20 +1307,20 @@
         "id": "camp",
         "theme": "camp",
         "tag": {
-          "en": "Youth Residency",
-          "hi": "बाल रंगमंच"
+          "en": "Ages 7–16",
+          "hi": "7–16 वर्ष"
         },
         "title": {
-          "en": "Ullas Summer Camp",
-          "hi": "उल्लास समर कैम्प"
+          "en": "Workshops",
+          "hi": "कार्यशालाएं"
         },
         "desc": {
-          "en": "Youth theatre training, puppet craft, and forward registration enquiries.",
-          "hi": "बाल रंगमंच प्रशिक्षण, कठपुतली निर्माण और आगामी सत्र पंजीकरण पूछताछ।"
+          "en": "Ullas Summer Camp: acting, voice and folk craft.",
+          "hi": "उल्लास समर कैम्प: अभिनय, आवाज़ और लोक शिल्प।"
         },
         "linkText": {
-          "en": "Join Workshops",
-          "hi": "शिविर में जुड़ें"
+          "en": "Join a camp",
+          "hi": "शिविर से जुड़ें"
         },
         "href": "/training-workshops/"
       },
@@ -1324,20 +1328,20 @@
         "id": "mag",
         "theme": "mag",
         "tag": {
-          "en": "Issue 14 Live",
-          "hi": "अंक १४ उपलब्ध"
+          "en": "New issue",
+          "hi": "नया अंक"
         },
         "title": {
-          "en": "Monthly Magazine",
-          "hi": "मासिक पत्रिका"
+          "en": "Magazine",
+          "hi": "पत्रिका"
         },
         "desc": {
-          "en": "Web-readable critical essays with our in-browser hybrid reader & PDF tool.",
-          "hi": "वेब पठनीय सांस्कृतिक आलेख, इन-ब्राउज़र हाइब्रिड पाठक और PDF टूल।"
+          "en": "Essays on theatre, folk art and literature.",
+          "hi": "रंगमंच, लोक कला और साहित्य पर आलेख।"
         },
         "linkText": {
-          "en": "Read Issue",
-          "hi": "अंक पढ़ें"
+          "en": "Read now",
+          "hi": "अभी पढ़ें"
         },
         "href": "/magazine/"
       }
@@ -1346,45 +1350,45 @@
       {
         "number": "4",
         "label": {
-          "en": "Original Repertoire Plays",
-          "hi": "मौलिक राष्ट्रीय नाटक"
+          "en": "Original plays",
+          "hi": "मौलिक नाटक"
         },
         "sub": {
-          "en": "Touring across national venues",
-          "hi": "विभिन्न राष्ट्रीय मंचों पर प्रस्तुत"
+          "en": "On stages across India",
+          "hi": "देश भर के मंचों पर"
         }
       },
       {
         "number": "14",
         "label": {
-          "en": "Magazine Issues",
-          "hi": "मासिक पत्रिका अंक"
+          "en": "Magazine issues",
+          "hi": "पत्रिका अंक"
         },
         "sub": {
-          "en": "Critical essays & research",
-          "hi": "सांस्कृतिक विमर्श व आलेख"
+          "en": "Published monthly",
+          "hi": "हर महीने प्रकाशित"
         }
       },
       {
         "number": "12,000+",
         "label": {
-          "en": "Festival Spectators",
+          "en": "Festival visitors",
           "hi": "समारोह दर्शक"
         },
         "sub": {
-          "en": "Across Jashrang & Kavita Utsav",
-          "hi": "जशरंग एवं कविता उत्सव"
+          "en": "At Jashrang and Kavita Utsav",
+          "hi": "जशरंग और कविता उत्सव में"
         }
       },
       {
         "number": "500+",
         "label": {
-          "en": "Youth Artists Mentored",
+          "en": "Young artists trained",
           "hi": "प्रशिक्षित बाल कलाकार"
         },
         "sub": {
-          "en": "Through Ullas Camp residencies",
-          "hi": "उल्लास समर कैम्प एवं कार्यशालाएं"
+          "en": "Through Ullas camps",
+          "hi": "उल्लास शिविरों से"
         }
       }
     ],
@@ -1396,42 +1400,42 @@
           "hi": "नाचा एवं गम्मत"
         },
         "subtitle": {
-          "en": "Folk Farce & Social Satire",
-          "hi": "लोक प्रहसन एवं सामाजिक व्यंग्य"
+          "en": "Folk comedy and satire",
+          "hi": "लोक हास्य और व्यंग्य"
         },
         "desc": {
-          "en": "The improvisational circular folk theatre of Central India, using incisive comedy, colloquial dialect, and rhythmic song duels to challenge orthodoxy.",
-          "hi": "छत्तीसगढ़ का पारंपरिक खुला लोकनाट्य, जहाँ तीखा सामाजिक हास्य, तात्कालिक संवाद और ढोलक की थाप जनसामान्य के सरोकारों को मंच पर स्थापित करती है।"
+          "en": "Open-air folk theatre that uses sharp humour and song to question power.",
+          "hi": "खुले मंच का लोकनाट्य, जो हास्य और गीत से सत्ता पर सवाल करता है।"
         }
       },
       {
         "icon": "🥁",
         "title": {
-          "en": "Panthi & Karma Dance",
-          "hi": "पंथी एवं करमा नृत्य"
+          "en": "Panthi & Karma",
+          "hi": "पंथी एवं करमा"
         },
         "subtitle": {
-          "en": "Rhythmic Velocity & Physical Theatre",
-          "hi": "मांदर की थाप व शारीरिक वेग"
+          "en": "Dance and rhythm",
+          "hi": "नृत्य और लय"
         },
         "desc": {
-          "en": "High-energy kinetic choreography fueled by the Mandar drum, building pyramids of human agility and grounding physical acting in tribal consciousness.",
-          "hi": "सतनामी परंपरा का आध्यात्मिक पंथी नृत्य और जनजातीय करमा नृत्य हमारे कलाकारों के शारीरिक रंगमंच, श्वास संतुलन और सामूहिक ऊर्जा की नींव हैं।"
+          "en": "Mandar-driven dances that shape our actors' movement and energy.",
+          "hi": "मांदर की थाप पर नृत्य, जो हमारे कलाकारों की देह-भाषा गढ़ते हैं।"
         }
       },
       {
         "icon": "🏺",
         "title": {
-          "en": "Dhokra & Mural Scenography",
+          "en": "Dhokra & Murals",
           "hi": "ढोकरा एवं भित्ति शिल्प"
         },
         "subtitle": {
-          "en": "Earth Pigments & Scenographic Craft",
-          "hi": "माटी के रंग व धातु-शिल्प मंच"
+          "en": "Craft and design",
+          "hi": "शिल्प और मंच-सज्जा"
         },
         "desc": {
-          "en": "Lost-wax bell metal casting, bamboo minimalism, and natural ochre wall murals define our visual set designs and organic costume textures.",
-          "hi": "बस्तर का लॉस्ट-वैक्स धातु शिल्प और जशपुर की पारंपरिक भित्ति चित्रकला हमारे नाटकों के मंच-सज्जा, प्रकाश और वेशभूषा को जैविक सौंदर्य प्रदान करती है।"
+          "en": "Bell metal, bamboo and ochre murals inspire our sets and costumes.",
+          "hi": "ढोकरा धातु, बांस और गेरू भित्तिचित्र हमारे मंच और वेशभूषा को प्रेरित करते हैं।"
         }
       }
     ],
@@ -1454,18 +1458,18 @@
     ],
     "visualHighlight": {
       "title": {
-        "en": "Living Theatre from Central India",
-        "hi": "मध्य भारत का जीवंत रंगमंच"
+        "en": "Bring a play to your city",
+        "hi": "अपने शहर में नाटक बुलाएं"
       },
       "desc": {
-        "en": "From rural village squares to prestigious national auditoriums, our ensemble brings the Mandar rhythm, vibrant Nacha satire, and poetic folk drama to life.",
-        "hi": "ग्रामीण चौपालों से लेकर राष्ट्रीय नाट्य मंचों तक, हमारा दल मांदर की थाप, नाचा के तीखे हास्य और संवेदनशील लोकगाथाओं को निरंतर प्रस्तुत कर रहा है।"
+        "en": "We perform at festivals, colleges and community venues. Tell us your date and place.",
+        "hi": "हम समारोहों, कॉलेजों और सामुदायिक मंचों पर प्रस्तुति देते हैं। अपनी तिथि और स्थान बताएं।"
       },
       "btnText": {
-        "en": "Our Cultural Story",
-        "hi": "हमारा सांस्कृतिक सफर"
+        "en": "Book a play",
+        "hi": "नाटक बुक करें"
       },
-      "btnHref": "/about/"
+      "btnHref": "/contact/?subject=Tour-Booking"
     }
   },
   "adminAuth": {

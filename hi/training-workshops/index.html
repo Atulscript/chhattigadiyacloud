@@ -40,312 +40,55 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rozha+One&family=Yatra+One&display=swap"></noscript>
   <link rel="stylesheet" href="../../src/styles.min.css?v=15">
+  <link rel="stylesheet" href="../../src/site/site.css?v=1">
   
 </head>
 <body>
   
-  <!-- Material 3 Top App Bar -->
-  <header class="md3-top-app-bar">
-    <div class="md3-header-container">
-      
-      <!-- Brand Lockup with clean horizontal alignment (Section 1.3) -->
-      <a href="../../hi/" class="md3-brand-wrap" aria-label="Chhattisgadhiya Cloud Home">
-        <div class="md3-logo-avatar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-dasharray="2.5 3.5"/>
-            <path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/>
-            <circle cx="9" cy="8.5" r="1.2" fill="currentColor"/>
-            <circle cx="15" cy="8.5" r="1.2" fill="currentColor"/>
-            <path d="M9 16c1.5 1.2 4.5 1.2 6 0"/>
-          </svg>
-        </div>
-        
-        <div class="md3-brand-text">
-          <span class="md3-brand-headline">छत्तीसगढ़िया क्लाउड</span>
-          <div class="md3-rebus-lockup">
-            <span class="md3-rebus-word">THINK</span>
-            <span class="md3-rebus-mark">CC</span>
-            <span class="md3-rebus-word">THINK CHHATTISGADHIYA CLOUD</span>
-          </div>
-        </div>
+  <a class="cc-skip" href="#main">मुख्य सामग्री पर जाएं</a>
+  <header class="cc-header" id="top">
+    <div class="cc-header__inner">
+      <a class="cc-brand" href="../../hi/">
+        <span class="cc-brand__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg></span>
+        <span class="cc-brand__name">छत्तीसगढ़िया क्लाउड</span>
       </a>
-
-      <!-- Google Material Navigation Bar (Desktop Centered) -->
-      <nav class="md3-main-nav" aria-label="Primary Navigation">
-        
-      <a href="../../hi/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
-          <span class="md3-nav-label">होम</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/whats-on/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
-          </svg>
-          <span class="md3-nav-label">आगामी कार्यक्रम</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/productions/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
-          </svg>
-          <span class="md3-nav-label">नाट्य प्रस्तुतियां</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/events/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/>
-          </svg>
-          <span class="md3-nav-label">समारोह</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/training-workshops/" class="md3-nav-item active">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-          </svg>
-          <span class="md3-nav-label">प्रशिक्षण व शिविर</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/magazine/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
-          </svg>
-          <span class="md3-nav-label">पत्रिका</span>
-        </span>
-      </a>
-    
-
-      <a href="../../hi/about/" class="md3-nav-item ">
-        <span class="md3-nav-pill">
-          <svg class="md3-nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/>
-          </svg>
-          <span class="md3-nav-label">परिचय</span>
-        </span>
-      </a>
-    
+      <nav class="cc-nav" aria-label="मुख्य">
+        <ul><li><a class="cc-nav__link" href="../../hi/whats-on/">आगामी कार्यक्रम</a></li><li><a class="cc-nav__link" href="../../hi/productions/">नाटक</a></li><li><a class="cc-nav__link" href="../../hi/events/">समारोह</a></li><li><a class="cc-nav__link" href="../../hi/training-workshops/" aria-current="page">कार्यशालाएं</a></li><li><a class="cc-nav__link" href="../../hi/magazine/">पत्रिका</a></li><li><a class="cc-nav__link" href="../../hi/about/">परिचय</a></li></ul>
       </nav>
-
-      <!-- Trailing Action: Language Switcher, Contact & Mobile Toggle -->
-      <div class="md3-header-actions">
-        <a href="../../hi/contact/" class="md3-action-btn ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:0.35rem;">
-            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-          </svg>
-          <span>संपर्क</span>
-        </a>
-
-        <a href="../../en/training-workshops/" class="md3-lang-pill" title="Switch to English">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-          </svg>
-          <span>English</span>
-        </a>
-
-        <!-- Mobile Drawer Toggle Button -->
-        <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-          </svg>
-        </button>
+      <div class="cc-header__actions">
+        <a class="cc-lang" href="../../en/training-workshops/" hreflang="en" lang="en" aria-label="View in English"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.99 7.99 0 0 1 5.08 16zm2.95-8H5.08a7.99 7.99 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg><span>English</span></a>
+        <a class="cc-btn cc-btn--dark cc-header__cta" href="../../hi/contact/">संपर्क</a>
+        <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="मेनू"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></button>
       </div>
-
     </div>
   </header>
 
-  <!-- Mobile Drawer & Overlay (Native App Sheet Experience) -->
-  <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
-  <aside class="mobile-drawer" id="mobile-drawer">
-    <!-- App Drawer Header Card -->
-    <div class="mobile-drawer-header">
-      <div class="app-drawer-brand">
-        <div class="app-drawer-avatar">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-dasharray="2.5 3.5"/>
-            <path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/>
-            <circle cx="9" cy="8.5" r="1.2" fill="currentColor"/>
-            <circle cx="15" cy="8.5" r="1.2" fill="currentColor"/>
-            <path d="M9 16c1.5 1.2 4.5 1.2 6 0"/>
-          </svg>
-        </div>
-        <div class="app-drawer-titles">
-          <span class="app-drawer-title">छत्तीसगढ़िया क्लाउड</span>
-          <span class="app-drawer-sub">रंगमंच एवं सांस्कृतिक क्लाउड</span>
-        </div>
-      </div>
-      <button class="mobile-drawer-close" id="drawer-close" aria-label="Close Navigation Menu">✕</button>
+  <dialog class="cc-drawer" id="cc-drawer" aria-label="मेनू">
+    <div class="cc-drawer__head">
+      <a class="cc-brand" href="../../hi/"><span class="cc-brand__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg></span><span class="cc-brand__name">छत्तीसगढ़िया क्लाउड</span></a>
+      <button type="button" class="cc-icon-btn" data-cc-menu-close aria-label="मेनू बंद करें"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
     </div>
-
-    <!-- Quick Language Switcher Banner -->
-    <div class="app-drawer-lang-wrap">
-      <a href="../../en/training-workshops/" class="app-drawer-lang-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        <span>🌐 Switch to English</span>
-      </a>
+    <nav class="cc-drawer__nav" aria-label="मेनू">
+      <p class="cc-drawer__label">देखें</p>
+      <ul>
+        <li><a class="cc-drawer__link" href="../../hi/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>होम</span></a></li>
+        <li><a class="cc-drawer__link" href="../../hi/whats-on/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg><span>आगामी कार्यक्रम</span></a></li><li><a class="cc-drawer__link" href="../../hi/productions/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg><span>नाटक</span></a></li><li><a class="cc-drawer__link" href="../../hi/events/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg><span>समारोह</span></a></li><li><a class="cc-drawer__link" href="../../hi/training-workshops/" aria-current="page"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg><span>कार्यशालाएं</span></a></li><li><a class="cc-drawer__link" href="../../hi/magazine/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg><span>पत्रिका</span></a></li><li><a class="cc-drawer__link" href="../../hi/about/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>परिचय</span></a></li>
+      </ul>
+      <p class="cc-drawer__label">संस्था</p>
+      <ul class="cc-drawer__more"><li><a class="cc-drawer__link" href="../../hi/blog/"><span>ब्लॉग</span></a></li><li><a class="cc-drawer__link" href="../../hi/press/"><span>प्रेस किट</span></a></li><li><a class="cc-drawer__link" href="../../hi/support/"><span>सहयोग करें</span></a></li><li><a class="cc-drawer__link" href="../../hi/contact/"><span>संपर्क</span></a></li></ul>
+    </nav>
+    <div class="cc-drawer__foot">
+      <a class="cc-drawer__lang" href="../../en/training-workshops/" hreflang="en" lang="en"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.99 7.99 0 0 1 5.08 16zm2.95-8H5.08a7.99 7.99 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg><span>View in English</span></a>
+      <a class="cc-drawer__contact" href="tel:+919876543210"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>+91 98765 43210</span></a>
+      <a class="cc-drawer__contact" href="mailto:contact@chhattisgadhiyacloud.org"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>contact@chhattisgadhiyacloud.org</span></a>
+      <button type="button" class="cc-drawer__install" data-cc-install hidden><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg><span>ऐप इंस्टॉल करें</span></button>
     </div>
+  </dialog>
 
-    <!-- Grouped App Navigation -->
-    <div class="mobile-drawer-nav">
-      
-      <div class="app-drawer-group">
-        <div class="app-drawer-group-title">मुख्य मंच</div>
-        
-        <a href="../../hi/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          <span class="drawer-link-text">होम</span>
-          
-        </a>
-      
-
-        <a href="../../hi/whats-on/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg>
-          <span class="drawer-link-text">आगामी कार्यक्रम</span>
-          
-        </a>
-      
-
-        <a href="../../hi/productions/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>
-          <span class="drawer-link-text">नाट्य प्रस्तुतियां</span>
-          
-        </a>
-      
-
-        <a href="../../hi/events/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/></svg>
-          <span class="drawer-link-text">समारोह व उत्सव</span>
-          
-        </a>
-      
-      </div>
-    
-
-      <div class="app-drawer-group">
-        <div class="app-drawer-group-title">साहित्य एवं कला</div>
-        
-        <a href="../../hi/magazine/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
-          <span class="drawer-link-text">रंग पत्रिका (अंक 14)</span>
-          <span class="drawer-link-badge">LIVE</span>
-        </a>
-      
-
-        <a href="../../hi/training-workshops/" class="mobile-drawer-link active">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-          <span class="drawer-link-text">प्रशिक्षण व युवा शिविर</span>
-          
-        </a>
-      
-      </div>
-    
-
-      <div class="app-drawer-group">
-        <div class="app-drawer-group-title">संस्था व संपर्क</div>
-        
-        <a href="../../hi/about/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/></svg>
-          <span class="drawer-link-text">संस्था परिचय</span>
-          
-        </a>
-      
-
-        <a href="../../hi/contact/" class="mobile-drawer-link ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <span class="drawer-link-text">संपर्क व मंचन बुकिंग</span>
-          
-        </a>
-      
-      </div>
-    
-
-      <!-- PWA Install / Home Screen Helper Card -->
-      <div class="app-drawer-install-card" id="pwa-install-card">
-        <div class="app-install-icon">📱</div>
-        <div class="app-install-info">
-          <div class="app-install-title">ऐप की तरह चलाएं</div>
-          <div class="app-install-sub">होम स्क्रीन पर जोड़ें</div>
-        </div>
-        <button type="button" class="app-install-btn" id="pwa-install-btn">जोड़ें</button>
-      </div>
-
-      <!-- Direct Repertoire Helpline -->
-      <div class="app-drawer-helpline">
-        <div class="drawer-helpline-label">नाट्य मंचन बुकिंग डेस्क</div>
-        <a href="tel:+919826132958" class="drawer-helpline-phone">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          <span>+91 98261 32958</span>
-        </a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Material 3 Mobile App Bottom Navigation Bar (Docked App Bar) -->
-  <nav class="mobile-app-bottom-bar" id="app-bottom-bar" aria-label="Mobile App Navigation">
-    <a href="../../hi/" class="bottom-nav-item ">
-      <span class="bottom-nav-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-        </svg>
-      </span>
-      <span class="bottom-nav-label">होम</span>
-    </a>
-
-    <a href="../../hi/events/" class="bottom-nav-item ">
-      <span class="bottom-nav-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z"/>
-        </svg>
-      </span>
-      <span class="bottom-nav-label">समारोह</span>
-    </a>
-
-    <a href="../../hi/magazine/" class="bottom-nav-item ">
-      <span class="bottom-nav-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
-        </svg>
-        <span class="bottom-nav-badge">14</span>
-      </span>
-      <span class="bottom-nav-label">पत्रिका</span>
-    </a>
-
-    <a href="../../hi/productions/" class="bottom-nav-item ">
-      <span class="bottom-nav-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
-        </svg>
-      </span>
-      <span class="bottom-nav-label">प्रस्तुतियां</span>
-    </a>
-
-    <button type="button" class="bottom-nav-item" id="bottom-menu-toggle" aria-label="Open Full App Menu">
-      <span class="bottom-nav-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-        </svg>
-      </span>
-      <span class="bottom-nav-label">मेनू</span>
-    </button>
+  <nav class="cc-tabbar" aria-label="त्वरित लिंक">
+    <a class="cc-tabbar__item" href="../../hi/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>होम</span></a><a class="cc-tabbar__item" href="../../hi/whats-on/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg><span>आगामी कार्यक्रम</span></a><a class="cc-tabbar__item" href="../../hi/productions/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-3 7.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg><span>नाटक</span></a><a class="cc-tabbar__item" href="../../hi/magazine/"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg><span>पत्रिका</span></a>
+    <button type="button" class="cc-tabbar__item" data-cc-menu aria-controls="cc-drawer" aria-expanded="false"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>मेनू</span></button>
   </nav>
-  
   
   <div class="md3-breadcrumb-bar">
     <div class="container">
@@ -355,7 +98,7 @@
     </div>
   </div>
   
-  <main>
+  <main id="main">
     
     <div class="page-header">
       <div class="container">
@@ -517,265 +260,71 @@
     
   </main>
   
-  <!-- Newsletter Block with Enhanced Social Proof (Section 3.12) -->
-  <section class="section newsletter-section" id="newsletter">
-    <div class="container newsletter-inner">
-      <span class="page-eyebrow">✦ माटी के रंगमंच से जुड़े रहें ✦</span>
-      <h2 class="newsletter-heading">
-        माटी के रंगमंच से सीधे जुड़े रहें
-      </h2>
-      <p class="newsletter-desc">
-        आगामी नाटकों की तिथियां, जशरंग महोत्सव घोषणाएं, बाल कार्यशालाएं और मासिक पत्रिका की अग्रिम सूचना प्राप्त करें।
-      </p>
-      
-      <div class="newsletter-proof">
-        <span>👥</span>
-        <span>1,800+ कला प्रेमियों एवं रंगकर्मियों से जुड़ें</span>
+  <section class="cc-signup" id="newsletter" aria-labelledby="cc-signup-title">
+    <div class="cc-wrap cc-signup__inner">
+      <div>
+        <h2 class="cc-signup__title" id="cc-signup-title">जुड़े रहें</h2>
+        <p class="cc-signup__text">नए नाटक, समारोह की तिथियां और पत्रिका के अंक, सीधे आपके ईमेल पर।</p>
       </div>
-
-      <form class="newsletter-form" onsubmit="event.preventDefault(); alert('सदस्यता स्वीकार कर ली गई है! छत्तीसगढ़िया क्लाउड से जुड़ने हेतु धन्यवाद।');">
-        <input type="text" placeholder="आपका नाम" required class="form-input newsletter-input-name">
-        <input type="email" placeholder="ईमेल पता" required class="form-input newsletter-input-email">
-        <button type="submit" class="btn-primary newsletter-submit-btn">सब्सक्राइब करें</button>
+      <form class="cc-signup__form" data-cc-signup data-cc-endpoint="" data-cc-mailto="contact@chhattisgadhiyacloud.org" novalidate>
+        <label class="cc-visually-hidden" for="cc-signup-email">ईमेल पता</label>
+        <input id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="ईमेल पता" required>
+        <button type="submit" class="cc-btn cc-btn--accent">सब्सक्राइब करें</button>
+        <p class="cc-signup__msg" role="status" data-cc-signup-msg data-done="धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।" data-invalid="कृपया सही ईमेल पता लिखें।"></p>
       </form>
     </div>
   </section>
 
-  <!-- Follow Us Strip (Positioned Above Footer as requested) -->
-  <section class="follow-us-bar">
-    <div class="container">
-      <div class="follow-us-inner">
-        <div class="follow-us-text">
-          <span class="follow-pill">✦ रंगमंच से जुड़ें ✦</span>
-          <h3 class="follow-heading">सोशल मीडिया पर हमारे साथ जुड़ें</h3>
-          <p class="follow-subtext">नाट्य मंचन क्लिप्स, साक्षात्कार, पूर्वाभ्यास और सांस्कृतिक वृत्तचित्र।</p>
+  <div class="footer-artistic-ribbon cc-footer__art" aria-hidden="true"></div>
+
+  <footer class="cc-footer">
+    <div class="cc-wrap">
+      <div class="cc-footer__grid">
+        <div class="cc-footer__brand">
+          <a class="cc-brand cc-brand--light" href="../../hi/"><span class="cc-brand__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg></span><span class="cc-brand__name">छत्तीसगढ़िया क्लाउड</span></a>
+          <p class="cc-footer__tagline">थिंक आर्ट थिंक छत्तीसगढ़िया क्लाउड</p>
+          <p class="cc-footer__about">छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।</p>
+          <p class="cc-footer__label">हमें फ़ॉलो करें</p>
+          <ul class="cc-social">
+            <li><a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a></li><li><a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a></li><li><a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg></a></li><li><a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg></a></li>
+          </ul>
         </div>
-        <div class="follow-us-links">
-          <a href="https://youtube.com" target="_blank" rel="noopener" class="social-pill yt">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            <span>YouTube</span>
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-pill ig">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            <span>Instagram</span>
-          </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener" class="social-pill fb">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            <span>Facebook</span>
-          </a>
-          <a href="https://x.com" target="_blank" rel="noopener" class="social-pill tw">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span>Twitter / X</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Artistic Silhouette Folk Frieze Ribbon ("Line with pic") -->
-  <div class="footer-artistic-ribbon" role="img" aria-label="Folk Theatre Caravan and Tribal Dancers Frieze"></div>
-
-  <!-- Comprehensive Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-
-      <div class="footer-grid">
         
-        <!-- Col 1: Organisation & Heritage (Spans on mobile) -->
-        <div class="footer-col footer-col-brand">
-          <h4>छत्तीसगढ़िया क्लाउड</h4>
-          <p>
-            “Think Art Think Chhattisgadhiya Cloud” — रंगमंच, राष्ट्रीय महोत्सव, बाल कार्यशालाएं और वैचारिक प्रकाशनों का एक स्वायत्त सांस्कृतिक संस्थान।
-          </p>
+        <div class="cc-footer__col">
+          <h2 class="cc-footer__title">देखें</h2>
+          <ul><li><a href="../../hi/whats-on/">आगामी कार्यक्रम</a></li><li><a href="../../hi/productions/">नाटक</a></li><li><a href="../../hi/events/">समारोह</a></li><li><a href="../../hi/training-workshops/">कार्यशालाएं</a></li><li><a href="../../hi/magazine/">पत्रिका</a></li></ul>
         </div>
-
-        <!-- Col 2: Repertoire & Festivals -->
-        <div class="footer-col">
-          <h4>रंगमंच व समारोह</h4>
-          <ul>
-            <li><a href="../../hi/productions/">नाट्य प्रस्तुतियां (४ मौलिक नाटक)</a></li>
-            <li><a href="../../hi/events/">जशरंग राष्ट्रीय नाट्य समारोह</a></li>
-            <li><a href="../../hi/events/">जसपुर कविता उत्सव</a></li>
-            <li><a href="../../hi/whats-on/">आगामी कार्यक्रम (What's On)</a></li>
+        
+        <div class="cc-footer__col">
+          <h2 class="cc-footer__title">संस्था</h2>
+          <ul><li><a href="../../hi/about/">परिचय</a></li><li><a href="../../hi/blog/">ब्लॉग</a></li><li><a href="../../hi/press/">प्रेस किट</a></li><li><a href="../../hi/support/">सहयोग करें</a></li><li><a href="../../hi/contact/">संपर्क</a></li></ul>
+        </div>
+        <div class="cc-footer__col">
+          <h2 class="cc-footer__title">संपर्क</h2>
+          <ul class="cc-footer__contact">
+            <li><a href="mailto:contact@chhattisgadhiyacloud.org"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>contact@chhattisgadhiyacloud.org</span></a></li>
+            <li><a href="tel:+919876543210"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>+91 98765 43210</span></a></li>
+            <li><span class="cc-footer__addr"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg><span>कला केंद्र मार्ग, जशपुर / रायपुर, छत्तीसगढ़, भारत</span></span></li>
           </ul>
+          <a class="cc-btn cc-btn--light cc-footer__book" href="../../hi/contact/?subject=Tour-Booking">नाटक बुक करें</a>
         </div>
-
-        <!-- Col 3: Education & Journal -->
-        <div class="footer-col">
-          <h4>शिक्षा व पत्रिका</h4>
-          <ul>
-            <li><a href="../../hi/training-workshops/">उल्लास समर कैम्प 2027</a></li>
-            <li><a href="../../hi/magazine/">मासिक सांस्कृतिक पत्रिका</a></li>
-            <li><a href="../../hi/events/">वार्षिक महोत्सव अभिलेखागार</a></li>
-            <li><a href="../../hi/contact/?subject=Tour-Booking">मंचन आमंत्रण व सभागार बुकिंग</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4: Institutional & Connect -->
-        <div class="footer-col">
-          <h4>संस्था व संपर्क</h4>
-          <ul>
-            <li><a href="../../hi/about/">संस्था परिचय व कोर टीम</a></li>
-            <li><a href="../../hi/press/">प्रेस एवं मीडिया किट</a></li>
-            <li><a href="../../hi/support/">संस्थागत साझीदार व सहयोग</a></li>
-            <li><a href="../../hi/contact/">विभागीय संपर्क</a></li>
-          </ul>
-        </div>
-
       </div>
-
-      <!-- Bottom Bar (Clean single copyright line with no extra text) -->
-      <div class="footer-bottom">
-        <div>© 2026 Chhattisgadhiya Cloud (chhattisgadhiyacloud.org). All rights reserved.</div>
+      <div class="cc-footer__bottom">
+        <p>© 2026 छत्तीसगढ़िया क्लाउड. सर्वाधिकार सुरक्षित।</p>
+        <p class="cc-footer__links">
+          <a href="../../en/training-workshops/" hreflang="en" lang="en">English</a>
+          <a href="#top" data-cc-top><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg><span>ऊपर जाएं</span></a>
+        </p>
       </div>
     </div>
   </footer>
 
-  <!-- Floating Back to Top Button -->
-  <button class="back-to-top-btn" id="back-to-top" aria-label="Back to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-    </svg>
-  </button>
-
-  <!-- Floating PWA Mobile Install Banner (Native App feel) -->
-  <aside class="pwa-floating-snack" id="pwa-floating-snack" style="display:none;" aria-label="Install App">
-    <div class="pwa-snack-info">
-      <span class="pwa-snack-icon">📱</span>
-      <div>
-        <div class="pwa-snack-title">ऐप इंस्टॉल करें</div>
-        <div class="pwa-snack-sub">तेज़, ऑफ़लाइन पत्रिका वाचन</div>
-      </div>
-    </div>
-    <div class="pwa-snack-actions">
-      <button type="button" class="pwa-snack-btn" id="pwa-snack-install-btn">इंस्टॉल</button>
-      <button type="button" class="pwa-snack-close" id="pwa-snack-close-btn" aria-label="Close">✕</button>
-    </div>
+  <aside class="cc-install" data-cc-install-toast hidden aria-label="ऐप इंस्टॉल करें">
+    <span class="cc-install__text"><strong>ऐप इंस्टॉल करें</strong><span>ऑफ़लाइन पढ़ें, तेज़ खोलें</span></span>
+    <button type="button" class="cc-btn cc-btn--accent cc-btn--sm" data-cc-install>इंस्टॉल</button>
+    <button type="button" class="cc-icon-btn" data-cc-install-dismiss aria-label="अभी नहीं"><svg class="cc-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
   </aside>
-
-  <!-- Interactive Search & Mobile Drawer Global Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Mobile Drawer Toggle
-      const mobileToggle = document.getElementById('mobile-toggle');
-      const drawer = document.getElementById('mobile-drawer');
-      const overlay = document.getElementById('drawer-overlay');
-      const drawerClose = document.getElementById('drawer-close');
-
-      const bottomMenuToggle = document.getElementById('bottom-menu-toggle');
-
-      function openDrawer() {
-        if (drawer && overlay) {
-          drawer.classList.add('active');
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        }
-      }
-
-      function closeDrawer() {
-        if (drawer && overlay) {
-          drawer.classList.remove('active');
-          overlay.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      }
-
-      if (mobileToggle) mobileToggle.addEventListener('click', openDrawer);
-      if (bottomMenuToggle) bottomMenuToggle.addEventListener('click', openDrawer);
-      if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
-      if (overlay) overlay.addEventListener('click', closeDrawer);
-
-      // Close drawer when pressing Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer && drawer.classList.contains('active')) {
-          closeDrawer();
-        }
-      });
-
-      // PWA installation support
-      let deferredPrompt = null;
-      const installCard = document.getElementById('pwa-install-card');
-      const installBtn = document.getElementById('pwa-install-btn');
-      const pwaSnack = document.getElementById('pwa-floating-snack');
-      const snackInstallBtn = document.getElementById('pwa-snack-install-btn');
-      const snackCloseBtn = document.getElementById('pwa-snack-close-btn');
-
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      if (isStandalone && installCard) {
-        const title = installCard.querySelector('.app-install-title');
-        const sub = installCard.querySelector('.app-install-sub');
-        if (title) title.innerText = 'ऐप इंस्टॉल है ✓';
-        if (sub) sub.innerText = 'ऑफ़लाइन मोड सक्रिय';
-        if (installBtn) installBtn.style.display = 'none';
-      }
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (installCard) installCard.style.display = 'flex';
-        
-        // Show floating prompt on mobile if not previously dismissed in this session
-        if (!isStandalone && !sessionStorage.getItem('cgcloud_pwa_dismissed') && window.innerWidth <= 768) {
-          if (pwaSnack) pwaSnack.style.display = 'flex';
-        }
-      });
-
-      async function triggerPwaInstall() {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          deferredPrompt = null;
-          if (installCard) installCard.style.display = 'none';
-          if (pwaSnack) pwaSnack.style.display = 'none';
-        } else {
-          // iOS or fallback instructions
-          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-          if (isIOS) {
-            alert("आईफोन/आईपैड पर इंस्टॉल करने के लिए Safari में नीचे शेयर (Share) बटन दबाएं और Add to Home Screen चुनें।");
-          } else {
-            alert("ऐप इंस्टॉल करने के लिए ब्राउज़र मेनू में Add to Home Screen या Install App चुनें।");
-          }
-        }
-      }
-
-      if (installBtn) installBtn.addEventListener('click', triggerPwaInstall);
-      if (snackInstallBtn) snackInstallBtn.addEventListener('click', triggerPwaInstall);
-      if (snackCloseBtn) {
-        snackCloseBtn.addEventListener('click', () => {
-          if (pwaSnack) pwaSnack.style.display = 'none';
-          sessionStorage.setItem('cgcloud_pwa_dismissed', 'true');
-        });
-      }
-
-      window.addEventListener('appinstalled', () => {
-        if (pwaSnack) pwaSnack.style.display = 'none';
-        if (installCard) {
-          const title = installCard.querySelector('.app-install-title');
-          if (title) title.innerText = 'ऐप इंस्टॉल हो गया ✓';
-          if (installBtn) installBtn.style.display = 'none';
-        }
-      });
-
-      // Back to Top Button
-      const btt = document.getElementById('back-to-top');
-      window.addEventListener('scroll', () => {
-        if (btt) {
-          if (window.scrollY > 400) {
-            btt.classList.add('visible');
-          } else {
-            btt.classList.remove('visible');
-          }
-        }
-      });
-
-      if (btt) {
-        btt.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-    });
-  </script>
-  
+  <script src="../../src/site/site.js?v=1" defer></script>
   
 </body>
 </html>
