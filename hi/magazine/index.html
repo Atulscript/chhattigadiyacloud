@@ -1139,6 +1139,8 @@ class HybridMagazineReader {
       }
     } catch (_) {}
 
+    this.isSubscribed = options.isSubscribed || false;
+
     this.options = {
       lang: options.lang || "en",
       mode: options.mode || savedMode, // "kindle" (single page focus) or "spread" (2-page book spread)
@@ -1148,7 +1150,7 @@ class HybridMagazineReader {
       lineSpacing: options.lineSpacing || savedLineSpacing,
       marginWidth: options.marginWidth || savedMarginWidth,
       pages: options.pages || [],
-      freePageLimit: options.freePageLimit !== undefined ? options.freePageLimit : 5,
+      freePageLimit: this.isSubscribed ? 999 : (options.freePageLimit !== undefined ? options.freePageLimit : 5),
       onPaywallTrigger: options.onPaywallTrigger || null,
       ...options
     };
@@ -1163,6 +1165,12 @@ class HybridMagazineReader {
     }
 
     this.init();
+  }
+
+  setSubscribed(subscribed = true) {
+    this.isSubscribed = !!subscribed;
+    this.options.freePageLimit = this.isSubscribed ? 999 : 5;
+    this.render();
   }
 
   init() {
@@ -1248,7 +1256,7 @@ class HybridMagazineReader {
   }
 
   goToPage(pageNum) {
-    if (pageNum > this.options.freePageLimit) {
+    if (!this.isSubscribed && pageNum > this.options.freePageLimit) {
       this.triggerPaywall(pageNum);
       return;
     }
@@ -1275,11 +1283,11 @@ class HybridMagazineReader {
     const current = pages[pageIndex] || { title: "", author: "", excerpt: "", content: "" };
 
     const t = {
-      kindleMode: isHi ? "📱 किंडल फोकस व्यू" : "📱 Kindle View",
+      kindleMode: isHi ? "📱 किंडल व्यू" : "📱 Kindle View",
       spreadMode: isHi ? "📖 2-पृष्ठ पुस्तक" : "📖 2-Page Spread",
       converter: isHi ? "⚙️ PDF टूल" : "⚙️ PDF Tools",
-      prev: isHi ? "‹ पिछला पृष्ठ" : "‹ Previous Page",
-      next: isHi ? "अगला पृष्ठ ›" : "Next Page ›",
+      prev: isHi ? "‹ पिछला" : "‹ Prev",
+      next: isHi ? "अगला ›" : "Next ›",
       page: isHi ? "पृष्ठ" : "Page",
       of: isHi ? "का" : "of",
       download: isHi ? "PDF अंक" : "PDF Issue",
@@ -1296,15 +1304,15 @@ class HybridMagazineReader {
     const thumbnailsHtml = this.options.pages.map((p, idx) => {
       const pNum = idx + 1;
       const isActive = pNum === this.currentPage;
-      const isLocked = pNum > this.options.freePageLimit;
+      const isLocked = !this.isSubscribed && (pNum > this.options.freePageLimit);
       const shortTitle = p.title ? p.title.split(':')[0] : `${t.page} ${pNum}`;
       const titleAttr = isLocked 
-        ? (isHi ? `🔒 पृष्ठ ${pNum} अनलॉक करने हेतु ₹99 में सदस्यता लें` : `🔒 Page ${pNum} requires ₹99 subscription`)
+        ? (isHi ? `🔒 पृष्ठ ${pNum} अनलॉक करने हेतु सदस्यता लें` : `🔒 Page ${pNum} requires subscription`)
         : (p.title || '');
       return `
         <button type="button" class="reader-thumb-chip ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}" data-jump-page="${pNum}" title="${titleAttr}">
-          <span class="thumb-chip-num">${isLocked ? '🔒 ' + pNum : pNum}</span>
-          <span class="thumb-chip-title">${shortTitle}${isLocked ? ' (₹99)' : ''}</span>
+          <span class="thumb-chip-num">${isLocked ? '🔒' : pNum}</span>
+          <span class="thumb-chip-title">${shortTitle}</span>
         </button>
       `;
     }).join('');
@@ -1338,9 +1346,11 @@ class HybridMagazineReader {
               <span class="kindle-aa-mark">Aa</span>
             </button>
             <button type="button" class="kindle-icon-btn" id="btn-toggle-fullscreen" title="${t.fullscreen}" aria-label="${t.fullscreen}">⛶</button>
-            <a href="../../src/assets/images/mag-issue-14-cover.svg" target="_blank" class="kindle-icon-btn" title="${t.download}">
-              <span>📥</span> <span style="font-size:0.75rem;">PDF</span>
-            </a>
+            ${this.isSubscribed ? `
+              <a href="../../src/assets/images/mag-issue-14-cover.svg" download="Chhattisgadhiya_Cloud_Issue_14.svg" class="kindle-icon-btn kindle-download-btn" title="${t.download}" style="background:#0F9D58; border-color:#0F9D58; color:#fff;">
+                <span>📥</span> <span style="font-size:0.75rem; font-weight:700;">PDF</span>
+              </a>
+            ` : ''}
           </div>
         </header>
 
@@ -1432,44 +1442,49 @@ class HybridMagazineReader {
           ${this.options.mode === 'spread' ? this.renderFlipBookHtml() : this.renderKindleHtml()}
         </main>
 
-        <!-- Kindle Reading Progress Bar & Status -->
-        <div class="kindle-reading-bar">
-          <div class="kindle-reading-progress">
+        <!-- Simple Kindle Footer Controls (Uncluttered, Sleek, Unified) -->
+        <footer class="kindle-simple-footer">
+          <!-- Slim Reading Progress Bar Line -->
+          <div class="kindle-footer-progress" title="${progressPercent}% completed">
             <div class="kindle-progress-fill" style="width: ${progressPercent}%;"></div>
           </div>
-          <div class="kindle-status-row">
-            <span class="kindle-loc">
-              📖 ${isHi ? `पृष्ठ ${this.currentPage} का ${this.totalPages}` : `Page ${this.currentPage} of ${this.totalPages}`}
-            </span>
-            <span class="kindle-time-left">
-              ⏱️ ${isHi ? `अंक में लगभग ${minsRemaining} मिनट शेष` : `~${minsRemaining} mins left in issue`}
-            </span>
-            <span class="kindle-pct">${progressPercent}%</span>
-          </div>
-        </div>
 
-        <!-- Quick Page Thumbnail Jump Strip -->
-        <div class="reader-thumbnails-bar" aria-label="Page Selection Strip">
-          <span class="reader-thumb-label">📑 ${isHi ? 'अंक पृष्ठ सूची:' : 'Pages in Issue:'}</span>
-          <div class="reader-thumb-list">
-            ${thumbnailsHtml}
-          </div>
-        </div>
+          <!-- Main Navigation & Status Row -->
+          <div class="kindle-footer-nav-row">
+            <button type="button" class="kindle-nav-btn" id="btn-page-prev" ${this.currentPage <= 1 ? 'disabled' : ''} aria-label="${t.prev}">
+              <span class="nav-arrow">‹</span>
+              <span class="nav-text">${t.prev}</span>
+            </button>
 
-        <!-- Reader Navigation Footer Bar -->
-        <div class="reader-pagination-bar">
-          <button type="button" class="kindle-icon-btn" id="btn-page-prev" ${this.currentPage <= 1 ? 'disabled' : ''}>
-            ${t.prev}
-          </button>
-          
-          <div class="reader-page-indicator" aria-live="polite">
-            <strong>${this.currentPage} / ${this.totalPages}</strong>
+            <div class="kindle-footer-status" aria-live="polite">
+              <span class="footer-status-page">
+                ${isHi ? `पृष्ठ <strong>${this.currentPage}</strong> / ${this.totalPages}` : `Page <strong>${this.currentPage}</strong> of ${this.totalPages}`}
+              </span>
+              <span class="footer-status-sep">•</span>
+              <span class="footer-status-pct">${progressPercent}%</span>
+              <span class="footer-status-sep hidden-mobile">•</span>
+              <span class="footer-status-time hidden-mobile">${isHi ? `~${minsRemaining} मिनट शेष` : `~${minsRemaining}m left`}</span>
+              ${this.isSubscribed ? `
+                <span class="footer-status-sep">•</span>
+                <a href="../../src/assets/images/mag-issue-14-cover.svg" download="Chhattisgadhiya_Cloud_Issue_14.svg" class="kindle-footer-pdf-link" title="${t.download}">
+                  <span>📥</span> <span>${isHi ? 'डाउनलोड PDF' : 'Download PDF'}</span>
+                </a>
+              ` : ''}
+            </div>
+
+            <button type="button" class="kindle-nav-btn" id="btn-page-next" ${this.currentPage >= this.totalPages ? 'disabled' : ''} aria-label="${t.next}">
+              <span class="nav-text">${t.next}</span>
+              <span class="nav-arrow">›</span>
+            </button>
           </div>
 
-          <button type="button" class="kindle-icon-btn" id="btn-page-next" ${this.currentPage >= this.totalPages ? 'disabled' : ''}>
-            ${t.next}
-          </button>
-        </div>
+          <!-- Compact Thumbnail Jump Strip -->
+          <div class="kindle-footer-thumbs" aria-label="Page Selection Strip">
+            <div class="kindle-thumb-chips">
+              ${thumbnailsHtml}
+            </div>
+          </div>
+        </footer>
       </div>
     `;
 
@@ -1838,7 +1853,7 @@ class HybridMagazineReader {
   }
 
   nextPage() {
-    if (this.currentPage >= this.options.freePageLimit) {
+    if (!this.isSubscribed && this.currentPage >= this.options.freePageLimit) {
       this.triggerPaywall(this.currentPage + 1);
       return;
     }

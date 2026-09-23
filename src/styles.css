@@ -5832,38 +5832,150 @@ button {
   font-size: 0.72rem;
 }
 
-/* Reader Bottom Navigation Bar */
-.reader-pagination-bar {
+/* ==========================================================================
+   Kindle Simple Unified Footer Controls
+   ========================================================================== */
+.kindle-simple-footer {
+  background: #171A21;
+  border-top: 1px solid #2B3240;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 20;
+}
+
+.kindle-footer-progress {
+  width: 100%;
+  height: 3px;
+  background: #2B3240;
+  overflow: hidden;
+}
+
+.kindle-footer-progress .kindle-progress-fill {
+  height: 100%;
+  background: var(--c-primary, #FF4500);
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.kindle-footer-nav-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: #1F232D;
-  border-top: 1px solid #303746;
+  padding: 0.65rem 1.25rem;
+  gap: 1rem;
 }
 
-.reader-page-indicator {
-  font-size: 0.92rem;
-  color: #E8EAED;
-  display: flex;
+.kindle-nav-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #F1F3F4;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill, 999px);
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
 }
 
-.reader-page-indicator {
-  font-size: 0.92rem;
-  color: #E8EAED;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.kindle-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  transform: translateY(-1px);
 }
 
-.reader-page-indicator {
-  font-size: 0.92rem;
-  color: #E8EAED;
+.kindle-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.kindle-nav-btn .nav-arrow {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.kindle-footer-status {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+  color: #9AA0A6;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.kindle-footer-status .footer-status-page {
+  color: #E8EAED;
+}
+
+.kindle-footer-status .footer-status-page strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.kindle-footer-status .footer-status-pct {
+  color: var(--c-primary, #FF4500);
+  font-weight: 700;
+}
+
+.kindle-footer-status .footer-status-sep {
+  opacity: 0.4;
+  font-size: 0.75rem;
+}
+
+.kindle-footer-status .footer-status-time {
+  color: #C4C8D2;
+  font-size: 0.78rem;
+}
+
+.kindle-footer-pdf-link {
+  background: #0F9D58;
+  color: #FFFFFF;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill, 999px);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 8px rgba(15, 157, 88, 0.3);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.kindle-footer-pdf-link:hover {
+  background: #0B8043;
+  transform: translateY(-1px);
+}
+
+.kindle-footer-thumbs {
+  padding: 0.35rem 1.25rem 0.65rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.kindle-thumb-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .kindle-thumb-chips {
+    justify-content: flex-start;
+  }
+  .hidden-mobile {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================
@@ -7173,4 +7285,295 @@ html, body {
   color: #92400E;
   font-weight: 600;
 }
+
+/* ==========================================================================
+   4. Separate Purchase Options Grid: Digital (₹99) vs Print by Post (₹199)
+   ========================================================================== */
+.subscription-plans-section {
+  margin-bottom: 4.5rem;
+}
+
+.subscription-plans-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.sub-plan-card {
+  background: #FFFFFF;
+  border: 2px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.sub-plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.sub-plan-card.plan-digital {
+  border-color: #93C5FD;
+  background: linear-gradient(180deg, #F0F7FF 0%, #FFFFFF 35%);
+}
+
+.sub-plan-card.plan-digital:hover {
+  border-color: #2563EB;
+}
+
+.sub-plan-card.plan-print {
+  border-color: #FDBA74;
+  background: linear-gradient(180deg, #FFF7ED 0%, #FFFFFF 35%);
+  box-shadow: 0 8px 28px rgba(234, 88, 12, 0.1);
+}
+
+.sub-plan-card.plan-print:hover {
+  border-color: #EA580C;
+}
+
+.plan-badge-top {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: #EA580C;
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.85rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.35);
+}
+
+.plan-header {
+  margin-bottom: 1.25rem;
+}
+
+.plan-eyebrow {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.plan-digital .plan-eyebrow {
+  color: #1D4ED8;
+}
+
+.plan-print .plan-eyebrow {
+  color: #C2410C;
+}
+
+.plan-title {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--g-text-primary);
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plan-desc {
+  font-size: 0.92rem;
+  color: var(--g-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.plan-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin: 1.25rem 0 1.5rem 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.plan-currency {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--g-text-primary);
+}
+
+.plan-amount {
+  font-size: 2.85rem;
+  font-weight: 900;
+  line-height: 1;
+  font-family: var(--font-sans, system-ui);
+}
+
+.plan-digital .plan-amount {
+  color: #1D4ED8;
+}
+
+.plan-print .plan-amount {
+  color: #EA580C;
+}
+
+.plan-period {
+  font-size: 0.86rem;
+  color: var(--g-text-muted);
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+.plan-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.plan-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--g-text-primary);
+  line-height: 1.45;
+}
+
+.plan-feature-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.plan-digital .plan-feature-icon {
+  background: #DBEAFE;
+  color: #1D4ED8;
+}
+
+.plan-print .plan-feature-icon {
+  background: #FFEDD5;
+  color: #EA580C;
+}
+
+.plan-cta-btn {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.plan-digital .plan-cta-btn {
+  background: #1D4ED8;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+}
+
+.plan-digital .plan-cta-btn:hover {
+  background: #1E40AF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(29, 78, 216, 0.35);
+}
+
+.plan-print .plan-cta-btn {
+  background: #EA580C;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);
+}
+
+.plan-print .plan-cta-btn:hover {
+  background: #C2410C;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
+}
+
+@media (max-width: 860px) {
+  .subscription-plans-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   5. Modal Interactive Edition Selector & Postal Address
+   ========================================================================== */
+.modal-edition-cards-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.modal-edition-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.modal-edition-card:hover {
+  border-color: #CBD5E1;
+  background: #F8FAFC;
+}
+
+.modal-edition-card.selected {
+  border-color: #EA580C;
+  background: #FFF7ED;
+}
+
+.modal-address-section {
+  background: #FFF7ED;
+  border: 1.5px solid #FDBA74;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  display: none;
+  animation: kindleFadeIn 0.25s ease;
+}
+
+.modal-address-section.visible {
+  display: block;
+}
+
+.modal-address-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #C2410C;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 
