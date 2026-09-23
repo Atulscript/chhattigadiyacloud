@@ -13,16 +13,17 @@ const SOCIAL = [
 
 const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg>`;
 
-// Single source for nav labels.
+// Single source for nav labels, so header, menu, tab bar and footer always match.
+// explore: what we do; organisation: who we are and how to reach us.
 const PAGES = {
-  primary: [
+  explore: [
     { id: 'whats-on', icon: 'calendar', label: { en: "What's On", hi: 'कार्यक्रम' } },
     { id: 'productions', icon: 'mask', label: { en: 'Plays', hi: 'नाटक' } },
     { id: 'events', icon: 'tent', label: { en: 'Festivals', hi: 'समारोह' } },
     { id: 'training-workshops', icon: 'users', label: { en: 'Workshops', hi: 'कार्यशालाएं' } },
     { id: 'magazine', icon: 'book', label: { en: 'Magazine', hi: 'पत्रिका' } },
   ],
-  more: [
+  organisation: [
     { id: 'about', icon: 'info', label: { en: 'About', hi: 'परिचय' } },
     { id: 'blog', icon: 'pen', label: { en: 'Blog', hi: 'ब्लॉग' } },
     { id: 'press', icon: 'news', label: { en: 'Press kit', hi: 'प्रेस किट' } },
@@ -30,13 +31,20 @@ const PAGES = {
     { id: 'contact', icon: 'chat', label: { en: 'Contact', hi: 'संपर्क' } },
   ],
 };
+const ALL_PAGES = [...PAGES.explore, ...PAGES.organisation];
+const byId = (id) => ALL_PAGES.find((p) => p.id === id);
+// Desktop: main bar holds the sections people browse; the slim top bar holds
+// the organisational links. Every page appears in one of the two.
+const MAIN_NAV = ['whats-on', 'productions', 'events', 'training-workshops', 'magazine', 'about', 'blog'];
+const UTILITY_NAV = ['press', 'support', 'contact'];
 const TABS = ['whats-on', 'productions', 'magazine'];
 
 const T = {
   en: {
     skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
     explore: 'Explore', organisation: 'Organisation', contact: 'Contact', language: 'Language',
-    theme: 'Theme', themeAuto: 'Match device', themeLight: 'Light', themeDark: 'Dark',
+    theme: 'Theme', themeLight: 'Light', themeDark: 'Dark',
+    friezeAlt: 'Folk artwork: a caravan of musicians and dancers from Chhattisgarh',
     cta: 'Book a play', quickNav: 'Quick links',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
     email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us',
@@ -47,7 +55,8 @@ const T = {
   hi: {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
     explore: 'देखें', organisation: 'संस्था', contact: 'संपर्क', language: 'भाषा',
-    theme: 'रंग', themeAuto: 'डिवाइस जैसा', themeLight: 'हल्का', themeDark: 'गहरा',
+    theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा',
+    friezeAlt: 'लोक चित्र: छत्तीसगढ़ के वादकों और नर्तकों का कारवां',
     cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
     email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें',
@@ -75,7 +84,7 @@ const CONNECT = {
 const isActive = (id, currentPath) => currentPath.includes(`/${id}/`);
 const isHomePath = (lang, currentPath) => currentPath === `/${lang}/` || currentPath === `/${lang}`;
 const current = (on) => (on ? ' aria-current="page"' : '');
-const pageKey = (lang, currentPath) => (isHomePath(lang, currentPath) ? 'home' : [...PAGES.primary, ...PAGES.more].map((p) => p.id).find((id) => isActive(id, currentPath)) || 'home');
+const pageKey = (lang, currentPath) => (isHomePath(lang, currentPath) ? 'home' : ALL_PAGES.map((p) => p.id).find((id) => isActive(id, currentPath)) || 'home');
 
 function langToggle(lang, altUrl, label) {
   const en = lang === 'en' ? '<span aria-current="true" lang="en">EN</span>' : `<a href="${altUrl}" hreflang="en" lang="en" aria-label="English">EN</a>`;
@@ -83,10 +92,10 @@ function langToggle(lang, altUrl, label) {
   return `<div class="cc-lang" role="group" aria-label="${label}">${en}${hi}</div>`;
 }
 
+// Light is the default; dark only when the visitor chooses it.
 function themeToggle(t) {
   return `<div class="cc-theme" role="group" aria-label="${t.theme}" data-cc-theme>
-      <button type="button" data-theme-value="auto" aria-pressed="true" aria-label="${t.themeAuto}" title="${t.themeAuto}">${icon('monitor')}</button>
-      <button type="button" data-theme-value="light" aria-pressed="false" aria-label="${t.themeLight}" title="${t.themeLight}">${icon('sun')}</button>
+      <button type="button" data-theme-value="light" aria-pressed="true" aria-label="${t.themeLight}" title="${t.themeLight}">${icon('sun')}</button>
       <button type="button" data-theme-value="dark" aria-pressed="false" aria-label="${t.themeDark}" title="${t.themeDark}">${icon('moon')}</button>
     </div>`;
 }
@@ -96,14 +105,27 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
   const home = isHomePath(lang, currentPath);
   const phone = (siteData.contact && siteData.contact.phone) || '';
   const email = (siteData.contact && siteData.contact.email) || '';
-  const drawerLink = (p) => `<li><a class="cc-drawer__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`;
+  const navLink = (cls) => (id) => {
+    const p = byId(id);
+    return `<li><a class="${cls}" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`;
+  };
+  const drawerLink = (p) => navLink('cc-drawer__link')(p.id);
   const tab = (id) => {
-    const p = PAGES.primary.find((x) => x.id === id);
+    const p = byId(id);
     return `<a class="cc-tabbar__item" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a>`;
   };
 
   return `
   <a class="cc-skip" href="#main">${t.skip}</a>
+  <div class="cc-utility">
+    <div class="cc-utility__inner">
+      <p class="cc-utility__tagline">${esc(siteData.tagline[lang])}</p>
+      <nav class="cc-utility__nav" aria-label="${t.organisation}">
+        <ul class="cc-utility__list">${UTILITY_NAV.map(navLink('cc-utility__link')).join('')}</ul>
+      </nav>
+      ${langToggle(lang, altUrl, t.language)}
+    </div>
+  </div>
   <header class="cc-header" id="top">
     <div class="cc-header__inner">
       <a class="cc-brand" href="/${lang}/"${current(home)}>
@@ -111,12 +133,11 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
         <span class="cc-brand__name">${siteData.orgName[lang]}</span>
       </a>
       <nav class="cc-nav" aria-label="${t.mainNav}">
-        <ul class="cc-nav__list">${PAGES.primary.map((p) => `<li><a class="cc-nav__link" href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${p.label[lang]}</a></li>`).join('')}</ul>
+        <ul class="cc-nav__list">${MAIN_NAV.map(navLink('cc-nav__link')).join('')}</ul>
       </nav>
       <div class="cc-header__actions">
         ${langToggle(lang, altUrl, t.language)}
-        <a class="cc-btn cc-btn--primary cc-header__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
-        <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}</button>
+        <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}<span>${t.menu}</span></button>
       </div>
     </div>
   </header>
@@ -130,13 +151,12 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
       <p class="cc-kicker cc-drawer__label">${t.explore}</p>
       <ul class="cc-drawer__list">
         <li><a class="cc-drawer__link" href="/${lang}/"${current(home)}>${icon('home')}<span>${t.home}</span></a></li>
-        ${PAGES.primary.map(drawerLink).join('')}
+        ${PAGES.explore.map(drawerLink).join('')}
       </ul>
       <p class="cc-kicker cc-drawer__label">${t.organisation}</p>
-      <ul class="cc-drawer__list cc-drawer__more">${PAGES.more.map(drawerLink).join('')}</ul>
+      <ul class="cc-drawer__list">${PAGES.organisation.map(drawerLink).join('')}</ul>
     </nav>
     <div class="cc-drawer__foot">
-      <a class="cc-btn cc-btn--primary cc-btn--block" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
       <div class="cc-drawer__row"><span class="cc-muted">${t.language}</span>${langToggle(lang, altUrl, t.language)}</div>
       <div class="cc-drawer__row"><span class="cc-muted">${t.theme}</span>${themeToggle(t)}</div>
       ${phone ? `<a class="cc-drawer__contact" href="tel:${phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(phone)}</span></a>` : ''}
@@ -188,8 +208,8 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
         </div>`;
   return `
   ${renderConnect({ lang, siteData, currentPath })}
+  <div class="cc-frieze" role="img" aria-label="${esc(t.friezeAlt)}"></div>
   <footer class="cc-footer">
-    <span class="cc-motif" aria-hidden="true"></span>
     <div class="cc-wrap">
       <div class="cc-footer__grid">
         <div class="cc-footer__brand">
@@ -197,8 +217,8 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
           <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
           <p class="cc-footer__about">${t.about}</p>
         </div>
-        ${col(t.explore, PAGES.primary)}
-        ${col(t.organisation, PAGES.more)}
+        ${col(t.explore, PAGES.explore)}
+        ${col(t.organisation, PAGES.organisation)}
         <div class="cc-footer__col cc-footer__col--contact">
           <h2 class="cc-kicker cc-footer__title">${t.contact}</h2>
           <ul class="cc-footer__list">

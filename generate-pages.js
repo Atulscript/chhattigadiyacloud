@@ -33,7 +33,7 @@ const hybridReaderRaw = fs.readFileSync(path.join(__dirname, 'src', 'reader', 'h
 fs.writeFileSync(path.join(__dirname, 'src', 'reader', 'hybrid-reader.bundle.js'),
   hybridReaderRaw.replace('export class HybridMagazineReader', 'class HybridMagazineReader') + '\nif (typeof window !== "undefined") { window.HybridMagazineReader = HybridMagazineReader; }\n');
 
-const ASSET_VERSION = 2;
+const ASSET_VERSION = 3;
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
 const FONTS = {
   en: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap',
@@ -59,9 +59,8 @@ function renderHtmlDocument({ lang, title, desc, canonicalUrl, altUrl, contentHt
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>${title} | ${siteData.orgName[lang]}</title>
   <meta name="description" content="${desc.replace(/"/g, '&quot;')}">
-  <script>try{var t=localStorage.getItem('cc-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
-  <meta name="theme-color" content="#FAF6EF" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#14120F" media="(prefers-color-scheme: dark)">
+  <script>try{if(localStorage.getItem('cc-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <meta name="theme-color" content="#FAF6EF">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="CG Cloud">

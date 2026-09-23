@@ -32,14 +32,14 @@
     });
   }
 
-  // ---- Theme: auto (device), light or dark ----
+  // ---- Theme: light by default; dark only when chosen ----
   function applyTheme(value) {
-    if (value === 'light' || value === 'dark') { document.documentElement.setAttribute('data-theme', value); local.set('cc-theme', value); }
-    else { document.documentElement.removeAttribute('data-theme'); local.remove('cc-theme'); value = 'auto'; }
+    if (value === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); local.set('cc-theme', 'dark'); }
+    else { document.documentElement.removeAttribute('data-theme'); local.remove('cc-theme'); value = 'light'; }
     var buttons = document.querySelectorAll('[data-cc-theme] button');
     for (var i = 0; i < buttons.length; i++) buttons[i].setAttribute('aria-pressed', buttons[i].getAttribute('data-theme-value') === value ? 'true' : 'false');
   }
-  applyTheme(local.get('cc-theme') || 'auto');
+  applyTheme(local.get('cc-theme') === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-cc-theme] button');
     if (b) applyTheme(b.getAttribute('data-theme-value'));
