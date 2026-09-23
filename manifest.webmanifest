@@ -1,26 +1,18 @@
 {
-  "id": "/",
-  "name": "Chhattisgadhiya Cloud | छत्तीसगढ़िया क्लाउड",
+  "name": "Chhattisgadhiya Cloud",
   "short_name": "CG Cloud",
-  "description": "Think Art Think Chhattisgadhiya Cloud — Cultural, Theatrical & Magazine Platform of Chhattisgarh",
-  "start_url": "./",
+  "description": "Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./en/",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
-  "orientation": "portrait-primary",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FF4500",
-  "lang": "hi-IN",
-  "dir": "ltr",
+  "background_color": "#FAF6EF",
+  "theme_color": "#FAF6EF",
   "categories": [
     "entertainment",
-    "magazines",
-    "culture",
-    "books"
+    "books",
+    "education"
   ],
   "icons": [
     {
@@ -46,42 +38,64 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "src/assets/images/screenshot-narrow.webp",
+      "sizes": "390x844",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Homepage on a phone"
     },
     {
-      "src": "favicon.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "src": "src/assets/images/screenshot-wide.webp",
+      "sizes": "1280x800",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Homepage on a computer"
     }
   ],
   "shortcuts": [
     {
-      "name": "Magazine | पत्रिका",
-      "short_name": "Magazine",
-      "description": "Read Chhattisgadhiya Cloud Cultural Magazine",
-      "url": "en/magazine/",
-      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+      "name": "What's On",
+      "url": "./en/whats-on/",
+      "icons": [
+        {
+          "src": "src/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
-      "name": "Productions | प्रस्तुतियां",
-      "short_name": "Plays",
-      "description": "Explore Stage Plays & Repertoire",
-      "url": "en/productions/",
-      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+      "name": "Plays",
+      "url": "./en/productions/",
+      "icons": [
+        {
+          "src": "src/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
-      "name": "Events | समारोह",
-      "short_name": "Events",
-      "description": "Jashrang Festival and Poetry Conclaves",
-      "url": "en/events/",
-      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+      "name": "Magazine",
+      "url": "./en/magazine/",
+      "icons": [
+        {
+          "src": "src/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
-      "name": "Workshops | कार्यशालाएं",
-      "short_name": "Workshops",
-      "description": "Youth Training and Ullas Summer Camp",
-      "url": "en/training-workshops/",
-      "icons": [{ "src": "src/assets/icons/icon-192.png", "sizes": "192x192" }]
+      "name": "पत्रिका (हिन्दी)",
+      "url": "./hi/magazine/",
+      "icons": [
+        {
+          "src": "src/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

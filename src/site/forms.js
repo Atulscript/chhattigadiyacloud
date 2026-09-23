@@ -154,7 +154,7 @@ function renderField(field, lang, formId) {
   const ac = field.autocomplete ? ` autocomplete="${field.autocomplete}"` : '';
   const label = `<label for="${id}">${esc(pick(field.label, lang))}</label>`;
   const hint = field.hint ? `<span class="cc-hint" id="${id}-hint">${esc(pick(field.hint, lang))}</span>` : '';
-  const describedBy = field.hint ? ` aria-describedby="${id}-hint"` : '';
+  const describedBy = field.hint ? ` aria-describedby="${id}-hint" data-hint="${id}-hint"` : '';
   let control;
   if (field.type === 'select') {
     control = `<select class="cc-input" id="${id}" name="${field.name}"${req}>${field.options.map((o) => `<option value="${esc(o.value)}">${esc(pick(o.label, lang))}</option>`).join('')}</select>`;
@@ -177,7 +177,7 @@ function renderFormBody(formId, form, lang) {
           ${renderField({ name: 'phone', ...COMMON.phone }, lang, formId)}
         </div>
         ${form.fields.map((f) => renderField(f, lang, formId)).join('')}
-        <p class="cc-form-error" role="alert" hidden data-required="${esc(ui.required)}" data-phone="${esc(ui.phoneInvalid)}" data-failed="${esc(ui.failed)}"></p>
+        <p class="cc-form-error" id="cc-${formId}-error" role="alert" hidden data-required="${esc(ui.required)}" data-phone="${esc(ui.phoneInvalid)}" data-failed="${esc(ui.failed)}"></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="${esc(ui.sending)}">${esc(pick(form.submit, lang))}</button>
         </div>
@@ -202,7 +202,7 @@ function renderFormDialogs(formIds, siteData, lang) {
   return [...new Set(formIds)].filter((id) => forms[id]).map((id) => {
     const form = forms[id];
     return `
-  <dialog class="cc-dialog" id="cc-form-${id}" aria-labelledby="cc-form-${id}-title">
+  <dialog class="cc-dialog" id="form-${id}" aria-labelledby="cc-form-${id}-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="${ui.close}">${icon('close')}</button>
     <div class="cc-dialog__panel">
       <h2 class="cc-h2 cc-dialog__title" id="cc-form-${id}-title">${esc(pick(form.title, lang))}</h2>

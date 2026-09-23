@@ -89,6 +89,8 @@
     if (done) done.hidden = true;
     var err = form.querySelector('.cc-form-error');
     if (err) err.hidden = true;
+    var marked = form.querySelectorAll('[aria-invalid]');
+    for (var i = 0; i < marked.length; i++) marked[i].removeAttribute('aria-invalid');
   }
 
   document.addEventListener('submit', function (e) {
@@ -96,14 +98,20 @@
     if (!form) return;
     e.preventDefault();
     var err = form.querySelector('.cc-form-error');
-    var requiredEmpty = Array.prototype.some.call(form.querySelectorAll('[required]'), function (el) { return !el.value.trim(); });
-    var badEmail = Array.prototype.some.call(form.querySelectorAll('input[type="email"]'), function (el) { return el.value && !el.checkValidity(); });
-    if (requiredEmpty || badEmail) {
-      err.textContent = err.getAttribute('data-required'); err.hidden = false; return;
+    var controls = form.querySelectorAll('input, select, textarea');
+    var invalid = [];
+    for (var c = 0; c < controls.length; c++) {
+      var el = controls[c];
+      var bad = (el.required && !el.value.trim()) || (el.type === 'email' && el.value && !el.checkValidity());
+      if (el.name === 'phone' && el.value.trim() && (digits(el.value).length < 10 || digits(el.value).length > 13)) bad = 'phone';
+      if (bad) invalid.push([el, bad]); else el.removeAttribute('aria-invalid');
     }
-    var phone = form.querySelector('[name="phone"]');
-    if (phone && (digits(phone.value).length < 10 || digits(phone.value).length > 13)) {
-      err.textContent = err.getAttribute('data-phone'); err.hidden = false; phone.focus(); return;
+    if (invalid.length) {
+      invalid.forEach(function (pair) { pair[0].setAttribute('aria-invalid', 'true'); pair[0].setAttribute('aria-describedby', err.id + (pair[0].getAttribute('data-hint') ? ' ' + pair[0].getAttribute('data-hint') : '')); });
+      err.textContent = err.getAttribute(invalid.length === 1 && invalid[0][1] === 'phone' ? 'data-phone' : 'data-required');
+      err.hidden = false;
+      invalid[0][0].focus();
+      return;
     }
     err.hidden = true;
     var text = summarise(form);
@@ -124,10 +132,15 @@
     showDone(form, 'handoff', text);
   });
 
+  // Clear the error mark as soon as a field is corrected.
+  document.addEventListener('input', function (e) {
+    if (e.target.getAttribute && e.target.getAttribute('aria-invalid') === 'true') e.target.removeAttribute('aria-invalid');
+  });
+
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest('[data-cc-form]');
     if (trigger) {
-      var dialog = document.getElementById('cc-form-' + trigger.getAttribute('data-cc-form'));
+      var dialog = document.getElementById('form-' + trigger.getAttribute('data-cc-form'));
       if (!dialog) return; // falls back to the contact page link
       e.preventDefault();
       if (drawer && drawer.open) closeDialog(drawer);
@@ -157,8 +170,9 @@
 
   // Deep links such as /contact/#form-booking open the matching dialog.
   var hashForm = /^#form-([a-z]+)$/.exec(location.hash);
-  if (hashForm && document.getElementById('cc-form-' + hashForm[1]) && !document.getElementById('form-' + hashForm[1])) {
-    openDialog(document.getElementById('cc-form-' + hashForm[1]));
+  var hashTarget = hashForm && document.getElementById('form-' + hashForm[1]);
+  if (hashTarget && hashTarget.tagName === 'DIALOG') {
+    openDialog(hashTarget);
   }
 
   // ---- Newsletter ----

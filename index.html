@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#FAF6EF">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <script>
-    if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('./sw.js').catch(function () {}); });
-    var p = window.location.pathname.replace(/\/+$/, '');
-    window.location.replace(p + '/en/' + window.location.search + window.location.hash);
-  </script>
-  <meta http-equiv="refresh" content="0; url=en/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chhattisgadhiya Cloud</title>
+  <meta name="description" content="Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.">
+  <link rel="canonical" href="https://atulscript.github.io/chhattigadiyacloud/en/">
+  <meta name="theme-color" content="#FAF6EF">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta http-equiv="refresh" content="0; url=en/">
+  <script>location.replace('en/' + location.search + location.hash);</script>
 </head>
 <body style="background:#FAF6EF; color:#1C1A17; font-family:system-ui, sans-serif; text-align:center; padding-top:20vh;">
   <p><a href="en/" style="color:#2E5A38; font-weight:bold;">Chhattisgadhiya Cloud</a></p>

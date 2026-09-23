@@ -6,7 +6,7 @@
 .hm-hero { padding: 2rem 0 2.5rem; border-bottom: 1px solid var(--cc-rule); }
 .hm-hero__grid { display: grid; gap: 2rem; align-items: center; }
 .hm-hero__tagline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-bottom: 1rem; font-weight: 600; color: var(--cc-ink-2); }
-.hm-hero__mark { padding: 0.1rem 0.55rem; border-radius: 6px; background: var(--cc-clay); color: #fff; font-weight: 700; }
+.hm-hero__mark { padding: 0.1rem 0.55rem; border-radius: 6px; background: var(--cc-clay); color: var(--cc-paper); font-weight: 700; }
 .hm-hero__title { font-size: clamp(2.5rem, 1.7rem + 3.6vw, 4.4rem); line-height: 1.02; margin-bottom: 1rem; }
 :lang(hi) .hm-hero__title { font-size: clamp(2.1rem, 1.5rem + 2.8vw, 3.6rem); line-height: 1.25; }
 .hm-hero__lead { margin-bottom: 1.75rem; max-width: 42ch; }

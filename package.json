@@ -2,17 +2,13 @@
   "name": "chhattisgadhiyacloud",
   "version": "1.0.0",
   "private": true,
-  "description": "Think Art Think Chhattisgadhiya Cloud - Official Website and Hybrid Magazine Reader",
+  "description": "Chhattisgadhiya Cloud: bilingual static website generator (theatre, festivals, workshops, magazine).",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "pdfjs-dist": "^3.11.174"
+    "build": "node generate-pages.js",
+    "start": "node server.js",
+    "icons": "node generate-pwa-icons.js"
   },
   "devDependencies": {
-    "sharp": "^0.35.4",
-    "vite": "^6.0.0"
+    "sharp": "^0.35.4"
   }
 }

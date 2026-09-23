@@ -2,28 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Contact | Chhattisgadhiya Cloud</title>
   <meta name="description" content="Write to us, call, or pick a quick request below.">
   <script>try{if(localStorage.getItem('cc-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
   <meta name="theme-color" content="#FAF6EF">
+  <meta name="color-scheme" content="light">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="CG Cloud">
-  <meta name="application-name" content="Chhattisgadhiya Cloud">
+  <meta name="application-name" content="CG Cloud">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="../../src/assets/icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-  <link rel="canonical" href="https://chhattisgadhiyacloud.org/en/contact/">
-  <link rel="alternate" hreflang="en" href="https://chhattisgadhiyacloud.org/en/contact/">
-  <link rel="alternate" hreflang="hi" href="https://chhattisgadhiyacloud.org/hi/contact/">
+  <link rel="canonical" href="https://atulscript.github.io/chhattigadiyacloud/en/contact/">
+  <link rel="alternate" hreflang="en" href="https://atulscript.github.io/chhattigadiyacloud/en/contact/">
+  <link rel="alternate" hreflang="hi" href="https://atulscript.github.io/chhattigadiyacloud/hi/contact/">
+  <link rel="alternate" hreflang="x-default" href="https://atulscript.github.io/chhattigadiyacloud/en/contact/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chhattisgadhiya Cloud">
+  <meta property="og:title" content="Contact | Chhattisgadhiya Cloud">
+  <meta property="og:description" content="Write to us, call, or pick a quick request below.">
+  <meta property="og:url" content="https://atulscript.github.io/chhattigadiyacloud/en/contact/">
+  <meta property="og:image" content="https://atulscript.github.io/chhattigadiyacloud/src/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Chhattisgadhiya Cloud: Think Art Think Chhattisgadhiya Cloud">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../../src/site/site.css?v=3">
+  <link rel="stylesheet" href="../../src/site/site.css?v=4">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js', { scope: '../../' }).catch(function () {}); });
   </script>
@@ -111,10 +127,10 @@
       <form class="cc-form" data-cc-form-id="contact-inline" data-cc-form-title="Send us a message" novalidate>
         <div class="cc-field-row">
           <div class="cc-field"><label for="cc-contact-inline-name">Your name</label><input class="cc-input" id="cc-contact-inline-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-contact-inline-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-contact-inline-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-contact-inline-phone-hint"><span class="cc-hint" id="cc-contact-inline-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-contact-inline-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-contact-inline-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-contact-inline-phone-hint" data-hint="cc-contact-inline-phone-hint"><span class="cc-hint" id="cc-contact-inline-phone-hint">10-digit mobile number</span></div>
         </div>
         <div class="cc-field"><label for="cc-contact-inline-topic">About</label><select class="cc-input" id="cc-contact-inline-topic" name="topic"><option value="general">General question</option><option value="magazine">Magazine</option><option value="workshops">Workshops</option><option value="other">Something else</option></select></div><div class="cc-field"><label for="cc-contact-inline-message">Message</label><textarea class="cc-input" id="cc-contact-inline-message" name="message" rows="4" required></textarea></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <p class="cc-form-error" id="cc-contact-inline-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send message</button>
         </div>
@@ -222,7 +238,7 @@
     <button type="button" class="cc-icon-btn" data-cc-install-dismiss aria-label="Not now"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </aside>
   
-  <dialog class="cc-dialog" id="cc-form-booking" aria-labelledby="cc-form-booking-title">
+  <dialog class="cc-dialog" id="form-booking" aria-labelledby="cc-form-booking-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="cc-dialog__panel">
       <h2 class="cc-h2 cc-dialog__title" id="cc-form-booking-title">Book a play</h2>
@@ -231,10 +247,10 @@
       <form class="cc-form" data-cc-form-id="booking" data-cc-form-title="Book a play" novalidate>
         <div class="cc-field-row">
           <div class="cc-field"><label for="cc-booking-name">Your name</label><input class="cc-input" id="cc-booking-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-booking-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-booking-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-booking-phone-hint"><span class="cc-hint" id="cc-booking-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-booking-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-booking-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-booking-phone-hint" data-hint="cc-booking-phone-hint"><span class="cc-hint" id="cc-booking-phone-hint">10-digit mobile number</span></div>
         </div>
         <div class="cc-field"><label for="cc-booking-play">Play</label><select class="cc-input" id="cc-booking-play" name="play"><option value="kahani-vasu-ki">Kahani Vasu Ki</option><option value="vincent-a-flashback">Vincent: A Flashback</option><option value="gabar-ghichor">Gabar Ghichor</option><option value="raja-ravi-verma">Raja Ravi Verma: The Untold Story</option><option value="any">Not sure yet</option></select></div><div class="cc-field"><label for="cc-booking-city">City and venue</label><input class="cc-input" id="cc-booking-city" name="city" type="text" autocomplete="address-level2" required></div><div class="cc-field"><label for="cc-booking-when">Preferred month or date</label><input class="cc-input" id="cc-booking-when" name="when" type="text"></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <p class="cc-form-error" id="cc-booking-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send request</button>
         </div>
@@ -252,7 +268,37 @@
       </div>
     </div>
   </dialog>
-  <dialog class="cc-dialog" id="cc-form-pass" aria-labelledby="cc-form-pass-title">
+  <dialog class="cc-dialog" id="form-troupe" aria-labelledby="cc-form-troupe-title">
+    <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="cc-dialog__panel">
+      <h2 class="cc-h2 cc-dialog__title" id="cc-form-troupe-title">Apply to perform at Jashrang</h2>
+      <p class="cc-dialog__intro">Theatre groups, college drama clubs and solo performers can apply for the next edition.</p>
+      
+      <form class="cc-form" data-cc-form-id="troupe" data-cc-form-title="Apply to perform at Jashrang" novalidate>
+        <div class="cc-field-row">
+          <div class="cc-field"><label for="cc-troupe-name">Your name</label><input class="cc-input" id="cc-troupe-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="cc-field"><label for="cc-troupe-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-troupe-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-troupe-phone-hint" data-hint="cc-troupe-phone-hint"><span class="cc-hint" id="cc-troupe-phone-hint">10-digit mobile number</span></div>
+        </div>
+        <div class="cc-field"><label for="cc-troupe-group">Group name</label><input class="cc-input" id="cc-troupe-group" name="group" type="text" required></div><div class="cc-field"><label for="cc-troupe-production">Play you want to bring</label><input class="cc-input" id="cc-troupe-production" name="production" type="text" required></div><div class="cc-field"><label for="cc-troupe-city">Based in (city)</label><input class="cc-input" id="cc-troupe-city" name="city" type="text" autocomplete="address-level2"></div>
+        <p class="cc-form-error" id="cc-troupe-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <div class="cc-dialog__foot">
+          <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send application</button>
+        </div>
+      </form>
+      <div class="cc-done" hidden>
+        <span class="cc-done__icon"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+        <h2 class="cc-h3">Thank you!</h2>
+        <p data-cc-done-text data-sent="We've received your request and will contact you soon." data-handoff="One last step: send these details to us on WhatsApp or email so we can confirm."></p>
+        <pre class="cc-done__summary" data-cc-summary hidden></pre>
+        <div class="cc-actions">
+          <a class="cc-btn cc-btn--primary" data-cc-send="whatsapp" target="_blank" rel="noopener" hidden>Send on WhatsApp</a>
+          <a class="cc-btn cc-btn--secondary" data-cc-send="email" hidden>Send by email</a>
+          <button type="button" class="cc-btn cc-btn--secondary" data-cc-dialog-close>Done</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog class="cc-dialog" id="form-pass" aria-labelledby="cc-form-pass-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="cc-dialog__panel">
       <h2 class="cc-h2 cc-dialog__title" id="cc-form-pass-title">Reserve free festival passes</h2>
@@ -261,10 +307,10 @@
       <form class="cc-form" data-cc-form-id="pass" data-cc-form-title="Reserve free festival passes" novalidate>
         <div class="cc-field-row">
           <div class="cc-field"><label for="cc-pass-name">Your name</label><input class="cc-input" id="cc-pass-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-pass-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-pass-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-pass-phone-hint"><span class="cc-hint" id="cc-pass-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-pass-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-pass-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-pass-phone-hint" data-hint="cc-pass-phone-hint"><span class="cc-hint" id="cc-pass-phone-hint">10-digit mobile number</span></div>
         </div>
         <div class="cc-field"><label for="cc-pass-festival">Festival</label><select class="cc-input" id="cc-pass-festival" name="festival"><option value="jashrang">Jashrang National Theatre Festival</option><option value="jashpur-kavita-utsav">Jashpur Kavita Utsav</option></select></div><div class="cc-field"><label for="cc-pass-count">Number of passes</label><select class="cc-input" id="cc-pass-count" name="count"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <p class="cc-form-error" id="cc-pass-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Reserve passes</button>
         </div>
@@ -282,7 +328,37 @@
       </div>
     </div>
   </dialog>
-  <dialog class="cc-dialog" id="cc-form-camp" aria-labelledby="cc-form-camp-title">
+  <dialog class="cc-dialog" id="form-poet" aria-labelledby="cc-form-poet-title">
+    <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="cc-dialog__panel">
+      <h2 class="cc-h2 cc-dialog__title" id="cc-form-poet-title">Register as a poet</h2>
+      <p class="cc-dialog__intro">Poets and storytellers in any language of the region are welcome at Kavita Utsav.</p>
+      
+      <form class="cc-form" data-cc-form-id="poet" data-cc-form-title="Register as a poet" novalidate>
+        <div class="cc-field-row">
+          <div class="cc-field"><label for="cc-poet-name">Your name</label><input class="cc-input" id="cc-poet-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="cc-field"><label for="cc-poet-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-poet-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-poet-phone-hint" data-hint="cc-poet-phone-hint"><span class="cc-hint" id="cc-poet-phone-hint">10-digit mobile number</span></div>
+        </div>
+        <div class="cc-field"><label for="cc-poet-language">Language(s) you write in</label><input class="cc-input" id="cc-poet-language" name="language" type="text" required></div><div class="cc-field"><label for="cc-poet-city">City or village</label><input class="cc-input" id="cc-poet-city" name="city" type="text" autocomplete="address-level2"></div><div class="cc-field"><label for="cc-poet-session">Session</label><select class="cc-input" id="cc-poet-session" name="session"><option value="recital">Poetry recital</option><option value="open-mic">Youth open mic</option></select></div>
+        <p class="cc-form-error" id="cc-poet-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <div class="cc-dialog__foot">
+          <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Register</button>
+        </div>
+      </form>
+      <div class="cc-done" hidden>
+        <span class="cc-done__icon"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+        <h2 class="cc-h3">Thank you!</h2>
+        <p data-cc-done-text data-sent="We've received your request and will contact you soon." data-handoff="One last step: send these details to us on WhatsApp or email so we can confirm."></p>
+        <pre class="cc-done__summary" data-cc-summary hidden></pre>
+        <div class="cc-actions">
+          <a class="cc-btn cc-btn--primary" data-cc-send="whatsapp" target="_blank" rel="noopener" hidden>Send on WhatsApp</a>
+          <a class="cc-btn cc-btn--secondary" data-cc-send="email" hidden>Send by email</a>
+          <button type="button" class="cc-btn cc-btn--secondary" data-cc-dialog-close>Done</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog class="cc-dialog" id="form-camp" aria-labelledby="cc-form-camp-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="cc-dialog__panel">
       <h2 class="cc-h2 cc-dialog__title" id="cc-form-camp-title">Register for Ullas Summer Camp</h2>
@@ -291,10 +367,10 @@
       <form class="cc-form" data-cc-form-id="camp" data-cc-form-title="Register for Ullas Summer Camp" novalidate>
         <div class="cc-field-row">
           <div class="cc-field"><label for="cc-camp-name">Parent's name</label><input class="cc-input" id="cc-camp-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-camp-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-camp-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-camp-phone-hint"><span class="cc-hint" id="cc-camp-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-camp-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-camp-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-camp-phone-hint" data-hint="cc-camp-phone-hint"><span class="cc-hint" id="cc-camp-phone-hint">10-digit mobile number</span></div>
         </div>
         <div class="cc-field"><label for="cc-camp-child">Child's name</label><input class="cc-input" id="cc-camp-child" name="child" type="text" required></div><div class="cc-field"><label for="cc-camp-age">Child's age</label><select class="cc-input" id="cc-camp-age" name="age" required><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option></select></div><div class="cc-field"><label for="cc-camp-village">Village or town</label><input class="cc-input" id="cc-camp-village" name="village" type="text" autocomplete="address-level2"></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <p class="cc-form-error" id="cc-camp-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Register child</button>
         </div>
@@ -312,21 +388,21 @@
       </div>
     </div>
   </dialog>
-  <dialog class="cc-dialog" id="cc-form-press" aria-labelledby="cc-form-press-title">
+  <dialog class="cc-dialog" id="form-volunteer" aria-labelledby="cc-form-volunteer-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="cc-dialog__panel">
-      <h2 class="cc-h2 cc-dialog__title" id="cc-form-press-title">Press request</h2>
-      <p class="cc-dialog__intro">Interviews, photos, review seats or the full press kit.</p>
+      <h2 class="cc-h2 cc-dialog__title" id="cc-form-volunteer-title">Volunteer at our festivals</h2>
+      <p class="cc-dialog__intro">Help with the stage, audience, food or photography. Students are welcome.</p>
       
-      <form class="cc-form" data-cc-form-id="press" data-cc-form-title="Press request" novalidate>
+      <form class="cc-form" data-cc-form-id="volunteer" data-cc-form-title="Volunteer at our festivals" novalidate>
         <div class="cc-field-row">
-          <div class="cc-field"><label for="cc-press-name">Your name</label><input class="cc-input" id="cc-press-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-press-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-press-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-press-phone-hint"><span class="cc-hint" id="cc-press-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-volunteer-name">Your name</label><input class="cc-input" id="cc-volunteer-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="cc-field"><label for="cc-volunteer-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-volunteer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-volunteer-phone-hint" data-hint="cc-volunteer-phone-hint"><span class="cc-hint" id="cc-volunteer-phone-hint">10-digit mobile number</span></div>
         </div>
-        <div class="cc-field"><label for="cc-press-outlet">Publication or channel</label><input class="cc-input" id="cc-press-outlet" name="outlet" type="text" required></div><div class="cc-field"><label for="cc-press-request">You need</label><select class="cc-input" id="cc-press-request" name="request"><option value="kit">Press kit and photos</option><option value="interview">An interview</option><option value="seats">Review seats</option></select></div><div class="cc-field"><label for="cc-press-email">Email</label><input class="cc-input" id="cc-press-email" name="email" type="email" autocomplete="email" required></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <div class="cc-field"><label for="cc-volunteer-festival">Festival</label><select class="cc-input" id="cc-volunteer-festival" name="festival"><option value="jashrang">Jashrang National Theatre Festival</option><option value="jashpur-kavita-utsav">Jashpur Kavita Utsav</option></select></div><div class="cc-field"><label for="cc-volunteer-help">How you can help</label><select class="cc-input" id="cc-volunteer-help" name="help"><option value="stage">Stage and backstage</option><option value="audience">Audience and passes</option><option value="food">Food and stay</option><option value="media">Photos and social media</option></select></div>
+        <p class="cc-form-error" id="cc-volunteer-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
-          <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send request</button>
+          <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Sign up</button>
         </div>
       </form>
       <div class="cc-done" hidden>
@@ -342,7 +418,7 @@
       </div>
     </div>
   </dialog>
-  <dialog class="cc-dialog" id="cc-form-partner" aria-labelledby="cc-form-partner-title">
+  <dialog class="cc-dialog" id="form-partner" aria-labelledby="cc-form-partner-title">
     <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="cc-dialog__panel">
       <h2 class="cc-h2 cc-dialog__title" id="cc-form-partner-title">Support or partner with us</h2>
@@ -351,10 +427,10 @@
       <form class="cc-form" data-cc-form-id="partner" data-cc-form-title="Support or partner with us" novalidate>
         <div class="cc-field-row">
           <div class="cc-field"><label for="cc-partner-name">Your name</label><input class="cc-input" id="cc-partner-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="cc-field"><label for="cc-partner-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-partner-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-partner-phone-hint"><span class="cc-hint" id="cc-partner-phone-hint">10-digit mobile number</span></div>
+          <div class="cc-field"><label for="cc-partner-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-partner-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-partner-phone-hint" data-hint="cc-partner-phone-hint"><span class="cc-hint" id="cc-partner-phone-hint">10-digit mobile number</span></div>
         </div>
         <div class="cc-field"><label for="cc-partner-organisation">Organisation (optional)</label><input class="cc-input" id="cc-partner-organisation" name="organisation" type="text" autocomplete="organization"></div><div class="cc-field"><label for="cc-partner-interest">Interested in</label><select class="cc-input" id="cc-partner-interest" name="interest"><option value="festival">Sponsoring a festival</option><option value="camp">Camp scholarships</option><option value="csr">CSR or grant partnership</option><option value="other">Something else</option></select></div><div class="cc-field"><label for="cc-partner-email">Email (optional)</label><input class="cc-input" id="cc-partner-email" name="email" type="email" autocomplete="email"></div>
-        <p class="cc-form-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <p class="cc-form-error" id="cc-partner-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
         <div class="cc-dialog__foot">
           <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send</button>
         </div>
@@ -372,7 +448,37 @@
       </div>
     </div>
   </dialog>
-  <script src="../../src/site/site.js?v=3" defer></script>
+  <dialog class="cc-dialog" id="form-press" aria-labelledby="cc-form-press-title">
+    <button type="button" class="cc-icon-btn cc-dialog__close" data-cc-dialog-close aria-label="Close"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="cc-dialog__panel">
+      <h2 class="cc-h2 cc-dialog__title" id="cc-form-press-title">Press request</h2>
+      <p class="cc-dialog__intro">Interviews, photos, review seats or the full press kit.</p>
+      
+      <form class="cc-form" data-cc-form-id="press" data-cc-form-title="Press request" novalidate>
+        <div class="cc-field-row">
+          <div class="cc-field"><label for="cc-press-name">Your name</label><input class="cc-input" id="cc-press-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="cc-field"><label for="cc-press-phone">Phone / WhatsApp</label><input class="cc-input" id="cc-press-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+ ]{10,15}" required aria-describedby="cc-press-phone-hint" data-hint="cc-press-phone-hint"><span class="cc-hint" id="cc-press-phone-hint">10-digit mobile number</span></div>
+        </div>
+        <div class="cc-field"><label for="cc-press-outlet">Publication or channel</label><input class="cc-input" id="cc-press-outlet" name="outlet" type="text" required></div><div class="cc-field"><label for="cc-press-request">You need</label><select class="cc-input" id="cc-press-request" name="request"><option value="kit">Press kit and photos</option><option value="interview">An interview</option><option value="seats">Review seats</option></select></div><div class="cc-field"><label for="cc-press-email">Email</label><input class="cc-input" id="cc-press-email" name="email" type="email" autocomplete="email" required></div>
+        <p class="cc-form-error" id="cc-press-error" role="alert" hidden data-required="Please fill in the fields marked required." data-phone="Please enter a valid 10-digit phone number." data-failed="Something went wrong. Please try again or call us."></p>
+        <div class="cc-dialog__foot">
+          <button type="submit" class="cc-btn cc-btn--primary" data-sending="Sending…">Send request</button>
+        </div>
+      </form>
+      <div class="cc-done" hidden>
+        <span class="cc-done__icon"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+        <h2 class="cc-h3">Thank you!</h2>
+        <p data-cc-done-text data-sent="We've received your request and will contact you soon." data-handoff="One last step: send these details to us on WhatsApp or email so we can confirm."></p>
+        <pre class="cc-done__summary" data-cc-summary hidden></pre>
+        <div class="cc-actions">
+          <a class="cc-btn cc-btn--primary" data-cc-send="whatsapp" target="_blank" rel="noopener" hidden>Send on WhatsApp</a>
+          <a class="cc-btn cc-btn--secondary" data-cc-send="email" hidden>Send by email</a>
+          <button type="button" class="cc-btn cc-btn--secondary" data-cc-dialog-close>Done</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <script src="../../src/site/site.js?v=4" defer></script>
   
 </body>
 </html>

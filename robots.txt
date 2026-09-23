@@ -1,4 +1,5 @@
 User-agent: *
-Allow: /
+Allow: /chhattigadiyacloud/
+Disallow: /chhattigadiyacloud/admin/
 
-Sitemap: https://chhattisgadhiyacloud.org/sitemap.xml
+Sitemap: https://atulscript.github.io/chhattigadiyacloud/sitemap.xml

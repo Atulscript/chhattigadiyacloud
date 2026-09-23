@@ -156,7 +156,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (max-width: 479px) { .cc-actions--stack > .cc-btn { flex: 1 1 100%; } }
 
 .cc-link {
-  display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px;
+  display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; min-width: 44px;
   font-weight: 700; color: var(--cc-forest); text-decoration: none;
 }
 .cc-link:hover { color: var(--cc-ink); text-decoration: underline; }
@@ -180,9 +180,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cc-tag--plain { background: var(--cc-surface-2); color: var(--cc-ink-2); }
 
 /* ---------- Brand ---------- */
-.cc-brand { display: inline-flex; align-items: center; gap: 0.6rem; min-width: 0; color: var(--cc-ink); text-decoration: none; }
+.cc-brand { display: inline-flex; align-items: center; gap: 0.6rem; min-width: 0; min-height: 44px; color: var(--cc-ink); text-decoration: none; }
 .cc-brand:hover { color: var(--cc-ink); }
-.cc-brand__mark { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--cc-clay); color: #fff; }
+.cc-brand__mark { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--cc-clay); color: var(--cc-paper); }
 .cc-brand__mark svg { width: 24px; height: 24px; }
 .cc-brand__name { font: 700 1.08rem/1.15 var(--cc-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cc-brand--light, .cc-brand--light:hover { color: #fff; }
@@ -203,8 +203,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cc-utility__link:hover { color: var(--cc-ink); text-decoration: underline; text-underline-offset: 4px; }
 .cc-utility__link:hover .cc-icon, .cc-utility__link[aria-current="page"] .cc-icon { color: var(--cc-clay); }
 .cc-utility__link[aria-current="page"] { color: var(--cc-ink); }
-.cc-utility .cc-lang { padding: 2px; }
-.cc-utility .cc-lang a, .cc-utility .cc-lang span { height: 32px; min-width: 40px; font-size: 0.88rem; }
+/* Compact toggle in the utility bar: 44px hit area, 30px visual pill. */
+.cc-utility .cc-lang { border: 0; padding: 0; }
+.cc-utility .cc-lang a, .cc-utility .cc-lang span { position: relative; isolation: isolate; height: 44px; font-size: 0.9rem; background: none; }
+.cc-utility .cc-lang a::before, .cc-utility .cc-lang span::before { content: ""; position: absolute; inset: 7px 0; border-radius: 999px; z-index: -1; }
+.cc-utility .cc-lang a:hover::before { background: var(--cc-surface); }
+.cc-utility .cc-lang [aria-current="true"] { color: var(--cc-paper); }
+.cc-utility .cc-lang [aria-current="true"]::before { background: var(--cc-ink); }
 
 /* ---------- Header ---------- */
 .cc-header {
@@ -238,7 +243,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* EN | हिं segmented toggle */
 .cc-lang { display: inline-flex; border: 1px solid var(--cc-rule-strong); border-radius: 999px; padding: 3px; }
 .cc-lang a, .cc-lang span {
-  display: grid; place-items: center; min-width: 44px; height: 38px; padding: 0 0.6rem;
+  display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 0.6rem;
   border-radius: 999px; font: 700 0.92rem/1 var(--cc-text); text-decoration: none; color: var(--cc-ink-2);
 }
 .cc-lang a:hover { color: var(--cc-ink); background: var(--cc-surface); }
@@ -258,7 +263,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .cc-header__actions { display: none; }
   .cc-header .cc-brand { margin-right: auto; }
 }
-@media (max-width: 380px) { .cc-brand__name { font-size: 0.98rem; } .cc-lang a, .cc-lang span { min-width: 40px; padding: 0 0.45rem; } }
+@media (max-width: 380px) { .cc-brand__name { font-size: 0.98rem; } .cc-lang a, .cc-lang span { padding: 0 0.4rem; } }
 
 /* ---------- Menu sheet ---------- */
 .cc-drawer {
@@ -289,7 +294,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Theme toggle */
 .cc-theme { display: inline-flex; border: 1px solid var(--cc-rule-strong); border-radius: 999px; padding: 3px; }
 .cc-theme button {
-  display: grid; place-items: center; width: 44px; height: 38px; border: 0; border-radius: 999px;
+  display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 999px;
   background: none; color: var(--cc-ink-2); cursor: pointer;
 }
 .cc-theme button[aria-pressed="true"] { background: var(--cc-ink); color: var(--cc-paper); }
@@ -323,7 +328,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cc-page-head .cc-h1 { margin: 0.35rem 0 0.75rem; }
 .cc-page-head .cc-motif { margin-top: 1.5rem; }
 .cc-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-size: 0.95rem; color: var(--cc-muted); }
-.cc-crumbs a { color: var(--cc-muted); display: inline-flex; align-items: center; min-height: 32px; }
+.cc-crumbs a { color: var(--cc-muted); display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .cc-crumbs a:hover { color: var(--cc-ink); }
 .cc-crumbs .cc-icon { width: 16px; height: 16px; }
 @media (min-width: 900px) { .cc-page-head { padding: 2.5rem 0 2.75rem; } }
@@ -339,11 +344,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- Grids & cards ---------- */
 .cc-grid { display: grid; gap: 1rem; }
-@media (min-width: 640px) { .cc-grid--2, .cc-grid--3, .cc-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
-@media (min-width: 960px) {
-  .cc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .cc-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
+@media (min-width: 640px) { .cc-grid--2, .cc-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
+/* Three-up grids go straight from one to three columns so no card is left alone on a row. */
+@media (min-width: 760px) { .cc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; } }
+@media (min-width: 960px) { .cc-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .cc-card {
   display: flex; flex-direction: column; min-width: 0;
   background: var(--cc-surface); border: 1px solid var(--cc-rule); border-radius: var(--cc-radius);
@@ -463,6 +467,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: var(--cc-surface); color: var(--cc-ink); font-size: 1rem;
 }
 .cc-input:focus { outline: 3px solid var(--cc-focus); outline-offset: 0; border-color: transparent; }
+.cc-input[aria-invalid="true"] { border-color: var(--cc-danger); background: var(--cc-clay-wash); }
+.cc-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.cc-btn:active:not([disabled]) { transform: translateY(1px); }
 textarea.cc-input { min-height: 96px; resize: vertical; }
 .cc-field-row { display: grid; gap: 0 1rem; }
 @media (min-width: 560px) { .cc-field-row { grid-template-columns: 1fr 1fr; } }
@@ -528,7 +535,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
 .cc-footer__about { margin-top: 0.25rem; max-width: 36ch; color: var(--cc-night-muted); }
 .cc-footer__title { margin-bottom: 0.6rem; color: var(--cc-night-muted); }
 .cc-footer .cc-kicker { color: var(--cc-night-muted); }
-.cc-footer__col a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; color: var(--cc-night-text); text-decoration: none; }
+.cc-footer__col a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; min-width: 44px; color: var(--cc-night-text); text-decoration: none; }
 .cc-footer__col a:hover { color: #fff; text-decoration: underline; }
 .cc-footer__col .cc-icon { width: 18px; height: 18px; color: var(--cc-night-muted); }
 .cc-footer__addr { display: flex; gap: 0.5rem; padding-top: 0.6rem; color: var(--cc-night-muted); }
@@ -540,7 +547,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
   color: var(--cc-night-muted); font-size: 0.95rem;
 }
 .cc-footer__bottom-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
-.cc-footer__bottom-links a { display: inline-flex; align-items: center; gap: 0.3rem; min-height: 44px; color: var(--cc-night-text); text-decoration: none; font-weight: 600; }
+.cc-footer__bottom-links a { display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem; min-height: 44px; min-width: 44px; color: var(--cc-night-text); text-decoration: none; font-weight: 600; }
 .cc-footer__bottom-links a:hover { color: #fff; }
 .cc-footer .cc-theme { border-color: rgba(255, 255, 255, 0.25); }
 .cc-footer .cc-theme button { color: var(--cc-night-text); }
