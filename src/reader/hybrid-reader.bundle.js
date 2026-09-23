@@ -1,14 +1,30 @@
-// Hybrid Magazine Reader: Flip-Book + Accessible Paginated View + PDF-to-Markup Converter
-// Self-contained, lightweight, no third-party cloud trackers.
+// Hybrid Magazine Reader: Flip-Book + Accessible Paginated View + Multi-Theme + Fluid Typography
+// Self-contained, lightweight, zero third-party cloud trackers.
 
 class HybridMagazineReader {
   constructor(containerId, options = {}) {
     this.container = document.getElementById(containerId);
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 860;
+    
+    // Saved preferences from localStorage if available
+    let savedTheme = 'sepia';
+    let savedFontSize = isMobile ? 16 : 18;
+    try {
+      const storedTheme = localStorage.getItem('cgcloud_reader_theme');
+      if (storedTheme && ['sepia', 'white', 'dark'].includes(storedTheme)) {
+        savedTheme = storedTheme;
+      }
+      const storedSize = parseInt(localStorage.getItem('cgcloud_reader_fontsize'), 10);
+      if (!isNaN(storedSize) && storedSize >= 14 && storedSize <= 26) {
+        savedFontSize = storedSize;
+      }
+    } catch (_) {}
+
     this.options = {
       lang: options.lang || "en",
       mode: options.mode || (isMobile ? "paginated" : "flip"), // "flip" or "paginated"
-      fontSize: options.fontSize || (isMobile ? 16 : 18),
+      theme: options.theme || savedTheme, // "sepia", "white", "dark"
+      fontSize: options.fontSize || savedFontSize,
       pages: options.pages || [],
       freePageLimit: options.freePageLimit !== undefined ? options.freePageLimit : 5,
       onPaywallTrigger: options.onPaywallTrigger || null,
@@ -44,6 +60,63 @@ class HybridMagazineReader {
     this.render();
   }
 
+  setTheme(theme) {
+    if (!['sepia', 'white', 'dark'].includes(theme)) return;
+    this.options.theme = theme;
+    try {
+      localStorage.setItem('cgcloud_reader_theme', theme);
+    } catch (_) {}
+
+    const shell = document.getElementById('reader-main-shell');
+    if (shell) {
+      shell.classList.remove('theme-sepia', 'theme-white', 'theme-dark');
+      shell.classList.add(`theme-${theme}`);
+    }
+
+    const themeBtnText = document.getElementById('theme-btn-text');
+    const themeBtnIcon = document.getElementById('theme-btn-icon');
+    const themeMeta = this.getThemeMeta(theme);
+    if (themeBtnText) themeBtnText.textContent = themeMeta.label;
+    if (themeBtnIcon) themeBtnIcon.textContent = themeMeta.icon;
+  }
+
+  cycleTheme() {
+    const cycle = { sepia: 'white', white: 'dark', dark: 'sepia' };
+    const next = cycle[this.options.theme] || 'sepia';
+    this.setTheme(next);
+  }
+
+  getThemeMeta(theme) {
+    const isHi = this.options.lang === "hi";
+    switch (theme) {
+      case 'white':
+        return { icon: '☀️', label: isHi ? 'श्वेत मोड' : 'Clean White' };
+      case 'dark':
+        return { icon: '🌙', label: isHi ? 'रात्रि मोड' : 'Night Mode' };
+      case 'sepia':
+      default:
+        return { icon: '📜', label: isHi ? 'वार्म कागज़' : 'Warm Paper' };
+    }
+  }
+
+  setFontSize(size) {
+    const bounded = Math.max(14, Math.min(26, size));
+    this.options.fontSize = bounded;
+    try {
+      localStorage.setItem('cgcloud_reader_fontsize', bounded.toString());
+    } catch (_) {}
+
+    const shell = document.getElementById('reader-main-shell');
+    if (shell) {
+      shell.style.setProperty('--reader-font-size', `${bounded}px`);
+    }
+
+    const indicator = document.getElementById('font-indicator');
+    if (indicator) {
+      indicator.textContent = `${bounded}px`;
+    }
+  }
+
   goToPage(pageNum) {
     // Intercept navigation if page exceeds freePageLimit
     if (pageNum > this.options.freePageLimit) {
@@ -67,21 +140,23 @@ class HybridMagazineReader {
     if (!this.container) return;
 
     const isHi = this.options.lang === "hi";
+    const currentThemeMeta = this.getThemeMeta(this.options.theme);
+
     const t = {
-      flipMode: isHi ? "📖 3D फ्लिप-बुक दृश्य" : "📖 3D Flip-Book Spread",
-      paginatedMode: isHi ? "📄 पठनीय आलेख दृश्य" : "📄 Clean Reader View",
-      converter: isHi ? "⚙️ PDF से मार्कअप टूल" : "⚙️ PDF to Markdown Tool",
+      flipMode: isHi ? "📖 2-पृष्ठ पुस्तक दृश्य" : "📖 2-Page Spread",
+      paginatedMode: isHi ? "📄 एकल आलेख दृश्य" : "📄 Single Page",
+      converter: isHi ? "⚙️ PDF टूल" : "⚙️ PDF Tools",
       prev: isHi ? "‹ पिछला पृष्ठ" : "‹ Previous Page",
       next: isHi ? "अगला पृष्ठ ›" : "Next Page ›",
       page: isHi ? "पृष्ठ" : "Page",
       of: isHi ? "का" : "of",
-      fontSmaller: "A-",
+      fontSmaller: "A−",
       fontLarger: "A+",
-      download: isHi ? "PDF अंक डाउनलोड" : "Download Issue PDF",
+      download: isHi ? "PDF अंक" : "Download PDF",
       sampleDemo: isHi ? "⚡ नमूना PDF आलेख आज़माएं" : "⚡ Try Sample Issue PDF",
       fullscreen: isHi ? "⛶ पूर्ण स्क्रीन" : "⛶ Fullscreen",
       copyMd: isHi ? "📋 मार्कअप कॉपी करें" : "📋 Copy Markdown",
-      copied: isHi ? "कॉपी हो गया! ✓" : "Copied to Clipboard! ✓"
+      copied: isHi ? "कॉपी हो गया! ✓" : "Copied! ✓"
     };
 
     // Build thumbnail navigation strip (with lock indicator for pages exceeding free limit)
@@ -102,7 +177,7 @@ class HybridMagazineReader {
     }).join('');
 
     this.container.innerHTML = `
-      <div class="reader-shell" id="reader-main-shell" role="region" aria-label="Magazine Reader">
+      <div class="reader-shell theme-${this.options.theme}" id="reader-main-shell" role="region" aria-label="Magazine Reader" style="--reader-font-size: ${this.options.fontSize}px;">
         <!-- Floating Reader Toolbar -->
         <div class="reader-toolbar">
           <div class="reader-toolbar-left">
@@ -112,19 +187,20 @@ class HybridMagazineReader {
             <button class="reader-btn ${this.options.mode === 'paginated' ? 'active' : ''}" id="btn-mode-paginated" title="${t.paginatedMode}">
               ${t.paginatedMode}
             </button>
-            <button class="reader-btn" id="btn-mode-convert" title="${t.converter}">
-              ${t.converter}
+            <button class="reader-btn" id="btn-toggle-theme" title="Cycle Reading Theme">
+              <span id="theme-btn-icon">${currentThemeMeta.icon}</span> 
+              <span id="theme-btn-text">${currentThemeMeta.label}</span>
             </button>
           </div>
 
           <div class="reader-toolbar-right">
-            <div class="reader-font-controls">
+            <div class="reader-font-controls" title="Adjust text size">
               <button class="reader-btn-icon" id="btn-font-dec" title="Decrease font size" aria-label="Decrease font size">${t.fontSmaller}</button>
               <span class="reader-font-indicator" id="font-indicator">${this.options.fontSize}px</span>
               <button class="reader-btn-icon" id="btn-font-inc" title="Increase font size" aria-label="Increase font size">${t.fontLarger}</button>
             </div>
             <button class="reader-btn-icon" id="btn-toggle-fullscreen" title="${t.fullscreen}" aria-label="${t.fullscreen}">⛶</button>
-            <a href="/src/assets/images/mag-issue-14-cover.svg" target="_blank" class="reader-btn reader-btn-primary" id="btn-download-pdf">
+            <a href="../../src/assets/images/mag-issue-14-cover.svg" target="_blank" class="reader-btn reader-btn-primary" id="btn-download-pdf">
               <span>📥</span> <span>${t.download}</span>
             </a>
           </div>
@@ -197,9 +273,14 @@ class HybridMagazineReader {
             <span style="color:var(--g-text-muted);">${t.of} ${this.totalPages}</span>
           </div>
 
-          <button class="reader-btn" id="btn-page-next" ${this.currentPage >= this.totalPages ? 'disabled' : ''}>
-            ${t.next}
-          </button>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <button class="reader-btn" id="btn-mode-convert" style="font-size:0.78rem; padding:0.3rem 0.75rem;" title="${t.converter}">
+              ${t.converter}
+            </button>
+            <button class="reader-btn" id="btn-page-next" ${this.currentPage >= this.totalPages ? 'disabled' : ''}>
+              ${t.next}
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -212,6 +293,15 @@ class HybridMagazineReader {
     const pages = this.options.pages;
     const pageIndex = this.currentPage - 1;
     const current = pages[pageIndex] || { title: "", author: "", excerpt: "", content: "" };
+
+    // Extract quote to display cleanly on the Verso (Left) page
+    let featuredQuote = "";
+    let cleanContent = current.content || "";
+    const quoteMatch = cleanContent.match(/^\>\s*["“']?(.*?)["”']?\s*$/m);
+    if (quoteMatch) {
+      featuredQuote = quoteMatch[1];
+      cleanContent = cleanContent.replace(/^\>\s*.*$\n?/m, '').trim();
+    }
 
     return `
       <div class="flipbook-wrapper" id="flipbook-viewport">
@@ -226,19 +316,20 @@ class HybridMagazineReader {
           </button>
 
           <!-- Left Page (Verso) -->
-          <div class="book-page book-page-left" style="font-size: ${this.options.fontSize}px;">
+          <div class="book-page book-page-left">
             <div class="book-page-header">
               <span class="book-journal-title">Chhattisgadhiya Cloud Masik Patrika</span>
               <span class="book-issue-stamp">Vol. IV • Issue 09</span>
             </div>
 
-            <div class="book-page-body">
+            <div class="book-page-body book-page-verso-body">
               <span class="book-section-pill">✦ ${current.category || (isHi ? 'विशेष संपादकीय' : 'Monograph Folio')} ✦</span>
               <h3 class="book-article-title">${current.title || (isHi ? 'अंक शीर्षक' : 'Featured Monograph')}</h3>
               
               ${current.author ? `
                 <div class="book-author-line">
                   <span>✍️</span> <strong>${isHi ? 'लेखक' : 'By'}:</strong> <span>${current.author}</span>
+                  ${current.date ? `<span class="book-author-date">• ${current.date}</span>` : ''}
                 </div>
               ` : ''}
 
@@ -248,6 +339,19 @@ class HybridMagazineReader {
                   <p class="abstract-text">${current.excerpt}</p>
                 </div>
               ` : ''}
+
+              ${featuredQuote ? `
+                <div class="book-verso-callout">
+                  <div class="callout-symbol">“</div>
+                  <p class="callout-quote">${featuredQuote}</p>
+                  <span class="callout-source">— Chhattisgadhiya Cloud Critical Journal</span>
+                </div>
+              ` : `
+                <div class="book-verso-editorial-note">
+                  <div class="editorial-note-eyebrow">✦ ${isHi ? 'अभिलेखागार टिप्पणी' : 'Editorial Inscription'} ✦</div>
+                  <p>${isHi ? 'माटी, लोक-जीवन और जन-संस्कृति का समकालीन दस्तावेजीकरण।' : 'Contemporary documentation of grassroots folk wisdom and living theatre traditions.'}</p>
+                </div>
+              `}
 
               <div class="book-verso-watermark">
                 <div class="watermark-emblem">CC</div>
@@ -265,14 +369,14 @@ class HybridMagazineReader {
           <div class="book-spine-crease" aria-hidden="true"></div>
 
           <!-- Right Page (Recto) -->
-          <div class="book-page book-page-right" style="font-size: ${this.options.fontSize}px;">
+          <div class="book-page book-page-right">
             <div class="book-page-header">
               <span class="book-folio-running">${isHi ? 'सितंबर 2026 विशेषांक' : 'September 2026 Edition'}</span>
               <span class="book-issn-badge">ISSN 2709-4112</span>
             </div>
 
             <div class="book-page-body book-reading-column">
-              ${this.formatContent(current.content)}
+              ${this.formatContent(cleanContent)}
             </div>
 
             <div class="book-page-footer">
@@ -283,7 +387,7 @@ class HybridMagazineReader {
         </div>
 
         <div class="flipbook-hint">
-          <span>💡 ${isHi ? 'पृष्ठ पलटने हेतु कीबोर्ड एरो (← / →), ऊपर के बाण या नीचे की अंक-पट्टी पर क्लिक करें' : 'Tip: Use keyboard arrows (← / →), side arrows, or the thumbnail strip below to flip pages'}</span>
+          <span>💡 ${isHi ? 'पृष्ठ पलटने हेतु कीबोर्ड एरो (← / →), किनारों के बाण या नीचे की अंक-पट्टी पर क्लिक करें' : 'Tip: Use keyboard arrows (← / →), side arrows, or the thumbnail strip below to flip pages'}</span>
         </div>
       </div>
     `;
@@ -296,29 +400,30 @@ class HybridMagazineReader {
     const current = pages[pageIndex] || { title: "", author: "", excerpt: "", content: "" };
 
     return `
-      <div class="paginated-view-wrapper" style="font-size: ${this.options.fontSize}px;">
+      <div class="paginated-view-wrapper">
         <article class="magazine-clean-article">
           <header class="article-meta-header">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
               <span class="book-section-pill">✦ ${current.category || (isHi ? 'मासिक शोध लेख' : 'Monthly Research Paper')} ✦</span>
-              <span style="font-size:0.85rem; color:var(--g-text-muted); font-weight:600;">Issue 14 • Page ${this.currentPage} of ${this.totalPages}</span>
+              <span style="font-size:0.85rem; color:var(--book-text-secondary); font-weight:600;">Issue 14 • Page ${this.currentPage} of ${this.totalPages}</span>
             </div>
             <h2 class="article-reader-title">${current.title || ""}</h2>
             ${current.author ? `
-              <div class="article-author" style="margin-top:0.75rem; font-size:1.05rem; color:var(--c-blue); font-weight:600; display:flex; align-items:center; gap:0.5rem;">
+              <div class="article-author" style="margin-top:0.75rem; font-size:1.05rem; color:#1A73E8; font-weight:600; display:flex; align-items:center; gap:0.5rem;">
                 <span>✍️</span> <span>${isHi ? 'लेखक' : 'Author'}: ${current.author}</span>
+                ${current.date ? `<span style="color:var(--book-text-secondary); font-weight:normal;">• ${current.date}</span>` : ''}
               </div>
             ` : ''}
           </header>
 
           ${current.excerpt ? `
-            <div class="book-abstract-box" style="margin-bottom:2rem; background:#F8F9FA;">
+            <div class="book-abstract-box" style="margin: 1.75rem 0;">
               <div class="abstract-label">📌 ${isHi ? 'आलेख का मूल बिंदु' : 'Core Synopsis'}:</div>
               <p class="abstract-text">${current.excerpt}</p>
             </div>
           ` : ''}
 
-          <div class="article-body-content">
+          <div class="article-body-content" style="margin-top:1.5rem;">
             ${this.formatContent(current.content)}
           </div>
         </article>
@@ -327,7 +432,7 @@ class HybridMagazineReader {
   }
 
   formatContent(text) {
-    if (!text) return "<p>No content available for this page.</p>";
+    if (!text) return "<p class=\"reader-p\">No content available for this page.</p>";
     
     // Parse markdown into clean editorial markup
     let html = text
@@ -337,6 +442,8 @@ class HybridMagazineReader {
       .replace(/^\> (.*$)/gim, '<blockquote class="reader-pullquote"><p>“$1”</p></blockquote>')
       .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+      .replace(/^\s*\d+\.\s+(.*$)/gim, '<div style="margin-bottom:0.5em; padding-left:1.25em; text-indent:-1.25em;">• $1</div>')
+      .replace(/^\s*[\-\*]\s+(.*$)/gim, '<div style="margin-bottom:0.5em; padding-left:1.25em; text-indent:-1.25em;">✦ $1</div>')
       .replace(/\n\n/g, '</p><p class="reader-p">')
       .replace(/\n/g, '<br/>');
 
@@ -358,6 +465,7 @@ class HybridMagazineReader {
   bindDynamicElements() {
     const btnFlip = document.getElementById('btn-mode-flip');
     const btnPaginated = document.getElementById('btn-mode-paginated');
+    const btnTheme = document.getElementById('btn-toggle-theme');
     const btnConvert = document.getElementById('btn-mode-convert');
     const converterPanel = document.getElementById('converter-panel');
     const btnFontInc = document.getElementById('btn-font-inc');
@@ -395,6 +503,12 @@ class HybridMagazineReader {
       });
     }
 
+    if (btnTheme) {
+      btnTheme.addEventListener('click', () => {
+        this.cycleTheme();
+      });
+    }
+
     if (btnConvert && converterPanel) {
       btnConvert.addEventListener('click', () => {
         converterPanel.classList.toggle('hidden');
@@ -406,19 +520,13 @@ class HybridMagazineReader {
 
     if (btnFontInc) {
       btnFontInc.addEventListener('click', () => {
-        if (this.options.fontSize < 26) {
-          this.options.fontSize += 2;
-          this.render();
-        }
+        this.setFontSize(this.options.fontSize + 2);
       });
     }
 
     if (btnFontDec) {
       btnFontDec.addEventListener('click', () => {
-        if (this.options.fontSize > 14) {
-          this.options.fontSize -= 2;
-          this.render();
-        }
+        this.setFontSize(this.options.fontSize - 2);
       });
     }
 
@@ -450,7 +558,7 @@ class HybridMagazineReader {
         if (textarea) {
           textarea.select();
           navigator.clipboard.writeText(textarea.value);
-          btnCopy.innerText = this.options.lang === 'hi' ? "कॉपी हो गया! ✓" : "Copied to Clipboard! ✓";
+          btnCopy.innerText = this.options.lang === 'hi' ? "कॉपी हो गया! ✓" : "Copied! ✓";
           setTimeout(() => {
             btnCopy.innerText = this.options.lang === 'hi' ? "📋 मार्कअप कॉपी करें" : "📋 Copy Markdown";
           }, 2500);
@@ -622,6 +730,5 @@ class HybridMagazineReader {
     }, 240);
   }
 }
-
 
 if (typeof window !== "undefined") { window.HybridMagazineReader = HybridMagazineReader; }
