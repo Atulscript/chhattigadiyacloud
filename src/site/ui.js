@@ -76,19 +76,40 @@ function picture(src, alt, { width, height, eager = false, cls = '', sizes = '' 
   return sources.length ? `<picture>${sources.join('')}${img}</picture>` : img;
 }
 
-function pageHead({ lang, title, lead = '', kicker = '', extra = '' }) {
+// Page header identities: one shared layout, each page with its own accent,
+// background texture (see .cc-page-head--* in site.css), emblem and kicker.
+const PAGE_HEADS = {
+  'whats-on': { icon: 'calendar', kicker: { en: 'Programme', hi: 'कार्यक्रम सूची' } },
+  productions: { icon: 'mask', kicker: { en: 'Repertoire', hi: 'हमारे नाटक' } },
+  events: { icon: 'tent', kicker: { en: 'Every year in Jashpur', hi: 'हर साल जशपुर में' } },
+  'training-workshops': { icon: 'palette', kicker: { en: 'Learn with us', hi: 'हमारे साथ सीखें' } },
+  blog: { icon: 'pen', kicker: { en: 'Journal', hi: 'डायरी' } },
+  about: { icon: 'leaf', kicker: { en: 'Who we are', hi: 'हम कौन हैं' } },
+  contact: { icon: 'chat', kicker: { en: 'Get in touch', hi: 'संपर्क करें' } },
+  press: { icon: 'news', kicker: { en: 'Media', hi: 'मीडिया' } },
+  support: { icon: 'heart', kicker: { en: 'Be a patron', hi: 'संरक्षक बनें' } },
+};
+
+// The breadcrumb stays in the markup for SEO and screen readers; site.css
+// hides it visually (it reappears only while one of its links has focus).
+function pageHead({ lang, title, lead = '', kicker = '', extra = '', page = '' }) {
   const home = lang === 'hi' ? 'होम' : 'Home';
+  const id = PAGE_HEADS[page] ? page : '';
+  const kick = kicker || (id ? pick(PAGE_HEADS[id].kicker, lang) : '');
   return `
-  <header class="cc-page-head">
-    <div class="cc-wrap">
+  <header class="cc-page-head${id ? ` cc-page-head--${id}` : ''}">
+    <div class="cc-wrap cc-page-head__inner">
       <nav class="cc-crumbs" aria-label="${lang === 'hi' ? 'आप यहां हैं' : 'Breadcrumb'}">
         <a href="/${lang}/">${home}</a>${icon('chevronRight')}<span aria-current="page">${esc(title)}</span>
       </nav>
-      ${kicker ? `<p class="cc-kicker" style="margin-top:1rem">${esc(kicker)}</p>` : ''}
-      <h1 class="cc-h1">${esc(title)}</h1>
-      ${lead ? `<p class="cc-lead">${esc(lead)}</p>` : ''}
-      ${extra}
-      <span class="cc-motif cc-motif--short" aria-hidden="true"></span>
+      <div class="cc-page-head__text">
+        ${kick ? `<p class="cc-kicker cc-page-head__kicker">${esc(kick)}</p>` : ''}
+        <h1 class="cc-h1">${esc(title)}</h1>
+        ${lead ? `<p class="cc-lead">${esc(lead)}</p>` : ''}
+        ${extra}
+        <span class="cc-motif cc-motif--short" aria-hidden="true"></span>
+      </div>
+      ${id ? `<span class="cc-page-head__emblem" aria-hidden="true">${icon(PAGE_HEADS[id].icon)}</span>` : ''}
     </div>
   </header>`;
 }
