@@ -4849,65 +4849,132 @@ button {
 }
 
 /* ==========================================================================
-   INTERACTIVE DIGITAL READER (FLIP-BOOK SPREAD & PDF TOOL)
+   KINDLE-STYLE DIGITAL READER (PAPERWHITE, FOCUS, FLIP & THEMES)
    ========================================================================== */
 .magazine-shell {
   background: #191C24;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   border: 1px solid #2B303C;
+  position: relative;
 }
 
-/* Default Sepia / Warm Paper Theme */
+/* Master Reader Shell with Kindle Variables */
 .reader-shell {
   --reader-font-size: 18px;
-  --book-bg: #FCFAF6;
-  --book-paper-edge: #F4EFE6;
-  --book-heading: #1C1917;
-  --book-text: #2D3139;
-  --book-text-body: #373C46;
-  --book-text-secondary: #5F6368;
-  --book-quote-bg: #F5EFE6;
-  --book-quote-text: #262220;
-  --book-border: #E8E2D6;
+  --reader-line-height: 1.85;
+  --reader-font-family: 'Literata', 'Cormorant Garamond', 'Georgia', serif;
+  --reader-max-width: 780px;
+  --book-bg: #FAF6EE;
+  --book-paper-edge: #F3EBDD;
+  --book-heading: #181512;
+  --book-text: #23201D;
+  --book-text-body: #2B2824;
+  --book-text-secondary: #6B655D;
+  --book-quote-bg: #F2ECE0;
+  --book-quote-text: #26221D;
+  --book-border: #E6DCBC;
   --book-spine: linear-gradient(to right, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0.18) 100%);
-  --reader-stage-bg: radial-gradient(circle at center, #262B37 0%, #151820 100%);
+  --reader-stage-bg: radial-gradient(circle at center, #242934 0%, #13161C 100%);
   display: flex;
   flex-direction: column;
   color: #E8EAED;
+  position: relative;
 }
 
-/* Clean White Theme */
+/* 1. Theme: Kindle Paperwhite (Warm Amber E-Ink) */
+.reader-shell.theme-paperwhite {
+  --book-bg: #FAF6EE;
+  --book-paper-edge: #F3EBDD;
+  --book-heading: #181512;
+  --book-text: #23201D;
+  --book-text-body: #2B2824;
+  --book-text-secondary: #6B655D;
+  --book-quote-bg: #F2ECE0;
+  --book-quote-text: #26221D;
+  --book-border: #E6DCBC;
+  --reader-stage-bg: radial-gradient(circle at center, #272C38 0%, #14171E 100%);
+}
+
+/* 2. Theme: Kindle White (E-Ink Sharp Monochrome) */
 .reader-shell.theme-white {
   --book-bg: #FFFFFF;
-  --book-paper-edge: #F8F9FA;
-  --book-heading: #111215;
-  --book-text: #202124;
-  --book-text-body: #2D3139;
-  --book-text-secondary: #5F6368;
-  --book-quote-bg: #F1F3F4;
-  --book-quote-text: #1F2328;
-  --book-border: #E0E0E0;
-  --book-spine: linear-gradient(to right, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.12) 100%);
-  --reader-stage-bg: radial-gradient(circle at center, #2D323E 0%, #1A1D24 100%);
+  --book-paper-edge: #F4F4F4;
+  --book-heading: #000000;
+  --book-text: #111111;
+  --book-text-body: #1E1E1E;
+  --book-text-secondary: #5A5A5A;
+  --book-quote-bg: #F6F6F6;
+  --book-quote-text: #181818;
+  --book-border: #E2E2E2;
+  --reader-stage-bg: radial-gradient(circle at center, #2B303C 0%, #151820 100%);
 }
 
-/* Dark / Night Mode */
+/* 3. Theme: Kindle Sepia (Classic Antique Book) */
+.reader-shell.theme-sepia {
+  --book-bg: #F5ECD7;
+  --book-paper-edge: #ECE0C7;
+  --book-heading: #20170F;
+  --book-text: #2D2319;
+  --book-text-body: #362B20;
+  --book-text-secondary: #7A6953;
+  --book-quote-bg: #EBDFCA;
+  --book-quote-text: #2B2219;
+  --book-border: #DED0B6;
+  --reader-stage-bg: radial-gradient(circle at center, #2C2620 0%, #161310 100%);
+}
+
+/* 4. Theme: Kindle Night / Dark Mode */
 .reader-shell.theme-dark {
-  --book-bg: #1B1E26;
-  --book-paper-edge: #151820;
-  --book-heading: #F5F7FA;
-  --book-text: #D5DAE2;
-  --book-text-body: #C2C8D2;
-  --book-text-secondary: #9AA0A6;
-  --book-quote-bg: #262B36;
-  --book-quote-text: #E8EAED;
-  --book-border: #2E3544;
-  --book-spine: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.04) 50%, rgba(0,0,0,0.6) 100%);
-  --reader-stage-bg: radial-gradient(circle at center, #1E222B 0%, #0F1116 100%);
+  --book-bg: #14161C;
+  --book-paper-edge: #101217;
+  --book-heading: #F3F5FA;
+  --book-text: #D6DAE3;
+  --book-text-body: #C2C7D2;
+  --book-text-secondary: #8E96A4;
+  --book-quote-bg: #1E232D;
+  --book-quote-text: #E5E8F0;
+  --book-border: #2B313F;
+  --reader-stage-bg: radial-gradient(circle at center, #1B1E26 0%, #0A0C10 100%);
 }
 
+/* Font Family Classes */
+.reader-shell.font-serif {
+  --reader-font-family: 'Literata', 'Cormorant Garamond', 'Georgia', serif;
+}
+
+.reader-shell.font-sans {
+  --reader-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Line Spacing Classes */
+.reader-shell.spacing-compact {
+  --reader-line-height: 1.55;
+}
+
+.reader-shell.spacing-normal {
+  --reader-line-height: 1.85;
+}
+
+.reader-shell.spacing-relaxed {
+  --reader-line-height: 2.15;
+}
+
+/* Margins / Reading Measure */
+.reader-shell.margin-narrow {
+  --reader-max-width: 660px;
+}
+
+.reader-shell.margin-normal {
+  --reader-max-width: 780px;
+}
+
+.reader-shell.margin-wide {
+  --reader-max-width: 920px;
+}
+
+/* Fullscreen Kindle Mode */
 .reader-shell.is-fullscreen {
   position: fixed;
   top: 0;
@@ -4920,164 +4987,263 @@ button {
   overflow-y: auto;
 }
 
-.reader-toolbar {
+/* Kindle Top Header Bar */
+.kindle-header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.85rem;
-  padding: 0.85rem 1.5rem;
-  background: #232732;
-  border-bottom: 1px solid #333948;
+  gap: 0.75rem;
+  padding: 0.75rem 1.4rem;
+  background: #1F232D;
+  border-bottom: 1px solid #303746;
+  position: relative;
+  z-index: 100;
 }
 
-.reader-toolbar-left,
-.reader-toolbar-right {
+.kindle-header-left,
+.kindle-header-right {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.reader-btn {
+.kindle-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #C4C8D2;
+}
+
+.kindle-book-title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #F0F2F6;
+  font-size: 0.86rem;
+}
+
+.kindle-chapter-title {
+  font-size: 0.75rem;
+  color: #9AA0A6;
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .kindle-header-center {
+    display: none;
+  }
+}
+
+.kindle-icon-btn {
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #E8EAED;
   font-family: inherit;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  padding: 0.45rem 0.95rem;
+  padding: 0.4rem 0.85rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   transition: all 0.2s ease;
   text-decoration: none;
 }
 
-.reader-btn:hover {
+.kindle-icon-btn:hover {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.25);
   color: #FFFFFF;
 }
 
-.reader-btn.active {
+.kindle-icon-btn.active {
   background: var(--c-primary);
   border-color: var(--c-primary);
   color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.4);
 }
 
-.reader-btn-primary {
-  background: #1A73E8;
-  border-color: #1A73E8;
+.kindle-aa-btn {
+  background: rgba(255, 255, 255, 0.14);
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.9rem;
+  letter-spacing: -0.02em;
+}
+
+.kindle-aa-mark {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* The Iconic Kindle "Aa" Popover Dialog */
+.kindle-aa-popover {
+  position: absolute;
+  top: 54px;
+  right: 1.5rem;
+  z-index: 200;
+  background: #232834;
+  border: 1px solid #3C4456;
+  border-radius: 14px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+  padding: 1.35rem 1.4rem;
+  width: min(390px, 94vw);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  color: #E8EAED;
+  animation: kindleFadeIn 0.2s ease;
+}
+
+@keyframes kindleFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.kindle-aa-popover.hidden {
+  display: none !important;
+}
+
+.kindle-aa-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.kindle-aa-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9AA0A6;
+}
+
+/* Kindle Theme Chips */
+.kindle-theme-chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.kindle-theme-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 0.25rem;
+  color: #C4C8D2;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kindle-theme-chip .theme-sample {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  display: block;
+}
+
+.theme-chip-paperwhite .theme-sample { background: #FAF6EE; }
+.theme-chip-white .theme-sample { background: #FFFFFF; }
+.theme-chip-sepia .theme-sample { background: #F5ECD7; }
+.theme-chip-dark .theme-sample { background: #14161C; border-color: rgba(255,255,255,0.25); }
+
+.kindle-theme-chip.active {
+  border-color: var(--c-primary);
+  background: rgba(255, 69, 0, 0.12);
   color: #FFFFFF;
 }
 
-.reader-btn-primary:hover {
-  background: #1765CC;
-  border-color: #1765CC;
-}
-
-.reader-font-controls {
+/* Kindle Toggle Button Group */
+.kindle-toggle-group {
   display: flex;
-  align-items: center;
   background: rgba(0, 0, 0, 0.35);
   border-radius: var(--radius-pill);
-  padding: 0.2rem 0.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  gap: 0.35rem;
+  padding: 0.25rem;
+  gap: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.reader-btn-icon {
+.kindle-pill-btn {
+  flex: 1;
   background: transparent;
   border: none;
-  color: #E8EAED;
+  color: #B4B9C4;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  border-radius: var(--radius-sm);
-  transition: background 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  transition: all 0.2s ease;
 }
 
-.reader-btn-icon:hover {
-  background: rgba(255, 255, 255, 0.15);
+.kindle-pill-btn:hover {
   color: #FFFFFF;
 }
 
-.reader-font-indicator {
-  font-size: 0.78rem;
-  color: #9AA0A6;
+.kindle-pill-btn.active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
   font-weight: 700;
-  padding: 0 0.3rem;
-  min-width: 36px;
-  text-align: center;
 }
 
-/* Local PDF Converter Panel (Collapsible) */
-.converter-panel {
-  background: #20242E;
-  border-bottom: 1px solid #333948;
-  padding: 2rem 2.5rem;
-  transition: all 0.3s ease;
-}
-
-.converter-panel.hidden {
-  display: none;
-}
-
-.converter-box {
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-.converter-header {
+/* Kindle Size Stepper */
+.kindle-size-slider-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.converter-dropzone {
-  border: 2px dashed #4E5668;
-  border-radius: var(--radius-md);
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.22);
+.kindle-step-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #FFFFFF;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
 }
 
-.converter-dropzone:hover {
-  border-color: var(--c-primary);
-  background: rgba(255, 69, 0, 0.05);
+.kindle-step-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
 }
 
-.converter-textarea {
-  width: 100%;
-  background: #14171E;
-  color: #A8DAB5;
-  border: 1px solid #383F50;
-  border-radius: var(--radius-sm);
-  padding: 1rem;
-  font-family: monospace;
+.kindle-size-val {
   font-size: 0.88rem;
-  line-height: 1.6;
-  resize: vertical;
+  font-weight: 700;
+  color: #FFFFFF;
+  min-width: 48px;
+  text-align: center;
 }
 
-/* Main Reader Stage */
+/* Kindle Reading Stage */
 .reader-stage {
   padding: 2.5rem 1.5rem;
   background: var(--reader-stage-bg);
-  min-height: 600px;
+  min-height: 620px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5085,7 +5251,191 @@ button {
   transition: background 0.3s ease;
 }
 
-/* 3D Flip-Book Spread */
+/* Kindle Viewport (Clean Focus View) */
+.kindle-viewport {
+  width: 100%;
+  max-width: var(--reader-max-width, 780px);
+  margin: 0 auto;
+  background: var(--book-bg);
+  color: var(--book-text);
+  font-family: var(--reader-font-family);
+  font-size: var(--reader-font-size, 18px);
+  line-height: var(--reader-line-height, 1.85);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--book-border);
+  position: relative;
+  transition: background-color 0.25s ease, color 0.25s ease, max-width 0.25s ease;
+  overflow: hidden;
+}
+
+.kindle-page-article {
+  padding: 3.5rem 3.5rem 4rem 3.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 700px) {
+  .kindle-page-article {
+    padding: 2.25rem 1.5rem 3rem 1.5rem;
+  }
+}
+
+.kindle-article-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.kindle-article-title {
+  font-family: var(--reader-font-family);
+  font-size: 2.1em;
+  color: var(--book-heading);
+  line-height: 1.22;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.kindle-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  color: var(--book-text-secondary);
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--book-border);
+}
+
+.kindle-reading-time {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+}
+
+.reader-shell.theme-dark .kindle-reading-time {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Kindle Drop-Cap */
+.kindle-dropcap {
+  float: left;
+  font-family: var(--font-serif);
+  font-size: 3.4em;
+  line-height: 0.8;
+  margin-top: 0.1em;
+  margin-right: 0.2em;
+  margin-bottom: -0.05em;
+  color: var(--c-primary);
+  font-weight: 700;
+}
+
+/* Kindle Reading Flow & Content */
+.kindle-body-content p.reader-p {
+  font-size: 1em;
+  line-height: var(--reader-line-height, 1.85);
+  color: var(--book-text-body);
+  margin-bottom: 1.2em;
+  letter-spacing: 0.01em;
+}
+
+.kindle-body-content .reader-subheading {
+  font-family: var(--reader-font-family);
+  font-size: 1.3em;
+  color: var(--book-heading);
+  margin: 1.4em 0 0.5em 0;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Kindle Edge Tap Zones */
+.kindle-tap-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  user-select: none;
+}
+
+.kindle-tap-left {
+  left: 0;
+}
+
+.kindle-tap-right {
+  right: 0;
+}
+
+.kindle-viewport:hover .kindle-tap-zone {
+  opacity: 0.55;
+}
+
+.kindle-tap-zone:hover {
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.reader-shell.theme-dark .kindle-tap-zone:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.kindle-turn-hint {
+  font-size: 2.2rem;
+  color: var(--book-text-secondary);
+  font-weight: 300;
+}
+
+/* Kindle Bottom Progress Bar */
+.kindle-reading-bar {
+  background: #1F232D;
+  border-top: 1px solid #303746;
+  padding: 0.85rem 1.75rem 0.65rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.kindle-reading-progress {
+  width: 100%;
+  height: 4px;
+  background: #333A48;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.kindle-progress-fill {
+  height: 100%;
+  background: var(--c-primary);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.kindle-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  color: #9AA0A6;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.kindle-status-row .kindle-time-left {
+  color: #C4C8D2;
+}
+
+/* 3D Flip Spread Support */
 .flipbook-wrapper {
   width: 100%;
   max-width: 1140px;
@@ -5103,6 +5453,7 @@ button {
   overflow: hidden;
   border: 1px solid var(--book-border);
   min-height: 580px;
+  font-family: var(--reader-font-family);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -5218,7 +5569,7 @@ button {
 }
 
 .book-article-title {
-  font-family: var(--font-serif);
+  font-family: var(--reader-font-family);
   font-size: 1.65em;
   color: var(--book-heading);
   line-height: 1.25;
@@ -5288,7 +5639,7 @@ button {
 }
 
 .callout-quote {
-  font-family: var(--font-serif);
+  font-family: var(--reader-font-family);
   font-style: italic;
   font-size: 1.02em;
   line-height: 1.55;
@@ -5361,14 +5712,14 @@ button {
 
 .reader-p {
   font-size: 1em;
-  line-height: 1.8;
+  line-height: var(--reader-line-height, 1.85);
   color: var(--book-text-body);
   margin-bottom: 1.1em;
   letter-spacing: 0.01em;
 }
 
 .reader-subheading {
-  font-family: var(--font-serif);
+  font-family: var(--reader-font-family);
   font-size: 1.25em;
   color: var(--book-heading);
   margin: 1.2em 0 0.5em 0;
@@ -5385,7 +5736,7 @@ button {
 }
 
 .reader-pullquote p {
-  font-family: var(--font-serif);
+  font-family: var(--reader-font-family);
   font-style: italic;
   font-size: 1.05em;
   line-height: 1.6;
@@ -5418,9 +5769,8 @@ button {
 
 /* Quick Page Thumbnail Strip */
 .reader-thumbnails-bar {
-  background: #1F232D;
-  border-top: 1px solid #303644;
-  border-bottom: 1px solid #303644;
+  background: #1A1D26;
+  border-top: 1px solid #2C3342;
   padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
@@ -5482,42 +5832,22 @@ button {
   font-size: 0.72rem;
 }
 
-/* Clean Paginated Reader View */
-.paginated-view-wrapper {
-  width: 100%;
-  max-width: 840px;
-  margin: 0 auto;
-  background: var(--book-bg);
-  padding: 3.5rem 3.5rem 4rem 3.5rem;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-  border: 1px solid var(--book-border);
-  color: var(--book-text);
-  font-size: var(--reader-font-size, 18px);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-@media (max-width: 680px) {
-  .paginated-view-wrapper {
-    padding: 2rem 1.5rem;
-  }
-}
-
-.magazine-clean-article .article-reader-title {
-  font-family: var(--font-serif);
-  font-size: 2em;
-  color: var(--book-heading);
-  line-height: 1.25;
-}
-
-/* Reader Bottom Pagination Bar */
+/* Reader Bottom Navigation Bar */
 .reader-pagination-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.85rem 1.75rem;
-  background: #232732;
-  border-top: 1px solid #333948;
+  padding: 0.75rem 1.5rem;
+  background: #1F232D;
+  border-top: 1px solid #303746;
+}
+
+.reader-page-indicator {
+  font-size: 0.92rem;
+  color: #E8EAED;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .reader-page-indicator {
