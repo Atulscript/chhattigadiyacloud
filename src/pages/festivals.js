@@ -49,8 +49,8 @@ function renderFestival(fest, lang, today) {
         </ul>
         ${(edition.schedule || []).length ? `
         <details${isNext ? ' open' : ''}>
-          <summary class="cc-link cc-disclosure">${t.programme}</summary>
-          <ol class="cc-schedule cc-disclosure__body">
+          <summary class="cc-link" style="cursor:pointer">${t.programme}</summary>
+          <ol class="cc-schedule" style="margin-top:0.5rem">
             ${edition.schedule.map((s) => `<li><span class="cc-schedule__when">${esc(s.day)} · ${esc(s.time)}</span><span class="cc-schedule__what" lang="en"><strong>${esc(s.event)}</strong><span>${esc(s.group)}</span></span></li>`).join('')}
           </ol>
         </details>` : ''}
@@ -74,9 +74,9 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'events', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
-    <div class="cc-wrap cc-stack">${fests.map((f) => renderFestival(f, lang, today)).join('')}</div>
+    <div class="cc-wrap" style="display:grid; gap:1.5rem">${fests.map((f) => renderFestival(f, lang, today)).join('')}</div>
   </section>
   ${archive.length ? `
   <section class="cc-section cc-section--tint" aria-labelledby="archive-title">
@@ -92,7 +92,7 @@ function render(siteData, lang) {
             <li>${icon('pin')}<span>${esc(pick(y.venue, lang))}</span></li>
           </ul>
           <p class="cc-card__text">${esc(pick(y.highlight, lang))}</p>
-          ${(y.sponsors || []).length ? `<p class="cc-muted cc-small">${t.sponsors}: ${esc(y.sponsors.join(', '))}</p>` : ''}
+          ${(y.sponsors || []).length ? `<p class="cc-muted" style="font-size:0.95rem">${t.sponsors}: ${esc(y.sponsors.join(', '))}</p>` : ''}
         </div></li>`).join('')}
       </ul>
     </div>

@@ -26,11 +26,11 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'contact', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
-    <div class="cc-wrap cc-contact-grid">
+    <div class="cc-wrap" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items:start">
       ${renderInlineForm('contact', siteData, lang)}
-      <div class="cc-stack">
+      <div style="display:grid; gap:1.5rem">
         <section class="cc-card" aria-labelledby="quick-title"><div class="cc-card__body">
           <h2 class="cc-h3" id="quick-title">${t.quick}</h2>
           <div class="cc-actions">${t.requests.map(([form, label]) => formButton({ lang, form, label, variant: 'secondary', size: 'sm' })).join('')}</div>

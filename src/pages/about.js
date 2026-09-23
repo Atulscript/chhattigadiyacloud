@@ -76,7 +76,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, page: 'about', title: t.title, lead: t.lead })}
+  ${pageHead({ lang, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap">
       <div class="cc-grid cc-grid--2">
@@ -91,7 +91,7 @@ function render(siteData, lang) {
       <ul class="cc-grid cc-grid--3">
         ${t.pillars.map(([ic, title, text]) => `
         <li class="cc-card"><div class="cc-card__body">
-          <span class="cc-icon-chip">${icon(ic)}</span>
+          <span class="cc-tag" style="align-self:flex-start; padding:0.5rem">${icon(ic)}</span>
           <h3 class="cc-h3">${title}</h3>
           <p class="cc-card__text">${text}</p>
         </div></li>`).join('')}
