@@ -1,21 +1,22 @@
-// Chhattisgadhiya Cloud - homepage hero slider (browser).
+// Chhattisgadhiya Cloud - hero slider and page-title banners (browser).
 // Markup is rendered at build time by src/home/hero.js. Without JavaScript the
 // first slide shows on its own. This adds crossfades, autoplay (paused on
 // hover, focus, touch, a hidden tab, or the pause button), arrows, dots,
 // left/right keys and swipe. Autoplay is off when reduced motion is preferred.
 (function () {
   'use strict';
-  var root = document.querySelector('[data-hs]');
-  if (!root) return;
+  [].forEach.call(document.querySelectorAll('[data-hs]'), setup);
+
+  function setup(root) {
   var slides = [].slice.call(root.querySelectorAll('[data-hs-slide]'));
   if (slides.length < 2) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var controls = root.querySelector('[data-hs-controls]');
   var dots = [].slice.call(root.querySelectorAll('[data-hs-dot]'));
   var toggle = root.querySelector('[data-hs-toggle]');
   var current = root.querySelector('[data-hs-current]');
   var viewport = root.querySelector('[data-hs-viewport]');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var interval = (parseFloat(root.getAttribute('data-interval')) || 7) * 1000;
   var autoplay = root.getAttribute('data-autoplay') === 'true' && !reduce;
 
@@ -76,8 +77,10 @@
     schedule();
   }
 
-  root.querySelector('[data-hs-prev]').addEventListener('click', function () { go(index - 1, true); });
-  root.querySelector('[data-hs-next]').addEventListener('click', function () { go(index + 1, true); });
+  var prevBtn = root.querySelector('[data-hs-prev]');
+  var nextBtn = root.querySelector('[data-hs-next]');
+  if (prevBtn) prevBtn.addEventListener('click', function () { go(index - 1, true); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { go(index + 1, true); });
   dots.forEach(function (d, i) { d.addEventListener('click', function () { go(i, true); }); });
   if (toggle) toggle.addEventListener('click', function () { setStopped(!stopped); });
 
@@ -112,4 +115,5 @@
 
   setStopped(stopped);
   preload(1);
+  }
 })();

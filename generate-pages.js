@@ -15,7 +15,7 @@ const { buildForms, renderFormDialogs } = require('./src/site/forms.js');
 const { esc, icon } = require('./src/site/ui.js');
 const pwa = require('./src/site/pwa.js');
 const { renderHomePage } = require('./src/home/components.js');
-const { heroPreload, getSlides } = require('./src/home/hero.js');
+const { heroPreload, getSlides, bannerPreload, activeSlides } = require('./src/home/hero.js');
 
 const PAGES = {
   'whats-on': require('./src/pages/whats-on.js'),
@@ -30,7 +30,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 5;
+const ASSET_VERSION = 6;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
@@ -141,6 +141,12 @@ function write(file, content) {
   fs.writeFileSync(full, content);
 }
 
+// Page-title banner sliders (siteData.pageBanners): preload the first image and
+// load the slider script only on pages that have more than one image.
+const banners = siteData.pageBanners || {};
+const bannerHead = (page) => (activeSlides(banners[page]).length ? bannerPreload(banners[page]) : '');
+const bannerScript = (page) => (activeSlides(banners[page]).length > 1 ? `\n  <script src="/${ASSETS.heroJs}" defer></script>` : '');
+
 ['en', 'hi'].forEach((lang) => {
   const isHi = lang === 'hi';
   const altLang = isHi ? 'en' : 'hi';
@@ -170,9 +176,9 @@ function write(file, content) {
       : 'Chhattisgadhiya Cloud Masik Patrika — the latest issue, previous issues, digital and print copies, and a free 5-page preview.',
     canonicalUrl: `/${lang}/magazine/`,
     altUrl: `/${altLang}/magazine/`,
-    contentHtml: renderMagazinePage(siteData.magazine, magazinePages, lang, siteData.contact),
-    extraHead: `<link rel="stylesheet" href="/${ASSETS.magazineCss}">`,
-    extraScripts: `<script src="/${ASSETS.magazineJs}" defer></script>`,
+    contentHtml: renderMagazinePage(siteData.magazine, magazinePages, lang, siteData.contact, { banner: banners.magazine, bannerSettings: siteData.pageBannerSettings }),
+    extraHead: `<link rel="stylesheet" href="/${ASSETS.magazineCss}">${bannerHead('magazine') ? `\n  ${bannerHead('magazine')}` : ''}`,
+    extraScripts: `<script src="/${ASSETS.magazineJs}" defer></script>${bannerScript('magazine')}`,
   }));
 
   Object.entries(PAGES).forEach(([slug, page]) => {
@@ -182,6 +188,8 @@ function write(file, content) {
       canonicalUrl: `/${lang}/${slug}/`,
       altUrl: `/${altLang}/${slug}/`,
       contentHtml: content,
+      extraHead: bannerHead(slug),
+      extraScripts: bannerScript(slug),
       allForms: slug === 'contact', // deep links like /contact/#form-camp open any form
     }));
   });

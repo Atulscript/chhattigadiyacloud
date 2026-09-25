@@ -20,7 +20,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['blog'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead })}
   <section class="cc-section">
     <div class="cc-wrap cc-wrap--narrow" style="display:grid; gap:1.25rem">
       ${posts.map((p) => `

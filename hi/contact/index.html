@@ -39,7 +39,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../../src/site/site.css?v=5">
+  <link rel="stylesheet" href="../../src/site/site.css?v=6">
+  <link rel="preload" as="image" href="../../src/assets/images/hero/mandar-banner-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="../../src/assets/images/hero/mandar-banner.webp" imagesrcset="../../src/assets/images/hero/mandar-banner-1280.webp 1280w, ../../src/assets/images/hero/mandar-banner.webp 1920w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js', { scope: '../../' }).catch(function () {}); });
   </script>
@@ -104,16 +106,62 @@
   <main id="main">
     
   
-  <header class="cc-page-head">
-    <div class="cc-wrap">
+  <header class="hs hs--page" aria-roledescription="carousel" aria-label="संपर्क"
+    data-hs data-autoplay="true" data-interval="6">
+    <div class="hs__viewport" data-hs-viewport>
+      
+      <div class="hs__slide is-active" id="page-slide-1" role="group" aria-roledescription="slide"
+        aria-label="3 में से 1" data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/mandar-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/mandar-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/mandar-banner-1280.webp 1280w, ../../src/assets/images/hero/mandar-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/mandar-banner.jpg" srcset="../../src/assets/images/hero/mandar-banner-1280.jpg 1280w, ../../src/assets/images/hero/mandar-banner.jpg 1920w" sizes="100vw" alt="उत्सव की सुनहरी रोशनी में मांदर वादक" width="1920" height="640" decoding="async" fetchpriority="high">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>
+      <div class="hs__slide" id="page-slide-2" role="group" aria-roledescription="slide"
+        aria-label="3 में से 2" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/lantern-night-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/lantern-night-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/lantern-night-banner-1280.webp 1280w, ../../src/assets/images/hero/lantern-night-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/lantern-night-banner.jpg" srcset="../../src/assets/images/hero/lantern-night-banner-1280.jpg 1280w, ../../src/assets/images/hero/lantern-night-banner.jpg 1920w" sizes="100vw" alt="रात में रोशनी की लड़ियों के नीचे खुला उत्सव मंच" width="1920" height="640" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>
+      <div class="hs__slide" id="page-slide-3" role="group" aria-roledescription="slide"
+        aria-label="3 में से 3" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/diyas-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/diyas-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/diyas-banner-1280.webp 1280w, ../../src/assets/images/hero/diyas-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/diyas-banner.jpg" srcset="../../src/assets/images/hero/diyas-banner-1280.jpg 1280w, ../../src/assets/images/hero/diyas-banner.jpg 1920w" sizes="100vw" alt="रंगीन रंगोली के चारों ओर जलते दीये" width="1920" height="640" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="cc-wrap hs__head">
       <nav class="cc-crumbs" aria-label="आप यहां हैं">
         <a href="../../hi/">होम</a><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg><span aria-current="page">संपर्क</span>
       </nav>
       
-      <h1 class="cc-h1">संपर्क</h1>
-      <p class="cc-lead">हमें लिखें, फ़ोन करें, या नीचे से कोई त्वरित अनुरोध चुनें।</p>
-      
-      <span class="cc-motif cc-motif--short" aria-hidden="true"></span>
+      <h1 class="cc-h1 hs__page-title">संपर्क</h1>
+      <p class="hs__lead">हमें लिखें, फ़ोन करें, या नीचे से कोई त्वरित अनुरोध चुनें।</p>
+      </div>
+    
+    <div class="hs__controls" hidden data-hs-controls>
+      <div class="cc-wrap hs__controls-inner">
+        <div class="hs__dots">
+          <button type="button" class="hs__dot" data-hs-dot="0" aria-controls="page-slide-1" aria-label="स्लाइड 1 दिखाएं" aria-current="true"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="1" aria-controls="page-slide-2" aria-label="स्लाइड 2 दिखाएं"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="2" aria-controls="page-slide-3" aria-label="स्लाइड 3 दिखाएं"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button>
+        </div>
+        <div class="hs__nav">
+          <button type="button" class="hs__btn hs__btn--toggle" data-hs-toggle aria-label="स्लाइड शो रोकें" data-label-pause="स्लाइड शो रोकें" data-label-play="स्लाइड शो चलाएं">
+            <svg class="cc-icon hs__icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            <svg class="cc-icon hs__icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
   <section class="cc-section">
@@ -478,7 +526,8 @@
       </div>
     </div>
   </dialog>
-  <script src="../../src/site/site.js?v=5" defer></script>
+  <script src="../../src/site/site.js?v=6" defer></script>
   
+  <script src="../../src/home/hero-slider.js?v=6" defer></script>
 </body>
 </html>

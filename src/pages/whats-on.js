@@ -49,7 +49,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead: t.lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['whats-on'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap cc-wrap--narrow">${list}</div>
   </section>

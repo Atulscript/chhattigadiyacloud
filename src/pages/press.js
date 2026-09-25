@@ -22,7 +22,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: pick(kit.description, lang),
     content: `
-  ${pageHead({ lang, title: t.title, lead: pick(kit.description, lang) })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['press'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: pick(kit.description, lang) })}
   <section class="cc-section">
     <div class="cc-wrap" style="display:grid; gap:1.5rem">
       <div class="cc-card"><div class="cc-card__body">

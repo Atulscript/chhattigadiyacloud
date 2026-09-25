@@ -7,7 +7,8 @@
     "build": "node generate-pages.js",
     "start": "node server.js",
     "icons": "node generate-pwa-icons.js",
-    "hero-art": "node generate-hero-art.js"
+    "hero-art": "node generate-hero-art.js",
+    "banner-art": "node generate-banner-art.js"
   },
   "devDependencies": {
     "sharp": "^0.35.4"

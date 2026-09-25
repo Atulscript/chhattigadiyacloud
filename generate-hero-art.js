@@ -357,35 +357,68 @@ const SCENES = {
   'creative-stage': { svg: sceneAudience, focusX: 1350 },
 };
 
+// Renders an SVG scene at 2x and writes JPEG + WebP pairs.
+async function rasterize(svg) {
+  return sharp(Buffer.from(svg), { density: 144 }).resize(W * 2, H * 2).png().toBuffer();
+}
+async function write(img, file, q) {
+  await img.clone().jpeg({ quality: q, mozjpeg: true, progressive: true }).toFile(path.join(OUT, `${file}.jpg`));
+  await img.clone().webp({ quality: q - 4, effort: 6 }).toFile(path.join(OUT, `${file}.webp`));
+}
+// Dark fade over the bottom of a portrait frame, where text sits on phones.
+function fadeSvg(w, h, from, to) {
+  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="${(from / h).toFixed(3)}" stop-color="#0b0706" stop-opacity="0"/><stop offset="${(to / h).toFixed(3)}" stop-color="#0b0706"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#f)"/></svg>`);
+}
+
+// Hero slides: 1920x1080, 1280x720 and a 900x1200 portrait for phones.
 async function render(name, { svg, focusX }) {
-  const src = Buffer.from(svg());
+  const src = svg();
   fs.writeFileSync(path.join(OUT, 'src', `${name}.svg`), src);
-  const base = sharp(src, { density: 144 }).resize(W * 2, H * 2); // 2x for crisp downscales
-  const png = await base.png().toBuffer();
-  const out = async (img, file, q) => {
-    await img.clone().jpeg({ quality: q, mozjpeg: true, progressive: true }).toFile(path.join(OUT, `${file}.jpg`));
-    await img.clone().webp({ quality: q - 4, effort: 6 }).toFile(path.join(OUT, `${file}.webp`));
-  };
-  await out(sharp(png).resize(1920, 1080), name, 78);
-  await out(sharp(png).resize(1280, 720), `${name}-1280`, 76);
-  // Mobile: a 3:4 portrait frame with the subject in the upper part and a
-  // fade to dark below, where the slide text sits on phones.
+  const png = await rasterize(src);
+  await write(sharp(png).resize(1920, 1080), name, 78);
+  await write(sharp(png).resize(1280, 720), `${name}-1280`, 76);
   const cw = 1250 * 2;
   const left = Math.max(0, Math.min(W * 2 - cw, Math.round(focusX * 2 - cw / 2)));
   const top = await sharp(png).extract({ left, top: 0, width: cw, height: H * 2 }).resize(900).toBuffer();
   const th = Math.round((900 * H * 2) / cw);
-  const fade = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200"><defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="${((th - 260) / 1200).toFixed(3)}" stop-color="#0b0706" stop-opacity="0"/><stop offset="${(th / 1200).toFixed(3)}" stop-color="#0b0706"/></linearGradient></defs>
-    <rect width="900" height="1200" fill="url(#f)"/></svg>`);
   const mobile = sharp({ create: { width: 900, height: 1200, channels: 3, background: '#0b0706' } })
-    .composite([{ input: top, left: 0, top: 0 }, { input: fade, left: 0, top: 0 }]);
-  await out(sharp(await mobile.png().toBuffer()), `${name}-mobile`, 76);
+    .composite([{ input: top, left: 0, top: 0 }, { input: fadeSvg(900, 1200, th - 260, th), left: 0, top: 0 }]);
+  await write(sharp(await mobile.png().toBuffer()), `${name}-mobile`, 76);
 }
 
-(async () => {
-  fs.mkdirSync(path.join(OUT, 'src'), { recursive: true });
-  for (const [name, scene] of Object.entries(SCENES)) {
-    await render(name, scene);
-    console.log('hero art:', name);
-  }
-})();
+// Page-title banners (60% of the hero's height): a 3:1 strip centred on the
+// subject for tablet/desktop, and a near-square frame for phones with the
+// subject high and a dark fade below for the page title.
+async function renderBanner(name, { svg, focusX, focusY = 560 }) {
+  const src = svg();
+  fs.writeFileSync(path.join(OUT, 'src', `${name}.svg`), src);
+  const png = await rasterize(src);
+  const bh = 640 * 2;
+  const top = Math.max(0, Math.min(H * 2 - bh, Math.round(focusY * 2 - bh / 2)));
+  const strip = sharp(png).extract({ left: 0, top, width: W * 2, height: bh });
+  const stripPng = await strip.png().toBuffer();
+  await write(sharp(stripPng).resize(1920, 640), `${name}-banner`, 78);
+  await write(sharp(stripPng).resize(1280, 427), `${name}-banner-1280`, 76);
+  const mw = 1100 * 2; const mh = 760 * 2;
+  const mLeft = Math.max(0, Math.min(W * 2 - mw, Math.round(focusX * 2 - mw / 2)));
+  const mTop = Math.max(0, Math.min(H * 2 - mh, Math.round((focusY - 420) * 2)));
+  const head = await sharp(png).extract({ left: mLeft, top: mTop, width: mw, height: mh }).resize(900).toBuffer();
+  const th = Math.round((900 * mh) / mw);
+  const mobile = sharp({ create: { width: 900, height: 960, channels: 3, background: '#0b0706' } })
+    .composite([{ input: head, left: 0, top: 0 }, { input: fadeSvg(900, 960, th - 200, th), left: 0, top: 0 }]);
+  await write(sharp(await mobile.png().toBuffer()), `${name}-banner-mobile`, 76);
+}
+
+module.exports = { W, H, rng, defs, vignette, particles, figure, POSES, COSTUME, mask, SCENES, render, renderBanner, OUT };
+
+if (require.main === module) {
+  (async () => {
+    fs.mkdirSync(path.join(OUT, 'src'), { recursive: true });
+    for (const [name, scene] of Object.entries(SCENES)) {
+      await render(name, scene);
+      console.log('hero art:', name);
+    }
+  })();
+}

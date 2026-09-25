@@ -74,7 +74,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead: t.lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['events'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap" style="display:grid; gap:1.5rem">${fests.map((f) => renderFestival(f, lang, today)).join('')}</div>
   </section>

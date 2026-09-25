@@ -76,8 +76,24 @@ function picture(src, alt, { width, height, eager = false, cls = '', sizes = '' 
   return sources.length ? `<picture>${sources.join('')}${img}</picture>` : img;
 }
 
-function pageHead({ lang, title, lead = '', kicker = '', extra = '' }) {
+function pageHead({ lang, title, lead = '', kicker = '', extra = '', banner = null, bannerSettings = {} }) {
   const home = lang === 'hi' ? 'होम' : 'Home';
+  // With banner images the header becomes an image slider (src/home/hero.js).
+  if (banner && banner.length) {
+    const { renderPageBanner } = require('../home/hero.js'); // lazy: hero.js requires this file
+    const html = renderPageBanner({
+      slides: banner, lang, label: title, settings: bannerSettings,
+      content: `
+      <nav class="cc-crumbs" aria-label="${lang === 'hi' ? 'आप यहां हैं' : 'Breadcrumb'}">
+        <a href="/${lang}/">${home}</a>${icon('chevronRight')}<span aria-current="page">${esc(title)}</span>
+      </nav>
+      ${kicker ? `<p class="hs__kicker">${esc(kicker)}</p>` : ''}
+      <h1 class="cc-h1 hs__page-title">${esc(title)}</h1>
+      ${lead ? `<p class="hs__lead">${esc(lead)}</p>` : ''}
+      ${extra}`,
+    });
+    if (html) return html;
+  }
   return `
   <header class="cc-page-head">
     <div class="cc-wrap">

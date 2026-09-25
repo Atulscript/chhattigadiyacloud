@@ -2049,6 +2049,9 @@ function renderPagesManager() {
       <button type="button" class="pages-subnav-btn ${currentSub === 'brand' ? 'active' : ''}" onclick="switchSubPage('brand')">
         📞 Brand & Contacts
       </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'banners' ? 'active' : ''}" onclick="switchSubPage('banners')">
+        🖼️ Page Banners
+      </button>
     </div>
 
     <!-- Active Subpage Content Host -->
@@ -2088,6 +2091,9 @@ function renderCurrentSubPage() {
       break;
     case 'brand':
       renderBrandPageEditor(host);
+      break;
+    case 'banners':
+      renderPageBannersEditor(host);
       break;
     default:
       renderHomepageEditor(host);
@@ -2680,6 +2686,142 @@ window.removeHeroSlide = function(index) {
     markDirty(true);
     rerenderKeepingScroll();
     showToast('Slide removed.', 'success');
+  }, 'Remove');
+};
+
+// ==========================================
+// PAGE-TITLE BANNERS (image slider behind each page title)
+// ==========================================
+// Stored in pageBanners[<page>] as a list of images. Shown in order; inactive
+// images are skipped; with no active images the page uses its plain header.
+const BANNER_PAGES = [
+  ['whats-on', "What's On"], ['productions', 'Plays'], ['events', 'Festivals'], ['training-workshops', 'Workshops'],
+  ['magazine', 'Magazine'], ['about', 'About'], ['blog', 'Blog'], ['press', 'Press kit'], ['support', 'Support us'], ['contact', 'Contact']
+];
+const BANNER_ART = ['lantern-night', 'creative-stage', 'theatre-seats', 'rehearsal', 'stage-alive', 'curtain-call', 'folk-celebration',
+  'poet-mic', 'mandar', 'kids-circle', 'mask-workshop', 'gond-tree', 'backstage', 'sal-sunrise', 'masks-stories', 'classical-dance', 'diyas'];
+const BANNER_PRESETS = BANNER_ART.map(n => ({ name: n.replace(/-/g, ' '), path: `/src/assets/images/hero/${n}-banner.jpg` }));
+const BANNER_MOBILE_PRESETS = BANNER_ART.map(n => ({ name: n.replace(/-/g, ' '), path: `/src/assets/images/hero/${n}-banner-mobile.jpg` }));
+
+function pageBannerList(page) {
+  if (!state.content.pageBanners || typeof state.content.pageBanners !== 'object') state.content.pageBanners = {};
+  if (!Array.isArray(state.content.pageBanners[page])) state.content.pageBanners[page] = [];
+  const list = state.content.pageBanners[page];
+  list.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+  return list;
+}
+function renumberBanner(page) {
+  state.content.pageBanners[page].forEach((s, i) => { s.order = i + 1; });
+}
+
+function renderPageBannersEditor(host) {
+  const cfg = state.content.pageBannerSettings || {};
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🖼️ Page Banners</div>
+          <div class="section-group-desc">The image slider behind each page title (60% of the homepage hero's height). Three images per page work best. Landscape images: about 1920×640. Mobile images: about 900×960, with the subject in the upper half because the title sits at the bottom on phones. Changes go live after you Publish.</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:1.25rem; align-items:center;">
+        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;">
+          <input type="checkbox" ${cfg.autoplay !== false ? 'checked' : ''} onchange="updateBannerSetting('autoplay', this.checked)"> Auto-play banner images
+        </label>
+        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;">
+          Seconds per image
+          <input type="number" min="3" max="20" class="form-control" style="width:80px;" value="${escapeHtml(String(cfg.interval || 6))}" onchange="updateBannerSetting('interval', Math.max(3, Number(this.value) || 6))">
+        </label>
+      </div>
+    </div>
+
+    ${BANNER_PAGES.map(([page, name]) => {
+      const list = pageBannerList(page);
+      return `
+    <div class="section-group-card" id="banner-${page}">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">${escapeHtml(name)} (${list.filter(s => s.active !== false).length} active of ${list.length})</div>
+          <div class="section-group-desc">/${page}/</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="addBannerImage('${page}')">+ Add image</button>
+      </div>
+      ${list.length ? '' : '<p style="color:var(--studio-text-secondary);">No images: this page shows its plain title header.</p>'}
+      ${list.map((s, i) => `
+      <div class="tile-editor-box" style="margin-bottom:1rem; ${s.active === false ? 'opacity:0.65;' : ''}">
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+          <div style="font-weight:800;">Image ${i + 1}</div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.4rem; align-items:center;">
+            <label style="display:flex; gap:0.35rem; align-items:center; font-weight:600; font-size:0.85rem; margin-right:0.5rem;">
+              <input type="checkbox" ${s.active !== false ? 'checked' : ''} onchange="updateBannerImage('${page}', ${i}, 'active', this.checked, true)"> Active
+            </label>
+            <button type="button" class="btn-studio btn-studio-secondary" ${i === 0 ? 'disabled' : ''} onclick="moveBannerImage('${page}', ${i}, -1)" title="Move up">↑</button>
+            <button type="button" class="btn-studio btn-studio-secondary" ${i === list.length - 1 ? 'disabled' : ''} onclick="moveBannerImage('${page}', ${i}, 1)" title="Move down">↓</button>
+            <button type="button" class="btn-studio btn-studio-secondary" style="color:var(--studio-red);" onclick="removeBannerImage('${page}', ${i})">Remove</button>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;">
+          ${renderMediaPickerHtml({ id: `banner-${page}-${i}`, label: 'Banner image (landscape)', currentSrc: s.image || '',
+            onChangeFnStr: (arg) => `updateBannerImage('${page}', ${i}, 'image', ${arg}, true)`, presets: BANNER_PRESETS })}
+          ${renderMediaPickerHtml({ id: `banner-${page}-${i}-m`, label: 'Mobile image (optional)', currentSrc: s.imageMobile || '',
+            onChangeFnStr: (arg) => `updateBannerImage('${page}', ${i}, 'imageMobile', ${arg}, true)`, presets: BANNER_MOBILE_PRESETS })}
+        </div>
+        <div class="bilingual-tabs-wrap" style="margin-top:0.75rem;">
+          <div class="bilingual-header"><span class="bilingual-title">Image description for screen readers</span></div>
+          <div class="bilingual-grid">
+            <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(s.imageAlt && s.imageAlt.en || '')}" onchange="updateBannerAlt('${page}', ${i}, 'en', this.value)"></div>
+            <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(s.imageAlt && s.imageAlt.hi || '')}" onchange="updateBannerAlt('${page}', ${i}, 'hi', this.value)"></div>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+    }).join('')}`;
+}
+
+window.updateBannerSetting = function(key, value) {
+  if (!state.content.pageBannerSettings) state.content.pageBannerSettings = {};
+  state.content.pageBannerSettings[key] = value;
+  markDirty(true);
+};
+window.updateBannerImage = function(page, index, field, value, rerender) {
+  const item = pageBannerList(page)[index];
+  if (!item) return;
+  item[field] = value;
+  markDirty(true);
+  if (rerender) rerenderKeepingScroll();
+};
+window.updateBannerAlt = function(page, index, lang, value) {
+  const item = pageBannerList(page)[index];
+  if (!item) return;
+  if (!item.imageAlt || typeof item.imageAlt !== 'object') item.imageAlt = {};
+  item.imageAlt[lang] = value;
+  markDirty(true);
+};
+window.moveBannerImage = function(page, index, dir) {
+  const list = pageBannerList(page);
+  const to = index + dir;
+  if (to < 0 || to >= list.length) return;
+  [list[index], list[to]] = [list[to], list[index]];
+  renumberBanner(page);
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+window.addBannerImage = function(page) {
+  const list = pageBannerList(page);
+  list.push({ active: true, order: list.length + 1, image: BANNER_PRESETS[0].path, imageMobile: BANNER_MOBILE_PRESETS[0].path,
+    imageAlt: { en: '', hi: '' }, focus: '68% 50%', focusMobile: '50% 30%' });
+  renumberBanner(page);
+  markDirty(true);
+  rerenderKeepingScroll();
+  showToast('Image added. Choose or upload the artwork below.', 'success');
+};
+window.removeBannerImage = function(page, index) {
+  showConfirmModal('Remove image', `Remove image ${index + 1} from this page's banner?`, () => {
+    pageBannerList(page).splice(index, 1);
+    renumberBanner(page);
+    markDirty(true);
+    rerenderKeepingScroll();
+    showToast('Image removed.', 'success');
   }, 'Remove');
 };
 

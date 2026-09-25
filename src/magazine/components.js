@@ -278,8 +278,20 @@ function getMagazineModel(magazine, pagesData, lang) {
 // Components
 // ---------------------------------------------------------------------------
 
-function renderMasthead(m) {
+function renderMasthead(m, banner = null, bannerSettings = {}) {
   const t = STRINGS[m.lang];
+  // With banner images the masthead becomes the shared page-title slider.
+  if (banner && banner.length) {
+    const { renderPageBanner } = require('../home/hero.js');
+    const html = renderPageBanner({
+      slides: banner, lang: m.lang, label: m.name, settings: bannerSettings,
+      content: `
+      <p class="hs__kicker">${t.monthly}</p>
+      <h1 class="cc-h1 hs__page-title">${esc(m.name)}</h1>
+      <p class="hs__lead">${esc(m.tagline)}<span aria-hidden="true"> · </span><span class="mz-nowrap">${t.issn}</span></p>`,
+    });
+    if (html) return `<div class="mz-banner">${html}</div>`;
+  }
   return `
   <header class="mz-masthead">
     <div class="mz-wrap mz-masthead__inner">
@@ -582,12 +594,12 @@ function getClientConfig(m, contact) {
   };
 }
 
-function renderMagazinePage(magazine, pagesData, lang, contact) {
+function renderMagazinePage(magazine, pagesData, lang, contact, { banner = null, bannerSettings = {} } = {}) {
   const m = getMagazineModel(magazine, pagesData, lang);
   const clientJson = JSON.stringify(getClientConfig(m, contact)).replace(/</g, '\\u003c');
   return `
   <div class="mz">
-    ${renderMasthead(m)}
+    ${renderMasthead(m, banner, bannerSettings)}
     ${renderCurrentIssue(m)}
     ${renderPurchaseOptions(m)}
     ${renderPreviousIssues(m)}

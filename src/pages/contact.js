@@ -26,7 +26,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead: t.lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['contact'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap" style="display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items:start">
       ${renderInlineForm('contact', siteData, lang)}

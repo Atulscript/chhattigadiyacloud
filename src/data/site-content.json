@@ -1691,5 +1691,391 @@
         ]
       }
     ]
+  },
+  "pageBanners": {
+    "whats-on": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/lantern-night-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/lantern-night-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An open-air festival stage at night under strings of lights",
+          "hi": "रात में रोशनी की लड़ियों के नीचे खुला उत्सव मंच"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/creative-stage-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/creative-stage-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An audience watching performers on a stage lit by coloured beams",
+          "hi": "रंगीन रोशनी से जगमगाते मंच पर कलाकारों को देखते दर्शक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/theatre-seats-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/theatre-seats-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An empty theatre with red seats and a ghost light on stage",
+          "hi": "लाल कुर्सियों वाला खाली सभागार और मंच पर एक दीपक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "productions": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/rehearsal-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/rehearsal-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Two actors rehearsing a scene under work lights",
+          "hi": "कार्य-रोशनी में दृश्य का पूर्वाभ्यास करते दो अभिनेता"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/stage-alive-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/stage-alive-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An actor in a spotlight on a stage framed by red curtains",
+          "hi": "लाल पर्दों वाले मंच पर रोशनी में खड़ा एक अभिनेता"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/curtain-call-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/curtain-call-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "The cast celebrating at the curtain call",
+          "hi": "पर्दा गिरने पर उत्सव मनाते कलाकार"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "events": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/folk-celebration-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/folk-celebration-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Folk dancers around a bonfire at dusk with a Mandar drummer",
+          "hi": "सांझ में अलाव के चारों ओर लोक नर्तक और मांदर वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/poet-mic-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/poet-mic-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A poet reciting at a microphone in a spotlight",
+          "hi": "रोशनी में माइक पर कविता पढ़ता एक कवि"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/mandar-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/mandar-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A Mandar drummer in warm festival light",
+          "hi": "उत्सव की सुनहरी रोशनी में मांदर वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "training-workshops": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/kids-circle-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/kids-circle-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Children in a circle around their teacher in a rehearsal hall",
+          "hi": "रिहर्सल हॉल में शिक्षक के चारों ओर घेरे में बच्चे"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/mask-workshop-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/mask-workshop-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Folk masks being painted on a workshop table",
+          "hi": "कार्यशाला की मेज़ पर रंगे जा रहे लोक मुखौटे"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/gond-tree-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/gond-tree-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A Gond-style painted tree with birds and a deer",
+          "hi": "पक्षियों और हिरण के साथ गोंड शैली का वृक्ष चित्र"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "blog": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/backstage-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/backstage-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A backstage mirror framed with bulbs, reflecting a folk mask",
+          "hi": "बल्बों से घिरा ग्रीनरूम का आईना जिसमें लोक मुखौटा दिखता है"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/sal-sunrise-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/sal-sunrise-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A flute player at sunrise above the sal forest and village",
+          "hi": "साल वन और गांव के ऊपर सूर्योदय में बांसुरी वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/masks-stories-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/masks-stories-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Two painted folk theatre masks hanging on a dark wall",
+          "hi": "अंधेरी दीवार पर टंगे दो रंगे हुए लोक नाट्य मुखौटे"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "about": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/sal-sunrise-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/sal-sunrise-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A flute player at sunrise above the sal forest and village",
+          "hi": "साल वन और गांव के ऊपर सूर्योदय में बांसुरी वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/curtain-call-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/curtain-call-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "The cast celebrating at the curtain call",
+          "hi": "पर्दा गिरने पर उत्सव मनाते कलाकार"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/classical-dance-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/classical-dance-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A classical dancer in a half-seated pose before a ring of lamps",
+          "hi": "दीपों के घेरे के सामने अरामंडी मुद्रा में शास्त्रीय नृत्यांगना"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "contact": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/mandar-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/mandar-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A Mandar drummer in warm festival light",
+          "hi": "उत्सव की सुनहरी रोशनी में मांदर वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/lantern-night-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/lantern-night-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An open-air festival stage at night under strings of lights",
+          "hi": "रात में रोशनी की लड़ियों के नीचे खुला उत्सव मंच"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/diyas-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/diyas-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Rows of lit diyas around a colourful rangoli",
+          "hi": "रंगीन रंगोली के चारों ओर जलते दीये"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "press": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/theatre-seats-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/theatre-seats-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "An empty theatre with red seats and a ghost light on stage",
+          "hi": "लाल कुर्सियों वाला खाली सभागार और मंच पर एक दीपक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/classical-dance-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/classical-dance-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A classical dancer in a half-seated pose before a ring of lamps",
+          "hi": "दीपों के घेरे के सामने अरामंडी मुद्रा में शास्त्रीय नृत्यांगना"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/backstage-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/backstage-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A backstage mirror framed with bulbs, reflecting a folk mask",
+          "hi": "बल्बों से घिरा ग्रीनरूम का आईना जिसमें लोक मुखौटा दिखता है"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "support": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/diyas-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/diyas-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Rows of lit diyas around a colourful rangoli",
+          "hi": "रंगीन रंगोली के चारों ओर जलते दीये"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/kids-circle-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/kids-circle-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Children in a circle around their teacher in a rehearsal hall",
+          "hi": "रिहर्सल हॉल में शिक्षक के चारों ओर घेरे में बच्चे"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/folk-celebration-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/folk-celebration-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Folk dancers around a bonfire at dusk with a Mandar drummer",
+          "hi": "सांझ में अलाव के चारों ओर लोक नर्तक और मांदर वादक"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ],
+    "magazine": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "/src/assets/images/hero/gond-tree-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/gond-tree-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A Gond-style painted tree with birds and a deer",
+          "hi": "पक्षियों और हिरण के साथ गोंड शैली का वृक्ष चित्र"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "/src/assets/images/hero/poet-mic-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/poet-mic-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "A poet reciting at a microphone in a spotlight",
+          "hi": "रोशनी में माइक पर कविता पढ़ता एक कवि"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "/src/assets/images/hero/masks-stories-banner.jpg",
+        "imageMobile": "/src/assets/images/hero/masks-stories-banner-mobile.jpg",
+        "imageAlt": {
+          "en": "Two painted folk theatre masks hanging on a dark wall",
+          "hi": "अंधेरी दीवार पर टंगे दो रंगे हुए लोक नाट्य मुखौटे"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 30%"
+      }
+    ]
+  },
+  "pageBannerSettings": {
+    "autoplay": true,
+    "interval": 6
   }
 }
