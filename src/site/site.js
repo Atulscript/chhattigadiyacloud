@@ -5,6 +5,24 @@
 
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CONFIG = window.CC_CONFIG || {};
+
+  // ---- Gentle stage entrances ----
+  // Content remains visible without JavaScript. When motion is allowed, sections
+  // rise into view once, like a quiet curtain cue rather than a layout change.
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    var reveals = document.querySelectorAll('.cc-section, .hm-explore, .hm-stats');
+    if (reveals.length) {
+      document.documentElement.classList.add('cc-motion-ready');
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -28px' });
+      for (var r = 0; r < reveals.length; r++) revealObserver.observe(reveals[r]);
+    }
+  }
   function store(kind) {
     return {
       get: function (k) { try { return window[kind].getItem(k); } catch (e) { return null; } },
