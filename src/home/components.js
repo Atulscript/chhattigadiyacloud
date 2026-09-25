@@ -5,6 +5,7 @@
 const { esc, pick, localHref, icon, picture, sectionHead, stats, formButton } = require('../site/ui.js');
 const { upcoming, dateBadge } = require('../site/events.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
+const { renderHeroSlider } = require('./hero.js');
 
 const TILE_ICONS = { theatre: 'mask', fest: 'tent', camp: 'users', mag: 'book' };
 
@@ -242,7 +243,7 @@ function renderHomePage(siteData, lang) {
   };
   return `
   <div class="hm">
-    ${renderHero(ctx)}
+    ${renderHeroSlider(hp, lang) || renderHero(ctx)}
     ${renderExplore(ctx)}
     <section class="hm-stats" aria-label="${T[lang].statsLabel}"><div class="cc-wrap">${stats(hp.impactStats, lang)}</div></section>
     ${renderComingUp(ctx)}

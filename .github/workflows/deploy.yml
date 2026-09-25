@@ -24,6 +24,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Rebuild the HTML from src/data/site-content.json so content published
+      # from the admin panel (e.g. homepage hero slides) goes live.
+      - name: Build pages
+        run: node generate-pages.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

@@ -2109,6 +2109,8 @@ function renderHomepageEditor(host) {
   const vh = hp.visualHighlight || {};
 
   host.innerHTML = `
+    ${renderHeroSlidesEditor(hp)}
+
     <!-- 1. Hero & Rebus Section -->
     <div class="section-group-card">
       <div class="section-group-header">
@@ -2473,6 +2475,213 @@ function renderHomepageEditor(host) {
     </div>
   `;
 }
+
+// ==========================================
+// HOMEPAGE HERO SLIDER
+// ==========================================
+// Slides live in homepage.heroSlides. Order on the site follows `order`
+// (kept in sync with the list order here); inactive slides are skipped.
+const HERO_PRESETS = [
+  { name: 'Stage', path: '/src/assets/images/hero/stage-alive.jpg' },
+  { name: 'Folk dance', path: '/src/assets/images/hero/folk-celebration.jpg' },
+  { name: 'Classical', path: '/src/assets/images/hero/classical-dance.jpg' },
+  { name: 'Masks', path: '/src/assets/images/hero/masks-stories.jpg' },
+  { name: 'Audience', path: '/src/assets/images/hero/creative-stage.jpg' }
+];
+const HERO_MOBILE_PRESETS = HERO_PRESETS.map(p => ({ name: p.name, path: p.path.replace('.jpg', '-mobile.jpg') }));
+
+function heroSlides() {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!Array.isArray(state.content.homepage.heroSlides)) state.content.homepage.heroSlides = [];
+  const slides = state.content.homepage.heroSlides;
+  slides.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+  return slides;
+}
+
+// Numbers slides by their current list position (no re-sort, so a move sticks).
+function renumberHeroSlides() {
+  state.content.homepage.heroSlides.forEach((s, i) => { s.order = i + 1; });
+}
+
+function rerenderKeepingScroll() {
+  const y = window.scrollY;
+  renderCurrentSubPage();
+  window.scrollTo(0, y);
+}
+
+function renderHeroSlidesEditor(hp) {
+  const slides = heroSlides();
+  const cfg = hp.heroSlider || {};
+  const bi = (i, field, label, textarea = false) => {
+    const val = (lang) => escapeHtml(slides[i][field] && slides[i][field][lang] || '');
+    const input = (lang) => textarea
+      ? `<textarea class="form-control" rows="2" onchange="updateHeroSlide(${i}, '${field}.${lang}', this.value)">${val(lang)}</textarea>`
+      : `<input type="text" class="form-control" value="${val(lang)}" onchange="updateHeroSlide(${i}, '${field}.${lang}', this.value)">`;
+    return `
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">${label}</span></div>
+        <div class="bilingual-grid">
+          <div><span class="bilingual-col-tag bilingual-tag-en">English</span>${input('en')}</div>
+          <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span>${input('hi')}</div>
+        </div>
+      </div>`;
+  };
+  const cta = (i, key, label) => {
+    const c = slides[i][key] || {};
+    const t = c.text || {};
+    return `
+      <div class="tile-editor-box">
+        <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.5rem;">${label}</div>
+        <div class="form-group" style="margin-bottom:0.5rem;"><label class="form-label" style="font-size:0.75rem;">Text (EN)</label>
+          <input type="text" class="form-control" value="${escapeHtml(t.en || '')}" onchange="updateHeroSlide(${i}, '${key}.text.en', this.value)"></div>
+        <div class="form-group" style="margin-bottom:0.5rem;"><label class="form-label" style="font-size:0.75rem;">Text (HI)</label>
+          <input type="text" class="form-control" value="${escapeHtml(t.hi || '')}" onchange="updateHeroSlide(${i}, '${key}.text.hi', this.value)"></div>
+        <div class="form-group" style="margin-bottom:0;"><label class="form-label" style="font-size:0.75rem;">Link (e.g. /productions/ or https://…)</label>
+          <input type="text" class="form-control" value="${escapeHtml(c.link || '')}" onchange="updateHeroSlide(${i}, '${key}.link', this.value)"></div>
+      </div>`;
+  };
+
+  return `
+    <div class="section-group-card" id="hero-slider-editor">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🎬 Hero Slider (${slides.filter(s => s.active !== false).length} active of ${slides.length})</div>
+          <div class="section-group-desc">The large image slider at the top of the homepage. Change images and text, reorder, switch slides on or off, add or remove slides. Changes go live after you Publish.</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="addHeroSlide()">+ Add slide</button>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:1.25rem; align-items:center; margin-bottom:1rem;">
+        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;">
+          <input type="checkbox" ${cfg.autoplay !== false ? 'checked' : ''} onchange="updateHpField('heroSlider.autoplay', this.checked)"> Auto-play slides
+        </label>
+        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;">
+          Seconds per slide
+          <input type="number" min="3" max="20" class="form-control" style="width:80px;" value="${escapeHtml(String(cfg.interval || 7))}" onchange="updateHpField('heroSlider.interval', Math.max(3, Number(this.value) || 7))">
+        </label>
+      </div>
+
+      ${slides.length ? '' : '<p style="color:var(--studio-text-secondary);">No slides yet. With no active slides the homepage shows the classic hero below.</p>'}
+
+      ${slides.map((s, i) => `
+      <div class="tile-editor-box" style="margin-bottom:1.25rem; ${s.active === false ? 'opacity:0.65;' : ''}">
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+          <div style="font-weight:800;">Slide ${i + 1}${s.title && s.title.en ? ` · ${escapeHtml(s.title.en)}` : ''}</div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.4rem; align-items:center;">
+            <label style="display:flex; gap:0.35rem; align-items:center; font-weight:600; font-size:0.85rem; margin-right:0.5rem;">
+              <input type="checkbox" ${s.active !== false ? 'checked' : ''} onchange="toggleHeroSlide(${i}, this.checked)"> Active
+            </label>
+            <button type="button" class="btn-studio btn-studio-secondary" ${i === 0 ? 'disabled' : ''} onclick="moveHeroSlide(${i}, -1)" title="Move up">↑</button>
+            <button type="button" class="btn-studio btn-studio-secondary" ${i === slides.length - 1 ? 'disabled' : ''} onclick="moveHeroSlide(${i}, 1)" title="Move down">↓</button>
+            <button type="button" class="btn-studio btn-studio-secondary" style="color:var(--studio-red);" onclick="removeHeroSlide(${i})">Remove</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;">
+          ${renderMediaPickerHtml({
+            id: `hero-slide-${i}-image`,
+            label: 'Hero image (landscape, ideally 1920×1080)',
+            currentSrc: s.image || '',
+            onChangeFnStr: (arg) => `updateHeroSlideImage(${i}, 'image', ${arg})`,
+            presets: HERO_PRESETS
+          })}
+          ${renderMediaPickerHtml({
+            id: `hero-slide-${i}-mobile`,
+            label: 'Mobile image (portrait, ideally 900×1200, optional)',
+            currentSrc: s.imageMobile || '',
+            onChangeFnStr: (arg) => `updateHeroSlideImage(${i}, 'imageMobile', ${arg})`,
+            presets: HERO_MOBILE_PRESETS
+          })}
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin:0.75rem 0;">
+          <div class="form-group" style="margin:0;"><label class="form-label">Image focus on desktop (x% y%)</label>
+            <input type="text" class="form-control" placeholder="70% 50%" value="${escapeHtml(s.focus || '')}" onchange="updateHeroSlide(${i}, 'focus', this.value)">
+            <small style="color:var(--studio-text-secondary);">Where the main subject is. Text sits on the left, so keep the subject right.</small></div>
+          <div class="form-group" style="margin:0;"><label class="form-label">Image focus on mobile (x% y%)</label>
+            <input type="text" class="form-control" placeholder="50% 20%" value="${escapeHtml(s.focusMobile || '')}" onchange="updateHeroSlide(${i}, 'focusMobile', this.value)">
+            <small style="color:var(--studio-text-secondary);">Text sits at the bottom on phones, so keep the subject high.</small></div>
+        </div>
+
+        ${bi(i, 'kicker', 'Small label above the title')}
+        ${bi(i, 'title', 'Title')}
+        ${bi(i, 'description', 'Description (one or two short sentences)', true)}
+        ${bi(i, 'imageAlt', 'Image description for screen readers')}
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1rem;">
+          ${cta(i, 'cta', 'Primary button')}
+          ${cta(i, 'secondaryCta', 'Secondary button (optional)')}
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+
+window.updateHeroSlide = function(index, path, value) {
+  const slide = heroSlides()[index];
+  if (!slide) return;
+  const parts = path.split('.');
+  let curr = slide;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!curr[parts[i]] || typeof curr[parts[i]] !== 'object') curr[parts[i]] = {};
+    curr = curr[parts[i]];
+  }
+  curr[parts[parts.length - 1]] = value;
+  markDirty(true);
+};
+
+window.updateHeroSlideImage = function(index, field, value) {
+  const slide = heroSlides()[index];
+  if (!slide) return;
+  slide[field] = value;
+  markDirty(true);
+  rerenderKeepingScroll();
+  showToast('Slide image updated.', 'success');
+};
+
+window.toggleHeroSlide = function(index, active) {
+  const slide = heroSlides()[index];
+  if (!slide) return;
+  slide.active = !!active;
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+
+window.moveHeroSlide = function(index, dir) {
+  const slides = heroSlides();
+  const to = index + dir;
+  if (to < 0 || to >= slides.length) return;
+  [slides[index], slides[to]] = [slides[to], slides[index]];
+  renumberHeroSlides();
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+
+window.addHeroSlide = function() {
+  const slides = heroSlides();
+  slides.push({
+    id: `slide-${Date.now()}`, active: true, order: slides.length + 1,
+    kicker: { en: '', hi: '' }, title: { en: 'New slide', hi: 'नई स्लाइड' }, description: { en: '', hi: '' },
+    image: HERO_PRESETS[0].path, imageMobile: HERO_MOBILE_PRESETS[0].path, imageAlt: { en: '', hi: '' },
+    focus: '70% 50%', focusMobile: '50% 20%',
+    cta: { text: { en: 'Explore', hi: 'देखें' }, link: '/productions/' }, secondaryCta: { text: { en: '', hi: '' }, link: '' }
+  });
+  renumberHeroSlides();
+  markDirty(true);
+  rerenderKeepingScroll();
+  showToast('Slide added at the end. Edit its image and text below.', 'success');
+};
+
+window.removeHeroSlide = function(index) {
+  const slide = heroSlides()[index];
+  if (!slide) return;
+  showConfirmModal('Remove slide', `Remove slide ${index + 1}${slide.title && slide.title.en ? ` ("${slide.title.en}")` : ''} from the homepage slider?`, () => {
+    heroSlides().splice(index, 1);
+    renumberHeroSlides();
+    markDirty(true);
+    rerenderKeepingScroll();
+    showToast('Slide removed.', 'success');
+  }, 'Remove');
+};
 
 // Deep field helper for homepage object
 window.updateHpField = function(path, value) {

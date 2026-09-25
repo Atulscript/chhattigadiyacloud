@@ -39,9 +39,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../src/site/site.css?v=4">
-  <link rel="stylesheet" href="../src/home/home.css?v=4">
-  <link rel="preload" as="image" href="../src/assets/images/hero-art.svg" fetchpriority="high">
+  <link rel="stylesheet" href="../src/site/site.css?v=5">
+  <link rel="stylesheet" href="../src/home/home.css?v=5">
+  <link rel="preload" as="image" href="../src/assets/images/hero/stage-alive-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="../src/assets/images/hero/stage-alive.webp" imagesrcset="../src/assets/images/hero/stage-alive-1280.webp 1280w, ../src/assets/images/hero/stage-alive.webp 1920w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(function () {}); });
   </script>
@@ -107,29 +108,123 @@
     
   <div class="hm">
     
-  <section class="hm-hero" aria-labelledby="hm-hero-title">
-    <div class="cc-wrap hm-hero__grid">
-      <div class="hm-hero__copy">
-        <p class="hm-hero__tagline" aria-label="Think Art Think Chhattisgadhiya Cloud">
-          <span>Think</span><span class="hm-hero__mark">Art</span><span>Think Chhattisgadhiya Cloud</span>
-        </p>
-        <h1 class="cc-h1 hm-hero__title" id="hm-hero-title">Theatre and folk art from Chhattisgarh</h1>
-        <p class="cc-lead hm-hero__lead">We create plays, host festivals, train young artists and publish a monthly magazine.</p>
-        <div class="cc-actions cc-actions--stack">
-          <a class="cc-btn cc-btn--primary" href="../en/productions/">See our plays</a>
-          <a class="cc-btn cc-btn--secondary" href="../en/magazine/">Read the magazine</a>
+  <section class="hs" id="hero" aria-roledescription="carousel" aria-label="Featured"
+    data-hs data-autoplay="true" data-interval="7">
+    <h1 class="cc-visually-hidden">Theatre and folk art from Chhattisgarh</h1>
+    <p class="hs__brand" aria-hidden="true"><span>Think</span><span class="hs__mark">Art</span><span>Think Chhattisgadhiya Cloud</span></p>
+    <div class="hs__viewport" data-hs-viewport>
+      
+      <div class="hs__slide is-active" id="hs-slide-1" role="group" aria-roledescription="slide"
+        aria-label="1 of 5" data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 20%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../src/assets/images/hero/stage-alive-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../src/assets/images/hero/stage-alive-mobile.jpg">
+          <source type="image/webp" srcset="../src/assets/images/hero/stage-alive-1280.webp 1280w, ../src/assets/images/hero/stage-alive.webp 1920w" sizes="100vw">
+          <img src="../src/assets/images/hero/stage-alive.jpg" srcset="../src/assets/images/hero/stage-alive-1280.jpg 1280w, ../src/assets/images/hero/stage-alive.jpg 1920w" sizes="100vw" alt="An actor in a spotlight on a stage framed by red curtains" width="1920" height="1080" decoding="async" fetchpriority="high">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+        <div class="cc-wrap hs__content">
+          <p class="hs__kicker">Theatre</p>
+          <h2 class="hs__title">The Stage Comes Alive</h2>
+          <p class="hs__text">Stories, performances and creative expressions that bring theatre to life.</p>
+          <div class="hs__actions">
+            <a class="cc-btn cc-btn--primary hs__cta" href="../en/productions/">Explore Theatre<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="../en/whats-on/">What's on</a>
+          </div>
         </div>
       </div>
-      <div class="hm-hero__visual">
-        <div class="hm-hero__art"><img src="../src/assets/images/hero-art.svg" alt="Illustration of two folk performers dancing on a stage" width="800" height="520" fetchpriority="high" decoding="async"></div>
-        <a class="hm-issue" href="../en/magazine/">
-          <img class="hm-issue__cover" src="../src/assets/images/mag-issue-14-cover.svg" alt="Cover of the September 2026 issue" width="400" height="560">
-          <span class="hm-issue__text">
-            <span class="cc-kicker">New issue · September 2026</span>
-            <span class="hm-issue__title">Folk Theatre in Modern Times: Continuity, Dance &amp; Scenography</span>
-            <span class="hm-issue__cta">Read 5 pages free<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </span>
-        </a>
+      <div class="hs__slide" id="hs-slide-2" role="group" aria-roledescription="slide"
+        aria-label="2 of 5" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:72% 55%;--hs-focus-m:50% 20%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../src/assets/images/hero/folk-celebration-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../src/assets/images/hero/folk-celebration-mobile.jpg">
+          <source type="image/webp" srcset="../src/assets/images/hero/folk-celebration-1280.webp 1280w, ../src/assets/images/hero/folk-celebration.webp 1920w" sizes="100vw">
+          <img src="../src/assets/images/hero/folk-celebration.jpg" srcset="../src/assets/images/hero/folk-celebration-1280.jpg 1280w, ../src/assets/images/hero/folk-celebration.jpg 1920w" sizes="100vw" alt="Folk dancers in a line around a bonfire at dusk, with a Mandar drummer" width="1920" height="1080" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+        <div class="cc-wrap hs__content">
+          <p class="hs__kicker">Folk heritage</p>
+          <h2 class="hs__title">Celebrating Art &amp; Culture</h2>
+          <p class="hs__text">Discover the artists, traditions and performances that shape our cultural heritage.</p>
+          <div class="hs__actions">
+            <a class="cc-btn cc-btn--primary hs__cta" href="../en/events/">Explore Art<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="../en/events/">Our festivals</a>
+          </div>
+        </div>
+      </div>
+      <div class="hs__slide" id="hs-slide-3" role="group" aria-roledescription="slide"
+        aria-label="3 of 5" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:69% 50%;--hs-focus-m:50% 20%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../src/assets/images/hero/classical-dance-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../src/assets/images/hero/classical-dance-mobile.jpg">
+          <source type="image/webp" srcset="../src/assets/images/hero/classical-dance-1280.webp 1280w, ../src/assets/images/hero/classical-dance.webp 1920w" sizes="100vw">
+          <img src="../src/assets/images/hero/classical-dance.jpg" srcset="../src/assets/images/hero/classical-dance-1280.jpg 1280w, ../src/assets/images/hero/classical-dance.jpg 1920w" sizes="100vw" alt="A classical dancer in a half-seated pose before a ring of lamps" width="1920" height="1080" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+        <div class="cc-wrap hs__content">
+          <p class="hs__kicker">Performing arts</p>
+          <h2 class="hs__title">Where Art Meets Performance</h2>
+          <p class="hs__text">Experience the energy, emotion and imagination of performing arts.</p>
+          <div class="hs__actions">
+            <a class="cc-btn cc-btn--primary hs__cta" href="../en/whats-on/">Discover More<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="../en/training-workshops/">Workshops</a>
+          </div>
+        </div>
+      </div>
+      <div class="hs__slide" id="hs-slide-4" role="group" aria-roledescription="slide"
+        aria-label="4 of 5" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:72% 50%;--hs-focus-m:50% 20%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../src/assets/images/hero/masks-stories-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../src/assets/images/hero/masks-stories-mobile.jpg">
+          <source type="image/webp" srcset="../src/assets/images/hero/masks-stories-1280.webp 1280w, ../src/assets/images/hero/masks-stories.webp 1920w" sizes="100vw">
+          <img src="../src/assets/images/hero/masks-stories.jpg" srcset="../src/assets/images/hero/masks-stories-1280.jpg 1280w, ../src/assets/images/hero/masks-stories.jpg 1920w" sizes="100vw" alt="Two painted folk theatre masks hanging on a dark wall" width="1920" height="1080" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+        <div class="cc-wrap hs__content">
+          <p class="hs__kicker">Artists</p>
+          <h2 class="hs__title">Stories Told Through Art</h2>
+          <p class="hs__text">Discover artists, performers and creative minds behind extraordinary work.</p>
+          <div class="hs__actions">
+            <a class="cc-btn cc-btn--primary hs__cta" href="../en/about/">Meet the Artists<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="../en/magazine/">Read the magazine</a>
+          </div>
+        </div>
+      </div>
+      <div class="hs__slide" id="hs-slide-5" role="group" aria-roledescription="slide"
+        aria-label="5 of 5" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:70% 50%;--hs-focus-m:50% 20%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../src/assets/images/hero/creative-stage-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../src/assets/images/hero/creative-stage-mobile.jpg">
+          <source type="image/webp" srcset="../src/assets/images/hero/creative-stage-1280.webp 1280w, ../src/assets/images/hero/creative-stage.webp 1920w" sizes="100vw">
+          <img src="../src/assets/images/hero/creative-stage.jpg" srcset="../src/assets/images/hero/creative-stage-1280.jpg 1280w, ../src/assets/images/hero/creative-stage.jpg 1920w" sizes="100vw" alt="An audience watching performers on a stage lit by coloured beams" width="1920" height="1080" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+        <div class="cc-wrap hs__content">
+          <p class="hs__kicker">Think Art</p>
+          <h2 class="hs__title">A Celebration of Creativity</h2>
+          <p class="hs__text">Connecting audiences with art, theatre, culture and creative expression.</p>
+          <div class="hs__actions">
+            <a class="cc-btn cc-btn--primary hs__cta" href="../en/magazine/">Explore<svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="../en/support/">Support our work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hs__controls" hidden data-hs-controls>
+      <div class="cc-wrap hs__controls-inner">
+        <p class="hs__count" aria-hidden="true"><span data-hs-current>01</span><span class="hs__count-sep"></span><span>05</span></p>
+        <div class="hs__dots">
+          <button type="button" class="hs__dot" data-hs-dot="0" aria-controls="hs-slide-1" aria-label="Show slide 1" aria-current="true"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="1" aria-controls="hs-slide-2" aria-label="Show slide 2"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="2" aria-controls="hs-slide-3" aria-label="Show slide 3"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="3" aria-controls="hs-slide-4" aria-label="Show slide 4"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="4" aria-controls="hs-slide-5" aria-label="Show slide 5"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button>
+        </div>
+        <div class="hs__nav">
+          <button type="button" class="hs__btn hs__btn--toggle" data-hs-toggle aria-label="Pause slideshow" data-label-pause="Pause slideshow" data-label-play="Play slideshow">
+            <svg class="cc-icon hs__icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            <svg class="cc-icon hs__icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+          <button type="button" class="hs__btn hs__btn--arrow" data-hs-prev aria-label="Previous slide"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="hs__btn hs__btn--arrow" data-hs-next aria-label="Next slide"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
       </div>
     </div>
   </section>
@@ -561,7 +656,7 @@
       </div>
     </div>
   </dialog>
-  <script src="../src/site/site.js?v=4" defer></script>
-  
+  <script src="../src/site/site.js?v=5" defer></script>
+  <script src="../src/home/hero-slider.js?v=5" defer></script>
 </body>
 </html>

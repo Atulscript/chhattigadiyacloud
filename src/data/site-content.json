@@ -1471,6 +1471,207 @@
         "hi": "नाटक बुक करें"
       },
       "btnHref": "/contact/?subject=Tour-Booking"
+    },
+    "heroSlides": [
+      {
+        "id": "stage",
+        "active": true,
+        "order": 1,
+        "kicker": {
+          "en": "Theatre",
+          "hi": "रंगमंच"
+        },
+        "title": {
+          "en": "The Stage Comes Alive",
+          "hi": "मंच हो उठा जीवंत"
+        },
+        "description": {
+          "en": "Stories, performances and creative expressions that bring theatre to life.",
+          "hi": "कहानियां, प्रस्तुतियां और रचनात्मक अभिव्यक्तियां जो रंगमंच को जीवंत बनाती हैं।"
+        },
+        "image": "/src/assets/images/hero/stage-alive.jpg",
+        "imageMobile": "/src/assets/images/hero/stage-alive-mobile.jpg",
+        "imageAlt": {
+          "en": "An actor in a spotlight on a stage framed by red curtains",
+          "hi": "लाल पर्दों वाले मंच पर रोशनी में खड़ा एक अभिनेता"
+        },
+        "focus": "68% 50%",
+        "focusMobile": "50% 20%",
+        "cta": {
+          "text": {
+            "en": "Explore Theatre",
+            "hi": "रंगमंच देखें"
+          },
+          "link": "/productions/"
+        },
+        "secondaryCta": {
+          "text": {
+            "en": "What's on",
+            "hi": "आगामी कार्यक्रम"
+          },
+          "link": "/whats-on/"
+        }
+      },
+      {
+        "id": "culture",
+        "active": true,
+        "order": 2,
+        "kicker": {
+          "en": "Folk heritage",
+          "hi": "लोक विरासत"
+        },
+        "title": {
+          "en": "Celebrating Art & Culture",
+          "hi": "कला और संस्कृति का उत्सव"
+        },
+        "description": {
+          "en": "Discover the artists, traditions and performances that shape our cultural heritage.",
+          "hi": "उन कलाकारों, परंपराओं और प्रस्तुतियों को जानिए जो हमारी सांस्कृतिक विरासत गढ़ती हैं।"
+        },
+        "image": "/src/assets/images/hero/folk-celebration.jpg",
+        "imageMobile": "/src/assets/images/hero/folk-celebration-mobile.jpg",
+        "imageAlt": {
+          "en": "Folk dancers in a line around a bonfire at dusk, with a Mandar drummer",
+          "hi": "सांझ में अलाव के चारों ओर लोक नर्तक और मांदर वादक"
+        },
+        "focus": "72% 55%",
+        "focusMobile": "50% 20%",
+        "cta": {
+          "text": {
+            "en": "Explore Art",
+            "hi": "कला देखें"
+          },
+          "link": "/events/"
+        },
+        "secondaryCta": {
+          "text": {
+            "en": "Our festivals",
+            "hi": "हमारे समारोह"
+          },
+          "link": "/events/"
+        }
+      },
+      {
+        "id": "performance",
+        "active": true,
+        "order": 3,
+        "kicker": {
+          "en": "Performing arts",
+          "hi": "मंचीय कलाएं"
+        },
+        "title": {
+          "en": "Where Art Meets Performance",
+          "hi": "जहां कला मिलती है प्रस्तुति से"
+        },
+        "description": {
+          "en": "Experience the energy, emotion and imagination of performing arts.",
+          "hi": "मंचीय कलाओं की ऊर्जा, भावना और कल्पना का अनुभव कीजिए।"
+        },
+        "image": "/src/assets/images/hero/classical-dance.jpg",
+        "imageMobile": "/src/assets/images/hero/classical-dance-mobile.jpg",
+        "imageAlt": {
+          "en": "A classical dancer in a half-seated pose before a ring of lamps",
+          "hi": "दीपों के घेरे के सामने अरामंडी मुद्रा में शास्त्रीय नृत्यांगना"
+        },
+        "focus": "69% 50%",
+        "focusMobile": "50% 20%",
+        "cta": {
+          "text": {
+            "en": "Discover More",
+            "hi": "और जानें"
+          },
+          "link": "/whats-on/"
+        },
+        "secondaryCta": {
+          "text": {
+            "en": "Workshops",
+            "hi": "कार्यशालाएं"
+          },
+          "link": "/training-workshops/"
+        }
+      },
+      {
+        "id": "artists",
+        "active": true,
+        "order": 4,
+        "kicker": {
+          "en": "Artists",
+          "hi": "कलाकार"
+        },
+        "title": {
+          "en": "Stories Told Through Art",
+          "hi": "कला में कही गई कहानियां"
+        },
+        "description": {
+          "en": "Discover artists, performers and creative minds behind extraordinary work.",
+          "hi": "असाधारण रचनाओं के पीछे के कलाकारों, अभिनेताओं और रचनाशील मनों से मिलिए।"
+        },
+        "image": "/src/assets/images/hero/masks-stories.jpg",
+        "imageMobile": "/src/assets/images/hero/masks-stories-mobile.jpg",
+        "imageAlt": {
+          "en": "Two painted folk theatre masks hanging on a dark wall",
+          "hi": "अंधेरी दीवार पर टंगे दो रंगे हुए लोक नाट्य मुखौटे"
+        },
+        "focus": "72% 50%",
+        "focusMobile": "50% 20%",
+        "cta": {
+          "text": {
+            "en": "Meet the Artists",
+            "hi": "कलाकारों से मिलें"
+          },
+          "link": "/about/"
+        },
+        "secondaryCta": {
+          "text": {
+            "en": "Read the magazine",
+            "hi": "पत्रिका पढ़ें"
+          },
+          "link": "/magazine/"
+        }
+      },
+      {
+        "id": "creativity",
+        "active": true,
+        "order": 5,
+        "kicker": {
+          "en": "Think Art",
+          "hi": "थिंक आर्ट"
+        },
+        "title": {
+          "en": "A Celebration of Creativity",
+          "hi": "रचनात्मकता का उत्सव"
+        },
+        "description": {
+          "en": "Connecting audiences with art, theatre, culture and creative expression.",
+          "hi": "दर्शकों को कला, रंगमंच, संस्कृति और रचनात्मक अभिव्यक्ति से जोड़ते हुए।"
+        },
+        "image": "/src/assets/images/hero/creative-stage.jpg",
+        "imageMobile": "/src/assets/images/hero/creative-stage-mobile.jpg",
+        "imageAlt": {
+          "en": "An audience watching performers on a stage lit by coloured beams",
+          "hi": "रंगीन रोशनी से जगमगाते मंच पर कलाकारों को देखते दर्शक"
+        },
+        "focus": "70% 50%",
+        "focusMobile": "50% 20%",
+        "cta": {
+          "text": {
+            "en": "Explore",
+            "hi": "देखें"
+          },
+          "link": "/magazine/"
+        },
+        "secondaryCta": {
+          "text": {
+            "en": "Support our work",
+            "hi": "हमारा सहयोग करें"
+          },
+          "link": "/support/"
+        }
+      }
+    ],
+    "heroSlider": {
+      "autoplay": true,
+      "interval": 7
     }
   },
   "adminAuth": {
@@ -1480,7 +1681,14 @@
         "displayName": "Super Administrator",
         "role": "admin",
         "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
-        "permissions": ["dashboard", "pages", "team", "blog", "users", "settings"]
+        "permissions": [
+          "dashboard",
+          "pages",
+          "team",
+          "blog",
+          "users",
+          "settings"
+        ]
       }
     ]
   }

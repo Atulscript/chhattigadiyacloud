@@ -15,6 +15,7 @@ const { buildForms, renderFormDialogs } = require('./src/site/forms.js');
 const { esc, icon } = require('./src/site/ui.js');
 const pwa = require('./src/site/pwa.js');
 const { renderHomePage } = require('./src/home/components.js');
+const { heroPreload, getSlides } = require('./src/home/hero.js');
 
 const PAGES = {
   'whats-on': require('./src/pages/whats-on.js'),
@@ -29,7 +30,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 4;
+const ASSET_VERSION = 5;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
@@ -41,6 +42,7 @@ const ASSETS = {
   siteCss: `src/site/site.css?v=${ASSET_VERSION}`,
   siteJs: `src/site/site.js?v=${ASSET_VERSION}`,
   homeCss: `src/home/home.css?v=${ASSET_VERSION}`,
+  heroJs: `src/home/hero-slider.js?v=${ASSET_VERSION}`,
   magazineCss: `src/magazine/magazine.css?v=${ASSET_VERSION}`,
   magazineJs: `src/magazine/magazine-reader.js?v=${ASSET_VERSION}`,
 };
@@ -127,7 +129,10 @@ function renderHtmlDocument({
 </html>`;
 
   // Root-relative links become relative so the site works on GitHub Pages sub-paths.
-  return rawHtml.replace(/(href|src|action)="\/(en|hi|src|favicon|manifest|apple-touch-icon|sw\.js)/g, `$1="${root}$2`);
+  return rawHtml
+    .replace(/(href|src|action)="\/(en|hi|src|favicon|manifest|apple-touch-icon|sw\.js)/g, `$1="${root}$2`)
+    // srcset lists several URLs, so each candidate is rewritten.
+    .replace(/((?:image)?srcset)="([^"]*)"/g, (m, attr, list) => `${attr}="${list.replace(/(^|,\s*)\/(src\/)/g, `$1${root}$2`)}"`);
 }
 
 function write(file, content) {
@@ -150,8 +155,11 @@ function write(file, content) {
     canonicalUrl: `/${lang}/`,
     altUrl: `/${altLang}/`,
     contentHtml: renderHomePage(siteData, lang),
-    extraHead: `<link rel="stylesheet" href="/${ASSETS.homeCss}">`,
-    preloadImage: ((siteData.homepage || {}).hero || {}).photo || '/src/assets/images/hero-art.svg',
+    // The hero slider preloads its first slide (mobile and desktop art);
+    // without slides the classic hero preloads its artwork.
+    extraHead: `<link rel="stylesheet" href="/${ASSETS.homeCss}">${getSlides(siteData.homepage || {}).length ? `\n  ${heroPreload(siteData.homepage)}` : ''}`,
+    preloadImage: getSlides(siteData.homepage || {}).length ? '' : (((siteData.homepage || {}).hero || {}).photo || '/src/assets/images/hero-art.svg'),
+    extraScripts: getSlides(siteData.homepage || {}).length > 1 ? `<script src="/${ASSETS.heroJs}" defer></script>` : '',
   }));
 
   write(`${lang}/magazine/index.html`, renderHtmlDocument({
