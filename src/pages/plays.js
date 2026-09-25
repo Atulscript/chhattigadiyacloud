@@ -62,7 +62,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead: t.lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['productions'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   <section class="cc-section">
     <div class="cc-wrap" style="display:grid; gap:1.5rem">${plays.map((p) => renderPlay(p, lang)).join('')}</div>
   </section>

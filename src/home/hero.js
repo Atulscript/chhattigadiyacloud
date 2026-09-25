@@ -46,9 +46,12 @@ function variants(src) {
 
 // Sorted, active slides with the fields the component needs.
 function getSlides(hp) {
-  return (hp.heroSlides || [])
+  return activeSlides(hp.heroSlides, true);
+}
+function activeSlides(list, needsText = false) {
+  return (list || [])
     .map((s, i) => ({ s, i }))
-    .filter(({ s }) => s && s.active !== false && (s.image || s.imageMobile) && (s.title || s.description))
+    .filter(({ s }) => s && s.active !== false && (s.image || s.imageMobile) && (!needsText || s.title || s.description))
     .sort((a, b) => (Number(a.s.order) || a.i + 1) - (Number(b.s.order) || b.i + 1) || a.i - b.i)
     .map(({ s }) => s);
 }
@@ -70,7 +73,7 @@ function heroPreload(hp) {
   return links.join('\n  ');
 }
 
-function renderPicture(slide, lang, first) {
+function renderPicture(slide, lang, first, { width = 1920, height = 1080 } = {}) {
   const alt = pick(slide.imageAlt, lang);
   const desk = variants(slide.image || slide.imageMobile);
   const sources = [];
@@ -87,7 +90,7 @@ function renderPicture(slide, lang, first) {
   ].filter(Boolean).join(';');
   return `<picture class="hs__media"${style ? ` style="${style}"` : ''}>
           ${sources.join('\n          ')}
-          <img src="${esc(desk.src)}"${desk.srcset ? ` srcset="${esc(desk.srcset)}" sizes="100vw"` : ''} alt="${esc(alt)}" width="1920" height="1080" decoding="async" ${first ? 'fetchpriority="high"' : 'loading="lazy" fetchpriority="low"'}>
+          <img src="${esc(desk.src)}"${desk.srcset ? ` srcset="${esc(desk.srcset)}" sizes="100vw"` : ''} alt="${esc(alt)}" width="${width}" height="${height}" decoding="async" ${first ? 'fetchpriority="high"' : 'loading="lazy" fetchpriority="low"'}>
         </picture>`;
 }
 
@@ -150,4 +153,49 @@ function renderHeroSlider(hp, lang) {
   </section>`;
 }
 
-module.exports = { renderHeroSlider, heroPreload, getSlides };
+// Page-title banner: the same slider at 60% of the hero's height. The page
+// title, intro and breadcrumb stay put while 2-3 images crossfade behind
+// them. `content` is the header's inner HTML (crumbs, kicker, h1, lead).
+// Slides come from siteData.pageBanners[page] (admin: Pages > Page Headers).
+function renderPageBanner({ slides: list, lang, content, label = '', settings = {} }) {
+  const slides = activeSlides(list);
+  if (!slides.length) return '';
+  const t = T[lang];
+  const n = slides.length;
+  const cfg = Object.assign({ autoplay: true, interval: 6 }, settings);
+  return `
+  <header class="hs hs--page" aria-roledescription="carousel" aria-label="${esc(label || t.label)}"
+    data-hs data-autoplay="${cfg.autoplay !== false && n > 1 ? 'true' : 'false'}" data-interval="${Math.max(3, Number(cfg.interval) || 6)}">
+    <div class="hs__viewport" data-hs-viewport>
+      ${slides.map((s, i) => `
+      <div class="hs__slide${i === 0 ? ' is-active' : ''}" id="page-slide-${i + 1}" role="group" aria-roledescription="slide"
+        aria-label="${esc(t.slide(i + 1, n))}"${i === 0 ? '' : ' aria-hidden="true" inert'} data-hs-slide>
+        ${renderPicture(s, lang, i === 0, { width: 1920, height: 640 })}
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>`).join('')}
+    </div>
+    <div class="cc-wrap hs__head">${content}</div>
+    ${n > 1 ? `
+    <div class="hs__controls" hidden data-hs-controls>
+      <div class="cc-wrap hs__controls-inner">
+        <div class="hs__dots">
+          ${slides.map((s, i) => `<button type="button" class="hs__dot" data-hs-dot="${i}" aria-controls="page-slide-${i + 1}" aria-label="${esc(t.goTo(i + 1))}"${i === 0 ? ' aria-current="true"' : ''}><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button>`).join('')}
+        </div>
+        <div class="hs__nav">
+          <button type="button" class="hs__btn hs__btn--toggle" data-hs-toggle aria-label="${esc(t.pause)}" data-label-pause="${esc(t.pause)}" data-label-play="${esc(t.play)}">
+            <svg class="cc-icon hs__icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            <svg class="cc-icon hs__icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>` : ''}
+  </header>`;
+}
+
+// <head> preload for the first banner image (mobile and desktop variants).
+function bannerPreload(list) {
+  const first = activeSlides(list)[0];
+  return first ? heroPreload({ heroSlides: [Object.assign({ title: 'x' }, first)] }) : '';
+}
+
+module.exports = { renderHeroSlider, heroPreload, getSlides, renderPageBanner, bannerPreload, activeSlides };

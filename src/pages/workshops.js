@@ -39,7 +39,7 @@ function render(siteData, lang) {
     title: t.title,
     desc: t.lead,
     content: `
-  ${pageHead({ lang, title: t.title, lead: t.lead })}
+  ${pageHead({ lang, banner: (siteData.pageBanners || {})['training-workshops'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   ${b ? `
   <section class="cc-section" aria-labelledby="camp-title">
     <div class="cc-wrap">

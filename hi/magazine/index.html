@@ -39,8 +39,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../../src/site/site.css?v=5">
-  <link rel="stylesheet" href="../../src/magazine/magazine.css?v=5">
+  <link rel="stylesheet" href="../../src/site/site.css?v=6">
+  <link rel="stylesheet" href="../../src/magazine/magazine.css?v=6">
+  <link rel="preload" as="image" href="../../src/assets/images/hero/gond-tree-banner-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" href="../../src/assets/images/hero/gond-tree-banner.webp" imagesrcset="../../src/assets/images/hero/gond-tree-banner-1280.webp 1280w, ../../src/assets/images/hero/gond-tree-banner.webp 1920w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('../../sw.js', { scope: '../../' }).catch(function () {}); });
   </script>
@@ -105,16 +107,61 @@
   <main id="main">
     
   <div class="mz">
-    
-  <header class="mz-masthead">
-    <div class="mz-wrap mz-masthead__inner">
-      <div>
-        <p class="mz-kicker">मासिक</p>
-        <h1 class="mz-masthead__title">छत्तीसगढ़िया क्लाउड मासिक पत्रिका</h1>
+    <div class="mz-banner">
+  <header class="hs hs--page" aria-roledescription="carousel" aria-label="छत्तीसगढ़िया क्लाउड मासिक पत्रिका"
+    data-hs data-autoplay="true" data-interval="6">
+    <div class="hs__viewport" data-hs-viewport>
+      
+      <div class="hs__slide is-active" id="page-slide-1" role="group" aria-roledescription="slide"
+        aria-label="3 में से 1" data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/gond-tree-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/gond-tree-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/gond-tree-banner-1280.webp 1280w, ../../src/assets/images/hero/gond-tree-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/gond-tree-banner.jpg" srcset="../../src/assets/images/hero/gond-tree-banner-1280.jpg 1280w, ../../src/assets/images/hero/gond-tree-banner.jpg 1920w" sizes="100vw" alt="पक्षियों और हिरण के साथ गोंड शैली का वृक्ष चित्र" width="1920" height="640" decoding="async" fetchpriority="high">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
       </div>
-      <p class="mz-masthead__tagline">रंगमंच, लोक कला और साहित्य पर विचारशील विमर्श<span aria-hidden="true"> · </span><span class="mz-nowrap">ISSN 2709-4112</span></p>
+      <div class="hs__slide" id="page-slide-2" role="group" aria-roledescription="slide"
+        aria-label="3 में से 2" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/poet-mic-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/poet-mic-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/poet-mic-banner-1280.webp 1280w, ../../src/assets/images/hero/poet-mic-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/poet-mic-banner.jpg" srcset="../../src/assets/images/hero/poet-mic-banner-1280.jpg 1280w, ../../src/assets/images/hero/poet-mic-banner.jpg 1920w" sizes="100vw" alt="रोशनी में माइक पर कविता पढ़ता एक कवि" width="1920" height="640" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>
+      <div class="hs__slide" id="page-slide-3" role="group" aria-roledescription="slide"
+        aria-label="3 में से 3" aria-hidden="true" inert data-hs-slide>
+        <picture class="hs__media" style="--hs-focus:68% 50%;--hs-focus-m:50% 30%">
+          <source media="(max-width: 767px)" type="image/webp" srcset="../../src/assets/images/hero/masks-stories-banner-mobile.webp">
+          <source media="(max-width: 767px)" srcset="../../src/assets/images/hero/masks-stories-banner-mobile.jpg">
+          <source type="image/webp" srcset="../../src/assets/images/hero/masks-stories-banner-1280.webp 1280w, ../../src/assets/images/hero/masks-stories-banner.webp 1920w" sizes="100vw">
+          <img src="../../src/assets/images/hero/masks-stories-banner.jpg" srcset="../../src/assets/images/hero/masks-stories-banner-1280.jpg 1280w, ../../src/assets/images/hero/masks-stories-banner.jpg 1920w" sizes="100vw" alt="अंधेरी दीवार पर टंगे दो रंगे हुए लोक नाट्य मुखौटे" width="1920" height="640" decoding="async" loading="lazy" fetchpriority="low">
+        </picture>
+        <div class="hs__shade" aria-hidden="true"></div>
+      </div>
     </div>
-  </header>
+    <div class="cc-wrap hs__head">
+      <p class="hs__kicker">मासिक</p>
+      <h1 class="cc-h1 hs__page-title">छत्तीसगढ़िया क्लाउड मासिक पत्रिका</h1>
+      <p class="hs__lead">रंगमंच, लोक कला और साहित्य पर विचारशील विमर्श<span aria-hidden="true"> · </span><span class="mz-nowrap">ISSN 2709-4112</span></p></div>
+    
+    <div class="hs__controls" hidden data-hs-controls>
+      <div class="cc-wrap hs__controls-inner">
+        <div class="hs__dots">
+          <button type="button" class="hs__dot" data-hs-dot="0" aria-controls="page-slide-1" aria-label="स्लाइड 1 दिखाएं" aria-current="true"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="1" aria-controls="page-slide-2" aria-label="स्लाइड 2 दिखाएं"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button><button type="button" class="hs__dot" data-hs-dot="2" aria-controls="page-slide-3" aria-label="स्लाइड 3 दिखाएं"><span class="hs__dot-bar"><span class="hs__dot-fill"></span></span></button>
+        </div>
+        <div class="hs__nav">
+          <button type="button" class="hs__btn hs__btn--toggle" data-hs-toggle aria-label="स्लाइड शो रोकें" data-label-pause="स्लाइड शो रोकें" data-label-play="स्लाइड शो चलाएं">
+            <svg class="cc-icon hs__icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            <svg class="cc-icon hs__icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header></div>
     
   <section class="mz-hero" aria-labelledby="mz-current-title">
     <div class="mz-wrap mz-hero__grid">
@@ -496,7 +543,8 @@
       </div>
     </div>
   </dialog>
-  <script src="../../src/site/site.js?v=5" defer></script>
-  <script src="../../src/magazine/magazine-reader.js?v=5" defer></script>
+  <script src="../../src/site/site.js?v=6" defer></script>
+  <script src="../../src/magazine/magazine-reader.js?v=6" defer></script>
+  <script src="../../src/home/hero-slider.js?v=6" defer></script>
 </body>
 </html>
