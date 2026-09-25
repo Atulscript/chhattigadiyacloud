@@ -30,7 +30,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 6;
+const ASSET_VERSION = 7;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
