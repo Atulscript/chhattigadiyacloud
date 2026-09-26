@@ -170,63 +170,59 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
   </nav>`;
 }
 
+// Newsletter + social: the first row of the footer. Copy changes per page so
+// each page pitches what its visitors care about (see CONNECT).
 function renderConnect({ lang, siteData, currentPath }) {
   const t = T[lang];
   const [title, text] = (CONNECT[pageKey(lang, currentPath)] || CONNECT.home)[lang];
   const c = siteData.contact || {};
   return `
-  <section class="cc-connect" id="newsletter" aria-labelledby="cc-connect-title">
-    <span class="cc-motif" aria-hidden="true"></span>
-    <div class="cc-wrap cc-connect__inner">
-      <div class="cc-connect__text">
-        <h2 class="cc-h2" id="cc-connect-title">${esc(title)}</h2>
-        <p>${esc(text)}</p>
-      </div>
-      <div>
-        <form class="cc-connect__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
-          <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
-          <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
-          <button type="submit" class="cc-btn cc-btn--primary">${t.subscribe}</button>
-          <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
-        </form>
-        <p class="cc-kicker" style="margin-top:0.5rem">${t.follow}</p>
-        <ul class="cc-social">
-          ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
-        </ul>
-      </div>
-    </div>
-  </section>`;
+        <section class="cc-footer__signup" id="newsletter" aria-labelledby="cc-connect-title">
+          <h2 class="cc-footer__signup-title" id="cc-connect-title">${esc(title)}</h2>
+          <p class="cc-footer__signup-text">${esc(text)}</p>
+          <form class="cc-connect__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
+            <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
+            <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
+            <button type="submit" class="cc-btn cc-btn--primary">${t.subscribe}</button>
+            <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
+          </form>
+          <ul class="cc-social" aria-label="${t.follow}">
+            ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
+          </ul>
+        </section>`;
 }
 
 function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const t = T[lang];
   const c = siteData.contact || {};
   const col = (title, pages) => `
-        <div class="cc-footer__col">
-          <h2 class="cc-kicker cc-footer__title">${title}</h2>
-          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/">${p.label[lang]}</a></li>`).join('')}</ul>
-        </div>`;
+        <nav class="cc-footer__col" aria-label="${title}">
+          <h2 class="cc-footer__title">${title}</h2>
+          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`).join('')}</ul>
+        </nav>`;
   return `
-  ${renderConnect({ lang, siteData, currentPath })}
   <div class="cc-frieze" role="img" aria-label="${esc(t.friezeAlt)}"></div>
   <footer class="cc-footer">
     <div class="cc-wrap">
-      <div class="cc-footer__grid">
+      <div class="cc-footer__top">
         <div class="cc-footer__brand">
           <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
           <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
           <p class="cc-footer__about">${t.about}</p>
         </div>
+        ${renderConnect({ lang, siteData, currentPath })}
+      </div>
+      <div class="cc-footer__grid">
         ${col(t.explore, PAGES.explore)}
         ${col(t.organisation, PAGES.organisation)}
         <div class="cc-footer__col cc-footer__col--contact">
-          <h2 class="cc-kicker cc-footer__title">${t.contact}</h2>
-          <ul class="cc-footer__list">
+          <h2 class="cc-footer__title">${t.contact}</h2>
+          <ul class="cc-footer__list cc-footer__contact">
             ${c.email ? `<li><a href="mailto:${c.email}">${icon('mail')}<span>${esc(c.email)}</span></a></li>` : ''}
             ${c.phone ? `<li><a href="tel:${c.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(c.phone)}</span></a></li>` : ''}
             ${c.address ? `<li class="cc-footer__addr">${icon('pin')}<span>${esc(c.address[lang])}</span></li>` : ''}
           </ul>
-          <a class="cc-btn cc-btn--on-dark cc-btn--sm" href="/${lang}/contact/#form-booking" data-cc-form="booking">${t.cta}</a>
+          <a class="cc-btn cc-btn--primary cc-btn--sm cc-footer__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking">${icon('ticket')}${t.cta}</a>
         </div>
       </div>
       <div class="cc-footer__bottom">
