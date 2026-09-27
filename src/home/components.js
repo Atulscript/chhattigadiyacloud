@@ -175,8 +175,8 @@ function renderStrip({ items, lang, dir, label, note }) {
           </li>`;
   return `
     <div class="hm-strip hm-strip--${dir}" style="--n:${n}">
-      <p class="cc-wrap hm-strip__label"><span>${esc(label)}</span>${note ? `<em>${esc(note)}</em>` : ''}</p>
       <div class="hm-strip__film">
+        <p class="hm-strip__label"><span>${esc(label)}</span>${note ? `<em>${esc(note)}</em>` : ''}</p>
         <ul class="hm-strip__track" data-cc-lightbox data-cc-marquee aria-label="${esc(label)}">
           ${items.map((g, i) => frame(g, i, false)).join('')}${items.map((g, i) => frame(g, i, true)).join('')}
         </ul>
