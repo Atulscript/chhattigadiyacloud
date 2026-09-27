@@ -134,11 +134,11 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
       </a>
       <nav class="cc-nav" aria-label="${t.mainNav}">
         <ul class="cc-nav__list">
-          <li><a class="cc-nav__link" href="/${lang}/"${current(home)}><span>${t.home}</span></a></li>
-          ${MAIN_NAV.map(navLink('cc-nav__link')).join('')}
+          <li><a class="cc-nav__link" href="/${lang}/"${current(home)}>${icon('home')}<span>${t.home}</span></a></li>
+          ${MAIN_NAV.map(navLink('cc-nav__link', true)).join('')}
           <li class="cc-more" data-cc-more>
-            <button type="button" class="cc-nav__link cc-more__btn${inMore ? ' is-active' : ''}" aria-expanded="false" aria-controls="cc-more-list"><span>${t.more}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <ul class="cc-more__list" id="cc-more-list">${MORE_NAV.map(navLink('cc-more__link')).join('')}</ul>
+            <button type="button" class="cc-nav__link cc-more__btn${inMore ? ' is-active' : ''}" aria-expanded="false" aria-controls="cc-more-list"><svg class="cc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><circle cx="16.75" cy="16.75" r="3.4"/></svg><span>${t.more}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <ul class="cc-more__list" id="cc-more-list">${MORE_NAV.map(navLink('cc-more__link', true)).join('')}</ul>
           </li>
         </ul>
       </nav>

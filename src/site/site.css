@@ -210,7 +210,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- Header ----------
    One ivory bar: logo left, navigation right (Home + core sections, a "More"
-   dropdown, then a quiet EN | हिन्दी switch). Below 1024px the links move
+   dropdown, then a quiet EN | हिन्दी switch). Below 1100px the links move
    into the hamburger menu. */
 .cc-header {
   position: sticky; top: 0; z-index: 1000;
@@ -240,10 +240,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cc-nav__link:hover, .cc-nav__link[aria-current="page"], .cc-more__btn.is-active { color: var(--cc-forest); }
 .cc-nav__link:hover::after, .cc-nav__link[aria-current="page"]::after, .cc-more__btn.is-active::after { transform: scaleX(1); }
 .cc-nav__link[aria-current="page"] { font-weight: 600; }
+.cc-nav__link .cc-icon { width: 17px; height: 17px; margin-right: 0.1rem; color: var(--cc-muted); transition: color 0.2s ease, transform 0.25s ease; }
+.cc-nav__link:hover .cc-icon, .cc-nav__link[aria-current="page"] .cc-icon { color: var(--cc-forest); }
+.cc-nav__link:hover .cc-icon { transform: translateY(-1px) rotate(-6deg); }
+.cc-nav__link::after { left: 0.7rem; }
 
 /* "More" dropdown */
 .cc-more { position: relative; }
-.cc-more__btn svg { width: 12px; height: 12px; transition: transform 0.2s ease; }
+.cc-more__btn > svg:last-child { width: 12px; height: 12px; transition: transform 0.2s ease; }
 .cc-more__btn::after { right: 1.5rem; }
 .cc-more__list {
   position: absolute; right: 0; top: calc(100% + 8px); z-index: 10; min-width: 200px;
@@ -255,16 +259,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .cc-more__list::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
 .cc-more.is-open .cc-more__list { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-.cc-more.is-open .cc-more__btn svg { transform: rotate(180deg); }
+.cc-more.is-open .cc-more__btn > svg:last-child { transform: rotate(180deg); }
+.cc-more.is-open .cc-more__btn .cc-icon, .cc-more__btn.is-active .cc-icon { color: var(--cc-forest); }
 @media (hover: hover) {
   .cc-more:hover .cc-more__list { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-  .cc-more:hover .cc-more__btn svg { transform: rotate(180deg); }
+  .cc-more:hover .cc-more__btn > svg:last-child { transform: rotate(180deg); }
 }
 .cc-more__link {
-  display: flex; align-items: center; min-height: 40px; padding: 0 0.8rem; border-radius: 6px;
+  display: flex; align-items: center; gap: 0.6rem; min-height: 40px; padding: 0 0.8rem; border-radius: 6px;
   font: 500 0.96rem/1.2 var(--cc-text); color: var(--cc-ink); text-decoration: none;
 }
+.cc-more__link .cc-icon { width: 17px; height: 17px; color: var(--cc-muted); }
 .cc-more__link:hover { background: var(--cc-forest-wash); color: var(--cc-forest); }
+.cc-more__link:hover .cc-icon, .cc-more__link[aria-current="page"] .cc-icon { color: var(--cc-forest); }
 .cc-more__link[aria-current="page"] { color: var(--cc-forest); font-weight: 600; }
 
 /* EN | हिन्दी: compact, secondary */
@@ -297,10 +304,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cc-menu-btn:hover .l2 { d: path('M4 12h16'); }
 .cc-menu-btn:hover .l3 { d: path('M4 17h16'); }
 .cc-menu-btn:hover .dot { opacity: 0; transform: translateX(3px); }
-@media (min-width: 1024px) {
+@media (min-width: 1100px) {
   .cc-nav { display: block; }
   .cc-header__lang { display: block; }
   .cc-header__tools { padding-left: 0.6rem; margin-left: 0.1rem; border-left: 1px solid var(--cc-rule); }
+  .cc-header .cc-menu-btn { display: none; }
 }
 /* Smooth theme switch: colours ease for a moment, then transitions go back to normal. */
 html.cc-theme-anim, html.cc-theme-anim *, html.cc-theme-anim *::before, html.cc-theme-anim *::after {
@@ -310,9 +318,11 @@ html.cc-theme-anim, html.cc-theme-anim *, html.cc-theme-anim *::before, html.cc-
   .cc-theme-btn svg, .cc-menu-btn__icon path { transition: none; }
   html.cc-theme-anim, html.cc-theme-anim * { transition: none !important; }
 }
-@media (min-width: 1024px) and (max-width: 1140px) {
-  .cc-nav__link { padding: 0 0.5rem; }
-  .cc-nav__link::after { left: 0.5rem; right: 0.5rem; }
+@media (min-width: 1100px) and (max-width: 1240px) {
+  .cc-nav__list { gap: 0.1rem; }
+  .cc-nav__link { padding: 0 0.45rem; font-size: 0.94rem; }
+  .cc-nav__link::after { left: 0.45rem; right: 0.45rem; }
+  .cc-header .cc-brand__name { font-size: 1.05rem; }
 }
 @media (max-width: 380px) { .cc-header .cc-brand__name { font-size: 1rem; } }
 
