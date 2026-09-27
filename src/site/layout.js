@@ -58,6 +58,7 @@ const T = {
     signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
     about: 'Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.',
     rights: 'All rights reserved.', backToTop: 'Back to top',
+    share: 'Share this page', shareOn: 'Share on', shareMore: 'More', copied: 'Link copied',
   },
   hi: {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
@@ -69,6 +70,7 @@ const T = {
     signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
     about: 'जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
     rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
+    share: 'यह पेज शेयर करें', shareOn: 'शेयर करें:', shareMore: 'और', copied: 'लिंक कॉपी हुआ',
   },
 };
 
@@ -198,6 +200,31 @@ function renderConnect({ lang, siteData, currentPath }) {
         </section>`;
 }
 
+// Floating share bar: a strip on the left edge on desktop, a single button
+// above the tab bar on phones that fans the options out. site.js swaps in the
+// live URL and handles "More" (native share sheet, else copy link).
+const WHATSAPP_PATH = 'M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.43 9.43 0 1 1 7.99 4.42zm8.02-17.45A11.27 11.27 0 0 0 12.05.75C5.8.75.72 5.83.72 12.08c0 2 .52 3.95 1.52 5.66L.62 23.62l6.02-1.58a11.32 11.32 0 0 0 5.41 1.38h.01c6.25 0 11.33-5.08 11.33-11.33 0-3.03-1.18-5.87-3.32-8.01z';
+function renderShareBar(t, url, orgName) {
+  const u = encodeURIComponent(url);
+  const path = (name) => SOCIAL.find((s) => s.name === name).path;
+  const svg = (d) => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
+  const links = [
+    { key: 'fb', name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, d: path('Facebook') },
+    { key: 'x', name: 'X', href: `https://twitter.com/intent/tweet?url=${u}&text=${encodeURIComponent(orgName)}`, d: path('X') },
+    { key: 'wa', name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(orgName + ' ')}${u}`, d: WHATSAPP_PATH },
+  ];
+  return `
+  <div class="cc-share" data-cc-share>
+    <button type="button" class="cc-share__toggle" aria-expanded="false" aria-controls="cc-share-list" aria-label="${esc(t.share)}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+    </button>
+    <ul class="cc-share__list" id="cc-share-list" aria-label="${esc(t.share)}">
+      ${links.map((l, i) => `<li style="--i:${i}"><a class="cc-share__btn cc-share__btn--${l.key}" href="${esc(l.href)}" data-cc-share-${l.key} target="_blank" rel="noopener" aria-label="${esc(`${t.shareOn} ${l.name}`)}">${svg(l.d)}<span>${l.name}</span></a></li>`).join('')}
+      <li style="--i:3"><button type="button" class="cc-share__btn cc-share__btn--more" data-cc-share-more aria-label="${esc(t.share)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-label="${esc(t.shareMore)}" data-done="${esc(t.copied)}">${esc(t.shareMore)}</span></button></li>
+    </ul>
+  </div>`;
+}
+
 function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const t = T[lang];
   const c = siteData.contact || {};
@@ -240,6 +267,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
       </div>
     </div>
   </footer>
+${renderShareBar(t, (siteData.siteUrl || '') + currentPath, siteData.orgName[lang])}
 
   <aside class="cc-install" data-cc-install-toast hidden aria-label="${t.installApp}">
     <span class="cc-install__text"><strong>${t.installApp}</strong><span>${t.installSub}</span></span>

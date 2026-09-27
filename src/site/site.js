@@ -238,3 +238,39 @@
   });
   window.addEventListener('appinstalled', function () { if (toast) toast.hidden = true; });
 })();
+
+// Floating share bar: live page URL, phone toggle, "More" = native share or copy link.
+(function () {
+  'use strict';
+  var bar = document.querySelector('[data-cc-share]');
+  if (!bar) return;
+  var url = location.href.split('#')[0];
+  var title = document.title;
+  var u = encodeURIComponent(url);
+  var set = function (sel, href) { var a = bar.querySelector(sel); if (a) a.href = href; };
+  set('[data-cc-share-fb]', 'https://www.facebook.com/sharer/sharer.php?u=' + u);
+  set('[data-cc-share-x]', 'https://twitter.com/intent/tweet?url=' + u + '&text=' + encodeURIComponent(title));
+  set('[data-cc-share-wa]', 'https://wa.me/?text=' + encodeURIComponent(title + ' ') + u);
+
+  var toggle = bar.querySelector('.cc-share__toggle');
+  function setOpen(open) {
+    bar.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  toggle.addEventListener('click', function () { setOpen(!bar.classList.contains('is-open')); });
+  document.addEventListener('click', function (e) { if (!bar.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggle.focus(); } });
+  bar.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+
+  var more = bar.querySelector('[data-cc-share-more]');
+  more.addEventListener('click', function () {
+    if (navigator.share) { navigator.share({ title: title, url: url }).catch(function () {}); return; }
+    var label = more.querySelector('span');
+    var done = function () {
+      more.classList.add('is-done');
+      label.textContent = label.getAttribute('data-done');
+      setTimeout(function () { more.classList.remove('is-done'); label.textContent = label.getAttribute('data-label'); }, 2000);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, function () {});
+  });
+})();
