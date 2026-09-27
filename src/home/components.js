@@ -2,7 +2,7 @@
 // Copy lives in siteData.homepage (editable in the admin panel); plays,
 // magazine, festivals and camps come from their own sections of siteData.
 
-const { esc, pick, localHref, icon, picture, sectionHead, formButton, folkDivider } = require('../site/ui.js');
+const { esc, pick, localHref, icon, picture, photo, photoFull, sectionHead, formButton, folkDivider } = require('../site/ui.js');
 const { upcoming } = require('../site/events.js');
 const { renderTicket } = require('../site/tickets.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
@@ -20,7 +20,8 @@ const T = {
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
-    gallery: 'From the stage', galleryKicker: 'Gallery', gallerySub: 'Moments from our plays, festivals and camps.',
+    gallery: 'Featured Theatre Moments', galleryKicker: 'From the stage', gallerySub: 'Photographs from our productions, taken in the dark of the house.',
+    archiveKicker: 'Beyond the stage', archive: 'Theatre • Rehearsals • Festival Moments', archiveCollection: 'Collection', prevPhoto: 'Previous photographs', nextPhoto: 'Next photographs', viewPhoto: 'View photograph',
     artists: 'The people behind the stage', artistsSub: 'Writers, directors and performers who make every show.', meet: 'Meet the team',
   },
   hi: {
@@ -32,7 +33,8 @@ const T = {
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
-    gallery: 'मंच से', galleryKicker: 'चित्र दीर्घा', gallerySub: 'हमारे नाटकों, समारोहों और शिविरों के कुछ पल।',
+    gallery: 'रंगमंच के चुनिंदा पल', galleryKicker: 'मंच से', gallerySub: 'हमारी प्रस्तुतियों की तस्वीरें, सभागार के अंधेरे से।',
+    archiveKicker: 'मंच से परे', archive: 'रंगमंच • रिहर्सल • समारोह के पल', archiveCollection: 'संग्रह', prevPhoto: 'पिछली तस्वीरें', nextPhoto: 'अगली तस्वीरें', viewPhoto: 'तस्वीर देखें',
     artists: 'मंच के पीछे के लोग', artistsSub: 'लेखक, निर्देशक और कलाकार जो हर प्रस्तुति रचते हैं।', meet: 'पूरी टीम देखें',
   },
 };
@@ -154,36 +156,80 @@ function renderPlays(ctx) {
   </section>`;
 }
 
-// From the stage: a photo strip. Scrolls sideways on phones, a mixed-size
-// grid on wider screens. Images come from homepage.gallery (admin).
+// From the stage: two theatre photo categories that share one dark stage
+// identity (curtain texture, warm spotlight, gold hairlines, grain) but
+// read differently.
+//  1. Featured Theatre Moments (homepage.gallery): an editorial mosaic with
+//     one main-stage photograph and supporting frames.
+//  2. Beyond the Stage (homepage.galleryReel): a draggable film-strip reel
+//     with sprocket edges, numbered frames and caption panels.
+// Both open the full-screen photo viewer (site.js).
 function renderGallery(ctx) {
   const { lang, hp } = ctx;
   const t = T[lang];
   const items = (hp.gallery || []).filter((g) => g && g.image);
   if (!items.length) return '';
-  const full = (src) => src.replace(/-1280(\.\w+)$/, '$1');
+  const sizes = (i) => (i % 7 === 0 || i % 7 === 5 ? '(min-width: 720px) 50vw, 80vw' : '(min-width: 720px) 25vw, 80vw');
   return `
   <section class="hm-gallery" aria-labelledby="hm-gallery-title">
-    <div class="hm-gallery__film" aria-hidden="true"></div>
+    <div class="hm-stage-light" aria-hidden="true"></div>
     <div class="cc-wrap">
-      <div class="hm-gallery__head">
-        <p class="hm-gallery__kicker">${icon('star')}<span>${t.galleryKicker}</span></p>
-        <h2 class="cc-h2 hm-gallery__title" id="hm-gallery-title">${t.gallery}</h2>
-        <p class="hm-gallery__sub">${t.gallerySub}</p>
-      </div>
+      <header class="hm-programme">
+        <p class="hm-programme__kicker">${t.galleryKicker}</p>
+        <h2 class="hm-programme__title" id="hm-gallery-title">${t.gallery}</h2>
+        <p class="hm-programme__rule" aria-hidden="true"><span></span></p>
+        <p class="hm-programme__sub">${t.gallerySub}</p>
+      </header>
       <ul class="hm-gallery__grid" data-cc-lightbox>
         ${items.map((g, i) => `
         <li class="hm-gallery__item">
-          <a class="hm-gallery__link" href="${esc(full(g.image))}" data-caption="${esc(pick(g.caption, lang))}">
-            ${picture(g.image, pick(g.alt, lang) || pick(g.caption, lang), { width: 1280, height: 720 })}
+          <a class="hm-gallery__link" href="${esc(photoFull(g.image))}" data-caption="${esc(pick(g.caption, lang))}" aria-label="${esc(`${t.viewPhoto} ${i + 1}: ${pick(g.caption, lang)}`)}">
+            ${photo(g.image, pick(g.alt, lang) || pick(g.caption, lang), { sizes: sizes(i) })}
             <span class="hm-gallery__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
             ${pick(g.caption, lang) ? `<span class="hm-gallery__cap">${esc(pick(g.caption, lang))}</span>` : ''}
-            <span class="hm-gallery__zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span>
           </a>
         </li>`).join('')}
       </ul>
     </div>
-    <div class="hm-gallery__film hm-gallery__film--bottom" aria-hidden="true"></div>
+  </section>
+  ${renderArchiveReel(ctx)}`;
+}
+
+function renderArchiveReel(ctx) {
+  const { lang, hp } = ctx;
+  const t = T[lang];
+  const r = hp.galleryReel || {};
+  const items = (r.photos || []).filter((g) => g && g.image);
+  if (!items.length) return '';
+  const n = items.length;
+  const pad = (i) => String(i).padStart(2, '0');
+  const collection = pick(r.collection, lang);
+  return `
+  <section class="hm-archive" aria-labelledby="hm-archive-title">
+    <div class="cc-wrap hm-archive__head">
+      <header class="hm-programme hm-programme--left">
+        <p class="hm-programme__kicker">${t.archiveKicker}</p>
+        <h2 class="hm-programme__title" id="hm-archive-title">${t.archive}</h2>
+        ${collection ? `<p class="hm-archive__collection"><span>${t.archiveCollection}</span>${esc(collection)}${pick(r.note, lang) ? ` <em>${esc(pick(r.note, lang))}</em>` : ''}</p>` : ''}
+      </header>
+      <div class="hm-archive__nav">
+        <p class="hm-archive__count" aria-hidden="true"><span data-reel-current>01</span> / ${pad(n)}</p>
+        <button type="button" class="hm-archive__btn" data-reel-prev aria-label="${t.prevPhoto}">${icon('chevronLeft')}</button>
+        <button type="button" class="hm-archive__btn" data-reel-next aria-label="${t.nextPhoto}">${icon('chevronRight')}</button>
+      </div>
+    </div>
+    <div class="hm-archive__strip">
+      <ul class="hm-archive__track" data-cc-reel data-cc-lightbox tabindex="0" aria-label="${esc(`${t.archive}${collection ? ` — ${collection}` : ''}`)}">
+        ${items.map((g, i) => `
+        <li class="hm-archive__frame">
+          <a class="hm-archive__link" href="${esc(photoFull(g.image))}" data-caption="${esc(pick(g.caption, lang))}" draggable="false">
+            ${photo(g.image, pick(g.alt, lang) || pick(g.caption, lang), { sizes: '(min-width: 1100px) 34vw, (min-width: 720px) 48vw, 82vw', widths: [480, 800, 1200] })}
+            <span class="hm-archive__num" aria-hidden="true">${pad(i + 1)}<small>/${pad(n)}</small></span>
+            ${pick(g.caption, lang) ? `<span class="hm-archive__cap">${esc(pick(g.caption, lang))}</span>` : ''}
+          </a>
+        </li>`).join('')}
+      </ul>
+    </div>
   </section>`;
 }
 

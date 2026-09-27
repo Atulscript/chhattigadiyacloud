@@ -142,6 +142,21 @@ function formButton({ lang, form, label, variant = 'primary', size = '', prefill
   return `<a class="${cls}" href="/${lang}/contact/#form-${form}" data-cc-form="${form}"${data}>${iconName ? icon(iconName) : ''}${esc(label)}</a>`;
 }
 
+// Responsive <img> for a photo that may be local or on ImageKit. ImageKit
+// URLs get on-the-fly widths (f-auto picks WebP/AVIF); local files go
+// through picture(). `full` is the large version for the photo viewer.
+const IK_RE = /^https:\/\/ik\.imagekit\.io\//i;
+function ikUrl(url, w) {
+  const clean = String(url || '').split('?')[0];
+  return IK_RE.test(clean) ? `${clean}?tr=w-${w},q-75,f-auto` : clean;
+}
+function photo(url, alt, { widths = [480, 800, 1200, 1600], sizes = '100vw', eager = false, width = 1280, height = 853 } = {}) {
+  if (!IK_RE.test(String(url || ''))) return picture(url, alt, { width, height, eager });
+  const set = widths.map((w) => `${ikUrl(url, w)} ${w}w`).join(', ');
+  return `<img src="${esc(ikUrl(url, widths[Math.min(1, widths.length - 1)]))}" srcset="${esc(set)}" sizes="${esc(sizes)}" alt="${esc(alt || '')}" width="${width}" height="${height}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+}
+function photoFull(url) { return IK_RE.test(String(url || '')) ? ikUrl(url, 2000) : String(url || '').replace(/-1280(\.\w+)$/, '$1'); }
+
 // Folk ornament: a slim Gond-style divider (dots, diamonds, leaf pairs).
 function folkDivider() {
   return `<div class="cc-folk" aria-hidden="true"><svg viewBox="0 0 320 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
@@ -153,4 +168,4 @@ function folkDivider() {
   </svg></div>`;
 }
 
-module.exports = { esc, pick, localHref, icon, ICONS, picture, pageHead, sectionHead, stats, formButton, folkDivider };
+module.exports = { esc, pick, localHref, icon, ICONS, picture, photo, photoFull, ikUrl, pageHead, sectionHead, stats, formButton, folkDivider };
