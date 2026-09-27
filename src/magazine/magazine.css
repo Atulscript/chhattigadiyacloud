@@ -746,3 +746,18 @@ html.mz-noscroll .mr.is-fullscreen { position: fixed; inset: 0; z-index: 3000; }
   font: 400 0.88rem/1.6 var(--mz-ui); white-space: pre-wrap; color: var(--mz-ink-2);
 }
 .mz-checkout [hidden] { display: none !important; }
+
+/* Same visual language as the rest of the site: Gond ornament between
+   sections and faint folk line-art behind the buy and archive sections. */
+.mz-section { position: relative; isolation: isolate; overflow: hidden; }
+.mz-section + .mz-section > .mz-wrap::before {
+  content: ""; display: block; width: min(320px, 80%); height: 24px; margin: -0.5rem auto 1.75rem;
+  background: url('../assets/images/motifs/divider.svg') center / contain no-repeat; opacity: 0.75;
+}
+.mz-buy::after, .mz-archive::after {
+  content: ""; position: absolute; z-index: -1; pointer-events: none; opacity: 0.08;
+  background: url('../assets/images/motifs/sun-mandala.svg') center / contain no-repeat;
+  right: -60px; top: -30px; width: min(30vw, 380px); aspect-ratio: 1;
+}
+.mz-archive::after { background-image: url('../assets/images/motifs/gond-tree.svg'); right: auto; left: -30px; top: auto; bottom: 4%; aspect-ratio: 600 / 660; }
+:root[data-theme="dark"] .mz-buy::after, :root[data-theme="dark"] .mz-archive::after { opacity: 0.13; filter: brightness(1.8) saturate(0.8); }

@@ -1,6 +1,7 @@
 // What's On: every dated event from site data, soonest first.
-const { esc, pick, icon, pageHead, formButton } = require('../site/ui.js');
-const { upcoming, dateBadge, statusOf, statusTag } = require('../site/events.js');
+const { pageHead, formButton } = require('../site/ui.js');
+const { upcoming } = require('../site/events.js');
+const { renderTicket } = require('../site/tickets.js');
 
 const T = {
   en: {
@@ -17,33 +18,11 @@ const T = {
   },
 };
 
-function renderEvent(item, lang) {
-  const t = T[lang];
-  const d = dateBadge(item.start, lang);
-  const isCamp = item.kind === 'camp';
-  const actions = isCamp
-    ? `${formButton({ lang, form: 'camp', label: t.register, size: 'sm' })}<a class="cc-btn cc-btn--secondary cc-btn--sm" href="/${lang}/training-workshops/">${t.details}</a>`
-    : `${formButton({ lang, form: 'pass', label: t.pass, size: 'sm', prefill: { festival: item.id } })}<a class="cc-btn cc-btn--secondary cc-btn--sm" href="/${lang}/events/#${esc(item.id)}">${t.details}</a>`;
-  return `
-      <li class="cc-event">
-        <time class="cc-event__date" datetime="${d.iso}"><span class="cc-event__day">${esc(d.day)}</span><span class="cc-event__month">${esc(d.month)}</span></time>
-        <div class="cc-event__body">
-          <div class="cc-tags"><span class="cc-tag${isCamp ? '' : ' cc-tag--clay'}">${isCamp ? t.camp : t.festival}</span>${statusTag(item.dates, item.statusTag, lang)}</div>
-          <h2 class="cc-h3">${esc(pick(item.title, lang))}</h2>
-          <ul class="cc-facts">
-            <li>${icon('calendar')}<span>${esc(pick(item.dates, lang))}</span></li>
-            <li>${icon('pin')}<span>${esc(pick(item.venue, lang))}</span></li>
-          </ul>
-          ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : `<div class="cc-actions">${actions}</div>`}
-        </div>
-      </li>`;
-}
-
 function render(siteData, lang) {
   const t = T[lang];
   const items = upcoming(siteData);
   const list = items.length
-    ? `<ol class="cc-events" aria-label="${t.title}">${items.map((i) => renderEvent(i, lang)).join('')}</ol>`
+    ? `<ol class="cc-tickets" aria-label="${t.title}">${items.map((i) => renderTicket(i, lang, { level: 2 })).join('')}</ol>`
     : `<div class="cc-empty"><h2 class="cc-h3">${t.emptyTitle}</h2><p>${t.emptyText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="/${lang}/productions/">${t.plays}</a></div></div>`;
   return {
     title: t.title,
@@ -51,7 +30,7 @@ function render(siteData, lang) {
     content: `
   ${pageHead({ lang, banner: (siteData.pageBanners || {})['whats-on'], bannerSettings: siteData.pageBannerSettings, title: t.title, lead: t.lead })}
   <section class="cc-section">
-    <div class="cc-wrap cc-wrap--narrow">${list}</div>
+    <div class="cc-wrap">${list}</div>
   </section>
   <section class="cc-section">
     <div class="cc-wrap">

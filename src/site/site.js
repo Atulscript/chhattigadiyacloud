@@ -354,7 +354,7 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
   var root = document.documentElement;
-  var sel = '.cc-section-head, .hm-card, .hm-ticket, .hm-play, .hm-root, .hm-critic, .hm-artist, .hm-gallery__item, .cc-card, .cc-feature, .cc-event, .cc-stat, .cc-callout, .hm-mag__grid > *, .cc-signup__panel';
+  var sel = '.cc-section-head, .hm-card, .cc-ticket, .hm-play, .hm-root, .hm-critic, .hm-artist, .hm-gallery__item, .cc-card, .cc-feature, .cc-event, .cc-stat, .cc-callout, .hm-mag__grid > *, .cc-signup__panel';
   var items = [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
     if (el.closest('.hs, dialog')) return false;
     // Items in a sideways scroller (gallery, critics on phones) stay put.
@@ -467,5 +467,64 @@
   bar.querySelector('[data-cc-cd-close]').addEventListener('click', function () {
     bar.hidden = true; size();
     try { localStorage.setItem(key, '1'); } catch (e) {}
+  });
+})();
+
+// Photo viewer for [data-cc-lightbox] lists of links to images: full-screen
+// dialog with caption, previous/next, arrow keys, swipe and Escape. Without
+// JavaScript the links simply open the image.
+(function () {
+  'use strict';
+  var lists = document.querySelectorAll('[data-cc-lightbox]');
+  if (!lists.length || typeof HTMLDialogElement !== 'function') return;
+  var hi = document.documentElement.lang === 'hi';
+  var L = hi ? { close: 'बंद करें', prev: 'पिछला चित्र', next: 'अगला चित्र' } : { close: 'Close', prev: 'Previous photo', next: 'Next photo' };
+  var dlg = document.createElement('dialog');
+  dlg.className = 'cc-lightbox';
+  dlg.setAttribute('aria-label', hi ? 'चित्र' : 'Photo');
+  dlg.innerHTML =
+    '<figure class="cc-lightbox__fig"><img alt=""><figcaption><span class="cc-lightbox__count"></span><span class="cc-lightbox__cap"></span></figcaption></figure>' +
+    '<button type="button" class="cc-lightbox__btn cc-lightbox__close" aria-label="' + L.close + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+    '<button type="button" class="cc-lightbox__btn cc-lightbox__prev" aria-label="' + L.prev + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+    '<button type="button" class="cc-lightbox__btn cc-lightbox__next" aria-label="' + L.next + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>';
+  document.body.appendChild(dlg);
+  var img = dlg.querySelector('img'), cap = dlg.querySelector('.cc-lightbox__cap'), count = dlg.querySelector('.cc-lightbox__count');
+  var links = [], index = 0, opener = null;
+  function show(i) {
+    index = (i + links.length) % links.length;
+    var a = links[index], inner = a.querySelector('img');
+    img.classList.remove('is-in');
+    img.src = a.getAttribute('href');
+    img.alt = inner ? inner.alt : '';
+    cap.textContent = a.getAttribute('data-caption') || '';
+    count.textContent = (index + 1) + ' / ' + links.length;
+  }
+  img.addEventListener('load', function () { img.classList.add('is-in'); });
+  function open(list, a) {
+    links = [].slice.call(list.querySelectorAll('a[href]'));
+    opener = a;
+    show(links.indexOf(a));
+    dlg.showModal();
+    document.documentElement.classList.add('cc-lightbox-open');
+  }
+  dlg.addEventListener('close', function () { document.documentElement.classList.remove('cc-lightbox-open'); if (opener) opener.focus(); });
+  dlg.querySelector('.cc-lightbox__close').addEventListener('click', function () { dlg.close(); });
+  dlg.querySelector('.cc-lightbox__prev').addEventListener('click', function () { show(index - 1); });
+  dlg.querySelector('.cc-lightbox__next').addEventListener('click', function () { show(index + 1); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { show(index - 1); e.preventDefault(); }
+    else if (e.key === 'ArrowRight') { show(index + 1); e.preventDefault(); }
+  });
+  var sx = null;
+  dlg.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+  dlg.addEventListener('pointerup', function (e) { if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1)); });
+  [].forEach.call(lists, function (list) {
+    list.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      open(list, a);
+    });
   });
 })();
