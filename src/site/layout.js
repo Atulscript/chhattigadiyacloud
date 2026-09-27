@@ -58,7 +58,7 @@ const T = {
     signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
     about: 'Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.',
     rights: 'All rights reserved.', backToTop: 'Back to top',
-    share: 'Share this page', shareOn: 'Share on', shareMore: 'More', copied: 'Link copied',
+    share: 'Share this page', shareOn: 'Share on',
   },
   hi: {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
@@ -70,7 +70,7 @@ const T = {
     signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
     about: 'जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
     rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
-    share: 'यह पेज शेयर करें', shareOn: 'शेयर करें:', shareMore: 'और', copied: 'लिंक कॉपी हुआ',
+    share: 'यह पेज शेयर करें', shareOn: 'शेयर करें:',
   },
 };
 
@@ -229,10 +229,13 @@ function renderShareBar(t, url, orgName) {
   const u = encodeURIComponent(url);
   const path = (name) => SOCIAL.find((s) => s.name === name).path;
   const svg = (d) => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
+  const social = (name) => SOCIAL.find((s) => s.name === name);
   const links = [
-    { key: 'fb', name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, d: path('Facebook') },
-    { key: 'x', name: 'X', href: `https://twitter.com/intent/tweet?url=${u}&text=${encodeURIComponent(orgName)}`, d: path('X') },
-    { key: 'wa', name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(orgName + ' ')}${u}`, d: WHATSAPP_PATH },
+    { key: 'fb', name: 'Facebook', label: `${t.shareOn} Facebook`, href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, d: path('Facebook') },
+    { key: 'x', name: 'X', label: `${t.shareOn} X`, href: `https://twitter.com/intent/tweet?url=${u}&text=${encodeURIComponent(orgName)}`, d: path('X') },
+    { key: 'wa', name: 'WhatsApp', label: `${t.shareOn} WhatsApp`, href: `https://wa.me/?text=${encodeURIComponent(orgName + ' ')}${u}`, d: WHATSAPP_PATH },
+    { key: 'ig', name: 'Instagram', label: `${t.follow}: Instagram`, href: social('Instagram').href, d: path('Instagram') },
+    { key: 'yt', name: 'YouTube', label: `${t.follow}: YouTube`, href: social('YouTube').href, d: path('YouTube') },
   ];
   return `
   <div class="cc-share" data-cc-share>
@@ -240,8 +243,7 @@ function renderShareBar(t, url, orgName) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
     </button>
     <ul class="cc-share__list" id="cc-share-list" aria-label="${esc(t.share)}">
-      ${links.map((l, i) => `<li style="--i:${i}"><a class="cc-share__btn cc-share__btn--${l.key}" href="${esc(l.href)}" data-cc-share-${l.key} target="_blank" rel="noopener" aria-label="${esc(`${t.shareOn} ${l.name}`)}">${svg(l.d)}<span>${l.name}</span></a></li>`).join('')}
-      <li style="--i:3"><button type="button" class="cc-share__btn cc-share__btn--more" data-cc-share-more aria-label="${esc(t.share)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-label="${esc(t.shareMore)}" data-done="${esc(t.copied)}">${esc(t.shareMore)}</span></button></li>
+      ${links.map((l, i) => `<li style="--i:${i}"><a class="cc-share__btn cc-share__btn--${l.key}" href="${esc(l.href)}" data-cc-share-${l.key} target="_blank" rel="noopener" aria-label="${esc(l.label)}">${svg(l.d)}<span>${l.name}</span></a></li>`).join('')}
     </ul>
   </div>`;
 }
@@ -276,9 +278,8 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
       <div class="cc-footer__bottom">
         <p>© ${new Date().getFullYear()} ${siteData.orgName[lang]}. ${t.rights}</p>
         <div class="cc-footer__bottom-links">
-          ${themeToggle(t)}
           <a href="${altUrl}" hreflang="${lang === 'hi' ? 'en' : 'hi'}" lang="${lang === 'hi' ? 'en' : 'hi'}">${lang === 'hi' ? 'English' : 'हिन्दी'}</a>
-          <a href="#top" data-cc-top>${icon('arrowUp')}<span>${t.backToTop}</span></a>
+          <a class="cc-footer__top-link" href="#top" data-cc-top>${icon('arrowUp')}<span>${t.backToTop}</span></a>
         </div>
       </div>
     </div>
