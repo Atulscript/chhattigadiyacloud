@@ -109,10 +109,11 @@ function pageHead({ lang, title, lead = '', kicker = '', extra = '', banner = nu
   </header>`;
 }
 
-function sectionHead(title, { sub = '', id = '', link = null, level = 2 } = {}) {
+function sectionHead(title, { sub = '', id = '', link = null, level = 2, iconName = '' } = {}) {
   return `
-      <div class="cc-section-head">
+      <div class="cc-section-head${iconName ? ' cc-section-head--icon' : ''}">
         <div>
+          ${iconName ? `<span class="cc-section-head__icon" aria-hidden="true">${icon(iconName)}</span>` : ''}
           <h${level} class="cc-h2"${id ? ` id="${id}"` : ''}>${esc(title)}</h${level}>
           ${sub ? `<p>${esc(sub)}</p>` : ''}
         </div>

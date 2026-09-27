@@ -140,9 +140,9 @@ function renderPlays(ctx) {
   const t = T[lang];
   if (!productions.length) return '';
   return `
-  <section class="cc-section" aria-labelledby="hm-plays-title">
+  <section class="cc-section hm-plays-sec" aria-labelledby="hm-plays-title">
     <div class="cc-wrap">
-      ${sectionHead(t.ourPlays, { id: 'hm-plays-title', sub: t.ourPlaysSub, link: { href: `/${lang}/productions/`, label: t.allPlays } })}
+      ${sectionHead(t.ourPlays, { id: 'hm-plays-title', sub: t.ourPlaysSub, iconName: 'mask', link: { href: `/${lang}/productions/`, label: t.allPlays } })}
       <ul class="hm-plays">${productions.map((p) => renderPlayCard(p, lang)).join('')}</ul>
     </div>
   </section>`;
@@ -160,7 +160,7 @@ function renderMagazineFeature(ctx) {
         <img src="${esc(issue.coverImg || '/src/assets/images/mag-issue-14-cover.svg')}" alt="${esc(t.coverAlt(pick(issue.month, lang)))}" width="400" height="560" loading="lazy" decoding="async">
       </a>
       <div>
-        <p class="cc-kicker hm-mag__kicker">${t.newIssue} · ${esc(pick(issue.month, lang))}</p>
+        <p class="cc-kicker hm-mag__kicker"><span class="hm-mag__badge" aria-hidden="true">${icon('book')}</span>${t.newIssue} · ${esc(pick(issue.month, lang))}</p>
         <h2 class="cc-h2 hm-mag__title" id="hm-mag-title">${esc(pick(issue.title, lang))}</h2>
         <p class="hm-mag__desc">${esc(pick(issue.description, lang) || pick(magazine.tagline, lang))}</p>
         <div class="cc-actions cc-actions--stack">
@@ -215,7 +215,7 @@ function renderComingUp(ctx) {
   return `
   <section class="cc-section cc-section--tint hm-upcoming" aria-labelledby="hm-upcoming-title">
     <div class="cc-wrap">
-      ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', sub: t.comingUpSub, link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
+      ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', sub: t.comingUpSub, iconName: 'calendar', link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
       ${items.length ? `<ol class="hm-tickets">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
     </div>
   </section>`;
@@ -233,7 +233,7 @@ function renderRoots(ctx) {
   return `
   <section class="cc-section hm-roots" aria-labelledby="hm-roots-title">
     <div class="cc-wrap">
-      ${sectionHead(t.roots, { id: 'hm-roots-title', sub: t.rootsSub })}
+      ${sectionHead(t.roots, { id: 'hm-roots-title', sub: t.rootsSub, iconName: 'leaf' })}
       <ol class="hm-roots__grid">
         ${items.map((r, i) => `
         <li class="hm-root hm-root--${tones[i % tones.length]}">
@@ -287,9 +287,10 @@ function renderClosingCta(ctx) {
   const vh = hp.visualHighlight || {};
   if (!vh.title) return '';
   return `
-  <section class="cc-section" aria-labelledby="hm-cta-title">
+  <section class="cc-section hm-cta" aria-labelledby="hm-cta-title">
     <div class="cc-wrap">
       <div class="cc-callout">
+        <span class="hm-cta__icon" aria-hidden="true">${icon('ticket')}</span>
         <div><h2 class="cc-h2" id="hm-cta-title">${esc(pick(vh.title, lang))}</h2><p>${esc(pick(vh.desc, lang))}</p></div>
         ${formButton({ lang, form: 'booking', label: pick(vh.btnText, lang) })}
       </div>
