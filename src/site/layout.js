@@ -38,6 +38,9 @@ const byId = (id) => ALL_PAGES.find((p) => p.id === id);
 const MAIN_NAV = ['whats-on', 'productions', 'events', 'training-workshops', 'magazine', 'about', 'blog'];
 const UTILITY_NAV = ['press', 'support', 'contact'];
 const TABS = ['whats-on', 'productions', 'magazine'];
+// Footer: one 3-column list of the remaining pages (What's On stays in the
+// header, menu and phone tab bar).
+const FOOTER_LINKS = ALL_PAGES.filter((p) => p.id !== 'whats-on');
 
 const T = {
   en: {
@@ -195,16 +198,11 @@ function renderConnect({ lang, siteData, currentPath }) {
 function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const t = T[lang];
   const c = siteData.contact || {};
-  const col = (title, pages) => `
-        <nav class="cc-footer__col" aria-label="${title}">
-          <h2 class="cc-footer__title">${title}</h2>
-          <ul class="cc-footer__list">${pages.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`).join('')}</ul>
-        </nav>`;
   return `
   <div class="cc-frieze" role="img" aria-label="${esc(t.friezeAlt)}"></div>
   <footer class="cc-footer">
-    <div class="cc-wrap">
-      <div class="cc-footer__top">
+    <div class="cc-footer__band">
+      <div class="cc-wrap cc-footer__top">
         <div class="cc-footer__brand">
           <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
           <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
@@ -212,9 +210,13 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
         </div>
         ${renderConnect({ lang, siteData, currentPath })}
       </div>
+    </div>
+    <div class="cc-wrap">
       <div class="cc-footer__grid">
-        ${col(t.explore, PAGES.explore)}
-        ${col(t.organisation, PAGES.organisation)}
+        <nav class="cc-footer__col cc-footer__col--links" aria-label="${t.quickNav}">
+          <h2 class="cc-footer__title">${t.quickNav}</h2>
+          <ul class="cc-footer__list cc-footer__links">${FOOTER_LINKS.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`).join('')}</ul>
+        </nav>
         <div class="cc-footer__col cc-footer__col--contact">
           <h2 class="cc-footer__title">${t.contact}</h2>
           <ul class="cc-footer__list cc-footer__contact">
