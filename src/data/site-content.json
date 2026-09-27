@@ -1274,14 +1274,19 @@
           "hi": "नाटक"
         },
         "desc": {
-          "en": "Folk stories told for today's stage.",
-          "hi": "लोक कथाएं, आज के मंच के लिए।"
+          "en": "Folk stories brought to today's stage.",
+          "hi": "लोक कथाएं, आज के मंच पर।"
         },
         "linkText": {
-          "en": "See plays",
+          "en": "Explore Plays",
           "hi": "नाटक देखें"
         },
-        "href": "/productions/"
+        "href": "/productions/",
+        "image": "/src/assets/images/cards/plays.jpg",
+        "imageAlt": {
+          "en": "A folk theatre performer in a warm spotlight on stage",
+          "hi": "मंच पर सुनहरी रोशनी में एक लोक नाट्य कलाकार"
+        }
       },
       {
         "id": "fest",
@@ -1295,14 +1300,19 @@
           "hi": "समारोह"
         },
         "desc": {
-          "en": "Jashrang theatre festival and Kavita Utsav.",
-          "hi": "जशरंग नाट्य समारोह और कविता उत्सव।"
+          "en": "Theatre, poetry and folk traditions brought together.",
+          "hi": "रंगमंच, कविता और लोक परंपराएं एक साथ।"
         },
         "linkText": {
-          "en": "See festivals",
+          "en": "Explore Festivals",
           "hi": "समारोह देखें"
         },
-        "href": "/events/"
+        "href": "/events/",
+        "image": "/src/assets/images/cards/festivals.jpg",
+        "imageAlt": {
+          "en": "Folk dancers around a fire under festival lights",
+          "hi": "उत्सव की रोशनी में अलाव के चारों ओर लोक नर्तक"
+        }
       },
       {
         "id": "camp",
@@ -1316,14 +1326,19 @@
           "hi": "कार्यशालाएं"
         },
         "desc": {
-          "en": "Ullas Summer Camp: acting, voice and folk craft.",
-          "hi": "उल्लास समर कैम्प: अभिनय, आवाज़ और लोक शिल्प।"
+          "en": "Learn acting, voice, storytelling and folk craft.",
+          "hi": "अभिनय, आवाज़, कथा-वाचन और लोक शिल्प सीखें।"
         },
         "linkText": {
-          "en": "Join a camp",
-          "hi": "शिविर से जुड़ें"
+          "en": "Join a Workshop",
+          "hi": "कार्यशाला से जुड़ें"
         },
-        "href": "/training-workshops/"
+        "href": "/training-workshops/",
+        "image": "/src/assets/images/cards/workshops.jpg",
+        "imageAlt": {
+          "en": "Young learners seated in a circle around their teacher in window light",
+          "hi": "खिड़की की रोशनी में शिक्षक के चारों ओर बैठे युवा प्रतिभागी"
+        }
       },
       {
         "id": "mag",
@@ -1337,14 +1352,19 @@
           "hi": "पत्रिका"
         },
         "desc": {
-          "en": "Essays on theatre, folk art and literature.",
-          "hi": "रंगमंच, लोक कला और साहित्य पर आलेख।"
+          "en": "Essays and ideas on theatre, folk art and literature.",
+          "hi": "रंगमंच, लोक कला और साहित्य पर आलेख और विचार।"
         },
         "linkText": {
-          "en": "Read now",
-          "hi": "अभी पढ़ें"
+          "en": "Read the Magazine",
+          "hi": "पत्रिका पढ़ें"
         },
-        "href": "/magazine/"
+        "href": "/magazine/",
+        "image": "/src/assets/images/cards/magazine.jpg",
+        "imageAlt": {
+          "en": "An open book with a painted folk mask, a brass lamp and marigolds",
+          "hi": "खुली पुस्तक, रंगा हुआ लोक मुखौटा, पीतल का दीया और गेंदे के फूल"
+        }
       }
     ],
     "impactStats": [

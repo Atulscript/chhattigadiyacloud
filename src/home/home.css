@@ -34,35 +34,57 @@
   .hm-issue { position: absolute; left: -2rem; bottom: -1.75rem; margin: 0; max-width: 350px; }
 }
 
-/* ---------- Explore tiles ---------- */
-.hm-explore { position: relative; padding: 2.25rem 0 1rem; }
-.hm-explore::before {
-  content: ""; display: block; width: min(100% - (var(--cc-gutter) * 2), 1180px); height: 10px; margin: 0 auto 1.25rem;
-  background: linear-gradient(90deg, var(--cc-clay) 0 13%, transparent 13% 16%, var(--cc-forest) 16% 42%, transparent 42% 45%, var(--cc-clay) 45% 70%, transparent 70% 73%, var(--cc-forest) 73% 100%);
-  opacity: 0.72; clip-path: polygon(0 25%, 2% 0, 4% 25%, 6% 0, 8% 25%, 10% 0, 12% 25%, 100% 25%, 98% 100%, 96% 25%, 94% 100%, 92% 25%, 90% 100%, 88% 25%, 0 25%);
+/* ---------- Explore cards ----------
+   Four arts cards: artwork on the top half, content on the bottom half.
+   Grid rows are 1fr/1fr, so image and content always split 50/50 and every
+   card in a row matches the tallest one. */
+.hm-explore { padding: 2.5rem 0 1.25rem; }
+.hm-explore__grid { display: grid; grid-auto-rows: 1fr; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+.hm-explore__grid > li { display: flex; }
+.hm-card {
+  --hm-card-ink: #1F3A28;
+  display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); width: 100%;
+  background: #FFFCF6; border: 1px solid #ECE3D2; border-radius: 20px; overflow: hidden;
+  color: var(--hm-card-ink); text-decoration: none;
+  box-shadow: 0 1px 2px rgba(60, 45, 25, 0.04), 0 10px 24px -20px rgba(60, 45, 25, 0.35);
+  transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
-.hm-explore__grid { display: grid; gap: 0.75rem; list-style: none; padding: 0; }
-.hm-tile {
-  position: relative; display: flex; gap: 1rem; height: 100%; padding: 1.1rem;
-  background: var(--cc-surface); border: 1px solid var(--cc-rule); border-radius: var(--cc-radius);
-  color: var(--cc-ink); text-decoration: none; overflow: hidden; transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+:root[data-theme="dark"] .hm-card { --hm-card-ink: var(--cc-ink); background: var(--cc-surface); border-color: var(--cc-rule); }
+.hm-card:hover { transform: translateY(-4px); border-color: #E0D3BC; box-shadow: 0 2px 4px rgba(60, 45, 25, 0.05), 0 22px 36px -22px rgba(60, 45, 25, 0.45); color: var(--hm-card-ink); }
+.hm-card:focus-visible { outline: 3px solid var(--cc-focus); outline-offset: 3px; }
+.hm-card__media { position: relative; display: block; overflow: hidden; min-height: 190px; background: #2a1c14; }
+.hm-card__media picture { position: absolute; inset: 0; }
+.hm-card__media picture, .hm-card__media img { display: block; width: 100%; height: 100%; }
+.hm-card__media img { object-fit: cover; transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1); }
+.hm-card:hover .hm-card__media img { transform: scale(1.03); }
+.hm-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: 0.45rem; padding: 1.2rem 1.35rem 1.35rem; }
+.hm-card__icon {
+  display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 0.15rem; border-radius: 10px;
+  background: var(--cc-forest-wash); color: var(--cc-forest);
 }
-.hm-tile::after { content: ""; position: absolute; right: -2.2rem; bottom: -2.2rem; width: 5rem; height: 5rem; border: 1px solid var(--cc-rule); border-radius: 50%; opacity: 0.7; }
-.hm-tile:hover { transform: translateY(-3px); border-color: var(--cc-rule-strong); box-shadow: var(--cc-shadow); color: var(--cc-ink); }
-.hm-tile__icon { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border-radius: 10px; background: var(--cc-forest-wash); color: var(--cc-forest); }
-.hm-tile__icon .cc-icon { width: 24px; height: 24px; }
-.hm-tile__body { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
-.hm-tile__top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.hm-tile__title { font-weight: 700; font-size: 1.15rem; }
-.hm-tile__tag { font-size: 0.85rem; color: var(--cc-muted); white-space: nowrap; }
-.hm-tile__desc { color: var(--cc-ink-2); }
-.hm-tile__link { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: auto; padding-top: 0.35rem; font-weight: 700; color: var(--cc-forest); }
-.hm-tile__link .cc-icon { width: 18px; height: 18px; }
-@media (min-width: 640px) { .hm-explore__grid { grid-template-columns: 1fr 1fr; gap: 1rem; } }
+.hm-card__icon .cc-icon { width: 20px; height: 20px; }
+.hm-card__title { font: 700 1.4rem/1.2 var(--cc-text); letter-spacing: -0.01em; color: var(--hm-card-ink); }
+:lang(hi) .hm-card__title { letter-spacing: 0; }
+.hm-card__desc { color: var(--cc-ink-2); line-height: 1.6; }
+.hm-card__cta {
+  display: inline-flex; align-items: center; gap: 0.45rem; margin-top: auto; padding-top: 0.5rem;
+  font-weight: 700; font-size: 1.02rem; color: var(--cc-forest);
+}
+.hm-card__arrow { transition: transform 0.25s ease; }
+.hm-card:hover .hm-card__arrow { transform: translateX(4px); }
+@media (min-width: 640px) {
+  .hm-explore__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+}
+/* Four across: the image and the content each take half of the card. */
 @media (min-width: 1100px) {
-  .hm-explore { padding-top: 3.5rem; }
-  .hm-explore__grid { grid-template-columns: repeat(4, 1fr); }
-  .hm-tile { flex-direction: column; padding: 1.35rem; }
+  .hm-explore { padding-top: 3.25rem; }
+  .hm-explore__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hm-card__media { min-height: 200px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-card, .hm-card__media img, .hm-card__arrow { transition: none; }
+  .hm-card:hover { transform: none; }
+  .hm-card:hover .hm-card__media img { transform: none; }
 }
 .hm-stats { padding: 1.5rem 0 2.5rem; }
 

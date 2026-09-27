@@ -2280,11 +2280,14 @@ function renderHomepageEditor(host) {
       <div class="tiles-editor-grid">
         ${featuredTiles.map((tile, i) => `
           <div class="tile-editor-box">
-            <span class="tile-editor-badge">Tile #${i + 1}: ${escapeHtml(tile.id || tile.theme || '')}</span>
-            <div class="form-group" style="margin-bottom:0.5rem;">
-              <label class="form-label" style="font-size:0.75rem;">Pill Tag (EN / HI)</label>
-              <input type="text" class="form-control" value="${escapeHtml(tile.tag && tile.tag.en || '')}" onchange="updateTileField(${i}, 'tag', 'en', this.value)">
-            </div>
+            <span class="tile-editor-badge">Card #${i + 1}: ${escapeHtml(tile.id || tile.theme || '')}</span>
+            ${renderMediaPickerHtml({
+              id: `hp-card-${i}`,
+              label: 'Card image (top half of the card, about 800×600)',
+              currentSrc: tile.image || '',
+              onChangeFnStr: (arg) => `updateTileImage(${i}, ${arg})`,
+              presets: CARD_PRESETS
+            })}
             <div class="form-group" style="margin-bottom:0.5rem;">
               <label class="form-label" style="font-size:0.75rem;">Title (EN)</label>
               <input type="text" class="form-control" value="${escapeHtml(tile.title && tile.title.en || '')}" onchange="updateTileField(${i}, 'title', 'en', this.value)">
@@ -2300,6 +2303,19 @@ function renderHomepageEditor(host) {
             <div class="form-group" style="margin-bottom:0.5rem;">
               <label class="form-label" style="font-size:0.75rem;">Description (HI)</label>
               <textarea class="form-control" style="font-size:0.8rem; min-height:60px;" onchange="updateTileField(${i}, 'desc', 'hi', this.value)">${escapeHtml(tile.desc && tile.desc.hi || '')}</textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Button text (EN)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.linkText && tile.linkText.en || '')}" onchange="updateTileField(${i}, 'linkText', 'en', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Button text (HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.linkText && tile.linkText.hi || '')}" onchange="updateTileField(${i}, 'linkText', 'hi', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Image description for screen readers (EN / HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(tile.imageAlt && tile.imageAlt.en || '')}" onchange="updateTileField(${i}, 'imageAlt', 'en', this.value)">
+              <input type="text" class="form-control" style="margin-top:0.35rem;" value="${escapeHtml(tile.imageAlt && tile.imageAlt.hi || '')}" onchange="updateTileField(${i}, 'imageAlt', 'hi', this.value)">
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label" style="font-size:0.75rem;">Target Href</label>
@@ -2843,6 +2859,17 @@ window.updateTileField = function(index, field, lang, value) {
   if (!tile[field]) tile[field] = {};
   tile[field][lang] = value;
   markDirty(true);
+};
+
+// Homepage arts cards: image presets and setter.
+const CARD_PRESETS = ['plays', 'festivals', 'workshops', 'magazine'].map(n => ({ name: n, path: `/src/assets/images/cards/${n}.jpg` }));
+window.updateTileImage = function(index, value) {
+  const tile = state.content.homepage.featuredTiles[index];
+  if (!tile) return;
+  tile.image = value;
+  markDirty(true);
+  rerenderKeepingScroll();
+  showToast('Card image updated.', 'success');
 };
 
 window.updateTileRawField = function(index, field, value) {
