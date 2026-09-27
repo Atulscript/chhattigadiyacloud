@@ -257,7 +257,7 @@
   window.addEventListener('appinstalled', function () { if (toast) toast.hidden = true; });
 })();
 
-// Floating share bar: live page URL, phone toggle, "More" = native share or copy link.
+// Floating share bar: live page URL for the share links, phone toggle.
 (function () {
   'use strict';
   var bar = document.querySelector('[data-cc-share]');
@@ -280,17 +280,6 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggle.focus(); } });
   bar.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
 
-  var more = bar.querySelector('[data-cc-share-more]');
-  more.addEventListener('click', function () {
-    if (navigator.share) { navigator.share({ title: title, url: url }).catch(function () {}); return; }
-    var label = more.querySelector('span');
-    var done = function () {
-      more.classList.add('is-done');
-      label.textContent = label.getAttribute('data-done');
-      setTimeout(function () { more.classList.remove('is-done'); label.textContent = label.getAttribute('data-label'); }, 2000);
-    };
-    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, function () {});
-  });
 })();
 
 // Header "More" dropdown: click/tap toggles (hover also opens it on desktop),
