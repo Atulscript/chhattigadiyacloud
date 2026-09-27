@@ -69,6 +69,26 @@ function renderHero(ctx) {
   </section>`;
 }
 
+// Responsive sources for a local card image: name.jpg + name-480.jpg and
+// their .webp siblings when present (generate-card-art.js writes all four).
+const fs = require('fs');
+const pathMod = require('path');
+const ROOT = pathMod.join(__dirname, '..', '..');
+function cardPicture(src, alt) {
+  if (!src) return '';
+  const m = /^(\/[^?#]+)\.(jpe?g|png)$/i.exec(src);
+  const has = (f) => fs.existsSync(pathMod.join(ROOT, f));
+  const sizes = '(min-width: 1100px) 280px, (min-width: 640px) 50vw, 100vw';
+  if (!m) return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async">`;
+  const [, base, ext] = m;
+  const set = (e) => [has(`${base}-480.${e}`) ? `${base}-480.${e} 480w` : '', has(`${base}.${e}`) ? `${base}.${e} 800w` : ''].filter(Boolean).join(', ');
+  const webp = set('webp');
+  const jpg = set(ext);
+  return `<picture>${webp ? `<source type="image/webp" srcset="${esc(webp)}" sizes="${sizes}">` : ''}<img src="${esc(src)}"${jpg ? ` srcset="${esc(jpg)}" sizes="${sizes}"` : ''} alt="${esc(alt)}" width="800" height="600" loading="lazy" decoding="async"></picture>`;
+}
+
+// Four arts cards: image on the top half, icon, title, text and CTA below.
+// Copy and images live in siteData.homepage.featuredTiles (admin editable).
 function renderExplore(ctx) {
   const { lang, hp } = ctx;
   return `
@@ -77,12 +97,13 @@ function renderExplore(ctx) {
       <ul class="hm-explore__grid">
         ${(hp.featuredTiles || []).map((tile) => `
         <li>
-          <a class="hm-tile" href="${localHref(tile.href, lang)}">
-            <span class="hm-tile__icon">${icon(TILE_ICONS[tile.theme] || 'mask')}</span>
-            <span class="hm-tile__body">
-              <span class="hm-tile__top"><span class="hm-tile__title">${esc(pick(tile.title, lang))}</span><span class="hm-tile__tag">${esc(pick(tile.tag, lang))}</span></span>
-              <span class="hm-tile__desc">${esc(pick(tile.desc, lang))}</span>
-              <span class="hm-tile__link">${esc(pick(tile.linkText, lang))}${icon('arrowRight')}</span>
+          <a class="hm-card" href="${localHref(tile.href, lang)}">
+            <span class="hm-card__media">${cardPicture(tile.image, pick(tile.imageAlt, lang))}</span>
+            <span class="hm-card__body">
+              <span class="hm-card__icon">${icon(TILE_ICONS[tile.theme] || 'mask')}</span>
+              <span class="hm-card__title">${esc(pick(tile.title, lang))}</span>
+              <span class="hm-card__desc">${esc(pick(tile.desc, lang))}</span>
+              <span class="hm-card__cta">${esc(pick(tile.linkText, lang))}<span aria-hidden="true" class="hm-card__arrow">→</span></span>
             </span>
           </a>
         </li>`).join('')}
