@@ -2,8 +2,8 @@
    Chhattisgadhiya Cloud - design system
    One stylesheet for every page (page-specific: src/home/home.css,
    src/magazine/magazine.css). Prefix: .cc-*
-   Palette: paper, ink, sal-forest green, terracotta clay. #FF4500 is
-   reserved for primary calls to action.
+   Palette: paper, ink, sal-forest green, terracotta clay. The accent
+   (#C8441A) is reserved for primary calls to action.
    ========================================================================== */
 
 /* ---------- Tokens ---------- */
@@ -21,9 +21,9 @@
   --cc-forest-wash: #E2ECE0;
   --cc-clay: #A0461E;
   --cc-clay-wash: #F5E2D4;
-  --cc-accent: #FF4500;          /* primary CTAs only */
-  --cc-accent-hover: #E53E00;
-  --cc-on-accent: #1C1A17;        /* ink on #FF4500 = 5.0:1; white would fail AA */
+  --cc-accent: #C8441A;          /* primary CTAs only: terracotta-vermilion, same family as the clay and the stage banner */
+  --cc-accent-hover: #A83812;
+  --cc-on-accent: #FFFFFF;        /* white on #C8441A = 4.9:1 (AA); the button stays 3.8:1 against the dark theme */
   --cc-night: #171411;
   --cc-night-2: #24201B;
   --cc-night-text: #E6DDD0;
