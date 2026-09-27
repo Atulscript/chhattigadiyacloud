@@ -84,10 +84,11 @@ function cardPicture(src, alt) {
   const set = (e) => [has(`${base}-480.${e}`) ? `${base}-480.${e} 480w` : '', has(`${base}.${e}`) ? `${base}.${e} 800w` : ''].filter(Boolean).join(', ');
   const webp = set('webp');
   const jpg = set(ext);
-  return `<picture>${webp ? `<source type="image/webp" srcset="${esc(webp)}" sizes="${sizes}">` : ''}<img src="${esc(src)}"${jpg ? ` srcset="${esc(jpg)}" sizes="${sizes}"` : ''} alt="${esc(alt)}" width="800" height="600" loading="lazy" decoding="async"></picture>`;
+  return `<picture>${webp ? `<source type="image/webp" srcset="${esc(webp)}" sizes="${sizes}">` : ''}<img src="${esc(src)}"${jpg ? ` srcset="${esc(jpg)}" sizes="${sizes}"` : ''} alt="${esc(alt)}" width="800" height="1000" loading="lazy" decoding="async"></picture>`;
 }
 
-// Four arts cards: image on the top half, icon, title, text and CTA below.
+// Four arts cards: artwork with the icon, title and text laid over its lower
+// part, and the call to action in a strip below the image.
 // Copy and images live in siteData.homepage.featuredTiles (admin editable).
 function renderExplore(ctx) {
   const { lang, hp } = ctx;
@@ -98,13 +99,15 @@ function renderExplore(ctx) {
         ${(hp.featuredTiles || []).map((tile) => `
         <li>
           <a class="hm-card" href="${localHref(tile.href, lang)}">
-            <span class="hm-card__media">${cardPicture(tile.image, pick(tile.imageAlt, lang))}</span>
-            <span class="hm-card__body">
-              <span class="hm-card__icon">${icon(TILE_ICONS[tile.theme] || 'mask')}</span>
-              <span class="hm-card__title">${esc(pick(tile.title, lang))}</span>
-              <span class="hm-card__desc">${esc(pick(tile.desc, lang))}</span>
-              <span class="hm-card__cta">${esc(pick(tile.linkText, lang))}<span aria-hidden="true" class="hm-card__arrow">→</span></span>
+            <span class="hm-card__media">
+              ${cardPicture(tile.image, pick(tile.imageAlt, lang))}
+              <span class="hm-card__overlay">
+                <span class="hm-card__icon">${icon(TILE_ICONS[tile.theme] || 'mask')}</span>
+                <span class="hm-card__title">${esc(pick(tile.title, lang))}</span>
+                <span class="hm-card__desc">${esc(pick(tile.desc, lang))}</span>
+              </span>
             </span>
+            <span class="hm-card__cta">${esc(pick(tile.linkText, lang))}<span aria-hidden="true" class="hm-card__arrow">→</span></span>
           </a>
         </li>`).join('')}
       </ul>

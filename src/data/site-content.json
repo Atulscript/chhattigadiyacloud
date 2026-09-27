@@ -1282,10 +1282,10 @@
           "hi": "नाटक देखें"
         },
         "href": "/productions/",
-        "image": "/src/assets/images/cards/plays.jpg",
+        "image": "/src/assets/images/cards/plays-stage.jpg",
         "imageAlt": {
-          "en": "A folk theatre performer in a warm spotlight on stage",
-          "hi": "मंच पर सुनहरी रोशनी में एक लोक नाट्य कलाकार"
+          "en": "A folk theatre mask on a stand in the spotlight, framed by red velvet curtains",
+          "hi": "लाल मखमली पर्दों के बीच रोशनी में स्टैंड पर रखा लोक नाट्य मुखौटा"
         }
       },
       {
@@ -1308,10 +1308,10 @@
           "hi": "समारोह देखें"
         },
         "href": "/events/",
-        "image": "/src/assets/images/cards/festivals.jpg",
+        "image": "/src/assets/images/cards/festival-lanterns.jpg",
         "imageAlt": {
-          "en": "Folk dancers around a fire under festival lights",
-          "hi": "उत्सव की रोशनी में अलाव के चारों ओर लोक नर्तक"
+          "en": "Glowing paper lanterns, marigold garlands and bunting at a night festival",
+          "hi": "रात के उत्सव में जगमगाती कागज़ की लालटेनें, गेंदे की मालाएं और झंडियां"
         }
       },
       {
@@ -1334,10 +1334,10 @@
           "hi": "कार्यशाला से जुड़ें"
         },
         "href": "/training-workshops/",
-        "image": "/src/assets/images/cards/workshops.jpg",
+        "image": "/src/assets/images/cards/workshop-table.jpg",
         "imageAlt": {
-          "en": "Young learners seated in a circle around their teacher in window light",
-          "hi": "खिड़की की रोशनी में शिक्षक के चारों ओर बैठे युवा प्रतिभागी"
+          "en": "Clay masks, paints and brushes on a workshop table",
+          "hi": "कार्यशाला की मेज़ पर माटी के मुखौटे, रंग और कूचियां"
         }
       },
       {
@@ -1360,10 +1360,10 @@
           "hi": "पत्रिका पढ़ें"
         },
         "href": "/magazine/",
-        "image": "/src/assets/images/cards/magazine.jpg",
+        "image": "/src/assets/images/cards/magazine-desk.jpg",
         "imageAlt": {
-          "en": "An open book with a painted folk mask, a brass lamp and marigolds",
-          "hi": "खुली पुस्तक, रंगा हुआ लोक मुखौटा, पीतल का दीया और गेंदे के फूल"
+          "en": "A stack of magazine issues with an open copy, a brass diya and reading glasses",
+          "hi": "खुली प्रति के साथ पत्रिका के अंकों का ढेर, पीतल का दीया और चश्मा"
         }
       }
     ],

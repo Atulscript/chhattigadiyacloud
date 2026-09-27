@@ -2283,7 +2283,7 @@ function renderHomepageEditor(host) {
             <span class="tile-editor-badge">Card #${i + 1}: ${escapeHtml(tile.id || tile.theme || '')}</span>
             ${renderMediaPickerHtml({
               id: `hp-card-${i}`,
-              label: 'Card image (top half of the card, about 800×600)',
+              label: 'Card image (portrait 4:5, about 800×1000; title and text sit on its lower part)',
               currentSrc: tile.image || '',
               onChangeFnStr: (arg) => `updateTileImage(${i}, ${arg})`,
               presets: CARD_PRESETS
@@ -2862,7 +2862,7 @@ window.updateTileField = function(index, field, lang, value) {
 };
 
 // Homepage arts cards: image presets and setter.
-const CARD_PRESETS = ['plays', 'festivals', 'workshops', 'magazine'].map(n => ({ name: n, path: `/src/assets/images/cards/${n}.jpg` }));
+const CARD_PRESETS = ['plays-stage', 'festival-lanterns', 'workshop-table', 'magazine-desk'].map(n => ({ name: n.replace('-', ' '), path: `/src/assets/images/cards/${n}.jpg` }));
 window.updateTileImage = function(index, value) {
   const tile = state.content.homepage.featuredTiles[index];
   if (!tile) return;
