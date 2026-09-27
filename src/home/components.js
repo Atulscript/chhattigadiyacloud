@@ -2,7 +2,7 @@
 // Copy lives in siteData.homepage (editable in the admin panel); plays,
 // magazine, festivals and camps come from their own sections of siteData.
 
-const { esc, pick, localHref, icon, picture, sectionHead, stats, formButton } = require('../site/ui.js');
+const { esc, pick, localHref, icon, picture, sectionHead, formButton } = require('../site/ui.js');
 const { upcoming, dateBadge } = require('../site/events.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
 const { renderHeroSlider } = require('./hero.js');
@@ -18,7 +18,7 @@ const T = {
     comingUp: 'Coming up', fullCalendar: "See what's on", pass: 'Reserve free pass', register: 'Register child',
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
-    critics: 'What critics say', statsLabel: 'Our work in numbers', explore: 'Explore',
+    critics: 'What critics say', explore: 'Explore',
   },
   hi: {
     heroAlt: 'मंच पर नृत्य करते दो लोक कलाकारों का चित्रांकन',
@@ -28,7 +28,7 @@ const T = {
     comingUp: 'आगामी', fullCalendar: 'सभी कार्यक्रम', pass: 'निःशुल्क पास', register: 'पंजीकरण',
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
-    critics: 'समीक्षक क्या कहते हैं', statsLabel: 'आंकड़ों में हमारा काम', explore: 'देखें',
+    critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
   },
 };
 
@@ -269,7 +269,6 @@ function renderHomePage(siteData, lang) {
   <div class="hm">
     ${renderHeroSlider(hp, lang) || renderHero(ctx)}
     ${renderExplore(ctx)}
-    <section class="hm-stats" aria-label="${T[lang].statsLabel}"><div class="cc-wrap">${stats(hp.impactStats, lang)}</div></section>
     ${renderComingUp(ctx)}
     ${renderPlays(ctx)}
     ${renderMagazineFeature(ctx)}

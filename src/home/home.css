@@ -105,7 +105,6 @@
   .hm-card:hover { transform: none; }
   .hm-card:hover .hm-card__media img { transform: none; }
 }
-.hm-stats { padding: 1.5rem 0 2.5rem; }
 
 /* ---------- Plays ---------- */
 .hm-plays { display: grid; gap: 1.25rem; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; padding: 0; }
