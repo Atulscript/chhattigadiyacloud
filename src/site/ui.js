@@ -128,7 +128,7 @@ function stats(items, lang, { label = '' } = {}) {
         ${items.map((s) => `
         <div class="cc-stat">
           <dt class="cc-stat__label">${esc(pick(s.label, lang))}</dt>
-          <dd class="cc-stat__num">${esc(s.number)}</dd>
+          <dd class="cc-stat__num"${/^[\d,]+\+?$/.test(String(s.number).trim()) ? ` data-cc-count="${esc(String(s.number).trim())}"` : ''}>${esc(s.number)}</dd>
           <dd class="cc-stat__sub">${esc(pick(s.sub, lang))}</dd>
         </div>`).join('')}
       </dl>`;
@@ -142,4 +142,15 @@ function formButton({ lang, form, label, variant = 'primary', size = '', prefill
   return `<a class="${cls}" href="/${lang}/contact/#form-${form}" data-cc-form="${form}"${data}>${iconName ? icon(iconName) : ''}${esc(label)}</a>`;
 }
 
-module.exports = { esc, pick, localHref, icon, ICONS, picture, pageHead, sectionHead, stats, formButton };
+// Folk ornament: a slim Gond-style divider (dots, diamonds, leaf pairs).
+function folkDivider() {
+  return `<div class="cc-folk" aria-hidden="true"><svg viewBox="0 0 320 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <path d="M0 12H98M222 12H320" stroke-dasharray="1 7" stroke-width="2.4"/>
+    <path d="M104 12l6-6 6 6-6 6z" fill="currentColor" stroke="none"/><path d="M204 12l6-6 6 6-6 6z" fill="currentColor" stroke="none"/>
+    <path d="M160 12c-10-12-24-12-34 0 10 12 24 12 34 0z"/><path d="M160 12c10-12 24-12 34 0-10 12-24 12-34 0z"/>
+    <path d="M128 12H192" stroke-width="1"/><circle cx="160" cy="12" r="3.2" fill="currentColor" stroke="none"/>
+    <circle cx="140" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="180" cy="12" r="1.6" fill="currentColor" stroke="none"/>
+  </svg></div>`;
+}
+
+module.exports = { esc, pick, localHref, icon, ICONS, picture, pageHead, sectionHead, stats, formButton, folkDivider };

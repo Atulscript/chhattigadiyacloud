@@ -2116,6 +2116,7 @@ function renderHomepageEditor(host) {
 
   host.innerHTML = `
     ${renderHeroSlidesEditor(hp)}
+    ${renderGalleryEditor(hp)}
 
     <!-- 1. Hero & Rebus Section -->
     <div class="section-group-card">
@@ -2530,6 +2531,92 @@ function rerenderKeepingScroll() {
   renderCurrentSubPage();
   window.scrollTo(0, y);
 }
+
+// "From the stage" photo gallery on the home page (homepage.gallery).
+function galleryItems() {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!Array.isArray(state.content.homepage.gallery)) state.content.homepage.gallery = [];
+  return state.content.homepage.gallery;
+}
+function renderGalleryEditor(hp) {
+  const items = galleryItems();
+  return `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">📸 From the stage — photo gallery (${items.length})</div>
+          <div class="section-group-desc">Photos from plays, festivals and camps. Landscape images work best (about 1280×720). The first photo shows large; on phones the gallery scrolls sideways.</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="addGalleryItem()">+ Add photo</button>
+      </div>
+      <div class="tiles-editor-grid">
+        ${items.map((g, i) => `
+          <div class="tile-editor-box">
+            <span class="tile-editor-badge">Photo #${i + 1}</span>
+            ${renderMediaPickerHtml({
+              id: `gallery-${i}`,
+              label: 'Photo',
+              currentSrc: g.image || '',
+              onChangeFnStr: (arg) => `updateGalleryImage(${i}, ${arg})`
+            })}
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Caption (EN / HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(g.caption && g.caption.en || '')}" onchange="updateGalleryField(${i}, 'caption', 'en', this.value)">
+              <input type="text" class="form-control" style="margin-top:0.35rem;" value="${escapeHtml(g.caption && g.caption.hi || '')}" onchange="updateGalleryField(${i}, 'caption', 'hi', this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <label class="form-label" style="font-size:0.75rem;">Image description for screen readers (EN / HI)</label>
+              <input type="text" class="form-control" value="${escapeHtml(g.alt && g.alt.en || '')}" onchange="updateGalleryField(${i}, 'alt', 'en', this.value)">
+              <input type="text" class="form-control" style="margin-top:0.35rem;" value="${escapeHtml(g.alt && g.alt.hi || '')}" onchange="updateGalleryField(${i}, 'alt', 'hi', this.value)">
+            </div>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button type="button" class="btn-studio btn-studio-secondary" ${i === 0 ? 'disabled' : ''} onclick="moveGalleryItem(${i}, -1)">↑ Move up</button>
+              <button type="button" class="btn-studio btn-studio-secondary" ${i === items.length - 1 ? 'disabled' : ''} onclick="moveGalleryItem(${i}, 1)">↓ Move down</button>
+              <button type="button" class="btn-studio btn-studio-secondary" style="color:var(--studio-red);" onclick="removeGalleryItem(${i})">Remove</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+window.addGalleryItem = function() {
+  galleryItems().push({ image: '', caption: { en: '', hi: '' }, alt: { en: '', hi: '' } });
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+window.updateGalleryImage = function(index, value) {
+  const g = galleryItems()[index];
+  if (!g) return;
+  g.image = value;
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+window.updateGalleryField = function(index, field, lang, value) {
+  const g = galleryItems()[index];
+  if (!g) return;
+  if (!g[field] || typeof g[field] !== 'object') g[field] = { en: '', hi: '' };
+  g[field][lang] = value;
+  markDirty(true);
+};
+window.moveGalleryItem = function(index, dir) {
+  const items = galleryItems();
+  const to = index + dir;
+  if (to < 0 || to >= items.length) return;
+  const [item] = items.splice(index, 1);
+  items.splice(to, 0, item);
+  markDirty(true);
+  rerenderKeepingScroll();
+};
+window.removeGalleryItem = function(index) {
+  const g = galleryItems()[index];
+  if (!g) return;
+  showConfirmModal('Remove photo', `Remove photo ${index + 1}${g.caption && g.caption.en ? ` ("${g.caption.en}")` : ''} from the gallery?`, () => {
+    galleryItems().splice(index, 1);
+    markDirty(true);
+    rerenderKeepingScroll();
+    showToast('Photo removed.', 'success');
+  }, 'Remove');
+};
 
 function renderHeroSlidesEditor(hp) {
   const slides = heroSlides();

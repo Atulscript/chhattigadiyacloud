@@ -10,7 +10,8 @@
     "hero-art": "node generate-hero-art.js",
     "banner-art": "node generate-banner-art.js",
     "footer-art": "node generate-footer-art.js",
-    "card-art": "node generate-card-art.js"
+    "card-art": "node generate-card-art.js",
+    "og-art": "node generate-og-art.js"
   },
   "devDependencies": {
     "sharp": "^0.35.4"

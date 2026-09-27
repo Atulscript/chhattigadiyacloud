@@ -2,7 +2,7 @@
 // Copy lives in siteData.homepage (editable in the admin panel); plays,
 // magazine, festivals and camps come from their own sections of siteData.
 
-const { esc, pick, localHref, icon, picture, sectionHead, formButton } = require('../site/ui.js');
+const { esc, pick, localHref, icon, picture, sectionHead, formButton, folkDivider } = require('../site/ui.js');
 const { upcoming, dateBadge, parseEnd, statusOf, statusTag } = require('../site/events.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
 const { renderHeroSlider } = require('./hero.js');
@@ -19,6 +19,8 @@ const T = {
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
+    gallery: 'From the stage', gallerySub: 'Moments from our plays, festivals and camps.',
+    artists: 'The people behind the stage', artistsSub: 'Writers, directors and performers who make every show.', meet: 'Meet the team',
   },
   hi: {
     heroAlt: 'मंच पर नृत्य करते दो लोक कलाकारों का चित्रांकन',
@@ -29,6 +31,8 @@ const T = {
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
+    gallery: 'मंच से', gallerySub: 'हमारे नाटकों, समारोहों और शिविरों के कुछ पल।',
+    artists: 'मंच के पीछे के लोग', artistsSub: 'लेखक, निर्देशक और कलाकार जो हर प्रस्तुति रचते हैं।', meet: 'पूरी टीम देखें',
   },
 };
 
@@ -93,7 +97,7 @@ function cardPicture(src, alt) {
 function renderExplore(ctx) {
   const { lang, hp } = ctx;
   return `
-  <section class="hm-explore" aria-label="${T[lang].explore}">
+  <section class="hm-explore hm-art hm-art--tree" aria-label="${T[lang].explore}">
     <div class="cc-wrap">
       <ul class="hm-explore__grid">
         ${(hp.featuredTiles || []).map((tile) => `
@@ -140,10 +144,33 @@ function renderPlays(ctx) {
   const t = T[lang];
   if (!productions.length) return '';
   return `
-  <section class="cc-section" aria-labelledby="hm-plays-title">
+  <section class="cc-section hm-art hm-art--masks" aria-labelledby="hm-plays-title">
     <div class="cc-wrap">
+      ${folkDivider()}
       ${sectionHead(t.ourPlays, { id: 'hm-plays-title', sub: t.ourPlaysSub, link: { href: `/${lang}/productions/`, label: t.allPlays } })}
       <ul class="hm-plays">${productions.map((p) => renderPlayCard(p, lang)).join('')}</ul>
+    </div>
+  </section>`;
+}
+
+// From the stage: a photo strip. Scrolls sideways on phones, a mixed-size
+// grid on wider screens. Images come from homepage.gallery (admin).
+function renderGallery(ctx) {
+  const { lang, hp } = ctx;
+  const t = T[lang];
+  const items = (hp.gallery || []).filter((g) => g && g.image);
+  if (!items.length) return '';
+  return `
+  <section class="cc-section hm-gallery" aria-labelledby="hm-gallery-title">
+    <div class="cc-wrap">
+      ${sectionHead(t.gallery, { id: 'hm-gallery-title', sub: t.gallerySub })}
+      <ul class="hm-gallery__grid">
+        ${items.map((g) => `
+        <li class="hm-gallery__item"><figure>
+          ${picture(g.image, pick(g.alt, lang) || pick(g.caption, lang), { width: 1280, height: 720 })}
+          ${pick(g.caption, lang) ? `<figcaption>${esc(pick(g.caption, lang))}</figcaption>` : ''}
+        </figure></li>`).join('')}
+      </ul>
     </div>
   </section>`;
 }
@@ -213,7 +240,7 @@ function renderComingUp(ctx) {
         </li>`;
   }).join('');
   return `
-  <section class="cc-section cc-section--tint hm-upcoming" aria-labelledby="hm-upcoming-title">
+  <section class="cc-section cc-section--tint hm-upcoming hm-art hm-art--horse" aria-labelledby="hm-upcoming-title">
     <div class="cc-wrap">
       ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', sub: t.comingUpSub, link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
       ${items.length ? `<ol class="hm-tickets">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
@@ -231,8 +258,9 @@ function renderRoots(ctx) {
   const icons = ['mask', 'drum', 'palette'];
   const tones = ['clay', 'saffron', 'forest'];
   return `
-  <section class="cc-section hm-roots" aria-labelledby="hm-roots-title">
+  <section class="cc-section hm-roots hm-art hm-art--sun" aria-labelledby="hm-roots-title">
     <div class="cc-wrap">
+      ${folkDivider()}
       ${sectionHead(t.roots, { id: 'hm-roots-title', sub: t.rootsSub })}
       <ol class="hm-roots__grid">
         ${items.map((r, i) => `
@@ -253,6 +281,31 @@ function renderRoots(ctx) {
 }
 
 // What critics say: a dark stage band with gold quote marks.
+// The people behind the stage: directors from about.team, with portrait,
+// role, badge and a line from their bio.
+function renderArtists(ctx) {
+  const { lang, siteData } = ctx;
+  const t = T[lang];
+  const team = ((siteData.about || {}).team || []).slice(0, 3);
+  if (!team.length) return '';
+  return `
+  <section class="cc-section hm-artists" aria-labelledby="hm-artists-title">
+    <div class="cc-wrap">
+      ${sectionHead(t.artists, { id: 'hm-artists-title', sub: t.artistsSub, link: { href: `/${lang}/about/`, label: t.meet } })}
+      <ul class="hm-artists__grid">
+        ${team.map((m) => `
+        <li class="hm-artist">
+          <div class="hm-artist__portrait">${m.image ? `<img src="${esc(m.image)}" alt="" width="160" height="160" loading="lazy" decoding="async">` : `<span>${esc((m.name || '?').split(' ').map((w) => w[0]).slice(0, 2).join(''))}</span>`}</div>
+          ${m.badge ? `<p class="hm-artist__badge">${esc(pick(m.badge, lang))}</p>` : ''}
+          <h3 class="hm-artist__name">${esc(m.name)}</h3>
+          <p class="hm-artist__role">${esc(pick(m.role, lang))}</p>
+          ${m.bio ? `<p class="hm-artist__bio">${esc(pick(m.bio, lang))}</p>` : ''}
+        </li>`).join('')}
+      </ul>
+    </div>
+  </section>`;
+}
+
 function renderCritics(ctx) {
   const { lang, hp } = ctx;
   const quotes = hp.criticsPraise || [];
@@ -265,7 +318,7 @@ function renderCritics(ctx) {
         <span class="hm-critics__mark" aria-hidden="true">“</span>
         <h2 class="cc-h2" id="hm-critics-title">${T[lang].critics}</h2>
       </div>
-      <ul class="hm-critics__grid">
+      <ul class="hm-critics__grid" data-cc-autoslide>
         ${quotes.map((q) => {
           const pub = pick(q.publication, lang);
           return `
@@ -287,7 +340,7 @@ function renderClosingCta(ctx) {
   const vh = hp.visualHighlight || {};
   if (!vh.title) return '';
   return `
-  <section class="cc-section" aria-labelledby="hm-cta-title">
+  <section class="cc-section hm-art hm-art--tree-left" aria-labelledby="hm-cta-title">
     <div class="cc-wrap">
       <div class="cc-callout">
         <div><h2 class="cc-h2" id="hm-cta-title">${esc(pick(vh.title, lang))}</h2><p>${esc(pick(vh.desc, lang))}</p></div>
@@ -311,8 +364,10 @@ function renderHomePage(siteData, lang) {
     ${renderExplore(ctx)}
     ${renderComingUp(ctx)}
     ${renderPlays(ctx)}
+    ${renderGallery(ctx)}
     ${renderMagazineFeature(ctx)}
     ${renderRoots(ctx)}
+    ${renderArtists(ctx)}
     ${renderCritics(ctx)}
     ${renderClosingCta(ctx)}
   </div>`;
