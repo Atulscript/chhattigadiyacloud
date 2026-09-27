@@ -3,7 +3,8 @@
 // magazine, festivals and camps come from their own sections of siteData.
 
 const { esc, pick, localHref, icon, picture, sectionHead, formButton, folkDivider } = require('../site/ui.js');
-const { upcoming, dateBadge, parseEnd, statusOf, statusTag } = require('../site/events.js');
+const { upcoming } = require('../site/events.js');
+const { renderTicket } = require('../site/tickets.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
 const { renderHeroSlider } = require('./hero.js');
 
@@ -19,7 +20,7 @@ const T = {
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
-    gallery: 'From the stage', gallerySub: 'Moments from our plays, festivals and camps.',
+    gallery: 'From the stage', galleryKicker: 'Gallery', gallerySub: 'Moments from our plays, festivals and camps.',
     artists: 'The people behind the stage', artistsSub: 'Writers, directors and performers who make every show.', meet: 'Meet the team',
   },
   hi: {
@@ -31,7 +32,7 @@ const T = {
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
-    gallery: 'मंच से', gallerySub: 'हमारे नाटकों, समारोहों और शिविरों के कुछ पल।',
+    gallery: 'मंच से', galleryKicker: 'चित्र दीर्घा', gallerySub: 'हमारे नाटकों, समारोहों और शिविरों के कुछ पल।',
     artists: 'मंच के पीछे के लोग', artistsSub: 'लेखक, निर्देशक और कलाकार जो हर प्रस्तुति रचते हैं।', meet: 'पूरी टीम देखें',
   },
 };
@@ -160,18 +161,29 @@ function renderGallery(ctx) {
   const t = T[lang];
   const items = (hp.gallery || []).filter((g) => g && g.image);
   if (!items.length) return '';
+  const full = (src) => src.replace(/-1280(\.\w+)$/, '$1');
   return `
-  <section class="cc-section hm-gallery" aria-labelledby="hm-gallery-title">
+  <section class="hm-gallery" aria-labelledby="hm-gallery-title">
+    <div class="hm-gallery__film" aria-hidden="true"></div>
     <div class="cc-wrap">
-      ${sectionHead(t.gallery, { id: 'hm-gallery-title', sub: t.gallerySub })}
-      <ul class="hm-gallery__grid">
-        ${items.map((g) => `
-        <li class="hm-gallery__item"><figure>
-          ${picture(g.image, pick(g.alt, lang) || pick(g.caption, lang), { width: 1280, height: 720 })}
-          ${pick(g.caption, lang) ? `<figcaption>${esc(pick(g.caption, lang))}</figcaption>` : ''}
-        </figure></li>`).join('')}
+      <div class="hm-gallery__head">
+        <p class="hm-gallery__kicker">${icon('star')}<span>${t.galleryKicker}</span></p>
+        <h2 class="cc-h2 hm-gallery__title" id="hm-gallery-title">${t.gallery}</h2>
+        <p class="hm-gallery__sub">${t.gallerySub}</p>
+      </div>
+      <ul class="hm-gallery__grid" data-cc-lightbox>
+        ${items.map((g, i) => `
+        <li class="hm-gallery__item">
+          <a class="hm-gallery__link" href="${esc(full(g.image))}" data-caption="${esc(pick(g.caption, lang))}">
+            ${picture(g.image, pick(g.alt, lang) || pick(g.caption, lang), { width: 1280, height: 720 })}
+            <span class="hm-gallery__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+            ${pick(g.caption, lang) ? `<span class="hm-gallery__cap">${esc(pick(g.caption, lang))}</span>` : ''}
+            <span class="hm-gallery__zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span>
+          </a>
+        </li>`).join('')}
       </ul>
     </div>
+    <div class="hm-gallery__film hm-gallery__film--bottom" aria-hidden="true"></div>
   </section>`;
 }
 
@@ -205,45 +217,12 @@ function renderComingUp(ctx) {
   const { lang, siteData } = ctx;
   const t = T[lang];
   const items = upcoming(siteData).slice(0, 3);
-  const locale = lang === 'hi' ? 'hi-IN' : 'en-IN';
-  const monthYear = (d) => new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(d);
-  const weekday = (d) => new Intl.DateTimeFormat(locale, { weekday: 'long', timeZone: 'UTC' }).format(d);
-  const cards = items.map((item) => {
-    const d = dateBadge(item.start, lang);
-    const isCamp = item.kind === 'camp';
-    const end = parseEnd(item.dates.en);
-    const cta = isCamp
-      ? formButton({ lang, form: 'camp', label: t.register, size: 'sm' })
-      : formButton({ lang, form: 'pass', label: t.pass, size: 'sm', prefill: { festival: item.id } });
-    const details = isCamp ? `/${lang}/training-workshops/` : `/${lang}/events/#${esc(item.id)}`;
-    return `
-        <li class="hm-ticket hm-ticket--${isCamp ? 'camp' : 'festival'}">
-          <div class="hm-ticket__stub">
-            <time class="hm-ticket__date" datetime="${d.iso}">
-              <span class="hm-ticket__day">${esc(d.day)}</span>
-              <span class="hm-ticket__when"><span>${esc(monthYear(item.start))}</span><span>${esc(weekday(item.start))}</span></span>
-            </time>
-            <div class="hm-ticket__tags">${statusTag(item.dates, item.statusTag, lang)}<span class="hm-ticket__kind">${isCamp ? t.kindCamp : t.kindFestival}</span></div>
-          </div>
-          <div class="hm-ticket__body">
-            <h3 class="hm-ticket__title"><a href="${details}">${esc(pick(item.title, lang))}</a></h3>
-            <ul class="hm-ticket__facts">
-              <li>${icon('calendar')}<span>${esc(pick(item.dates, lang))}</span></li>
-              <li>${icon('pin')}<span>${esc(pick(item.venue, lang))}</span></li>
-            </ul>
-            <p class="hm-ticket__count" data-cc-countdown data-start="${d.iso}" data-end="${end.toISOString().slice(0, 10)}" data-lang="${lang}" hidden></p>
-            <div class="hm-ticket__actions">
-              ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : cta}
-              <a class="hm-ticket__more" href="${details}">${t.details}${icon('arrowRight')}</a>
-            </div>
-          </div>
-        </li>`;
-  }).join('');
+  const cards = items.map((item) => renderTicket(item, lang)).join('');
   return `
   <section class="cc-section cc-section--tint hm-upcoming hm-art hm-art--horse" aria-labelledby="hm-upcoming-title">
     <div class="cc-wrap">
       ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', sub: t.comingUpSub, link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
-      ${items.length ? `<ol class="hm-tickets">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
+      ${items.length ? `<ol class="cc-tickets">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
     </div>
   </section>`;
 }
@@ -363,8 +342,8 @@ function renderHomePage(siteData, lang) {
     ${renderHeroSlider(hp, lang) || renderHero(ctx)}
     ${renderExplore(ctx)}
     ${renderComingUp(ctx)}
-    ${renderPlays(ctx)}
     ${renderGallery(ctx)}
+    ${renderPlays(ctx)}
     ${renderMagazineFeature(ctx)}
     ${renderRoots(ctx)}
     ${renderArtists(ctx)}
