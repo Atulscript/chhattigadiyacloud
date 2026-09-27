@@ -343,3 +343,129 @@
     el.hidden = false;
   });
 })();
+
+// Scroll reveal: sections and cards fade and rise in as they reach the
+// viewport, a few at a time. Uses the separate `translate` property so card
+// hover effects (which use `transform`) keep working, and drops the helper
+// classes once the element has arrived. Off for reduced motion.
+// Also counts up numeric stats (data-cc-count) the first time they show.
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var root = document.documentElement;
+  var sel = '.cc-section-head, .hm-card, .hm-ticket, .hm-play, .hm-root, .hm-critic, .hm-artist, .hm-gallery__item, .cc-card, .cc-feature, .cc-event, .cc-stat, .cc-callout, .hm-mag__grid > *, .cc-signup__panel';
+  var items = [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
+    if (el.closest('.hs, dialog')) return false;
+    // Items in a sideways scroller (gallery, critics on phones) stay put.
+    var strip = el.parentElement && el.parentElement.closest('.hm-gallery__grid, [data-cc-autoslide]');
+    return !(strip && strip.scrollWidth > strip.clientWidth + 4);
+  });
+  root.classList.add('cc-reveal-on');
+  items.forEach(function (el) {
+    var i = el.parentElement ? [].indexOf.call(el.parentElement.children, el) : 0;
+    el.style.setProperty('--rv-d', (i % 4) * 90 + 'ms');
+    el.classList.add('cc-rv');
+  });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      io.unobserve(el);
+      el.classList.add('is-in');
+      setTimeout(function () { el.classList.remove('cc-rv', 'is-in'); el.style.removeProperty('--rv-d'); }, 1200);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  items.forEach(function (el) { io.observe(el); });
+
+  var counters = document.querySelectorAll('[data-cc-count]');
+  var cio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      cio.unobserve(e.target);
+      var el = e.target;
+      var raw = el.getAttribute('data-cc-count');
+      var target = parseInt(raw.replace(/\D/g, ''), 10);
+      var comma = raw.indexOf(',') > -1;
+      var plus = /\+$/.test(raw) ? '+' : '';
+      var t0 = null;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 1400);
+        var v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+        el.textContent = (comma ? v.toLocaleString('en-US') : String(v)) + plus;
+        if (p < 1) requestAnimationFrame(step); else el.textContent = raw;
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.4 });
+  [].forEach.call(counters, function (el) { cio.observe(el); });
+})();
+
+// Swipe sliders ([data-cc-autoslide]): on narrow screens the list scrolls
+// sideways; dots show the position and a gentle autoplay advances every 6s
+// while it is on screen, until the visitor touches it. Off for reduced motion.
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(document.querySelectorAll('[data-cc-autoslide]'), function (list) {
+    var slides = [].slice.call(list.children);
+    if (slides.length < 2) return;
+    var dots = document.createElement('div');
+    dots.className = 'cc-slide-dots';
+    slides.forEach(function (s, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', (i + 1) + ' / ' + slides.length);
+      b.addEventListener('click', function () { stop(); go(i); });
+      dots.appendChild(b);
+    });
+    list.parentNode.insertBefore(dots, list.nextSibling);
+    function sliding() { return list.scrollWidth > list.clientWidth + 4; }
+    function current() {
+      var x = list.scrollLeft + list.clientWidth / 2, best = 0, d = Infinity;
+      slides.forEach(function (s, i) { var c = s.offsetLeft - list.offsetLeft + s.offsetWidth / 2; if (Math.abs(c - x) < d) { d = Math.abs(c - x); best = i; } });
+      return best;
+    }
+    function mark() { var c = current(); [].forEach.call(dots.children, function (b, i) { if (i === c) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); }); }
+    function go(i) { var s = slides[i]; list.scrollTo({ left: s.offsetLeft - list.offsetLeft - parseFloat(getComputedStyle(list).paddingLeft || 0), behavior: reduce ? 'auto' : 'smooth' }); }
+    var timer = null, visible = false, stopped = reduce;
+    function stop() { stopped = true; clearInterval(timer); }
+    function tick() { if (!stopped && visible && sliding() && !document.hidden) go((current() + 1) % slides.length); }
+    list.addEventListener('scroll', function () { window.requestAnimationFrame(mark); }, { passive: true });
+    ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) { list.addEventListener(ev, stop, { passive: true }); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0.5 }).observe(list);
+    if (!stopped) timer = setInterval(tick, 6000);
+    mark();
+  });
+})();
+
+// Festival countdown bar: shown from 30 days before the start to the last
+// day, text computed in the browser; closing it hides this festival's bar
+// for good. The hero shrinks by the bar's height (--cc-bar-h) so it still
+// fits on one screen.
+(function () {
+  'use strict';
+  var bar = document.querySelector('[data-cc-countdown-bar]');
+  if (!bar) return;
+  var key = 'cc-cd-closed-' + bar.getAttribute('data-id');
+  try { if (localStorage.getItem(key)) return; } catch (e) {}
+  var now = new Date();
+  var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  var start = Date.parse(bar.getAttribute('data-start'));
+  var end = Date.parse(bar.getAttribute('data-end'));
+  if (isNaN(start) || end < today || start - today > 30 * 86400000) return;
+  var L = JSON.parse(bar.getAttribute('data-labels'));
+  var days = Math.round((start - today) / 86400000);
+  var text = start < today ? L.now : days === 0 ? L.today : days === 1 ? L.tomorrow : L.soon.replace('{n}', days);
+  bar.querySelector('[data-cc-cd-text]').textContent = text;
+  bar.hidden = false;
+  var root = document.documentElement;
+  function size() { root.style.setProperty('--cc-bar-h', bar.hidden ? '0px' : bar.offsetHeight + 'px'); }
+  size();
+  window.addEventListener('resize', size);
+  bar.querySelector('[data-cc-cd-close]').addEventListener('click', function () {
+    bar.hidden = true; size();
+    try { localStorage.setItem(key, '1'); } catch (e) {}
+  });
+})();

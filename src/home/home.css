@@ -302,3 +302,105 @@
 @media (prefers-reduced-motion: reduce) {
   .hm-root, .hm-root:hover, .hm-critic, .hm-critic:hover, .hm-root__medal { transition: none; transform: none; }
 }
+
+/* ---------- See-through folk art behind sections ----------
+   Line-art motifs (src/assets/images/motifs) sit behind the content at a
+   whisper of opacity, so each section carries a quiet cultural signature. */
+.hm-art { position: relative; isolation: isolate; overflow: hidden; }
+.hm-art::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  background-repeat: no-repeat; background-size: contain; opacity: 0.09;
+}
+:root[data-theme="dark"] .hm-art::before { opacity: 0.14; filter: brightness(1.8) saturate(0.8); }
+.hm-art--tree::before { right: -30px; top: 8%; width: min(34vw, 420px); aspect-ratio: 600 / 660; background-image: url('../assets/images/motifs/gond-tree.svg'); }
+.hm-art--horse::before { left: -20px; bottom: 6%; width: min(30vw, 360px); aspect-ratio: 440 / 360; background-image: url('../assets/images/motifs/dhokra-horse.svg'); }
+.hm-art--masks::before { right: 2%; top: 10%; width: min(26vw, 320px); aspect-ratio: 420 / 470; background-image: url('../assets/images/motifs/masks-dhol.svg'); transform: rotate(8deg); }
+.hm-art--sun::before { right: -60px; top: -40px; width: min(36vw, 440px); aspect-ratio: 1; background-image: url('../assets/images/motifs/sun-mandala.svg'); }
+.hm-art--tree-left::before { left: -40px; bottom: -20px; width: min(26vw, 300px); aspect-ratio: 600 / 660; background-image: url('../assets/images/motifs/gond-tree.svg'); transform: scaleX(-1); }
+@media (max-width: 719px) { .hm-art::before { opacity: 0.07; width: 62vw; } }
+
+/* Folk ornament divider at the head of a section */
+.cc-folk { display: flex; justify-content: center; margin: -0.5rem 0 1.75rem; color: var(--cc-clay); opacity: 0.75; }
+.cc-folk svg { width: min(320px, 80%); height: 24px; }
+
+/* ---------- From the stage: gallery ---------- */
+.hm-gallery__grid { display: grid; gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
+.hm-gallery__item figure { position: relative; height: 100%; margin: 0; overflow: hidden; border-radius: 14px; background: #2a1c14; box-shadow: 0 14px 30px -22px rgba(28, 26, 23, 0.6); }
+.hm-gallery__item picture, .hm-gallery__item img { display: block; width: 100%; height: 100%; }
+.hm-gallery__item img { object-fit: cover; transition: transform 0.7s cubic-bezier(0.2, 0, 0, 1); }
+.hm-gallery__item figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem 1rem 0.8rem;
+  font: 600 0.92rem/1.35 var(--cc-text); color: #fff;
+  background: linear-gradient(180deg, rgba(20, 13, 9, 0) 0%, rgba(20, 13, 9, 0.8) 100%);
+  transform: translateY(8px); opacity: 0.92; transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.hm-gallery__item:hover img { transform: scale(1.05); }
+.hm-gallery__item:hover figcaption { transform: none; opacity: 1; }
+/* Phones: swipeable strip that peeks the next photo. */
+@media (max-width: 719px) {
+  .hm-gallery .hm-gallery__grid {
+    grid-auto-flow: column; grid-auto-columns: 80%; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 calc(var(--cc-gutter) * -1); padding: 0 var(--cc-gutter) 0.5rem; scrollbar-width: none;
+    scroll-padding-inline: var(--cc-gutter);
+  }
+  .hm-gallery__grid::-webkit-scrollbar { display: none; }
+  .hm-gallery__item { scroll-snap-align: start; aspect-ratio: 4 / 3; }
+}
+/* Wider: an editorial mosaic (one large, the rest in a rhythm). */
+@media (min-width: 720px) {
+  .hm-gallery__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 170px; grid-auto-flow: dense; }
+  /* Seven photos fill a 4x4 block: large, two small, wide / tall, large, tall. */
+  .hm-gallery__item:nth-child(7n + 1) { grid-column: span 2; grid-row: span 2; }
+  .hm-gallery__item:nth-child(7n + 4) { grid-column: span 2; }
+  .hm-gallery__item:nth-child(7n + 5) { grid-row: span 2; }
+  .hm-gallery__item:nth-child(7n + 6) { grid-column: span 2; grid-row: span 2; }
+  .hm-gallery__item:nth-child(7n + 7) { grid-row: span 2; }
+}
+@media (min-width: 1100px) { .hm-gallery__grid { grid-auto-rows: 200px; } }
+@media (prefers-reduced-motion: reduce) { .hm-gallery__item img, .hm-gallery__item figcaption { transition: none; } }
+
+/* ---------- The people behind the stage ---------- */
+.hm-artists__grid { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 760px) { .hm-artists__grid { grid-template-columns: repeat(3, 1fr); } }
+.hm-artist {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem;
+  padding: 1.75rem 1.4rem 1.6rem; border-radius: 18px;
+  background: var(--cc-surface); border: 1px solid var(--cc-rule);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+.hm-artist:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -26px rgba(28, 26, 23, 0.5); }
+.hm-artist__portrait {
+  position: relative; display: grid; place-items: center; width: 120px; height: 120px; margin-bottom: 0.6rem;
+  border-radius: 50%; background: var(--cc-clay-wash); color: var(--cc-clay); font: 700 2rem/1 var(--cc-display);
+}
+/* Folk ring: dotted gold halo that turns slowly on hover. */
+.hm-artist__portrait::before {
+  content: ""; position: absolute; inset: -9px; border-radius: 50%;
+  border: 2px dotted color-mix(in srgb, var(--cc-clay) 55%, #E8A93A); transition: transform 1.2s ease;
+}
+.hm-artist:hover .hm-artist__portrait::before { transform: rotate(90deg); }
+.hm-artist__portrait img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 4px var(--cc-surface); }
+.hm-artist__badge {
+  margin: 0; padding: 0.2rem 0.7rem; border-radius: 999px;
+  background: var(--cc-forest-wash); color: var(--cc-forest); font: 700 0.75rem/1.4 var(--cc-text); letter-spacing: 0.04em;
+}
+.hm-artist__name { margin: 0.3rem 0 0; font: 600 1.35rem/1.2 var(--cc-display); color: var(--cc-ink); }
+.hm-artist__role { margin: 0; color: var(--cc-clay); font-weight: 600; font-size: 0.95rem; }
+.hm-artist__bio { margin: 0.5rem 0 0; color: var(--cc-ink-2); font: italic 500 1rem/1.55 var(--cc-display); max-width: 34ch; }
+@media (prefers-reduced-motion: reduce) { .hm-artist, .hm-artist__portrait::before { transition: none; } }
+
+/* ---------- Critics: swipe slider on phones ---------- */
+@media (max-width: 899px) {
+  .hm-critics .hm-critics__grid {
+    grid-auto-flow: column; grid-auto-columns: 88%; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 calc(var(--cc-gutter) * -1); padding: 0 var(--cc-gutter) 0.25rem; scrollbar-width: none;
+    scroll-padding-inline: var(--cc-gutter);
+  }
+  .hm-critics__grid::-webkit-scrollbar { display: none; }
+  .hm-critics__grid > li { scroll-snap-align: start; }
+}
+.cc-slide-dots { display: flex; justify-content: center; gap: 0.25rem; margin-top: 0.9rem; }
+.cc-slide-dots button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; background: none; cursor: pointer; }
+.cc-slide-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: rgba(255, 246, 236, 0.35); transition: width 0.3s ease, background-color 0.3s ease; }
+.cc-slide-dots button[aria-current="true"]::before { width: 22px; background: #F2B04A; }
+@media (min-width: 900px) { .cc-slide-dots { display: none; } }

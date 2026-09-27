@@ -4,7 +4,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { esc, icon } = require('./ui.js');
+const { esc, icon, pick } = require('./ui.js');
+const { upcoming, parseEnd } = require('./events.js');
 
 // Animated stage banner above the footer (styles: art-banner.css, motion: art-banner.js).
 const ART_BANNER = fs.readFileSync(path.join(__dirname, 'art-banner.html'), 'utf8').trim();
@@ -58,6 +59,7 @@ const T = {
     signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
     about: 'Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.',
     rights: 'All rights reserved.', backToTop: 'Back to top',
+    cdIn: 'starts in {n} days', cdTomorrow: 'starts tomorrow', cdToday: 'starts today', cdNow: 'is on now', cdCta: 'Reserve free pass', cdClose: 'Dismiss',
     share: 'Share this page', shareOn: 'Share on',
   },
   hi: {
@@ -70,6 +72,7 @@ const T = {
     signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
     about: 'जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
     rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
+    cdIn: '{n} दिन में शुरू', cdTomorrow: 'कल से शुरू', cdToday: 'आज से शुरू', cdNow: 'अभी जारी है', cdCta: 'निःशुल्क पास', cdClose: 'बंद करें',
     share: 'यह पेज शेयर करें', shareOn: 'शेयर करें:',
   },
 };
@@ -106,6 +109,25 @@ function themeToggle(t) {
       <button type="button" data-theme-value="light" aria-pressed="true" aria-label="${t.themeLight}" title="${t.themeLight}">${icon('sun')}</button>
       <button type="button" data-theme-value="dark" aria-pressed="false" aria-label="${t.themeDark}" title="${t.themeDark}">${icon('moon')}</button>
     </div>`;
+}
+
+// Festival countdown: a slim bar under the header for the next festival.
+// Rendered for the next festival at build time but hidden; site.js shows it
+// only from 30 days before the start until the last day, unless dismissed.
+function renderCountdown(lang, siteData, t) {
+  const next = upcoming(siteData).find((i) => i.kind === 'festival');
+  if (!next) return '';
+  const end = parseEnd(next.dates.en);
+  const labels = { soon: t.cdIn, tomorrow: t.cdTomorrow, today: t.cdToday, now: t.cdNow };
+  return `
+  <aside class="cc-countdown" data-cc-countdown-bar data-id="${esc(next.id)}-${next.start.toISOString().slice(0, 4)}" data-start="${next.start.toISOString().slice(0, 10)}" data-end="${end.toISOString().slice(0, 10)}" data-labels='${esc(JSON.stringify(labels))}' aria-label="${esc(pick(next.title, lang))}" hidden>
+    <div class="cc-countdown__inner">
+      <span class="cc-countdown__icon" aria-hidden="true">${icon('ticket')}</span>
+      <p class="cc-countdown__text"><strong>${esc(pick(next.title, lang))}</strong> <span data-cc-cd-text></span></p>
+      <a class="cc-countdown__cta" href="/${lang}/contact/#form-pass" data-cc-form="pass" data-cc-prefill="${esc(JSON.stringify({ festival: next.id }))}">${t.cdCta}${icon('arrowRight')}</a>
+      <button type="button" class="cc-countdown__close" data-cc-cd-close aria-label="${t.cdClose}">${icon('close')}</button>
+    </div>
+  </aside>`;
 }
 
 function renderHeader({ lang, currentPath, altUrl, siteData }) {
@@ -154,6 +176,7 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
       </div>
     </div>
   </header>
+  ${renderCountdown(lang, siteData, t)}
 
   <dialog class="cc-drawer" id="cc-drawer" aria-label="${t.menu}">
     <div class="cc-drawer__head">

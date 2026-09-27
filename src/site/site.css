@@ -896,7 +896,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
 
 /* Tablet and up: landscape art, text on the left. */
 @media (min-width: 768px) {
-  .hs { --hs-h: clamp(460px, calc(100svh - var(--cc-header-h) - 1px), 760px); }
+  .hs { --hs-h: clamp(460px, calc(100svh - var(--cc-header-h) - 1px - var(--cc-bar-h, 0px)), 760px); }
   .hs__media img { object-position: var(--hs-focus, 65% 50%); }
   .hs__shade {
     background:
@@ -918,7 +918,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
 }
 @media (min-width: 1180px) {
   /* Whole hero visible on one screen: viewport minus the sticky header. */
-  .hs { --hs-h: clamp(500px, calc(100svh - var(--cc-header-h) - 1px), 860px); }
+  .hs { --hs-h: clamp(500px, calc(100svh - var(--cc-header-h) - 1px - var(--cc-bar-h, 0px)), 860px); }
   .hs__brand { top: 1.6rem; font-size: 0.92rem; }
   .hs__content { padding-top: 2rem; }
   .hs__cta { min-height: 54px; padding-inline: 1.7rem; font-size: 1.05rem; }
@@ -961,7 +961,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
   .hs--page .hs__head .cc-crumbs:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 @media (min-width: 768px) {
-  .hs--page { --hs-h: calc(clamp(460px, calc(100svh - var(--cc-header-h) - 1px), 760px) * 0.6); }
+  .hs--page { --hs-h: calc(clamp(460px, calc(100svh - var(--cc-header-h) - 1px - var(--cc-bar-h, 0px)), 760px) * 0.6); }
   .hs--page .hs__shade {
     background:
       linear-gradient(90deg, rgba(9, 6, 5, 0.88) 0%, rgba(9, 6, 5, 0.66) 32%, rgba(9, 6, 5, 0.12) 62%, rgba(9, 6, 5, 0) 78%),
@@ -1043,3 +1043,38 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
   .cc-share *, .cc-share__list li { animation: none !important; transition: none !important; }
 }
 @media print { .cc-share { display: none; } }
+
+/* ---------- Scroll reveal (site.js adds these classes; nothing hides without JS) ---------- */
+.cc-reveal-on .cc-rv {
+  opacity: 0; translate: 0 24px;
+  transition: opacity 0.7s ease var(--rv-d, 0ms), translate 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--rv-d, 0ms),
+              transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, filter 0.2s ease;
+}
+.cc-reveal-on .cc-rv.is-in { opacity: 1; translate: 0 0; }
+
+/* ---------- Festival countdown bar (under the header) ---------- */
+.cc-countdown {
+  position: relative; color: #FFF6EC;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255, 246, 236, 0.12) 1px, transparent 1.4px) 0 0 / 12px 12px,
+    linear-gradient(100deg, #6E2412 0%, #A0461E 60%, #C8441A 100%);
+}
+.cc-countdown[hidden] { display: none; }
+.cc-countdown__inner { display: flex; align-items: center; gap: 0.7rem; max-width: 1240px; min-height: 44px; margin: 0 auto; padding: 0.35rem var(--cc-gutter); }
+.cc-countdown__icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 246, 236, 0.16); color: #F5B82E; }
+.cc-countdown__icon .cc-icon { width: 16px; height: 16px; }
+.cc-countdown__text { flex: 1; min-width: 0; margin: 0; font-size: 0.92rem; line-height: 1.35; }
+.cc-countdown__text strong { font-weight: 700; }
+.cc-countdown__text span { color: #F5B82E; font-weight: 600; }
+.cc-countdown__cta { display: inline-flex; align-items: center; gap: 0.3rem; flex: none; min-height: 36px; padding: 0 0.85rem; border-radius: 999px; background: #F5B82E; color: #2A1606; font: 700 0.86rem/1 var(--cc-text); text-decoration: none; transition: background-color 0.2s ease; }
+.cc-countdown__cta:hover { background: #FFC94D; }
+.cc-countdown__cta .cc-icon { width: 15px; height: 15px; }
+.cc-countdown__close { display: grid; place-items: center; flex: none; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: none; color: rgba(255, 246, 236, 0.8); cursor: pointer; }
+.cc-countdown__close:hover { background: rgba(255, 246, 236, 0.14); color: #fff; }
+.cc-countdown__close .cc-icon { width: 18px; height: 18px; }
+.cc-countdown :focus-visible { outline-color: #F5B82E; }
+@media (max-width: 559px) {
+  .cc-countdown__icon { display: none; }
+  .cc-countdown__text { font-size: 0.85rem; }
+  .cc-countdown__cta { padding: 0 0.7rem; font-size: 0.8rem; }
+}

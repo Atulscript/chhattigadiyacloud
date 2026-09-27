@@ -30,9 +30,39 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 24;
+const ASSET_VERSION = 25;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
+// Per-page link-preview image (npm run og-art), else the site-wide one.
+function ogImage(lang, canonicalUrl) {
+  const page = (canonicalUrl || '').split('/').filter(Boolean)[1] || 'home';
+  const own = `/src/assets/images/og/${lang}-${page}.jpg`;
+  return fs.existsSync(path.join(__dirname, own)) ? own : OG_IMAGE;
+}
+// Event structured data (schema.org) for the upcoming festivals and camp,
+// on the home, What's On and Festivals pages, so search can show dates.
+function eventSchema(lang, canonicalUrl) {
+  const page = (canonicalUrl || '').split('/').filter(Boolean)[1] || 'home';
+  if (!['home', 'whats-on', 'events'].includes(page)) return '';
+  const { upcoming, parseEnd } = require('./src/site/events.js');
+  const pick = (v) => (v && (v[lang] || v.en)) || '';
+  const items = upcoming(siteData).map((i) => ({
+    '@context': 'https://schema.org', '@type': 'Event',
+    name: pick(i.title),
+    startDate: i.start.toISOString().slice(0, 10),
+    endDate: parseEnd(i.dates.en).toISOString().slice(0, 10),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: { '@type': 'Place', name: pick(i.venue), address: { '@type': 'PostalAddress', addressLocality: 'Jashpur', addressRegion: 'Chhattisgarh', addressCountry: 'IN' } },
+    image: [`${SITE_URL}${ogImage(lang, `/${lang}/${i.kind === 'camp' ? 'training-workshops' : 'events'}/`)}`],
+    description: pick(i.highlight || i.theme) || pick(i.title),
+    organizer: { '@type': 'Organization', name: siteData.orgName[lang], url: SITE_URL },
+    url: `${SITE_URL}/${lang}/${i.kind === 'camp' ? 'training-workshops' : 'events'}/`,
+    ...(i.kind === 'festival' ? { isAccessibleForFree: true } : {}),
+  }));
+  if (!items.length) return '';
+  return `\n  <script type="application/ld+json">${JSON.stringify(items).replace(/</g, '\\u003c')}</script>`;
+}
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
 const FONTS = {
   en: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap',
@@ -79,7 +109,7 @@ function renderHtmlDocument({
   <meta property="og:title" content="${pageTitle}">
   <meta property="og:description" content="${description}">
   <meta property="og:url" content="${SITE_URL}${canonicalUrl}">
-  <meta property="og:image" content="${SITE_URL}${OG_IMAGE}">
+  <meta property="og:image" content="${SITE_URL}${ogImage(lang, canonicalUrl)}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="${esc(siteData.orgName[lang])}: ${esc(siteData.tagline[lang])}">
@@ -117,7 +147,7 @@ function renderHtmlDocument({
   <link rel="stylesheet" href="/${ASSETS.bannerCss}">${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
   <script>window.CC_CONFIG=${clientConfig};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('${root}sw.js', { scope: '${root}' }).catch(function () {}); });
-  </script>
+  </script>${standalone ? '' : eventSchema(lang, canonicalUrl)}
 </head>
 <body>
   ${header}
