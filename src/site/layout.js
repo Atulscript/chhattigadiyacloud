@@ -30,19 +30,19 @@ const PAGES = {
   ],
   organisation: [
     { id: 'about', icon: 'info', label: { en: 'About', hi: 'परिचय' } },
-    { id: 'blog', icon: 'pen', label: { en: 'Blog', hi: 'ब्लॉग' } },
-    { id: 'press', icon: 'news', label: { en: 'Press kit', hi: 'प्रेस किट' } },
-    { id: 'support', icon: 'heart', label: { en: 'Support us', hi: 'सहयोग करें' } },
     { id: 'contact', icon: 'chat', label: { en: 'Contact', hi: 'संपर्क' } },
+    { id: 'support', icon: 'heart', label: { en: 'Support Us', hi: 'सहयोग करें' } },
+    { id: 'blog', icon: 'pen', label: { en: 'Blog', hi: 'ब्लॉग' } },
+    { id: 'press', icon: 'news', label: { en: 'Press Kit', hi: 'प्रेस किट' } },
   ],
 };
 const ALL_PAGES = [...PAGES.explore, ...PAGES.organisation];
 const byId = (id) => ALL_PAGES.find((p) => p.id === id);
-// Desktop: main bar holds the sections people browse; the slim top bar holds
-// the organisational links. Every page appears in one of the two.
-const MAIN_NAV = ['whats-on', 'productions', 'events', 'training-workshops', 'magazine', 'about', 'blog'];
-const UTILITY_NAV = ['press', 'support', 'contact'];
-const TABS = ['whats-on', 'productions', 'magazine'];
+// Header: Home + the core cultural sections, then a "More" dropdown with the
+// organisational pages. What's On is reached from the home page, not the nav.
+const MAIN_NAV = ['productions', 'events', 'training-workshops', 'magazine'];
+const MORE_NAV = PAGES.organisation.map((p) => p.id);
+const TABS = ['productions', 'events', 'magazine'];
 // Footer: one 3-column list of the remaining pages (What's On stays in the
 // header, menu and phone tab bar).
 const FOOTER_LINKS = ALL_PAGES.filter((p) => p.id !== 'whats-on');
@@ -50,7 +50,7 @@ const FOOTER_LINKS = ALL_PAGES.filter((p) => p.id !== 'whats-on');
 const T = {
   en: {
     skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
-    explore: 'Explore', organisation: 'Organisation', contact: 'Contact', language: 'Language',
+    explore: 'Explore', organisation: 'Organisation', more: 'More', contact: 'Contact', language: 'Language',
     theme: 'Theme', themeLight: 'Light', themeDark: 'Dark',
     cta: 'Book a play', quickNav: 'Quick links',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
@@ -62,7 +62,7 @@ const T = {
   },
   hi: {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
-    explore: 'देखें', organisation: 'संस्था', contact: 'संपर्क', language: 'भाषा',
+    explore: 'देखें', organisation: 'संस्था', more: 'और', contact: 'संपर्क', language: 'भाषा',
     theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा',
     cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
@@ -96,8 +96,8 @@ const pageKey = (lang, currentPath) => (isHomePath(lang, currentPath) ? 'home' :
 
 function langToggle(lang, altUrl, label) {
   const en = lang === 'en' ? '<span aria-current="true" lang="en">EN</span>' : `<a href="${altUrl}" hreflang="en" lang="en" aria-label="English">EN</a>`;
-  const hi = lang === 'hi' ? '<span aria-current="true" lang="hi">हिं</span>' : `<a href="${altUrl}" hreflang="hi" lang="hi" aria-label="हिन्दी">हिं</a>`;
-  return `<div class="cc-lang" role="group" aria-label="${label}">${en}${hi}</div>`;
+  const hi = lang === 'hi' ? '<span aria-current="true" lang="hi">हिन्दी</span>' : `<a href="${altUrl}" hreflang="hi" lang="hi">हिन्दी</a>`;
+  return `<div class="cc-lang" role="group" aria-label="${label}">${en}<i aria-hidden="true">|</i>${hi}</div>`;
 }
 
 // Light is the default; dark only when the visitor chooses it.
@@ -113,27 +113,19 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
   const home = isHomePath(lang, currentPath);
   const phone = (siteData.contact && siteData.contact.phone) || '';
   const email = (siteData.contact && siteData.contact.email) || '';
-  const navLink = (cls) => (id) => {
+  const navLink = (cls, icons) => (id) => {
     const p = byId(id);
-    return `<li><a class="${cls}" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`;
+    return `<li><a class="${cls}" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icons ? icon(p.icon) : ''}<span>${p.label[lang]}</span></a></li>`;
   };
-  const drawerLink = (p) => navLink('cc-drawer__link')(p.id);
+  const drawerLink = (p) => navLink('cc-drawer__link', true)(p.id);
   const tab = (id) => {
     const p = byId(id);
     return `<a class="cc-tabbar__item" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a>`;
   };
+  const inMore = MORE_NAV.some((id) => isActive(id, currentPath));
 
   return `
   <a class="cc-skip" href="#main">${t.skip}</a>
-  <div class="cc-utility">
-    <div class="cc-utility__inner">
-      <p class="cc-utility__tagline">${esc(siteData.tagline[lang])}</p>
-      <nav class="cc-utility__nav" aria-label="${t.organisation}">
-        <ul class="cc-utility__list">${UTILITY_NAV.map(navLink('cc-utility__link')).join('')}</ul>
-      </nav>
-      ${langToggle(lang, altUrl, t.language)}
-    </div>
-  </div>
   <header class="cc-header" id="top">
     <div class="cc-header__inner">
       <a class="cc-brand" href="/${lang}/"${current(home)}>
@@ -141,12 +133,17 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
         <span class="cc-brand__name">${siteData.orgName[lang]}</span>
       </a>
       <nav class="cc-nav" aria-label="${t.mainNav}">
-        <ul class="cc-nav__list">${MAIN_NAV.map(navLink('cc-nav__link')).join('')}</ul>
+        <ul class="cc-nav__list">
+          <li><a class="cc-nav__link" href="/${lang}/"${current(home)}><span>${t.home}</span></a></li>
+          ${MAIN_NAV.map(navLink('cc-nav__link')).join('')}
+          <li class="cc-more" data-cc-more>
+            <button type="button" class="cc-nav__link cc-more__btn${inMore ? ' is-active' : ''}" aria-expanded="false" aria-controls="cc-more-list"><span>${t.more}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <ul class="cc-more__list" id="cc-more-list">${MORE_NAV.map(navLink('cc-more__link')).join('')}</ul>
+          </li>
+        </ul>
       </nav>
-      <div class="cc-header__actions">
-        ${langToggle(lang, altUrl, t.language)}
-        <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}<span>${t.menu}</span></button>
-      </div>
+      <div class="cc-header__lang">${langToggle(lang, altUrl, t.language)}</div>
+      <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}</button>
     </div>
   </header>
 
@@ -156,12 +153,11 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
       <button type="button" class="cc-icon-btn" data-cc-menu-close aria-label="${t.closeMenu}">${icon('close')}</button>
     </div>
     <nav class="cc-drawer__nav" aria-label="${t.menu}">
-      <p class="cc-kicker cc-drawer__label">${t.explore}</p>
       <ul class="cc-drawer__list">
         <li><a class="cc-drawer__link" href="/${lang}/"${current(home)}>${icon('home')}<span>${t.home}</span></a></li>
-        ${PAGES.explore.map(drawerLink).join('')}
+        ${PAGES.explore.filter((p) => p.id !== 'whats-on').map(drawerLink).join('')}
       </ul>
-      <p class="cc-kicker cc-drawer__label">${t.organisation}</p>
+      <p class="cc-kicker cc-drawer__label">${t.more}</p>
       <ul class="cc-drawer__list">${PAGES.organisation.map(drawerLink).join('')}</ul>
     </nav>
     <div class="cc-drawer__foot">
