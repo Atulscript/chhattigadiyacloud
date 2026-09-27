@@ -12,8 +12,7 @@
       val.setAttribute('preserveAspectRatio', 'none');
       val.innerHTML =
         '<g class="ab-sway ab-sway--back"><rect x="-40" y="0" width="' + (w + 80) + '" height="26" fill="url(#ab-drape2)" opacity=".7"/></g>' +
-        '<g class="ab-sway"><rect x="-40" y="0" width="' + (w + 80) + '" height="26" fill="url(#ab-drape)"/></g>' +
-        '<rect x="0" y="0" width="' + w + '" height="5" fill="#E8401C"/><rect x="0" y="5" width="' + w + '" height="1.2" fill="#F5B82E"/>';
+        '<g class="ab-sway"><rect x="-40" y="0" width="' + (w + 80) + '" height="26" fill="url(#ab-drape)"/></g>';
     }
     // Footlights: one dot every ~34px; the chase runs through them in order.
     var lights = root.querySelector('.ab-lights');

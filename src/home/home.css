@@ -203,3 +203,102 @@
 .hm-ticket__more .cc-icon { width: 16px; height: 16px; transition: transform 0.2s ease; }
 .hm-ticket__more:hover .cc-icon { transform: translateX(3px); }
 @media (prefers-reduced-motion: reduce) { .hm-ticket, .hm-ticket:hover { transition: none; transform: none; } }
+
+/* ---------- Our roots ----------
+   Each tradition has a tone (clay / saffron / forest) and a folk pattern:
+   Gond-style dots, Panthi zig-zag rhythm, Dhokra spiral rings. */
+.hm-roots__grid { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 760px) { .hm-roots__grid { grid-template-columns: repeat(3, 1fr); } }
+.hm-root {
+  --tone: #A0461E; --tone-deep: #6E2412; --tone-wash: #F5E2D4;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--cc-surface); border: 1px solid var(--cc-rule); border-radius: 18px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+.hm-root--saffron { --tone: #C27A12; --tone-deep: #7A4406; --tone-wash: #FBEBCB; }
+.hm-root--forest { --tone: #2E5A38; --tone-deep: #173B22; --tone-wash: #E2ECE0; }
+.hm-root:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(28, 26, 23, 0.5); }
+.hm-root__art {
+  position: relative; height: 128px;
+  background-color: var(--tone);
+  background-image:
+    radial-gradient(circle, rgba(255, 246, 236, 0.35) 1.6px, transparent 2px),
+    linear-gradient(160deg, transparent 40%, rgba(0, 0, 0, 0.18) 100%);
+  background-size: 14px 14px, 100% 100%;
+  transition: background-position 0.6s ease;
+}
+.hm-root--saffron .hm-root__art {
+  background-image:
+    linear-gradient(135deg, rgba(255, 246, 236, 0.22) 25%, transparent 25%) -10px 0 / 20px 20px,
+    linear-gradient(225deg, rgba(255, 246, 236, 0.22) 25%, transparent 25%) -10px 0 / 20px 20px,
+    linear-gradient(160deg, transparent 40%, rgba(0, 0, 0, 0.18) 100%);
+  background-size: 20px 20px, 20px 20px, 100% 100%;
+}
+.hm-root--forest .hm-root__art {
+  background-image:
+    repeating-radial-gradient(circle at 0 100%, transparent 0 9px, rgba(255, 246, 236, 0.2) 9px 11px),
+    linear-gradient(160deg, transparent 40%, rgba(0, 0, 0, 0.18) 100%);
+  background-size: 44px 44px, 100% 100%;
+}
+.hm-root:hover .hm-root__art { background-position: 14px 7px, 0 0; }
+.hm-root__num {
+  position: absolute; right: 1.1rem; top: 0.6rem;
+  font: 600 3.4rem/1 var(--cc-display); color: rgba(255, 246, 236, 0.85); letter-spacing: -0.03em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+.hm-root__medal {
+  position: absolute; left: 1.4rem; bottom: -30px;
+  display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; overflow: hidden;
+  background: var(--cc-surface); color: var(--tone);
+  box-shadow: 0 0 0 4px var(--cc-surface), 0 0 0 5px var(--tone-wash), 0 10px 22px -10px rgba(0, 0, 0, 0.45);
+  transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.hm-root:hover .hm-root__medal { transform: rotate(-8deg) scale(1.06); }
+.hm-root__medal .cc-icon { width: 30px; height: 30px; }
+.hm-root__medal img { width: 100%; height: 100%; object-fit: cover; }
+.hm-root__body { display: grid; gap: 0.45rem; padding: 2.6rem 1.4rem 1.5rem; }
+.hm-root__kicker { margin: 0; font: 700 0.78rem/1.3 var(--cc-text); letter-spacing: 0.1em; text-transform: uppercase; color: var(--tone); }
+.hm-root__title { margin: 0; font: 600 1.45rem/1.2 var(--cc-display); color: var(--cc-ink); }
+.hm-root__text { margin: 0; color: var(--cc-ink-2); line-height: 1.6; }
+:root[data-theme="dark"] .hm-root--clay { --tone: #E99A74; }
+:root[data-theme="dark"] .hm-root--saffron { --tone: #F2C27A; }
+:root[data-theme="dark"] .hm-root--forest { --tone: #93C79F; }
+:root[data-theme="dark"] .hm-root__art { background-color: var(--tone-deep); }
+
+/* ---------- What critics say: dark stage band ---------- */
+.hm-critics {
+  position: relative; overflow: hidden; color: #F3EADB;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgba(242, 176, 74, 0.16), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 100% 100%, rgba(160, 70, 30, 0.22), transparent 70%),
+    #16110D;
+}
+.hm-critics__head { position: relative; display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 2rem; }
+.hm-critics__head .cc-h2 { color: #FFF6EC; margin: 0; }
+.hm-critics__mark { font: 700 6rem/0.6 var(--cc-display); color: #F2B04A; transform: translateY(0.35em); }
+.hm-critics__grid { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 900px) { .hm-critics__grid { grid-template-columns: repeat(3, 1fr); } }
+.hm-critic {
+  position: relative; display: flex; flex-direction: column; height: 100%; margin: 0;
+  padding: 2.2rem 1.6rem 1.5rem; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 246, 236, 0.07), rgba(255, 246, 236, 0.03));
+  border: 1px solid rgba(255, 246, 236, 0.12);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, background 0.3s ease;
+}
+.hm-critic::before {
+  content: "“"; position: absolute; left: 1.2rem; top: 0.2rem;
+  font: 700 4.2rem/1 var(--cc-display); color: #F2B04A; opacity: 0.55;
+}
+.hm-critic:hover { transform: translateY(-4px); border-color: rgba(242, 176, 74, 0.45); background: linear-gradient(180deg, rgba(255, 246, 236, 0.1), rgba(255, 246, 236, 0.04)); }
+.hm-critic blockquote { flex: 1; margin: 0 0 1.5rem; padding-top: 0.8rem; font: italic 500 1.16rem/1.6 var(--cc-display); color: #FFF6EC; }
+.hm-critic figcaption { display: flex; align-items: center; gap: 0.8rem; padding-top: 1.1rem; border-top: 1px solid rgba(255, 246, 236, 0.14); }
+.hm-critic__mono {
+  display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50%;
+  background: #F2B04A; color: #2A1A08; font: 700 0.9rem/1 var(--cc-text); letter-spacing: 0.02em;
+}
+.hm-critic figcaption > span:last-child { display: grid; gap: 0.1rem; font-size: 0.95rem; }
+.hm-critic figcaption strong { color: #FFF6EC; }
+.hm-critic figcaption span span { color: rgba(243, 234, 219, 0.7); }
+@media (prefers-reduced-motion: reduce) {
+  .hm-root, .hm-root:hover, .hm-critic, .hm-critic:hover, .hm-root__medal { transition: none; transform: none; }
+}

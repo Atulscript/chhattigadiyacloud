@@ -51,7 +51,7 @@ const T = {
   en: {
     skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
     explore: 'Explore', organisation: 'Organisation', more: 'More', contact: 'Contact', language: 'Language',
-    theme: 'Theme', themeLight: 'Light', themeDark: 'Dark',
+    theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', toDark: 'Switch to dark mode', toLight: 'Switch to light mode',
     cta: 'Book a play', quickNav: 'Quick links',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
     email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us',
@@ -63,7 +63,7 @@ const T = {
   hi: {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
     explore: 'देखें', organisation: 'संस्था', more: 'और', contact: 'संपर्क', language: 'भाषा',
-    theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा',
+    theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा', toDark: 'डार्क मोड चालू करें', toLight: 'लाइट मोड चालू करें',
     cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
     email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें',
@@ -143,7 +143,15 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
         </ul>
       </nav>
       <div class="cc-header__lang">${langToggle(lang, altUrl, t.language)}</div>
-      <button type="button" class="cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}">${icon('menu')}</button>
+      <div class="cc-header__tools">
+        <button type="button" class="cc-tool-btn cc-theme-btn" data-cc-theme-toggle aria-pressed="false" aria-label="${t.toDark}" title="${t.toDark}" data-label-dark="${t.toDark}" data-label-light="${t.toLight}">
+          <svg class="cc-theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M17 3.5v2M16 4.5h2" stroke-width="1.4"/></svg>
+          <svg class="cc-theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+        </button>
+        <button type="button" class="cc-tool-btn cc-menu-btn" data-cc-menu aria-controls="cc-drawer" aria-expanded="false" aria-label="${t.menu}" title="${t.menu}">
+          <svg class="cc-menu-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h10"/><path class="l3" d="M4 17h13"/><circle class="dot" cx="19" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -250,7 +258,6 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
             ${c.phone ? `<li><a href="tel:${c.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${esc(c.phone)}</span></a></li>` : ''}
             ${c.address ? `<li class="cc-footer__addr">${icon('pin')}<span>${esc(c.address[lang])}</span></li>` : ''}
           </ul>
-          <a class="cc-btn cc-btn--primary cc-btn--sm cc-footer__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking">${icon('ticket')}${t.cta}</a>
         </div>
       </div>
       <div class="cc-footer__bottom">
