@@ -21,7 +21,7 @@ const T = {
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
     gallery: 'Theatre • Rehearsals • Festival Moments', galleryKicker: 'From the stage', gallerySub: 'Photographs from our productions and programmes, from the stage and beyond it.',
-    archiveKicker: 'Beyond the stage', archive: 'Theatre • Rehearsals • Festival Moments', archiveCollection: 'Collection', prevPhoto: 'Previous photographs', nextPhoto: 'Next photographs', viewPhoto: 'View photograph',
+    galleryMore: 'Explore the full gallery', archiveKicker: 'Beyond the stage', archive: 'Theatre • Rehearsals • Festival Moments', archiveCollection: 'Collection', prevPhoto: 'Previous photographs', nextPhoto: 'Next photographs', viewPhoto: 'View photograph',
     artists: 'The people behind the stage', artistsSub: 'Writers, directors and performers who make every show.', meet: 'Meet the team',
   },
   hi: {
@@ -34,7 +34,7 @@ const T = {
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
     gallery: 'रंगमंच • रिहर्सल • समारोह के पल', galleryKicker: 'मंच से', gallerySub: 'हमारी प्रस्तुतियों और कार्यक्रमों की तस्वीरें, मंच पर और मंच से परे।',
-    archiveKicker: 'मंच से परे', archive: 'रंगमंच • रिहर्सल • समारोह के पल', archiveCollection: 'संग्रह', prevPhoto: 'पिछली तस्वीरें', nextPhoto: 'अगली तस्वीरें', viewPhoto: 'तस्वीर देखें',
+    galleryMore: 'पूरी चित्र दीर्घा देखें', archiveKicker: 'मंच से परे', archive: 'रंगमंच • रिहर्सल • समारोह के पल', archiveCollection: 'संग्रह', prevPhoto: 'पिछली तस्वीरें', nextPhoto: 'अगली तस्वीरें', viewPhoto: 'तस्वीर देखें',
     artists: 'मंच के पीछे के लोग', artistsSub: 'लेखक, निर्देशक और कलाकार जो हर प्रस्तुति रचते हैं।', meet: 'पूरी टीम देखें',
   },
 };
@@ -205,6 +205,7 @@ function renderGallery(ctx) {
     </div>
     ${first.length ? renderStrip({ items: first, lang, dir: 'ltr', label: firstLabel || t.gallery, note: '' }) : ''}
     ${second.length ? renderStrip({ items: second, lang, dir: 'rtl', label: pick(reel.collection, lang) || t.archive, note: pick(reel.note, lang) }) : ''}
+    <p class="hm-gallery__more"><a href="/${lang}/gallery/">${t.galleryMore}${icon('arrowRight')}</a></p>
   </section>`;
 }
 

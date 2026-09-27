@@ -30,6 +30,7 @@ const PAGES = {
     { id: 'magazine', icon: 'book', label: { en: 'Magazine', hi: 'पत्रिका' } },
   ],
   organisation: [
+    { id: 'gallery', icon: 'image', label: { en: 'Gallery', hi: 'चित्र दीर्घा' } },
     { id: 'about', icon: 'info', label: { en: 'About', hi: 'परिचय' } },
     { id: 'contact', icon: 'chat', label: { en: 'Contact', hi: 'संपर्क' } },
     { id: 'support', icon: 'heart', label: { en: 'Support Us', hi: 'सहयोग करें' } },
