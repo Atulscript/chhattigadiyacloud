@@ -113,7 +113,7 @@ function renderHeroSlider(hp, lang) {
 
   return `
   <section class="hs" id="hero" aria-roledescription="carousel" aria-label="${esc(t.label)}"
-    data-hs data-autoplay="${cfg.autoplay !== false && n > 1 ? 'true' : 'false'}" data-interval="${Math.max(3, Number(cfg.interval) || 7)}">
+    data-hs data-autoplay="${cfg.autoplay !== false && n > 1 ? 'true' : 'false'}" data-interval="${Math.max(2, Number(cfg.interval) || 7)}">
     <h1 class="cc-visually-hidden">${esc(pick(hero.headline, lang) || pick(hero.eyebrow, lang))}</h1>
     ${w1 || mark ? `<p class="hs__brand" aria-hidden="true"><span>${esc(w1)}</span><span class="hs__mark">${esc(mark)}</span><span>${esc(w2)}</span></p>` : ''}
     <div class="hs__viewport" data-hs-viewport>

@@ -2666,7 +2666,7 @@ function renderHeroSlidesEditor(hp) {
         </label>
         <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;">
           Seconds per slide
-          <input type="number" min="3" max="20" class="form-control" style="width:80px;" value="${escapeHtml(String(cfg.interval || 7))}" onchange="updateHpField('heroSlider.interval', Math.max(3, Number(this.value) || 7))">
+          <input type="number" min="2" max="20" class="form-control" style="width:80px;" value="${escapeHtml(String(cfg.interval || 7))}" onchange="updateHpField('heroSlider.interval', Math.max(2, Number(this.value) || 7))">
         </label>
       </div>
 
