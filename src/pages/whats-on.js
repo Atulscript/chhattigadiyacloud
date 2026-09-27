@@ -1,6 +1,6 @@
 // What's On: every dated event from site data, soonest first.
 const { esc, pick, icon, pageHead, formButton } = require('../site/ui.js');
-const { upcoming, dateBadge } = require('../site/events.js');
+const { upcoming, dateBadge, statusOf, statusTag } = require('../site/events.js');
 
 const T = {
   en: {
@@ -28,13 +28,13 @@ function renderEvent(item, lang) {
       <li class="cc-event">
         <time class="cc-event__date" datetime="${d.iso}"><span class="cc-event__day">${esc(d.day)}</span><span class="cc-event__month">${esc(d.month)}</span></time>
         <div class="cc-event__body">
-          <span class="cc-tag${isCamp ? '' : ' cc-tag--clay'}" style="align-self:flex-start">${isCamp ? t.camp : t.festival}</span>
+          <div class="cc-tags"><span class="cc-tag${isCamp ? '' : ' cc-tag--clay'}">${isCamp ? t.camp : t.festival}</span>${statusTag(item.dates, item.statusTag, lang)}</div>
           <h2 class="cc-h3">${esc(pick(item.title, lang))}</h2>
           <ul class="cc-facts">
             <li>${icon('calendar')}<span>${esc(pick(item.dates, lang))}</span></li>
             <li>${icon('pin')}<span>${esc(pick(item.venue, lang))}</span></li>
           </ul>
-          <div class="cc-actions">${actions}</div>
+          ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : `<div class="cc-actions">${actions}</div>`}
         </div>
       </li>`;
 }

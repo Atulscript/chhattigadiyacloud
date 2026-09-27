@@ -293,3 +293,23 @@
     if (e.key === 'Escape' && more.classList.contains('is-open')) { setOpen(false); btn.focus(); }
   });
 })();
+
+// Event status tags: recompute Open / Upcoming / Closed from the dates in the
+// visitor's browser (same rule as src/site/events.js), so a page built weeks
+// ago still shows the right tag.
+(function () {
+  'use strict';
+  var now = new Date();
+  var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  [].forEach.call(document.querySelectorAll('[data-cc-status]'), function (el) {
+    var start = Date.parse(el.getAttribute('data-start'));
+    var end = Date.parse(el.getAttribute('data-end'));
+    var days = parseInt(el.getAttribute('data-open-days'), 10) || 30;
+    if (isNaN(start) || isNaN(end)) return;
+    var status = end < today ? 'closed' : (start - today <= days * 86400000 ? 'open' : 'upcoming');
+    var labels;
+    try { labels = JSON.parse(el.getAttribute('data-labels')); } catch (e) { return; }
+    el.className = 'cc-status cc-status--' + status;
+    el.textContent = labels[status];
+  });
+})();
