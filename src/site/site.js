@@ -38,11 +38,29 @@
     else { document.documentElement.removeAttribute('data-theme'); local.remove('cc-theme'); value = 'light'; }
     var buttons = document.querySelectorAll('[data-cc-theme] button');
     for (var i = 0; i < buttons.length; i++) buttons[i].setAttribute('aria-pressed', buttons[i].getAttribute('data-theme-value') === value ? 'true' : 'false');
+    var toggles = document.querySelectorAll('[data-cc-theme-toggle]');
+    for (var j = 0; j < toggles.length; j++) {
+      var label = toggles[j].getAttribute(value === 'dark' ? 'data-label-light' : 'data-label-dark');
+      toggles[j].setAttribute('aria-pressed', value === 'dark' ? 'true' : 'false');
+      toggles[j].setAttribute('aria-label', label);
+      toggles[j].setAttribute('title', label);
+    }
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', value === 'dark' ? '#14120F' : '#FAF6EF');
+  }
+  var animTimer;
+  function switchTheme(value) {
+    var root = document.documentElement;
+    root.classList.add('cc-theme-anim');
+    applyTheme(value);
+    clearTimeout(animTimer);
+    animTimer = setTimeout(function () { root.classList.remove('cc-theme-anim'); }, 400);
   }
   applyTheme(local.get('cc-theme') === 'dark' ? 'dark' : 'light');
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-cc-theme] button');
-    if (b) applyTheme(b.getAttribute('data-theme-value'));
+    if (b) switchTheme(b.getAttribute('data-theme-value'));
+    if (e.target.closest('[data-cc-theme-toggle]')) switchTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
 
   // ---- Short forms (dialogs and inline) ----
