@@ -86,6 +86,19 @@
 }
 .hm-card:hover .hm-card__arrow { transform: translateX(3px); background: var(--cc-forest); color: #fff; }
 
+/* Phones: two cards per row, with type and spacing scaled to fit. */
+@media (max-width: 639px) {
+  .hm-explore__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .hm-card { border-radius: 16px; }
+  .hm-card__media { min-height: 200px; }
+  .hm-card__overlay { padding: 1.5rem 0.75rem 0.7rem; }
+  .hm-card__icon { width: 26px; height: 26px; border-radius: 7px; }
+  .hm-card__icon .cc-icon { width: 15px; height: 15px; }
+  .hm-card__title { font-size: 1.05rem; }
+  .hm-card__desc { min-height: calc(1.35em * 3); font-size: 0.8rem; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .hm-card__cta { min-height: 46px; padding: 0.45rem 0.55rem 0.45rem 0.8rem; font-size: 0.84rem; line-height: 1.2; white-space: normal; }
+  .hm-card__arrow { width: 26px; height: 26px; }
+}
 /* Titles line up across a row: the description always reserves the same
    number of lines (2 on two-column rows, 3 on four-column rows). */
 @media (min-width: 640px) {
