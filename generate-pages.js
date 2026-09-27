@@ -15,7 +15,7 @@ const { buildForms, renderFormDialogs } = require('./src/site/forms.js');
 const { esc, icon } = require('./src/site/ui.js');
 const pwa = require('./src/site/pwa.js');
 const { renderHomePage } = require('./src/home/components.js');
-const { heroPreload, getSlides, bannerPreload, activeSlides } = require('./src/home/hero.js');
+const { heroPreload, getSlides, bannerPreload, activeSlides, reelData, reelPreload } = require('./src/home/hero.js');
 
 const PAGES = {
   'whats-on': require('./src/pages/whats-on.js'),
@@ -30,7 +30,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 29;
+const ASSET_VERSION = 30;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // Per-page link-preview image (npm run og-art), else the site-wide one.
@@ -75,6 +75,7 @@ const ASSETS = {
   bannerJs: `src/site/art-banner.js?v=${ASSET_VERSION}`,
   homeCss: `src/home/home.css?v=${ASSET_VERSION}`,
   heroJs: `src/home/hero-slider.js?v=${ASSET_VERSION}`,
+  reelJs: `src/home/hero-reel.js?v=${ASSET_VERSION}`,
   magazineCss: `src/magazine/magazine.css?v=${ASSET_VERSION}`,
   magazineJs: `src/magazine/magazine-reader.js?v=${ASSET_VERSION}`,
 };
@@ -197,9 +198,9 @@ const bannerScript = (page) => (activeSlides(banners[page]).length > 1 ? `\n  <s
     contentHtml: renderHomePage(siteData, lang),
     // The hero slider preloads its first slide (mobile and desktop art);
     // without slides the classic hero preloads its artwork.
-    extraHead: `<link rel="stylesheet" href="/${ASSETS.homeCss}">${getSlides(siteData.homepage || {}).length ? `\n  ${heroPreload(siteData.homepage)}` : ''}`,
+    extraHead: `<link rel="stylesheet" href="/${ASSETS.homeCss}">${reelData(siteData.homepage || {}) ? `\n  ${reelPreload(siteData.homepage)}` : getSlides(siteData.homepage || {}).length ? `\n  ${heroPreload(siteData.homepage)}` : ''}`,
     preloadImage: getSlides(siteData.homepage || {}).length ? '' : (((siteData.homepage || {}).hero || {}).photo || '/src/assets/images/hero-art.svg'),
-    extraScripts: getSlides(siteData.homepage || {}).length > 1 ? `<script src="/${ASSETS.heroJs}" defer></script>` : '',
+    extraScripts: reelData(siteData.homepage || {}) ? `<script src="/${ASSETS.reelJs}" defer></script>` : getSlides(siteData.homepage || {}).length > 1 ? `<script src="/${ASSETS.heroJs}" defer></script>` : '',
   }));
 
   write(`${lang}/magazine/index.html`, renderHtmlDocument({

@@ -20,10 +20,12 @@ const T = {
   en: {
     label: 'Featured', slide: (i, n) => `${i} of ${n}`, prev: 'Previous slide', next: 'Next slide',
     goTo: (i) => `Show slide ${i}`, pause: 'Pause slideshow', play: 'Play slideshow',
+    book: 'Book this play', more: 'About the play', reel: (t) => `Photographs from ${t}`,
   },
   hi: {
     label: 'विशेष', slide: (i, n) => `${n} में से ${i}`, prev: 'पिछली स्लाइड', next: 'अगली स्लाइड',
     goTo: (i) => `स्लाइड ${i} दिखाएं`, pause: 'स्लाइड शो रोकें', play: 'स्लाइड शो चलाएं',
+    book: 'नाटक बुक करें', more: 'नाटक के बारे में', reel: (t) => `${t} की तस्वीरें`,
   },
 };
 
@@ -198,4 +200,80 @@ function bannerPreload(list) {
   return first ? heroPreload({ heroSlides: [Object.assign({ title: 'x' }, first)] }) : '';
 }
 
-module.exports = { renderHeroSlider, heroPreload, getSlides, renderPageBanner, bannerPreload, activeSlides };
+// ---------------------------------------------------------------------------
+// Cinematic reel: real production photos (homepage.heroReel) crossfading
+// behind one fixed headline for the play, with a slow push-in on each frame,
+// vignette, film grain and letterbox bars. Photos may be local files or
+// ImageKit URLs; ImageKit ones get on-the-fly sizes (w-800/1400/2000,
+// f-auto) so phones download small versions. Behaviour: hero-reel.js.
+const IK = /^https:\/\/ik\.imagekit\.io\//i;
+function reelSrc(url, w) {
+  const clean = String(url).split('?')[0];
+  return IK.test(clean) ? `${clean}?tr=w-${w},q-72,f-auto` : clean;
+}
+function reelSrcset(url) {
+  return IK.test(String(url)) ? [800, 1200, 1600, 2000].map((w) => `${reelSrc(url, w)} ${w}w`).join(', ') : '';
+}
+function reelData(hp) {
+  const r = hp.heroReel || {};
+  const photos = (r.photos || []).map((u) => String(u || '').trim()).filter(Boolean);
+  return r.enabled !== false && photos.length ? Object.assign({}, r, { photos }) : null;
+}
+function renderHeroReel(hp, lang, siteData) {
+  const r = reelData(hp);
+  if (!r) return '';
+  const t = T[lang];
+  const hero = hp.hero || {};
+  const play = (siteData.productions || []).find((p) => p.id === r.playId) || {};
+  const title = pick(r.title, lang) || pick(play.title, lang) || pick(hero.headline, lang);
+  const text = pick(r.text, lang) || pick(play.subtitle, lang);
+  const w1 = pick(hero.rebusWord1, lang); const mark = pick(hero.rebusMark, lang); const w2 = pick(hero.rebusWord2, lang);
+  const n = r.photos.length;
+  const pad = (i) => String(i).padStart(2, '0');
+  const frame = (u, i) => {
+    const set = reelSrcset(u);
+    const attrs = i < 2
+      ? `src="${esc(reelSrc(u, 1400))}"${set ? ` srcset="${esc(set)}" sizes="100vw"` : ''}${i === 0 ? ' fetchpriority="high"' : ''}`
+      : `data-src="${esc(reelSrc(u, 1400))}"${set ? ` data-srcset="${esc(set)}"` : ''} sizes="100vw"`;
+    return `<div class="hr-frame${i === 0 ? ' is-active' : ''}${i % 2 ? ' hr-frame--alt' : ''}" data-hr-frame><img ${attrs} alt="" decoding="async"></div>`;
+  };
+  return `
+  <section class="hs hs--reel" id="hero" aria-label="${esc(t.reel(title))}" data-hr data-interval="${Math.max(2, Number(r.interval) || 2)}">
+    <h1 class="cc-visually-hidden">${esc(pick(hero.headline, lang) || title)}</h1>
+    ${w1 || mark ? `<p class="hs__brand" aria-hidden="true"><span>${esc(w1)}</span><span class="hs__mark">${esc(mark)}</span><span>${esc(w2)}</span></p>` : ''}
+    <div class="hr-reel" aria-hidden="true">${r.photos.map(frame).join('')}</div>
+    <div class="hr-grade" aria-hidden="true"></div>
+    <div class="hs__shade" aria-hidden="true"></div>
+    <div class="hr-grain" aria-hidden="true"></div>
+    <div class="hr-bars" aria-hidden="true"></div>
+    <div class="cc-wrap hs__content">
+      ${pick(r.kicker, lang) ? `<p class="hs__kicker">${esc(pick(r.kicker, lang))}</p>` : ''}
+      <h2 class="hs__title">${esc(title)}</h2>
+      ${text ? `<p class="hs__text">${esc(text)}</p>` : ''}
+      <div class="hs__actions">
+        <a class="cc-btn cc-btn--primary hs__cta" href="/${lang}/contact/#form-booking" data-cc-form="booking" data-cc-prefill="${esc(JSON.stringify({ play: play.id || '' }))}">${esc(t.book)}${icon('arrowRight')}</a>
+        <a class="cc-btn cc-btn--on-dark hs__cta hs__cta--ghost" href="/${lang}/productions/${play.id ? `#${esc(play.id)}` : ''}">${esc(t.more)}</a>
+      </div>
+    </div>
+    ${n > 1 ? `
+    <div class="hs__controls hr-controls">
+      <div class="cc-wrap hs__controls-inner">
+        <p class="hr-count" aria-hidden="true"><span class="hr-count__rec"></span><span data-hr-current>01</span><span class="hs__count-sep"></span><span>${pad(n)}</span></p>
+        <div class="hr-progress" aria-hidden="true"><span data-hr-bar></span></div>
+        <button type="button" class="hs__btn hr-toggle" data-hr-toggle aria-label="${esc(t.pause)}" data-label-pause="${esc(t.pause)}" data-label-play="${esc(t.play)}">
+          <svg class="cc-icon hs__icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+          <svg class="cc-icon hs__icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+        </button>
+      </div>
+    </div>` : ''}
+  </section>`;
+}
+function reelPreload(hp) {
+  const r = reelData(hp);
+  if (!r) return '';
+  const u = r.photos[0];
+  const set = reelSrcset(u);
+  return `<link rel="preload" as="image" href="${esc(reelSrc(u, 1400))}"${set ? ` imagesrcset="${esc(set)}" imagesizes="100vw"` : ''} fetchpriority="high">`;
+}
+
+module.exports = { renderHeroSlider, renderHeroReel, reelData, reelPreload, heroPreload, getSlides, renderPageBanner, bannerPreload, activeSlides };

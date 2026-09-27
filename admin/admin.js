@@ -2115,6 +2115,7 @@ function renderHomepageEditor(host) {
   const vh = hp.visualHighlight || {};
 
   host.innerHTML = `
+    ${renderHeroReelEditor(hp)}
     ${renderHeroSlidesEditor(hp)}
     ${renderGalleryEditor(hp)}
 
@@ -2531,6 +2532,64 @@ function rerenderKeepingScroll() {
   renderCurrentSubPage();
   window.scrollTo(0, y);
 }
+
+// Cinematic hero reel (homepage.heroReel): real production photos that
+// crossfade behind one headline for a play. When on, it replaces the
+// illustrated hero slides (kept below, used again when the reel is off).
+function heroReel() {
+  if (!state.content.homepage) state.content.homepage = {};
+  if (!state.content.homepage.heroReel) state.content.homepage.heroReel = { enabled: false, interval: 2, playId: '', kicker: { en: '', hi: '' }, photos: [] };
+  return state.content.homepage.heroReel;
+}
+function renderHeroReelEditor(hp) {
+  const r = hp.heroReel || { enabled: false, interval: 2, photos: [] };
+  const plays = state.content.productions || [];
+  return `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🎬 Cinematic hero reel — real show photos (${(r.photos || []).length})</div>
+          <div class="section-group-desc">Photos crossfade behind one headline for the chosen play, with a slow push-in, film grain and letterbox. When on, it replaces the illustrated hero slides below. ImageKit links are resized automatically for phones and desktops.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1.25rem; flex-wrap:wrap; align-items:flex-end; margin-bottom:1rem;">
+        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:600;"><input type="checkbox" ${r.enabled !== false && (r.photos || []).length ? 'checked' : ''} onchange="updateHeroReel('enabled', this.checked)"> Show the reel</label>
+        <label class="form-group" style="margin:0;">
+          <span class="form-label" style="font-size:0.75rem;">Seconds per photo</span>
+          <input type="number" min="2" max="20" class="form-control" style="width:90px;" value="${escapeHtml(String(r.interval || 2))}" onchange="updateHeroReel('interval', Math.max(2, Number(this.value) || 2))">
+        </label>
+        <label class="form-group" style="margin:0; min-width:240px;">
+          <span class="form-label" style="font-size:0.75rem;">Play (title, text and buttons come from it)</span>
+          <select class="form-control" onchange="updateHeroReel('playId', this.value)">
+            ${plays.map((p) => `<option value="${escapeHtml(p.id)}"${p.id === r.playId ? ' selected' : ''}>${escapeHtml(p.title && p.title.en || p.id)}</option>`).join('')}
+          </select>
+        </label>
+      </div>
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Small label above the title</span></div>
+        <div class="bilingual-grid">
+          <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(r.kicker && r.kicker.en || '')}" onchange="updateHeroReelText('kicker', 'en', this.value)"></div>
+          <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(r.kicker && r.kicker.hi || '')}" onchange="updateHeroReelText('kicker', 'hi', this.value)"></div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:1rem;">
+        <label class="form-label" style="font-size:0.75rem;">Photo links — one per line, in the order they should play</label>
+        <textarea class="form-control" style="min-height:180px; font-family:monospace; font-size:0.78rem;" onchange="updateHeroReelPhotos(this.value)">${escapeHtml((r.photos || []).join('\n'))}</textarea>
+      </div>
+    </div>`;
+}
+window.updateHeroReel = function(field, value) { heroReel()[field] = value; markDirty(true); };
+window.updateHeroReelText = function(field, lang, value) {
+  const r = heroReel();
+  if (!r[field] || typeof r[field] !== 'object') r[field] = { en: '', hi: '' };
+  r[field][lang] = value;
+  markDirty(true);
+};
+window.updateHeroReelPhotos = function(value) {
+  heroReel().photos = value.split(/\s*\n\s*/).map((u) => u.trim()).filter(Boolean);
+  markDirty(true);
+  rerenderKeepingScroll();
+};
 
 // "From the stage" photo gallery on the home page (homepage.gallery).
 function galleryItems() {

@@ -1198,3 +1198,86 @@ main > .cc-section:nth-of-type(4n)::after { background-image: url('../assets/ima
 .cc-feature:hover { box-shadow: 0 22px 40px -26px rgba(28, 26, 23, 0.45); }
 .cc-callout { border-radius: 18px; }
 @media (prefers-reduced-motion: reduce) { .cc-card, .cc-feature, .cc-person { transition: none; } .cc-card:hover, .cc-person:hover { transform: none; } }
+
+/* ---------- Cinematic photo reel (home hero, hero-reel.js) ----------
+   Real production photos crossfade behind one fixed headline: warm film
+   grade, vignette, grain and letterbox bars, and a slow push-in that
+   alternates direction from frame to frame. */
+.hs--reel { background: #0B0706; }
+.hr-reel { position: absolute; inset: 0; overflow: hidden; }
+.hr-frame { position: absolute; inset: 0; opacity: 0; transition: opacity var(--hr-fade, 900ms) ease; }
+.hr-frame.is-active { opacity: 1; z-index: 1; }
+.hr-frame.is-leaving { z-index: 0; }
+.hr-frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
+  filter: saturate(1.06) contrast(1.06) brightness(0.92);
+  transform: scale(1.04); transform-origin: 40% 45%;
+}
+.hr-frame--alt img { transform-origin: 62% 55%; }
+.hs--reel.is-ready .hr-frame.is-active img,
+.hs--reel.is-ready .hr-frame.is-leaving img { animation: hr-push calc(var(--hr-interval, 2000ms) + var(--hr-fade, 900ms) + 400ms) linear both; }
+.hs--reel.is-ready .hr-frame--alt.is-active img,
+.hs--reel.is-ready .hr-frame--alt.is-leaving img { animation-name: hr-push-alt; }
+@keyframes hr-push { from { transform: scale(1.04); } to { transform: scale(1.12) translate(-1%, -0.5%); } }
+@keyframes hr-push-alt { from { transform: scale(1.12) translate(1%, 0.5%); } to { transform: scale(1.04); } }
+.hs--reel.is-paused .hr-frame img { animation-play-state: paused; }
+/* Warm, filmic grade over every photo so the set reads as one production. */
+.hr-grade {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: soft-light;
+  background: linear-gradient(160deg, rgba(255, 150, 70, 0.35) 0%, rgba(120, 40, 20, 0.15) 45%, rgba(30, 10, 60, 0.4) 100%);
+}
+.hs--reel .hs__shade {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 85% 75% at 60% 45%, transparent 45%, rgba(6, 4, 3, 0.55) 100%),
+    linear-gradient(0deg, rgba(9, 6, 5, 0.92) 0%, rgba(9, 6, 5, 0.6) 30%, rgba(9, 6, 5, 0.12) 58%, rgba(9, 6, 5, 0) 72%),
+    linear-gradient(180deg, rgba(9, 6, 5, 0.5) 0%, rgba(9, 6, 5, 0) 18%);
+}
+@media (min-width: 768px) {
+  .hs--reel .hs__shade {
+    background:
+      radial-gradient(ellipse 85% 80% at 62% 45%, transparent 40%, rgba(6, 4, 3, 0.6) 100%),
+      linear-gradient(90deg, rgba(9, 6, 5, 0.88) 0%, rgba(9, 6, 5, 0.62) 30%, rgba(9, 6, 5, 0.1) 58%, rgba(9, 6, 5, 0) 72%),
+      linear-gradient(0deg, rgba(9, 6, 5, 0.7) 0%, rgba(9, 6, 5, 0) 26%);
+  }
+}
+/* Film grain: tiled noise that shifts a few times a second. */
+.hr-grain {
+  position: absolute; inset: -40px; z-index: 2; pointer-events: none; opacity: 0.16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: hr-grain 0.8s steps(4) infinite;
+}
+@keyframes hr-grain { 0% { transform: translate(0, 0); } 25% { transform: translate(-12px, 8px); } 50% { transform: translate(10px, -14px); } 75% { transform: translate(-6px, -8px); } 100% { transform: translate(0, 0); } }
+/* Letterbox bars */
+.hr-bars { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hr-bars::before, .hr-bars::after { content: ""; position: absolute; left: 0; right: 0; height: clamp(10px, 2.2vh, 22px); background: #050302; }
+.hr-bars::before { top: 0; }
+.hr-bars::after { bottom: 0; }
+/* Controls: a "rec" counter, a thin progress line and pause. */
+.hr-controls .hs__controls-inner { justify-content: flex-start; }
+.hr-count { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0; font: 600 0.9rem/1 var(--cc-text); font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.7); }
+.hr-count span:nth-child(2) { color: #fff; }
+.hr-count__rec { width: 8px; height: 8px; border-radius: 50%; background: #E8401C; box-shadow: 0 0 0 0 rgba(232, 64, 28, 0.6); animation: hr-rec 1.6s ease-out infinite; }
+@keyframes hr-rec { 70%, 100% { box-shadow: 0 0 0 7px rgba(232, 64, 28, 0); } }
+.hr-progress { flex: 1; max-width: 220px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.22); overflow: hidden; }
+.hr-progress span { display: block; height: 100%; width: 100%; background: #F2C46D; transform: scaleX(0); transform-origin: left; }
+.hr-progress span.is-running { animation: hr-bar var(--hr-interval, 2000ms) linear forwards; }
+@keyframes hr-bar { to { transform: scaleX(1); } }
+.hr-toggle { margin-left: auto; }
+.hs--reel .hs__btn--toggle, .hr-toggle .hs__icon-play { display: none; }
+.hs--reel.is-paused .hr-toggle .hs__icon-play { display: block; }
+.hs--reel.is-paused .hr-toggle .hs__icon-pause { display: none; }
+.hs--reel.is-paused .hr-count__rec { animation: none; background: rgba(255, 255, 255, 0.5); }
+@media (prefers-reduced-motion: reduce) {
+  .hr-grain, .hr-count__rec, .hs--reel.is-ready .hr-frame img { animation: none !important; }
+  .hr-frame { transition: none; }
+}
+/* The reel's headline is fixed (not per slide): show it once, with the same entrance. */
+.hs--reel .hs__content > *, .hs--reel.is-ready .hs__content > * { opacity: 1; transform: none; }
+.hs--reel.is-ready .hs__content > * { animation: hr-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.hs--reel.is-ready .hs__content > :nth-child(2) { animation-delay: 0.12s; }
+.hs--reel.is-ready .hs__content > :nth-child(3) { animation-delay: 0.24s; }
+.hs--reel.is-ready .hs__content > :nth-child(4) { animation-delay: 0.36s; }
+@keyframes hr-in { from { opacity: 0; transform: translateY(16px); } }
+.hs--reel .hs__content { z-index: 3; }
+@media (prefers-reduced-motion: reduce) { .hs--reel.is-ready .hs__content > * { animation: none; } }

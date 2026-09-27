@@ -1771,7 +1771,45 @@
           "hi": "शिविर के पहले दिन बच्चों का घेरा"
         }
       }
-    ]
+    ],
+    "heroReel": {
+      "enabled": true,
+      "interval": 2,
+      "playId": "vincent-a-flashback",
+      "kicker": {
+        "en": "Now on stage",
+        "hi": "मंच पर"
+      },
+      "photos": [
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0005.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0041.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0019.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0012.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0009.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0029.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0034.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0011.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0010.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0017.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0027.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0018.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0033.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0032.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0021.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0031.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0003.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0025.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0039.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0007.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0002.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0038.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0040.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0035.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0023.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0036.JPG",
+        "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0037.JPG"
+      ]
+    }
   },
   "adminAuth": {
     "users": [
