@@ -54,7 +54,7 @@ const T = {
     theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', toDark: 'Switch to dark mode', toLight: 'Switch to light mode',
     cta: 'Book a play', quickNav: 'Quick links',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
-    email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us',
+    email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us', newsletter: 'Monthly letter', signupNote: 'One email a month. No spam, unsubscribe any time.',
     signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
     about: 'Theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.',
     rights: 'All rights reserved.', backToTop: 'Back to top',
@@ -66,7 +66,7 @@ const T = {
     theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा', toDark: 'डार्क मोड चालू करें', toLight: 'लाइट मोड चालू करें',
     cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
-    email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें',
+    email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें', newsletter: 'मासिक पत्र', signupNote: 'महीने में एक ईमेल। कोई स्पैम नहीं, जब चाहें बंद करें।',
     signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
     about: 'जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।',
     rights: 'सर्वाधिकार सुरक्षित।', backToTop: 'ऊपर जाएं',
@@ -189,19 +189,36 @@ function renderConnect({ lang, siteData, currentPath }) {
   const [title, text] = (CONNECT[pageKey(lang, currentPath)] || CONNECT.home)[lang];
   const c = siteData.contact || {};
   return `
-        <section class="cc-footer__signup" id="newsletter" aria-labelledby="cc-connect-title">
-          <h2 class="cc-footer__signup-title" id="cc-connect-title">${esc(title)}</h2>
-          <p class="cc-footer__signup-text">${esc(text)}</p>
-          <form class="cc-connect__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
+  <section class="cc-signup" id="newsletter" aria-labelledby="cc-connect-title">
+    <div class="cc-wrap">
+      <div class="cc-signup__panel">
+        <div class="cc-signup__art" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="60" r="56" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 5" opacity=".6"/>
+            <rect x="24" y="38" width="72" height="50" rx="6" fill="#FFF6EC"/>
+            <path d="M24 44l36 24 36-24" stroke="#A0461E" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M60 18c-9 0-16 6-16 15 0 7 5 13 16 17 11-4 16-10 16-17 0-9-7-15-16-15z" fill="#F5B82E"/>
+            <path d="M53 30c1.5-1.5 3.5-1.5 5 0M62 30c1.5-1.5 3.5-1.5 5 0M54 38c3 3 9 3 12 0" stroke="#6E2412" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cc-signup__copy">
+          <p class="cc-signup__kicker">${t.newsletter}</p>
+          <h2 class="cc-signup__title" id="cc-connect-title">${esc(title)}</h2>
+          <p class="cc-signup__text">${esc(text)}</p>
+        </div>
+        <form class="cc-signup__form" data-cc-signup data-cc-endpoint="${esc(siteData.newsletterEndpoint || '')}" data-cc-mailto="${esc(c.email || '')}" novalidate>
+          <div class="cc-signup__field">
             <label class="cc-visually-hidden" for="cc-signup-email">${t.email}</label>
-            <input class="cc-input" id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
-            <button type="submit" class="cc-btn cc-btn--primary">${t.subscribe}</button>
-            <p class="cc-connect__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
-          </form>
-          <ul class="cc-social" aria-label="${t.follow}">
-            ${SOCIAL.map((s) => `<li><a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.name}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${s.path}"/></svg></a></li>`).join('')}
-          </ul>
-        </section>`;
+            ${icon('mail')}
+            <input id="cc-signup-email" type="email" name="email" autocomplete="email" placeholder="${t.email}" required>
+            <button type="submit" class="cc-signup__btn">${t.subscribe}${icon('arrowRight')}</button>
+          </div>
+          <p class="cc-signup__note">${t.signupNote}</p>
+          <p class="cc-signup__msg" role="status" data-cc-signup-msg data-done="${esc(t.signupDone)}" data-invalid="${esc(t.signupInvalid)}"></p>
+        </form>
+      </div>
+    </div>
+  </section>`;
 }
 
 // Floating share bar: a strip on the left edge on desktop, a single button
@@ -233,17 +250,13 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const t = T[lang];
   const c = siteData.contact || {};
   return `
+  ${renderConnect({ lang, siteData, currentPath })}
   ${ART_BANNER}
   <footer class="cc-footer">
-    <div class="cc-footer__band">
-      <div class="cc-wrap cc-footer__top">
-        <div class="cc-footer__brand">
-          <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
-          <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
-          <p class="cc-footer__about">${t.about}</p>
-        </div>
-        ${renderConnect({ lang, siteData, currentPath })}
-      </div>
+    <div class="cc-wrap cc-footer__intro">
+      <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
+      <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
+      <p class="cc-footer__about">${t.about}</p>
     </div>
     <div class="cc-wrap">
       <div class="cc-footer__grid">
