@@ -2606,8 +2606,8 @@ function galleryItems(key = 'gallery') {
 }
 function renderGalleryEditor(hp) {
   const reel = hp.galleryReel || {};
-  return renderPhotoListEditor('gallery', '📸 From the stage — Featured Theatre Moments', 'Editorial mosaic. The first photo is the large main-stage frame; seven photos fill the layout (phones show the first five). Image URL or ImageKit link.')
-    + renderPhotoListEditor('reel', '🎞️ Beyond the stage — film-strip reel', 'Draggable film strip below the mosaic. Any number of photos; landscape works best.', `
+  return renderPhotoListEditor('gallery', '📸 From the stage — first film strip (drifts left to right)', 'Theatre photos for the first strip. The first photo\'s caption is used as the strip\'s label. Image URL or ImageKit link.')
+    + renderPhotoListEditor('reel', '🎞️ From the stage — second film strip (drifts right to left)', 'Photos for the second strip; its label is the collection name below. Landscape photos work best.', `
       <div class="bilingual-tabs-wrap" style="margin-bottom:1rem;">
         <div class="bilingual-header"><span class="bilingual-title">Collection name and note (e.g. "Meri Maati Mera Desh", "Jashpur, 2023")</span></div>
         <div class="bilingual-grid">

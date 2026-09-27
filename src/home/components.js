@@ -20,7 +20,7 @@ const T = {
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
-    gallery: 'Featured Theatre Moments', galleryKicker: 'From the stage', gallerySub: 'Photographs from our productions, taken in the dark of the house.',
+    gallery: 'Theatre • Rehearsals • Festival Moments', galleryKicker: 'From the stage', gallerySub: 'Photographs from our productions and programmes, from the stage and beyond it.',
     archiveKicker: 'Beyond the stage', archive: 'Theatre • Rehearsals • Festival Moments', archiveCollection: 'Collection', prevPhoto: 'Previous photographs', nextPhoto: 'Next photographs', viewPhoto: 'View photograph',
     artists: 'The people behind the stage', artistsSub: 'Writers, directors and performers who make every show.', meet: 'Meet the team',
   },
@@ -33,7 +33,7 @@ const T = {
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
-    gallery: 'रंगमंच के चुनिंदा पल', galleryKicker: 'मंच से', gallerySub: 'हमारी प्रस्तुतियों की तस्वीरें, सभागार के अंधेरे से।',
+    gallery: 'रंगमंच • रिहर्सल • समारोह के पल', galleryKicker: 'मंच से', gallerySub: 'हमारी प्रस्तुतियों और कार्यक्रमों की तस्वीरें, मंच पर और मंच से परे।',
     archiveKicker: 'मंच से परे', archive: 'रंगमंच • रिहर्सल • समारोह के पल', archiveCollection: 'संग्रह', prevPhoto: 'पिछली तस्वीरें', nextPhoto: 'अगली तस्वीरें', viewPhoto: 'तस्वीर देखें',
     artists: 'मंच के पीछे के लोग', artistsSub: 'लेखक, निर्देशक और कलाकार जो हर प्रस्तुति रचते हैं।', meet: 'पूरी टीम देखें',
   },
@@ -156,20 +156,42 @@ function renderPlays(ctx) {
   </section>`;
 }
 
-// From the stage: two theatre photo categories that share one dark stage
-// identity (curtain texture, warm spotlight, gold hairlines, grain) but
-// read differently.
-//  1. Featured Theatre Moments (homepage.gallery): an editorial mosaic with
-//     one main-stage photograph and supporting frames.
-//  2. Beyond the Stage (homepage.galleryReel): a draggable film-strip reel
-//     with sprocket edges, numbered frames and caption panels.
-// Both open the full-screen photo viewer (site.js).
+// From the stage: one theatre gallery with two film strips in the same
+// style that drift on their own: the first (homepage.gallery) left to
+// right, the second (homepage.galleryReel) right to left. Each strip is
+// rendered twice in a row so the loop is seamless; the copy is hidden
+// from assistive tech. Hover or focus pauses a strip; a click opens the
+// photo viewer (site.js). Reduced motion: strips stay still and scroll.
+function renderStrip({ items, lang, dir, label, note }) {
+  const n = items.length;
+  const pad = (i) => String(i).padStart(2, '0');
+  const frame = (g, i, dup) => `
+          <li class="hm-strip__frame"${dup ? ' aria-hidden="true"' : ''}>
+            <a class="hm-strip__link" href="${esc(photoFull(g.image))}" data-caption="${esc(pick(g.caption, lang))}"${dup ? ` data-dup-of="${i}" tabindex="-1"` : ''} draggable="false">
+              ${photo(g.image, dup ? '' : (pick(g.alt, lang) || pick(g.caption, lang)), { sizes: '(min-width: 720px) 380px, 72vw', widths: [480, 800] })}
+              <span class="hm-strip__num" aria-hidden="true">${pad(i + 1)}<small>/${pad(n)}</small></span>
+              ${pick(g.caption, lang) ? `<span class="hm-strip__cap">${esc(pick(g.caption, lang))}</span>` : ''}
+            </a>
+          </li>`;
+  return `
+    <div class="hm-strip hm-strip--${dir}" style="--n:${n}">
+      <p class="cc-wrap hm-strip__label"><span>${esc(label)}</span>${note ? `<em>${esc(note)}</em>` : ''}</p>
+      <div class="hm-strip__film">
+        <ul class="hm-strip__track" data-cc-lightbox data-cc-marquee aria-label="${esc(label)}">
+          ${items.map((g, i) => frame(g, i, false)).join('')}${items.map((g, i) => frame(g, i, true)).join('')}
+        </ul>
+      </div>
+    </div>`;
+}
+
 function renderGallery(ctx) {
   const { lang, hp } = ctx;
   const t = T[lang];
-  const items = (hp.gallery || []).filter((g) => g && g.image);
-  if (!items.length) return '';
-  const sizes = (i) => (i % 7 === 0 || i % 7 === 5 ? '(min-width: 720px) 50vw, 80vw' : '(min-width: 720px) 25vw, 80vw');
+  const first = (hp.gallery || []).filter((g) => g && g.image);
+  const reel = hp.galleryReel || {};
+  const second = (reel.photos || []).filter((g) => g && g.image);
+  if (!first.length && !second.length) return '';
+  const firstLabel = pick((first[0] || {}).caption, lang);
   return `
   <section class="hm-gallery" aria-labelledby="hm-gallery-title">
     <div class="hm-stage-light" aria-hidden="true"></div>
@@ -180,56 +202,9 @@ function renderGallery(ctx) {
         <p class="hm-programme__rule" aria-hidden="true"><span></span></p>
         <p class="hm-programme__sub">${t.gallerySub}</p>
       </header>
-      <ul class="hm-gallery__grid" data-cc-lightbox>
-        ${items.map((g, i) => `
-        <li class="hm-gallery__item">
-          <a class="hm-gallery__link" href="${esc(photoFull(g.image))}" data-caption="${esc(pick(g.caption, lang))}" aria-label="${esc(`${t.viewPhoto} ${i + 1}: ${pick(g.caption, lang)}`)}">
-            ${photo(g.image, pick(g.alt, lang) || pick(g.caption, lang), { sizes: sizes(i) })}
-            <span class="hm-gallery__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
-            ${pick(g.caption, lang) ? `<span class="hm-gallery__cap">${esc(pick(g.caption, lang))}</span>` : ''}
-          </a>
-        </li>`).join('')}
-      </ul>
     </div>
-  </section>
-  ${renderArchiveReel(ctx)}`;
-}
-
-function renderArchiveReel(ctx) {
-  const { lang, hp } = ctx;
-  const t = T[lang];
-  const r = hp.galleryReel || {};
-  const items = (r.photos || []).filter((g) => g && g.image);
-  if (!items.length) return '';
-  const n = items.length;
-  const pad = (i) => String(i).padStart(2, '0');
-  const collection = pick(r.collection, lang);
-  return `
-  <section class="hm-archive" aria-labelledby="hm-archive-title">
-    <div class="cc-wrap hm-archive__head">
-      <header class="hm-programme hm-programme--left">
-        <p class="hm-programme__kicker">${t.archiveKicker}</p>
-        <h2 class="hm-programme__title" id="hm-archive-title">${t.archive}</h2>
-        ${collection ? `<p class="hm-archive__collection"><span>${t.archiveCollection}</span>${esc(collection)}${pick(r.note, lang) ? ` <em>${esc(pick(r.note, lang))}</em>` : ''}</p>` : ''}
-      </header>
-      <div class="hm-archive__nav">
-        <p class="hm-archive__count" aria-hidden="true"><span data-reel-current>01</span> / ${pad(n)}</p>
-        <button type="button" class="hm-archive__btn" data-reel-prev aria-label="${t.prevPhoto}">${icon('chevronLeft')}</button>
-        <button type="button" class="hm-archive__btn" data-reel-next aria-label="${t.nextPhoto}">${icon('chevronRight')}</button>
-      </div>
-    </div>
-    <div class="hm-archive__strip">
-      <ul class="hm-archive__track" data-cc-reel data-cc-lightbox tabindex="0" aria-label="${esc(`${t.archive}${collection ? ` — ${collection}` : ''}`)}">
-        ${items.map((g, i) => `
-        <li class="hm-archive__frame">
-          <a class="hm-archive__link" href="${esc(photoFull(g.image))}" data-caption="${esc(pick(g.caption, lang))}" draggable="false">
-            ${photo(g.image, pick(g.alt, lang) || pick(g.caption, lang), { sizes: '(min-width: 1100px) 34vw, (min-width: 720px) 48vw, 82vw', widths: [480, 800, 1200] })}
-            <span class="hm-archive__num" aria-hidden="true">${pad(i + 1)}<small>/${pad(n)}</small></span>
-            ${pick(g.caption, lang) ? `<span class="hm-archive__cap">${esc(pick(g.caption, lang))}</span>` : ''}
-          </a>
-        </li>`).join('')}
-      </ul>
-    </div>
+    ${first.length ? renderStrip({ items: first, lang, dir: 'ltr', label: firstLabel || t.gallery, note: '' }) : ''}
+    ${second.length ? renderStrip({ items: second, lang, dir: 'rtl', label: pick(reel.collection, lang) || t.archive, note: pick(reel.note, lang) }) : ''}
   </section>`;
 }
 

@@ -501,7 +501,9 @@
   }
   img.addEventListener('load', function () { img.classList.add('is-in'); });
   function open(list, a) {
-    links = [].slice.call(list.querySelectorAll('a[href]'));
+    // Looping strips repeat their photos; the copies point at the originals.
+    links = [].slice.call(list.querySelectorAll('a[href]:not([data-dup-of])'));
+    if (a.hasAttribute('data-dup-of')) a = links[+a.getAttribute('data-dup-of')] || links[0];
     opener = a;
     show(links.indexOf(a));
     dlg.showModal();
