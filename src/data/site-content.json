@@ -1695,80 +1695,80 @@
     },
     "gallery": [
       {
-        "image": "/src/assets/images/hero/curtain-call-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0012.JPG",
         "caption": {
-          "en": "Curtain call after a full house",
-          "hi": "भरे सभागार के बाद कर्टन कॉल"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "Curtain call after a full house",
-          "hi": "भरे सभागार के बाद कर्टन कॉल"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/rehearsal-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0011.JPG",
         "caption": {
-          "en": "Rehearsal night in Jashpur",
-          "hi": "जशपुर में रिहर्सल की रात"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "Rehearsal night in Jashpur",
-          "hi": "जशपुर में रिहर्सल की रात"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/mandar-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0018.JPG",
         "caption": {
-          "en": "Mandar rhythms for the Panthi opening",
-          "hi": "पंथी उद्घाटन के लिए मांदर की थाप"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "Mandar rhythms for the Panthi opening",
-          "hi": "पंथी उद्घाटन के लिए मांदर की थाप"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/lantern-night-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0031.JPG",
         "caption": {
-          "en": "Lantern night at the festival grounds",
-          "hi": "समारोह स्थल पर लालटेन की रात"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "Lantern night at the festival grounds",
-          "hi": "समारोह स्थल पर लालटेन की रात"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/mask-workshop-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0007.JPG",
         "caption": {
-          "en": "Mask-making at the Ullas camp",
-          "hi": "उल्लास शिविर में मुखौटा निर्माण"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "Mask-making at the Ullas camp",
-          "hi": "उल्लास शिविर में मुखौटा निर्माण"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/poet-mic-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0040.JPG",
         "caption": {
-          "en": "An open mic at Kavita Utsav",
-          "hi": "कविता उत्सव में खुला मंच"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "An open mic at Kavita Utsav",
-          "hi": "कविता उत्सव में खुला मंच"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       },
       {
-        "image": "/src/assets/images/hero/kids-circle-banner-1280.jpg",
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0036.JPG",
         "caption": {
-          "en": "The children's circle, first day of camp",
-          "hi": "शिविर के पहले दिन बच्चों का घेरा"
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
         },
         "alt": {
-          "en": "The children's circle, first day of camp",
-          "hi": "शिविर के पहले दिन बच्चों का घेरा"
+          "en": "A scene from Vincent: A Flashback on stage",
+          "hi": "मंच पर विंसेंट: अ फ्लैशबैक का एक दृश्य"
         }
       }
     ],
@@ -1808,6 +1808,84 @@
         "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0023.JPG",
         "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0036.JPG",
         "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0037.JPG"
+      ]
+    },
+    "galleryReel": {
+      "collection": {
+        "en": "Meri Maati Mera Desh",
+        "hi": "मेरी माटी मेरा देश"
+      },
+      "note": {
+        "en": "Jashpur, 2023",
+        "hi": "जशपुर, 2023"
+      },
+      "photos": [
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/jashpur%20-%20Copy.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Jashpur",
+            "hi": "मेरी माटी मेरा देश · जशपुर"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Jashpur",
+            "hi": "जशपुर में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        },
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/jashpur.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Jashpur",
+            "hi": "मेरी माटी मेरा देश · जशपुर"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Jashpur",
+            "hi": "जशपुर में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        },
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Bagicha%203%20-%20Copy.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Bagicha",
+            "hi": "मेरी माटी मेरा देश · बगीचा"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Bagicha",
+            "hi": "बगीचा में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        },
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/WhatsApp%20Image%202023-10-08%20at%2016.36.50%20-%20Copy.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Jashpur district",
+            "hi": "मेरी माटी मेरा देश · जशपुर ज़िला"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Jashpur district",
+            "hi": "जशपुर ज़िला में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        },
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Gamhriya%20111%20-%20Copy.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Gamhariya",
+            "hi": "मेरी माटी मेरा देश · गम्हरिया"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Gamhariya",
+            "hi": "गम्हरिया में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        },
+        {
+          "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/WhatsApp%20Image%202023-10-08%20at%2016.35.18.jpeg",
+          "caption": {
+            "en": "Meri Maati Mera Desh · Jashpur district",
+            "hi": "मेरी माटी मेरा देश · जशपुर ज़िला"
+          },
+          "alt": {
+            "en": "Meri Maati Mera Desh programme in Jashpur district",
+            "hi": "जशपुर ज़िला में मेरी माटी मेरा देश कार्यक्रम"
+          }
+        }
       ]
     }
   },

@@ -528,3 +528,67 @@
     });
   });
 })();
+
+// Film-strip reels ([data-cc-reel]): scroll-snapped strip with previous/next
+// buttons, a frame counter, mouse drag (touch and trackpads scroll natively),
+// and arrow keys when focused. A drag never opens the photo viewer.
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(document.querySelectorAll('[data-cc-reel]'), function (track) {
+    var section = track.closest('section') || document;
+    var frames = [].slice.call(track.children);
+    var prev = section.querySelector('[data-reel-prev]');
+    var next = section.querySelector('[data-reel-next]');
+    var current = section.querySelector('[data-reel-current]');
+    if (!frames.length) return;
+    function lead() { return parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0; }
+    function index() {
+      var x = track.scrollLeft + lead() + 4, best = 0;
+      frames.forEach(function (f, i) { if (f.offsetLeft - track.offsetLeft <= x) best = i; });
+      return best;
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(frames.length - 1, i));
+      track.scrollTo({ left: frames[i].offsetLeft - track.offsetLeft - lead(), behavior: reduce ? 'auto' : 'smooth' });
+    }
+    function update() {
+      var i = index();
+      if (current) current.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+      var max = track.scrollWidth - track.clientWidth - 2;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max;
+    }
+    if (prev) prev.addEventListener('click', function () { go(index() - 1); });
+    if (next) next.addEventListener('click', function () { go(index() + 1); });
+    track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    track.addEventListener('keydown', function (e) {
+      if (e.target !== track) return;
+      if (e.key === 'ArrowRight') { go(index() + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { go(index() - 1); e.preventDefault(); }
+    });
+    // Mouse drag
+    var down = false, moved = false, sx = 0, sl = 0;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (!moved && Math.abs(dx) > 6) { moved = true; track.classList.add('is-dragging'); }
+      if (moved) track.scrollLeft = sl - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return;
+      down = false;
+      if (moved) {
+        track.classList.remove('is-dragging');
+        go(index() + (track.scrollLeft - (frames[index()].offsetLeft - track.offsetLeft - lead()) > frames[0].offsetWidth / 2 ? 1 : 0));
+      }
+    });
+    track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    update();
+  });
+})();
