@@ -313,3 +313,26 @@
     el.textContent = labels[status];
   });
 })();
+
+// "Starts in N days" / "On now" under home page event tickets.
+(function () {
+  'use strict';
+  var L = {
+    en: { now: 'On now', today: 'Starts today', tomorrow: 'Starts tomorrow', days: 'Starts in {n} days', months: 'In about {n} months' },
+    hi: { now: 'अभी जारी है', today: 'आज से शुरू', tomorrow: 'कल से शुरू', days: '{n} दिन में शुरू', months: 'लगभग {n} महीने में' },
+  };
+  var now = new Date();
+  var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  [].forEach.call(document.querySelectorAll('[data-cc-countdown]'), function (el) {
+    var start = Date.parse(el.getAttribute('data-start'));
+    var end = Date.parse(el.getAttribute('data-end'));
+    var t = L[el.getAttribute('data-lang')] || L.en;
+    if (isNaN(start) || end < today) return;
+    var days = Math.round((start - today) / 86400000);
+    var text = days <= 0 ? t.now : days === 1 ? t.tomorrow : days <= 60 ? t.days.replace('{n}', days) : t.months.replace('{n}', Math.round(days / 30));
+    if (days === 0) text = t.today;
+    if (start < today) text = t.now;
+    el.textContent = text;
+    el.hidden = false;
+  });
+})();

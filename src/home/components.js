@@ -3,7 +3,7 @@
 // magazine, festivals and camps come from their own sections of siteData.
 
 const { esc, pick, localHref, icon, picture, sectionHead, formButton } = require('../site/ui.js');
-const { upcoming, dateBadge, statusOf, statusTag } = require('../site/events.js');
+const { upcoming, dateBadge, parseEnd, statusOf, statusTag } = require('../site/events.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
 const { renderHeroSlider } = require('./hero.js');
 
@@ -15,7 +15,7 @@ const T = {
     newIssue: 'New issue', readFree: (n) => `Read ${n} pages free`, buyFor: (p) => `Buy · ${p}`, coverAlt: (m) => `Cover of the ${m} issue`,
     ourPlays: 'Our plays', ourPlaysSub: 'Available to book for festivals, colleges and venues.',
     allPlays: 'All plays', book: 'Book this play', details: 'Details', artAlt: (t) => `Illustration for ${t}`,
-    comingUp: 'Coming up', fullCalendar: "See what's on", pass: 'Reserve free pass', register: 'Register child',
+    comingUp: 'Coming up', comingUpSub: 'Festivals and camps in Jashpur. Entry to our festivals is free.', details: 'Details', kindFestival: 'Festival', kindCamp: 'Summer camp', fullCalendar: "See what's on", pass: 'Reserve free pass', register: 'Register child',
     nothingTitle: 'New dates coming soon', nothingText: 'Leave your email below to hear about shows, festivals and camps first.', getUpdates: 'Get updates',
     roots: 'Our roots', rootsSub: 'Three folk traditions shape everything we make.',
     critics: 'What critics say', explore: 'Explore',
@@ -25,7 +25,7 @@ const T = {
     newIssue: 'नया अंक', readFree: (n) => `${n} पृष्ठ निःशुल्क पढ़ें`, buyFor: (p) => `खरीदें · ${p}`, coverAlt: (m) => `${m} अंक का मुखपृष्ठ`,
     ourPlays: 'हमारे नाटक', ourPlaysSub: 'समारोहों, कॉलेजों और सभागारों के लिए बुकिंग उपलब्ध।',
     allPlays: 'सभी नाटक', book: 'नाटक बुक करें', details: 'विवरण', artAlt: (t) => `${t} का चित्रांकन`,
-    comingUp: 'आगामी', fullCalendar: 'सभी कार्यक्रम', pass: 'निःशुल्क पास', register: 'पंजीकरण',
+    comingUp: 'आगामी', comingUpSub: 'जशपुर में समारोह और शिविर। हमारे समारोहों में प्रवेश निःशुल्क है।', details: 'विवरण', kindFestival: 'समारोह', kindCamp: 'समर कैम्प', fullCalendar: 'सभी कार्यक्रम', pass: 'निःशुल्क पास', register: 'पंजीकरण',
     nothingTitle: 'नई तिथियां जल्द', nothingText: 'नाटक, समारोह और शिविर की खबर सबसे पहले पाने के लिए नीचे ईमेल दें।', getUpdates: 'सूचना पाएं',
     roots: 'हमारी जड़ें', rootsSub: 'तीन लोक परंपराएं हमारे हर काम को आकार देती हैं।',
     critics: 'समीक्षक क्या कहते हैं', explore: 'देखें',
@@ -172,31 +172,51 @@ function renderMagazineFeature(ctx) {
   </section>`;
 }
 
+// Coming up: the next three events as theatre tickets. The stub carries the
+// date, status and type; site.js fills in the "starts in N days" countdown.
 function renderComingUp(ctx) {
   const { lang, siteData } = ctx;
   const t = T[lang];
   const items = upcoming(siteData).slice(0, 3);
+  const locale = lang === 'hi' ? 'hi-IN' : 'en-IN';
+  const monthYear = (d) => new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(d);
+  const weekday = (d) => new Intl.DateTimeFormat(locale, { weekday: 'long', timeZone: 'UTC' }).format(d);
   const cards = items.map((item) => {
     const d = dateBadge(item.start, lang);
     const isCamp = item.kind === 'camp';
+    const end = parseEnd(item.dates.en);
+    const cta = isCamp
+      ? formButton({ lang, form: 'camp', label: t.register, size: 'sm' })
+      : formButton({ lang, form: 'pass', label: t.pass, size: 'sm', prefill: { festival: item.id } });
+    const details = isCamp ? `/${lang}/training-workshops/` : `/${lang}/events/#${esc(item.id)}`;
     return `
-        <li class="cc-event">
-          <time class="cc-event__date" datetime="${d.iso}"><span class="cc-event__day">${esc(d.day)}</span><span class="cc-event__month">${esc(d.month)}</span></time>
-          <div class="cc-event__body">
-            ${statusTag(item.dates, item.statusTag, lang)}
-            <h3 class="cc-h3">${esc(pick(item.title, lang))}</h3>
-            <p class="cc-muted">${esc(pick(item.dates, lang))} · ${esc(pick(item.venue, lang))}</p>
-            ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : `<div class="cc-actions">${isCamp
-              ? formButton({ lang, form: 'camp', label: t.register, variant: 'secondary', size: 'sm' })
-              : formButton({ lang, form: 'pass', label: t.pass, variant: 'secondary', size: 'sm', prefill: { festival: item.id } })}</div>`}
+        <li class="hm-ticket hm-ticket--${isCamp ? 'camp' : 'festival'}">
+          <div class="hm-ticket__stub">
+            <time class="hm-ticket__date" datetime="${d.iso}">
+              <span class="hm-ticket__day">${esc(d.day)}</span>
+              <span class="hm-ticket__when"><span>${esc(monthYear(item.start))}</span><span>${esc(weekday(item.start))}</span></span>
+            </time>
+            <div class="hm-ticket__tags">${statusTag(item.dates, item.statusTag, lang)}<span class="hm-ticket__kind">${isCamp ? t.kindCamp : t.kindFestival}</span></div>
+          </div>
+          <div class="hm-ticket__body">
+            <h3 class="hm-ticket__title"><a href="${details}">${esc(pick(item.title, lang))}</a></h3>
+            <ul class="hm-ticket__facts">
+              <li>${icon('calendar')}<span>${esc(pick(item.dates, lang))}</span></li>
+              <li>${icon('pin')}<span>${esc(pick(item.venue, lang))}</span></li>
+            </ul>
+            <p class="hm-ticket__count" data-cc-countdown data-start="${d.iso}" data-end="${end.toISOString().slice(0, 10)}" data-lang="${lang}" hidden></p>
+            <div class="hm-ticket__actions">
+              ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : cta}
+              <a class="hm-ticket__more" href="${details}">${t.details}${icon('arrowRight')}</a>
+            </div>
           </div>
         </li>`;
   }).join('');
   return `
-  <section class="cc-section cc-section--tint" aria-labelledby="hm-upcoming-title">
+  <section class="cc-section cc-section--tint hm-upcoming" aria-labelledby="hm-upcoming-title">
     <div class="cc-wrap">
-      ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
-      ${items.length ? `<ol class="cc-events">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
+      ${sectionHead(t.comingUp, { id: 'hm-upcoming-title', sub: t.comingUpSub, link: { href: `/${lang}/whats-on/`, label: t.fullCalendar } })}
+      ${items.length ? `<ol class="hm-tickets">${cards}</ol>` : `<div class="cc-empty"><h3 class="cc-h3">${t.nothingTitle}</h3><p>${t.nothingText}</p><div class="cc-actions"><a class="cc-btn cc-btn--secondary" href="#newsletter">${t.getUpdates}</a></div></div>`}
     </div>
   </section>`;
 }
