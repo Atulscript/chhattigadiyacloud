@@ -354,7 +354,7 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window)) return;
   var root = document.documentElement;
-  var sel = '.cc-section-head, .hm-card, .cc-ticket, .hm-play, .hm-root, .hm-critic, .hm-artist, .hm-gallery__item, .cc-card, .cc-feature, .cc-event, .cc-stat, .cc-callout, .hm-mag__grid > *, .cc-signup__panel';
+  var sel = '.cc-section-head, .hm-card, .cc-ticket, .hm-play, .hm-root, .hm-critic, .hm-artist, .gl-item, .cc-card, .cc-feature, .cc-event, .cc-stat, .cc-callout, .hm-mag__grid > *, .cc-signup__panel';
   var items = [].slice.call(document.querySelectorAll(sel)).filter(function (el) {
     if (el.closest('.hs, dialog')) return false;
     // Items in a sideways scroller (gallery, critics on phones) stay put.

@@ -2287,10 +2287,347 @@
         "focus": "68% 50%",
         "focusMobile": "50% 30%"
       }
+    ],
+    "gallery": [
+      {
+        "active": true,
+        "order": 1,
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0029.JPG?tr=w-1920,q-72,f-auto",
+        "imageMobile": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0029.JPG?tr=w-900,h-1100,c-maintain_ratio,q-72,f-auto",
+        "imageAlt": {
+          "en": "A scene from Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक का एक दृश्य"
+        },
+        "focus": "50% 45%",
+        "focusMobile": "50% 40%"
+      },
+      {
+        "active": true,
+        "order": 2,
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Bagicha%203%20-%20Copy.jpeg?tr=w-1920,q-72,f-auto",
+        "imageMobile": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Bagicha%203%20-%20Copy.jpeg?tr=w-900,h-1100,c-maintain_ratio,q-72,f-auto",
+        "imageAlt": {
+          "en": "Meri Maati Mera Desh programme",
+          "hi": "मेरी माटी मेरा देश कार्यक्रम"
+        },
+        "focus": "50% 45%",
+        "focusMobile": "50% 40%"
+      },
+      {
+        "active": true,
+        "order": 3,
+        "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0021.JPG?tr=w-1920,q-72,f-auto",
+        "imageMobile": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0021.JPG?tr=w-900,h-1100,c-maintain_ratio,q-72,f-auto",
+        "imageAlt": {
+          "en": "A scene from Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक का एक दृश्य"
+        },
+        "focus": "50% 45%",
+        "focusMobile": "50% 40%"
+      }
     ]
   },
   "pageBannerSettings": {
     "autoplay": true,
     "interval": 6
+  },
+  "gallery": {
+    "lead": {
+      "en": "Photographs from our productions, festivals, rehearsals and programmes across Chhattisgarh.",
+      "hi": "छत्तीसगढ़ भर में हमारी प्रस्तुतियों, समारोहों, रिहर्सल और कार्यक्रमों की तस्वीरें।"
+    },
+    "albums": [
+      {
+        "id": "vincent-a-flashback",
+        "title": {
+          "en": "Vincent: A Flashback",
+          "hi": "विंसेंट: अ फ्लैशबैक"
+        },
+        "kind": {
+          "en": "Production",
+          "hi": "प्रस्तुति"
+        },
+        "note": {
+          "en": "On stage",
+          "hi": "मंच पर"
+        },
+        "accent": "vermilion",
+        "photos": [
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0005.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0041.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0019.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0012.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0009.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0029.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0034.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0011.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0010.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0017.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0027.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0018.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0033.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0032.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0021.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0031.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0003.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0025.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0039.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0007.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0002.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0038.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0040.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0035.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0023.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0036.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/vincent/DSC_0037.JPG",
+            "caption": {
+              "en": "Vincent: A Flashback",
+              "hi": "विंसेंट: अ फ्लैशबैक"
+            }
+          }
+        ]
+      },
+      {
+        "id": "meri-maati-mera-desh",
+        "title": {
+          "en": "Meri Maati Mera Desh",
+          "hi": "मेरी माटी मेरा देश"
+        },
+        "kind": {
+          "en": "Programme",
+          "hi": "कार्यक्रम"
+        },
+        "note": {
+          "en": "Jashpur, 2023",
+          "hi": "जशपुर, 2023"
+        },
+        "accent": "saffron",
+        "photos": [
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/jashpur%20-%20Copy.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Jashpur",
+              "hi": "मेरी माटी मेरा देश · जशपुर"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Jashpur",
+              "hi": "जशपुर में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/jashpur.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Jashpur",
+              "hi": "मेरी माटी मेरा देश · जशपुर"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Jashpur",
+              "hi": "जशपुर में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Bagicha%203%20-%20Copy.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Bagicha",
+              "hi": "मेरी माटी मेरा देश · बगीचा"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Bagicha",
+              "hi": "बगीचा में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/WhatsApp%20Image%202023-10-08%20at%2016.36.50%20-%20Copy.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Jashpur district",
+              "hi": "मेरी माटी मेरा देश · जशपुर ज़िला"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Jashpur district",
+              "hi": "जशपुर ज़िला में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/Gamhriya%20111%20-%20Copy.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Gamhariya",
+              "hi": "मेरी माटी मेरा देश · गम्हरिया"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Gamhariya",
+              "hi": "गम्हरिया में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          },
+          {
+            "image": "https://ik.imagekit.io/txkrlazpm/GCcloud/Meri%20Maati%20Mera%20Desh/WhatsApp%20Image%202023-10-08%20at%2016.35.18.jpeg",
+            "caption": {
+              "en": "Meri Maati Mera Desh · Jashpur district",
+              "hi": "मेरी माटी मेरा देश · जशपुर ज़िला"
+            },
+            "alt": {
+              "en": "Meri Maati Mera Desh programme in Jashpur district",
+              "hi": "जशपुर ज़िला में मेरी माटी मेरा देश कार्यक्रम"
+            }
+          }
+        ]
+      }
+    ]
   }
 }

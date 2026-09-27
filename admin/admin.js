@@ -2049,6 +2049,9 @@ function renderPagesManager() {
       <button type="button" class="pages-subnav-btn ${currentSub === 'brand' ? 'active' : ''}" onclick="switchSubPage('brand')">
         📞 Brand & Contacts
       </button>
+      <button type="button" class="pages-subnav-btn ${currentSub === 'gallery' ? 'active' : ''}" onclick="switchSubPage('gallery')">
+        📸 Gallery
+      </button>
       <button type="button" class="pages-subnav-btn ${currentSub === 'banners' ? 'active' : ''}" onclick="switchSubPage('banners')">
         🖼️ Page Banners
       </button>
@@ -2095,11 +2098,112 @@ function renderCurrentSubPage() {
     case 'banners':
       renderPageBannersEditor(host);
       break;
+    case 'gallery':
+      renderGalleryPageEditor(host);
+      break;
     default:
       renderHomepageEditor(host);
       break;
   }
 }
+
+// ----------------------------------------------------
+// GALLERY PAGE (siteData.gallery.albums)
+// ----------------------------------------------------
+const GALLERY_ACCENTS = [['vermilion', 'Vermilion'], ['saffron', 'Saffron'], ['teal', 'Teal'], ['magenta', 'Magenta'], ['indigo', 'Indigo'], ['forest', 'Forest green']];
+function galleryAlbums() {
+  if (!state.content.gallery) state.content.gallery = { lead: { en: '', hi: '' }, albums: [] };
+  if (!Array.isArray(state.content.gallery.albums)) state.content.gallery.albums = [];
+  return state.content.gallery.albums;
+}
+function albumPhotoUrl(p) { return typeof p === 'string' ? p : (p && p.image) || ''; }
+function renderGalleryPageEditor(host) {
+  const albums = galleryAlbums();
+  const lead = state.content.gallery.lead || {};
+  const bi = (label, a, field) => `
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">${label}</span></div>
+        <div class="bilingual-grid">
+          <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(a[field] && a[field].en || '')}" onchange="updateAlbumText(${albums.indexOf(a)}, '${field}', 'en', this.value)"></div>
+          <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(a[field] && a[field].hi || '')}" onchange="updateAlbumText(${albums.indexOf(a)}, '${field}', 'hi', this.value)"></div>
+        </div>
+      </div>`;
+  host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">📸 Gallery page — albums (${albums.length})</div>
+          <div class="section-group-desc">Each album gets its own colour, a chip in the album bar and a masonry wall of photos. Paste photo links one per line (ImageKit links are resized automatically). The page banner is under Page Banners.</div>
+        </div>
+        <button type="button" class="btn-studio btn-studio-primary" onclick="addAlbum()">+ Add album</button>
+      </div>
+      <div class="bilingual-tabs-wrap">
+        <div class="bilingual-header"><span class="bilingual-title">Intro line under the page title</span></div>
+        <div class="bilingual-grid">
+          <div><span class="bilingual-col-tag bilingual-tag-en">English</span><input type="text" class="form-control" value="${escapeHtml(lead.en || '')}" onchange="updateGalleryLead('en', this.value)"></div>
+          <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><input type="text" class="form-control" value="${escapeHtml(lead.hi || '')}" onchange="updateGalleryLead('hi', this.value)"></div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.25rem;">
+        ${albums.map((a, i) => `
+          <div class="tile-editor-box">
+            <span class="tile-editor-badge">Album #${i + 1}: ${escapeHtml(a.title && a.title.en || 'Untitled')} · ${(a.photos || []).length} photos</span>
+            ${bi('Album title', a, 'title')}
+            ${bi('Type (e.g. Production, Festival, Workshop)', a, 'kind')}
+            ${bi('Note (e.g. Jashpur, 2023)', a, 'note')}
+            <label class="form-group" style="display:block; margin:0.75rem 0;">
+              <span class="form-label" style="font-size:0.75rem;">Accent colour</span>
+              <select class="form-control" style="max-width:220px;" onchange="updateAlbumField(${i}, 'accent', this.value)">
+                ${GALLERY_ACCENTS.map(([v, l]) => `<option value="${v}"${a.accent === v ? ' selected' : ''}>${l}</option>`).join('')}
+              </select>
+            </label>
+            <div class="form-group">
+              <label class="form-label" style="font-size:0.75rem;">Photo links — one per line, in display order (captions default to the album title)</label>
+              <textarea class="form-control" style="min-height:150px; font-family:monospace; font-size:0.78rem;" onchange="updateAlbumPhotos(${i}, this.value)">${escapeHtml((a.photos || []).map(albumPhotoUrl).join('\n'))}</textarea>
+            </div>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button type="button" class="btn-studio btn-studio-secondary" ${i === 0 ? 'disabled' : ''} onclick="moveAlbum(${i}, -1)">↑ Move up</button>
+              <button type="button" class="btn-studio btn-studio-secondary" ${i === albums.length - 1 ? 'disabled' : ''} onclick="moveAlbum(${i}, 1)">↓ Move down</button>
+              <button type="button" class="btn-studio btn-studio-secondary" style="color:var(--studio-red);" onclick="removeAlbum(${i})">Remove album</button>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+window.updateGalleryLead = function(lang, value) { galleryAlbums(); state.content.gallery.lead = Object.assign({ en: '', hi: '' }, state.content.gallery.lead, { [lang]: value }); markDirty(true); };
+window.addAlbum = function() {
+  const albums = galleryAlbums();
+  albums.push({ id: `album-${Date.now()}`, title: { en: 'New album', hi: 'नया एल्बम' }, kind: { en: '', hi: '' }, note: { en: '', hi: '' }, accent: GALLERY_ACCENTS[albums.length % GALLERY_ACCENTS.length][0], photos: [] });
+  markDirty(true); rerenderKeepingScroll();
+};
+window.updateAlbumText = function(i, field, lang, value) {
+  const a = galleryAlbums()[i]; if (!a) return;
+  if (!a[field] || typeof a[field] !== 'object') a[field] = { en: '', hi: '' };
+  a[field][lang] = value;
+  if (field === 'title' && lang === 'en' && /^album-\d+$/.test(a.id || '')) a.id = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || a.id;
+  markDirty(true);
+};
+window.updateAlbumField = function(i, field, value) { const a = galleryAlbums()[i]; if (!a) return; a[field] = value; markDirty(true); };
+window.updateAlbumPhotos = function(i, value) {
+  const a = galleryAlbums()[i]; if (!a) return;
+  // Keep captions/alt text of photos that are still in the list.
+  const known = {};
+  (a.photos || []).forEach((p) => { if (p && typeof p === 'object' && p.image) known[p.image] = p; });
+  a.photos = value.split(/\s*\n\s*/).map((u) => u.trim()).filter(Boolean).map((u) => known[u] || u);
+  markDirty(true); rerenderKeepingScroll();
+};
+window.moveAlbum = function(i, dir) {
+  const albums = galleryAlbums(); const to = i + dir;
+  if (to < 0 || to >= albums.length) return;
+  const [a] = albums.splice(i, 1); albums.splice(to, 0, a);
+  markDirty(true); rerenderKeepingScroll();
+};
+window.removeAlbum = function(i) {
+  const a = galleryAlbums()[i]; if (!a) return;
+  showConfirmModal('Remove album', `Remove the album "${a.title && a.title.en || ''}" and its ${(a.photos || []).length} photo links from the Gallery page?`, () => {
+    galleryAlbums().splice(i, 1); markDirty(true); rerenderKeepingScroll(); showToast('Album removed.', 'success');
+  }, 'Remove');
+};
 
 // ----------------------------------------------------
 // 4.1 HOMEPAGE COMPLETE VISUAL CONTENT EDITOR
@@ -2886,7 +2990,7 @@ window.removeHeroSlide = function(index) {
 // images are skipped; with no active images the page uses its plain header.
 const BANNER_PAGES = [
   ['whats-on', "What's On"], ['productions', 'Plays'], ['events', 'Festivals'], ['training-workshops', 'Workshops'],
-  ['magazine', 'Magazine'], ['about', 'About'], ['blog', 'Blog'], ['press', 'Press kit'], ['support', 'Support us'], ['contact', 'Contact']
+  ['magazine', 'Magazine'], ['gallery', 'Gallery'], ['about', 'About'], ['blog', 'Blog'], ['press', 'Press kit'], ['support', 'Support us'], ['contact', 'Contact']
 ];
 const BANNER_ART = ['lantern-night', 'creative-stage', 'theatre-seats', 'rehearsal', 'stage-alive', 'curtain-call', 'folk-celebration',
   'poet-mic', 'mandar', 'kids-circle', 'mask-workshop', 'gond-tree', 'backstage', 'sal-sunrise', 'masks-stories', 'classical-dance', 'diyas'];
