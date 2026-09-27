@@ -39,9 +39,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="../src/site/site.css?v=18">
-  <link rel="stylesheet" href="../src/site/art-banner.css?v=18">
-  <link rel="stylesheet" href="../src/home/home.css?v=18">
+  <link rel="stylesheet" href="../src/site/site.css?v=19">
+  <link rel="stylesheet" href="../src/site/art-banner.css?v=19">
+  <link rel="stylesheet" href="../src/home/home.css?v=19">
   <link rel="preload" as="image" href="../src/assets/images/hero/stage-alive-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="../src/assets/images/hero/stage-alive.webp" imagesrcset="../src/assets/images/hero/stage-alive-1280.webp 1280w, ../src/assets/images/hero/stage-alive.webp 1920w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
@@ -445,7 +445,7 @@
     </div>
   </section>
     
-  <section class="cc-section" aria-labelledby="hm-roots-title">
+  <section class="cc-section hm-roots" aria-labelledby="hm-roots-title">
     <div class="cc-wrap">
       
       <div class="cc-section-head">
@@ -455,53 +455,73 @@
         </div>
         
       </div>
-      <ul class="cc-grid cc-grid--3">
+      <ol class="hm-roots__grid">
         
-        <li class="cc-card"><div class="cc-card__body">
-          <span class="cc-tag cc-tag--clay" style="align-self:flex-start; padding:0.5rem"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v7a8 8 0 0 1-16 0z"/><path d="M8.5 9.5h1.5M14 9.5h1.5M9 14.5a3.5 3.5 0 0 0 6 0"/></svg></span>
-          <p class="cc-kicker">Folk comedy and satire</p>
-          <h3 class="cc-h3">Nacha &amp; Gammat</h3>
-          <p class="cc-card__text">Open-air folk theatre that uses sharp humour and song to question power.</p>
-        </div></li>
-        <li class="cc-card"><div class="cc-card__body">
-          <span class="cc-tag cc-tag--clay" style="align-self:flex-start; padding:0.5rem"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="7" rx="8" ry="3"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 12l8 3 8-3"/></svg></span>
-          <p class="cc-kicker">Dance and rhythm</p>
-          <h3 class="cc-h3">Panthi &amp; Karma</h3>
-          <p class="cc-card__text">Mandar-driven dances that shape our actors' movement and energy.</p>
-        </div></li>
-        <li class="cc-card"><div class="cc-card__body">
-          <span class="cc-tag cc-tag--clay" style="align-self:flex-start; padding:0.5rem"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.2-1.6-.4-1 .2-2.4 1.6-2.4H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span>
-          <p class="cc-kicker">Craft and design</p>
-          <h3 class="cc-h3">Dhokra &amp; Murals</h3>
-          <p class="cc-card__text">Bell metal, bamboo and ochre murals inspire our sets and costumes.</p>
-        </div></li>
-      </ul>
+        <li class="hm-root hm-root--clay">
+          <div class="hm-root__art" aria-hidden="true">
+            <span class="hm-root__num">01</span>
+            <span class="hm-root__medal"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16v7a8 8 0 0 1-16 0z"/><path d="M8.5 9.5h1.5M14 9.5h1.5M9 14.5a3.5 3.5 0 0 0 6 0"/></svg></span>
+          </div>
+          <div class="hm-root__body">
+            <p class="hm-root__kicker">Folk comedy and satire</p>
+            <h3 class="hm-root__title">Nacha &amp; Gammat</h3>
+            <p class="hm-root__text">Open-air folk theatre that uses sharp humour and song to question power.</p>
+          </div>
+        </li>
+        <li class="hm-root hm-root--saffron">
+          <div class="hm-root__art" aria-hidden="true">
+            <span class="hm-root__num">02</span>
+            <span class="hm-root__medal"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="7" rx="8" ry="3"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 12l8 3 8-3"/></svg></span>
+          </div>
+          <div class="hm-root__body">
+            <p class="hm-root__kicker">Dance and rhythm</p>
+            <h3 class="hm-root__title">Panthi &amp; Karma</h3>
+            <p class="hm-root__text">Mandar-driven dances that shape our actors' movement and energy.</p>
+          </div>
+        </li>
+        <li class="hm-root hm-root--forest">
+          <div class="hm-root__art" aria-hidden="true">
+            <span class="hm-root__num">03</span>
+            <span class="hm-root__medal"><svg class="cc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.2-1.6-.4-1 .2-2.4 1.6-2.4H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></span>
+          </div>
+          <div class="hm-root__body">
+            <p class="hm-root__kicker">Craft and design</p>
+            <h3 class="hm-root__title">Dhokra &amp; Murals</h3>
+            <p class="hm-root__text">Bell metal, bamboo and ochre murals inspire our sets and costumes.</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
     
-  <section class="cc-section" aria-labelledby="hm-critics-title">
+  <section class="cc-section hm-critics" aria-labelledby="hm-critics-title">
     <div class="cc-wrap">
-      
-      <div class="cc-section-head">
-        <div>
-          <h2 class="cc-h2" id="hm-critics-title">What critics say</h2>
-          
-        </div>
-        
+      <div class="hm-critics__head">
+        <span class="hm-critics__mark" aria-hidden="true">“</span>
+        <h2 class="cc-h2" id="hm-critics-title">What critics say</h2>
       </div>
-      <ul class="cc-grid cc-grid--3">
+      <ul class="hm-critics__grid">
         
-        <li><figure class="cc-quote">
-          <blockquote lang="en">“A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative, bridging European expressionism with Indian folk earthiness.”</blockquote>
-          <figcaption><strong>Natya Varta</strong><span>Review of Vincent</span></figcaption>
+        <li><figure class="hm-critic">
+          <blockquote>A masterclass in organic folk staging. The Mandar beats breathe raw life into the narrative, bridging European expressionism with Indian folk earthiness.</blockquote>
+          <figcaption>
+            <span class="hm-critic__mono" aria-hidden="true">NV</span>
+            <span><strong>Natya Varta</strong><span>Review of Vincent</span></span>
+          </figcaption>
         </figure></li>
-        <li><figure class="cc-quote">
-          <blockquote lang="en">“Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak — bringing the rural migrant reality to national consciousness.”</blockquote>
-          <figcaption><strong>Rang Manch Samiksha</strong><span>Review of Gabar Ghichor</span></figcaption>
+        <li><figure class="hm-critic">
+          <blockquote>Uproarious laughter with razor-sharp social conscience. Nacha at its triumphant peak — bringing the rural migrant reality to national consciousness.</blockquote>
+          <figcaption>
+            <span class="hm-critic__mono" aria-hidden="true">RM</span>
+            <span><strong>Rang Manch Samiksha</strong><span>Review of Gabar Ghichor</span></span>
+          </figcaption>
         </figure></li>
-        <li><figure class="cc-quote">
-          <blockquote lang="en">“Chhattisgadhiya Cloud proves that the most powerful contemporary Indian theatre is rooted directly in tribal soil, not urban imitation.”</blockquote>
-          <figcaption><strong>The Cultural Chronicle</strong><span>Festival Editorial</span></figcaption>
+        <li><figure class="hm-critic">
+          <blockquote>Chhattisgadhiya Cloud proves that the most powerful contemporary Indian theatre is rooted directly in tribal soil, not urban imitation.</blockquote>
+          <figcaption>
+            <span class="hm-critic__mono" aria-hidden="true">CC</span>
+            <span><strong>The Cultural Chronicle</strong><span>Festival Editorial</span></span>
+          </figcaption>
         </figure></li>
       </ul>
     </div>
@@ -868,8 +888,8 @@
       </div>
     </div>
   </dialog>
-  <script src="../src/site/site.js?v=18" defer></script>
-  <script src="../src/site/art-banner.js?v=18" defer></script>
-  <script src="../src/home/hero-slider.js?v=18" defer></script>
+  <script src="../src/site/site.js?v=19" defer></script>
+  <script src="../src/site/art-banner.js?v=19" defer></script>
+  <script src="../src/home/hero-slider.js?v=19" defer></script>
 </body>
 </html>

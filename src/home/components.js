@@ -221,43 +221,62 @@ function renderComingUp(ctx) {
   </section>`;
 }
 
+// Our roots: one colour and one folk pattern per tradition (theatre / dance /
+// craft), a numbered art band with the icon in a medallion, then the text.
 function renderRoots(ctx) {
   const { lang, hp } = ctx;
   const t = T[lang];
   const items = hp.traditions || [];
   if (!items.length) return '';
   const icons = ['mask', 'drum', 'palette'];
+  const tones = ['clay', 'saffron', 'forest'];
   return `
-  <section class="cc-section" aria-labelledby="hm-roots-title">
+  <section class="cc-section hm-roots" aria-labelledby="hm-roots-title">
     <div class="cc-wrap">
       ${sectionHead(t.roots, { id: 'hm-roots-title', sub: t.rootsSub })}
-      <ul class="cc-grid cc-grid--3">
+      <ol class="hm-roots__grid">
         ${items.map((r, i) => `
-        <li class="cc-card"><div class="cc-card__body">
-          ${r.image ? `<img class="hm-root__img" src="${esc(r.image)}" alt="${esc(pick(r.title, lang))}" loading="lazy">` : `<span class="cc-tag cc-tag--clay" style="align-self:flex-start; padding:0.5rem">${icon(icons[i % icons.length])}</span>`}
-          <p class="cc-kicker">${esc(pick(r.subtitle, lang))}</p>
-          <h3 class="cc-h3">${esc(pick(r.title, lang))}</h3>
-          <p class="cc-card__text">${esc(pick(r.desc, lang))}</p>
-        </div></li>`).join('')}
-      </ul>
+        <li class="hm-root hm-root--${tones[i % tones.length]}">
+          <div class="hm-root__art" aria-hidden="true">
+            <span class="hm-root__num">${String(i + 1).padStart(2, '0')}</span>
+            <span class="hm-root__medal">${r.image ? `<img src="${esc(r.image)}" alt="" loading="lazy">` : icon(icons[i % icons.length])}</span>
+          </div>
+          <div class="hm-root__body">
+            <p class="hm-root__kicker">${esc(pick(r.subtitle, lang))}</p>
+            <h3 class="hm-root__title">${esc(pick(r.title, lang))}</h3>
+            <p class="hm-root__text">${esc(pick(r.desc, lang))}</p>
+          </div>
+        </li>`).join('')}
+      </ol>
     </div>
   </section>`;
 }
 
+// What critics say: a dark stage band with gold quote marks.
 function renderCritics(ctx) {
   const { lang, hp } = ctx;
   const quotes = hp.criticsPraise || [];
   if (!quotes.length) return '';
+  const initials = (name) => name.split(/\s+/).filter((w) => /^[A-Za-zऀ-ॿ]/.test(w) && !/^(the|of)$/i.test(w)).slice(0, 2).map((w) => w[0]).join('');
   return `
-  <section class="cc-section" aria-labelledby="hm-critics-title">
+  <section class="cc-section hm-critics" aria-labelledby="hm-critics-title">
     <div class="cc-wrap">
-      ${sectionHead(T[lang].critics, { id: 'hm-critics-title' })}
-      <ul class="cc-grid cc-grid--3">
-        ${quotes.map((q) => `
-        <li><figure class="cc-quote">
-          <blockquote lang="en">“${esc(pick(q.quote, lang))}”</blockquote>
-          <figcaption><strong>${esc(pick(q.publication, lang))}</strong>${q.tag ? `<span>${esc(pick(q.tag, lang))}</span>` : ''}</figcaption>
-        </figure></li>`).join('')}
+      <div class="hm-critics__head">
+        <span class="hm-critics__mark" aria-hidden="true">“</span>
+        <h2 class="cc-h2" id="hm-critics-title">${T[lang].critics}</h2>
+      </div>
+      <ul class="hm-critics__grid">
+        ${quotes.map((q) => {
+          const pub = pick(q.publication, lang);
+          return `
+        <li><figure class="hm-critic">
+          <blockquote${lang === 'hi' && !(q.quote && q.quote.hi) ? ' lang="en"' : ''}>${esc(pick(q.quote, lang))}</blockquote>
+          <figcaption>
+            <span class="hm-critic__mono" aria-hidden="true">${esc(initials(pub))}</span>
+            <span><strong>${esc(pub)}</strong>${q.tag ? `<span>${esc(pick(q.tag, lang))}</span>` : ''}</span>
+          </figcaption>
+        </figure></li>`;
+        }).join('')}
       </ul>
     </div>
   </section>`;
