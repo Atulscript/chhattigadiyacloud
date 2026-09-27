@@ -30,7 +30,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 12;
+const ASSET_VERSION = 13;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
@@ -41,6 +41,8 @@ const FONTS = {
 const ASSETS = {
   siteCss: `src/site/site.css?v=${ASSET_VERSION}`,
   siteJs: `src/site/site.js?v=${ASSET_VERSION}`,
+  bannerCss: `src/site/art-banner.css?v=${ASSET_VERSION}`,
+  bannerJs: `src/site/art-banner.js?v=${ASSET_VERSION}`,
   homeCss: `src/home/home.css?v=${ASSET_VERSION}`,
   heroJs: `src/home/hero-slider.js?v=${ASSET_VERSION}`,
   magazineCss: `src/magazine/magazine.css?v=${ASSET_VERSION}`,
@@ -111,7 +113,8 @@ function renderHtmlDocument({
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="${FONTS[lang]}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="${FONTS[lang]}"></noscript>
-  <link rel="stylesheet" href="/${ASSETS.siteCss}">${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
+  <link rel="stylesheet" href="/${ASSETS.siteCss}">
+  <link rel="stylesheet" href="/${ASSETS.bannerCss}">${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
   <script>window.CC_CONFIG=${clientConfig};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('${root}sw.js', { scope: '${root}' }).catch(function () {}); });
   </script>
@@ -124,6 +127,7 @@ function renderHtmlDocument({
   ${footer}
   ${renderFormDialogs(formIds, siteData, lang)}
   <script src="/${ASSETS.siteJs}" defer></script>
+  <script src="/${ASSETS.bannerJs}" defer></script>
   ${extraScripts}
 </body>
 </html>`;
@@ -254,8 +258,8 @@ write('manifest.webmanifest', JSON.stringify(pwa.manifest(siteData), null, 2) + 
 write('sw.js', pwa.serviceWorker(`v${ASSET_VERSION}`, [
   'en/', 'hi/', 'offline.html', 'manifest.webmanifest', 'favicon.svg',
   'src/assets/icons/icon-192.png', 'src/assets/icons/icon-512.png',
-  ASSETS.siteCss, ASSETS.siteJs, ASSETS.homeCss,
-  'src/assets/images/hero-art.svg', 'src/assets/images/motif-border.svg', 'src/assets/images/footer-art-frieze.svg',
+  ASSETS.siteCss, ASSETS.siteJs, ASSETS.homeCss, ASSETS.bannerCss, ASSETS.bannerJs,
+  'src/assets/images/hero-art.svg', 'src/assets/images/motif-border.svg',
 ]));
 write('sitemap.xml', pwa.sitemap(SITE_URL, SLUGS, new Date().toISOString().slice(0, 10)));
 write('robots.txt', pwa.robots(SITE_URL));

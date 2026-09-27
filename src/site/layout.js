@@ -2,7 +2,12 @@
 // Header, menu sheet, mobile tab bar, "Stay connected" band and footer.
 // Nav labels come from one list so desktop, mobile and footer always match.
 
+const fs = require('fs');
+const path = require('path');
 const { esc, icon } = require('./ui.js');
+
+// Animated stage banner above the footer (styles: art-banner.css, motion: art-banner.js).
+const ART_BANNER = fs.readFileSync(path.join(__dirname, 'art-banner.html'), 'utf8').trim();
 
 const SOCIAL = [
   { name: 'YouTube', href: 'https://youtube.com', path: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
@@ -47,7 +52,6 @@ const T = {
     skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
     explore: 'Explore', organisation: 'Organisation', contact: 'Contact', language: 'Language',
     theme: 'Theme', themeLight: 'Light', themeDark: 'Dark',
-    friezeAlt: 'Folk artwork: a caravan of musicians and dancers from Chhattisgarh',
     cta: 'Book a play', quickNav: 'Quick links',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
     email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us',
@@ -59,7 +63,6 @@ const T = {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
     explore: 'देखें', organisation: 'संस्था', contact: 'संपर्क', language: 'भाषा',
     theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा',
-    friezeAlt: 'लोक चित्र: छत्तीसगढ़ के वादकों और नर्तकों का कारवां',
     cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
     email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें',
@@ -199,7 +202,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   const t = T[lang];
   const c = siteData.contact || {};
   return `
-  <div class="cc-frieze" role="img" aria-label="${esc(t.friezeAlt)}"></div>
+  ${ART_BANNER}
   <footer class="cc-footer">
     <div class="cc-footer__band">
       <div class="cc-wrap cc-footer__top">
