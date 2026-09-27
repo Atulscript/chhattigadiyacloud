@@ -51,37 +51,37 @@
 .hm-card:hover { transform: translateY(-4px); border-color: #E0D3BC; box-shadow: 0 2px 4px rgba(60, 45, 25, 0.05), 0 22px 36px -22px rgba(60, 45, 25, 0.45); }
 .hm-card:focus-visible { outline: 3px solid var(--cc-focus); outline-offset: 3px; }
 
-.hm-card__media { position: relative; display: block; flex: 1; min-height: 340px; overflow: hidden; background: #2a1c14; }
+.hm-card__media { position: relative; display: block; flex: 1; min-height: 229px; overflow: hidden; background: #2a1c14; }
 .hm-card__media picture { position: absolute; inset: 0; }
 .hm-card__media picture, .hm-card__media img { display: block; width: 100%; height: 100%; }
-.hm-card__media img { object-fit: cover; object-position: center top; transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1); }
+.hm-card__media img { object-fit: cover; object-position: center 30%; transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1); }
 .hm-card:hover .hm-card__media img { transform: scale(1.03); }
 /* Text over the artwork, on a warm dark fade. */
 .hm-card__overlay {
   position: absolute; left: 0; right: 0; bottom: 0;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 0.35rem;
-  padding: 3.5rem 1.35rem 1.25rem;
-  background: linear-gradient(180deg, rgba(20, 13, 9, 0) 0%, rgba(20, 13, 9, 0.72) 38%, rgba(20, 13, 9, 0.92) 100%);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;
+  padding: 2rem 1.25rem 1rem;
+  background: linear-gradient(180deg, rgba(20, 13, 9, 0) 0%, rgba(20, 13, 9, 0.72) 34%, rgba(20, 13, 9, 0.92) 100%);
   color: #fff;
 }
 .hm-card__icon {
-  display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 0.25rem; border-radius: 10px;
+  display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 0.2rem; border-radius: 8px;
   background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.22); color: #F2DDB4;
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
-.hm-card__icon .cc-icon { width: 19px; height: 19px; }
-.hm-card__title { font: 700 1.45rem/1.2 var(--cc-text); letter-spacing: -0.01em; color: #fff; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); }
+.hm-card__icon .cc-icon { width: 17px; height: 17px; }
+.hm-card__title { font: 700 1.3rem/1.2 var(--cc-text); letter-spacing: -0.01em; color: #fff; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); }
 :lang(hi) .hm-card__title { letter-spacing: 0; }
-.hm-card__desc { color: rgba(255, 255, 255, 0.86); line-height: 1.55; font-size: 0.98rem; }
+.hm-card__desc { color: rgba(255, 255, 255, 0.86); line-height: 1.45; font-size: 0.94rem; }
 
 /* CTA strip under the image. */
 .hm-card__cta {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  min-height: 58px; padding: 0.7rem 1.1rem 0.7rem 1.35rem;
+  min-height: 52px; padding: 0.55rem 1rem 0.55rem 1.25rem;
   font-weight: 700; font-size: 1.02rem; color: var(--cc-forest); white-space: nowrap;
 }
 .hm-card__arrow {
-  display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
   background: var(--cc-forest-wash); transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 .hm-card:hover .hm-card__arrow { transform: translateX(3px); background: var(--cc-forest); color: #fff; }
@@ -90,14 +90,14 @@
    number of lines (2 on two-column rows, 3 on four-column rows). */
 @media (min-width: 640px) {
   .hm-explore__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
-  .hm-card__media { min-height: 380px; }
-  .hm-card__desc { min-height: calc(1.55em * 2); }
+  .hm-card__media { min-height: 257px; }
+  .hm-card__desc { min-height: calc(1.45em * 2); }
 }
 @media (min-width: 1100px) {
   .hm-explore { padding-top: 3.25rem; }
   .hm-explore__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .hm-card__media { min-height: 380px; }
-  .hm-card__desc { min-height: calc(1.55em * 3); }
+  .hm-card__media { min-height: 257px; }
+  .hm-card__desc { min-height: calc(1.45em * 3); }
   .hm-card__cta { font-size: 0.98rem; padding-left: 1.2rem; }
 }
 @media (prefers-reduced-motion: reduce) {
