@@ -24,7 +24,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap"></noscript>
-  <link rel="stylesheet" href="src/site/site.css?v=12">
+  <link rel="stylesheet" href="src/site/site.css?v=13">
+  <link rel="stylesheet" href="src/site/art-banner.css?v=13">
   <script>window.CC_CONFIG={"whatsapp":"919876543210","email":"contact@chhattisgadhiyacloud.org","formsEndpoint":""};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {}); });
   </script>
@@ -102,7 +103,196 @@
   </section>
   </main>
   
-  <div class="cc-frieze" role="img" aria-label="Folk artwork: a caravan of musicians and dancers from Chhattisgarh"></div>
+  <div class="art-banner" aria-hidden="true" role="presentation" data-hover-pause="true">
+  <svg width="0" height="0" style="position:absolute" focusable="false">
+    <defs>
+      <pattern id="ab-drape" width="56" height="26" patternUnits="userSpaceOnUse">
+        <path d="M0 0H56V9Q46 25 28 25Q10 25 0 9Z" fill="#E8401C"/>
+        <path d="M0 9Q10 25 28 25Q46 25 56 9" fill="none" stroke="#F5B82E" stroke-width="1.6"/>
+        <path d="M28 3V20" stroke="#8A1E0E" stroke-width="1" opacity=".35"/>
+      </pattern>
+      <pattern id="ab-drape2" width="56" height="26" x="28" patternUnits="userSpaceOnUse">
+        <path d="M0 0H56V9Q46 22 28 22Q10 22 0 9Z" fill="#8A1E0E"/>
+      </pattern>
+      <filter id="ab-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+    </defs>
+  </svg>
+
+  <!-- Background: peach silhouettes (slow parallax) -->
+  <div class="ab-layer ab-back"><div class="ab-track">
+    <svg class="ab-tile" viewBox="0 0 2000 140" preserveAspectRatio="xMinYMid meet">
+      <!-- proscenium arch -->
+      <path class="ab-ps" stroke-width="14" d="M90 140V72Q210 22 330 72V140"/>
+      <path class="ab-ps" stroke-width="5" d="M118 140V84Q210 46 302 84V140"/>
+      <!-- easel + canvas -->
+      <path class="ab-ps" stroke-width="7" d="M520 140L560 44L600 140M560 44V140"/>
+      <rect class="ab-pe" x="524" y="54" width="72" height="54" rx="3"/>
+      <!-- film camera on tripod -->
+      <path class="ab-ps" stroke-width="6" d="M900 96L866 140M900 96L934 140M900 96V140"/>
+      <rect class="ab-pe" x="866" y="64" width="64" height="34" rx="5"/>
+      <circle class="ab-pe" cx="880" cy="50" r="15"/><circle class="ab-pe" cx="914" cy="48" r="17"/>
+      <path class="ab-pe" d="M930 72L956 62V100L930 90Z"/>
+      <!-- paint palette -->
+      <path class="ab-pe" d="M1250 80C1250 54 1286 42 1320 48C1352 54 1366 76 1352 92C1342 102 1326 94 1318 104C1310 116 1318 128 1296 130C1266 132 1250 106 1250 80Z"/>
+      <g fill="#FDEBE3"><circle cx="1280" cy="68" r="6"/><circle cx="1302" cy="60" r="6"/><circle cx="1326" cy="66" r="6"/><circle cx="1296" cy="112" r="7"/></g>
+      <!-- spotlight tower -->
+      <path class="ab-ps" stroke-width="5" d="M1640 140V40M1672 140V40M1640 60L1672 80M1672 60L1640 80M1640 90L1672 110M1672 90L1640 110M1640 120L1672 140"/>
+      <path class="ab-pe" d="M1632 30H1680V44H1632Z"/>
+      <path class="ab-pe" d="M1680 32L1720 20V54L1680 42Z"/>
+    </svg>
+  </div></div>
+
+  <!-- Floating notes and paint dots -->
+  <svg class="ab-float" style="left:8%;bottom:30%;animation-delay:-1s" viewBox="0 0 12 14"><path d="M4 11a3 2.4 0 1 1 0-.1V1l7 2v3L6 4.5" fill="#F26A2E"/></svg>
+  <svg class="ab-float" style="left:21%;bottom:42%;animation-duration:11s;animation-delay:-6s" viewBox="0 0 12 14"><circle cx="6" cy="7" r="3" fill="#F5B82E"/></svg>
+  <svg class="ab-float" style="left:33%;bottom:26%;animation-duration:10s;animation-delay:-3s" viewBox="0 0 12 14"><path d="M4 11a3 2.4 0 1 1 0-.1V1l7 2v3L6 4.5" fill="#F5B82E"/></svg>
+  <svg class="ab-float" style="left:61%;bottom:38%;animation-duration:12s;animation-delay:-8s" viewBox="0 0 12 14"><circle cx="6" cy="7" r="2.4" fill="#E8401C"/></svg>
+  <svg class="ab-float" style="left:72%;bottom:28%;animation-delay:-4s" viewBox="0 0 12 14"><path d="M4 11a3 2.4 0 1 1 0-.1V1l7 2v3L6 4.5" fill="#E8401C"/></svg>
+  <svg class="ab-float" style="left:84%;bottom:44%;animation-duration:10s;animation-delay:-2s" viewBox="0 0 12 14"><circle cx="6" cy="7" r="3" fill="#F26A2E"/></svg>
+  <svg class="ab-float" style="left:94%;bottom:32%;animation-duration:11s;animation-delay:-7s" viewBox="0 0 12 14"><path d="M4 11a3 2.4 0 1 1 0-.1V1l7 2v3L6 4.5" fill="#F26A2E"/></svg>
+
+  <!-- Midground: eight performers (one tile, cloned by the script for a seamless loop) -->
+  <div class="ab-layer ab-mid"><div class="ab-track">
+    <svg class="ab-tile" viewBox="0 0 1600 140" preserveAspectRatio="xMinYMid meet">
+      <!-- 1 Mime pushing an invisible wall -->
+      <svg x="0" width="200" height="140" viewBox="0 0 200 140">
+        <g class="ab-mime">
+          <path class="ab-l" d="M82 133L90 104L98 133M90 104L91 78"/>
+          <circle class="ab-f" cx="92" cy="68" r="8.5"/>
+          <g class="ab-push">
+            <path class="ab-l" d="M91 81L107 79L120 76M91 86L106 90L120 92"/>
+            <rect class="ab-f" x="119" y="67" width="5" height="14" rx="2"/><rect class="ab-f" x="119" y="84" width="5" height="14" rx="2"/>
+          </g>
+        </g>
+        <g class="ab-wall" fill="#F5B82E"><circle cx="130" cy="66" r="1.6"/><circle cx="130" cy="82" r="1.6"/><circle cx="130" cy="98" r="1.6"/></g>
+      </svg>
+      <!-- 2 Painter at an easel -->
+      <svg x="200" width="200" height="140" viewBox="0 0 200 140">
+        <path class="ab-t" d="M118 133L132 64L146 133M132 64V133"/>
+        <rect x="111" y="58" width="44" height="36" rx="2" fill="#FFF7F2" stroke="#F26A2E" stroke-width="2.5"/>
+        <path class="ab-arc" d="M117 86Q133 60 149 82" fill="none" stroke="#F5B82E" stroke-width="3.5" stroke-linecap="round"/>
+        <path class="ab-l" d="M62 133L70 104L78 133M70 104L71 78M71 84L60 94L54 88"/>
+        <ellipse cx="50" cy="89" rx="7" ry="4.5" fill="#F5B82E"/>
+        <circle class="ab-f" cx="72" cy="68" r="8.5"/>
+        <g class="ab-brush"><path class="ab-l" d="M71 82L88 78L103 74"/><path class="ab-t" d="M103 74L113 70"/></g>
+      </svg>
+      <!-- 3 Two actors in a dramatic pose -->
+      <svg x="400" width="200" height="140" viewBox="0 0 200 140">
+        <g class="ab-kneel">
+          <path class="ab-l" d="M72 108L88 110L90 133M72 108L64 124L48 131M72 108L76 84"/>
+          <circle class="ab-f" cx="80" cy="74" r="8.5"/>
+          <path class="ab-l" d="M76 88L97 81L116 75M76 90L68 100L66 110"/>
+        </g>
+        <g class="ab-grief">
+          <path class="ab-l" d="M138 133L146 104L154 133M146 104L144 78"/>
+          <circle class="ab-f" cx="141" cy="68" r="8.5"/>
+          <path class="ab-l" d="M144 82L131 78L136 66M144 84L157 96L162 108"/>
+        </g>
+      </svg>
+      <!-- 4 Classical dancer spinning -->
+      <svg x="600" width="200" height="140" viewBox="0 0 200 140">
+        <g transform="translate(100 114) scale(1 .28)"><g class="ab-orbit" fill="#F5B82E">
+          <circle cx="34" cy="0" r="3.2"/><circle cx="24" cy="24" r="2.8" opacity=".8"/><circle cx="0" cy="34" r="2.4" opacity=".6"/><circle cx="-24" cy="24" r="2" opacity=".45"/><circle cx="-34" cy="0" r="1.6" opacity=".3"/>
+        </g></g>
+        <g class="ab-spin">
+          <path class="ab-l" d="M96 124L94 133M104 124L106 133" stroke-width="6"/>
+          <path class="ab-skirt ab-f" d="M92 97H108L124 124Q100 132 76 124Z"/>
+          <path class="ab-l" d="M100 100V77M100 80L86 70L80 56M100 80L115 86L128 80"/>
+          <circle class="ab-f" cx="100" cy="67" r="8.5"/>
+        </g>
+      </svg>
+      <!-- 5 Puppeteer and marionette -->
+      <svg x="800" width="200" height="140" viewBox="0 0 200 140">
+        <path class="ab-l" d="M62 133L70 104L78 133M70 104L71 78M71 82L88 66L100 54"/>
+        <circle class="ab-f" cx="71" cy="68" r="8.5"/>
+        <g class="ab-bar">
+          <path class="ab-t" d="M96 50H128" stroke-width="4"/>
+          <path d="M100 50L116 100M112 50L124 86M128 50L132 100" stroke="#8A1E0E" stroke-width=".9" fill="none"/>
+          <g class="ab-pup">
+            <circle cx="124" cy="92" r="5" fill="#F26A2E"/>
+            <path class="ab-l" d="M124 97V112" stroke="#F26A2E" stroke-width="4"/>
+            <path class="ab-parm ab-l" d="M116 104L124 99L132 104" stroke="#F26A2E" stroke-width="3.5"/>
+            <path class="ab-pleg ab-l" d="M119 124L124 112L129 124" stroke="#F26A2E" stroke-width="3.5"/>
+          </g>
+        </g>
+      </svg>
+      <!-- 6 Director with a clapperboard -->
+      <svg x="1000" width="200" height="140" viewBox="0 0 200 140">
+        <path class="ab-l" d="M72 133L80 104L88 133M80 104L81 78M81 86L70 94L78 101M81 84L95 90L106 88"/>
+        <circle class="ab-f" cx="82" cy="68" r="8.5"/>
+        <path d="M73 61Q82 54 91 61Z" fill="#8A1E0E"/>
+        <rect x="106" y="80" width="27" height="19" rx="2" fill="#8A1E0E"/>
+        <path d="M110 86H129M110 92H129" stroke="#F5B82E" stroke-width="1.4" opacity=".7"/>
+        <g class="ab-clap"><rect x="106" y="74" width="27" height="5" rx="1" fill="#F5B82E"/><path d="M112 74L109 79M119 74L116 79M126 74L123 79" stroke="#8A1E0E" stroke-width="1.5"/></g>
+        <g class="ab-burst" stroke="#F5B82E" stroke-width="2" stroke-linecap="round"><path d="M138 70L144 64M140 77L148 76M136 64L138 57M130 66L128 59"/></g>
+      </svg>
+      <!-- 7 Sculptor with chisel and mallet -->
+      <svg x="1200" width="200" height="140" viewBox="0 0 200 140">
+        <rect x="110" y="96" width="34" height="37" rx="3" fill="#F26A2E"/>
+        <path d="M117 96Q118 80 127 78Q136 80 137 96Z" fill="#F26A2E"/>
+        <circle cx="127" cy="74" r="7" fill="#F26A2E"/>
+        <path class="ab-l" d="M58 133L66 104L74 133M66 104L70 80M70 88L88 94L104 96"/>
+        <path class="ab-t" d="M104 96L114 92"/>
+        <circle class="ab-f" cx="73" cy="70" r="8.5"/>
+        <g class="ab-mallet"><path class="ab-l" d="M70 84L84 76L96 80"/><rect x="94" y="73" width="11" height="9" rx="2" fill="#8A1E0E"/></g>
+        <g fill="#F5B82E"><rect class="ab-chip" x="112" y="90" width="3" height="3"/><rect class="ab-chip" x="113" y="92" width="2.5" height="2.5"/><rect class="ab-chip" x="111" y="89" width="2.5" height="2.5"/></g>
+      </svg>
+      <!-- 8 Musician playing a dhol -->
+      <svg x="1400" width="200" height="140" viewBox="0 0 200 140">
+        <path class="ab-l" d="M82 133L90 104L98 133M90 104L90 78"/>
+        <circle class="ab-f" cx="90" cy="68" r="8.5"/>
+        <path d="M84 80L106 94" stroke="#8A1E0E" stroke-width="2"/>
+        <rect x="74" y="92" width="34" height="18" rx="4" fill="#F26A2E"/>
+        <path d="M78 94L84 108L90 94L96 108L102 94" fill="none" stroke="#8A1E0E" stroke-width="1.4"/>
+        <ellipse cx="74" cy="101" rx="4" ry="9" fill="#F5B82E"/><ellipse cx="108" cy="101" rx="4" ry="9" fill="#F5B82E"/>
+        <circle class="ab-ring ab-ring--l" cx="72" cy="101" r="8" fill="none" stroke="#F5B82E" stroke-width="1.6"/>
+        <circle class="ab-ring ab-ring--r" cx="110" cy="101" r="8" fill="none" stroke="#F5B82E" stroke-width="1.6"/>
+        <path class="ab-hl ab-l" d="M90 82L78 90L72 98"/>
+        <path class="ab-hr ab-l" d="M90 82L102 90L110 98"/>
+      </svg>
+    </svg>
+  </div></div>
+
+  <!-- Spotlight and centre medallion (fixed) -->
+  <div class="ab-spot"></div>
+  <div class="ab-med">
+    <svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="59" fill="#FFF7F2"/>
+      <circle cx="60" cy="60" r="56" fill="none" stroke="#F5B82E" stroke-width="6" stroke-dasharray="2 9.7"/>
+      <circle class="ab-ring2" cx="60" cy="60" r="49" fill="none" stroke="#F5B82E" stroke-width="3" stroke-linecap="round" stroke-dasharray=".1 6.4"/>
+      <circle cx="60" cy="60" r="43" fill="#FFF7F2" stroke="#F26A2E" stroke-width="1.5"/>
+      <!-- comedy -->
+      <g transform="translate(50 58) rotate(-10)">
+        <circle class="ab-glow" r="18" fill="#F5B82E" filter="url(#ab-soft)"/>
+        <g class="ab-mask">
+          <path d="M-15-16Q0-22 15-16Q17 4 0 20Q-17 4-15-16Z" fill="#E8401C"/>
+          <path d="M-10-7Q-6-12-2-7Q-6-4-10-7ZM2-7Q6-12 10-7Q6-4 2-7Z" fill="#FFF7F2"/>
+          <path d="M-8 3Q0 13 8 3Q0 8-8 3Z" fill="#FFF7F2"/>
+        </g>
+      </g>
+      <!-- tragedy -->
+      <g transform="translate(71 63) rotate(12)">
+        <circle class="ab-glow ab-glow--t" r="18" fill="#F5B82E" filter="url(#ab-soft)"/>
+        <g class="ab-mask ab-mask--t">
+          <path d="M-15-16Q0-22 15-16Q17 4 0 20Q-17 4-15-16Z" fill="#F26A2E" stroke="#8A1E0E" stroke-width=".8"/>
+          <path d="M-10-5Q-6-10-2-7Q-6-3-10-5ZM2-7Q6-10 10-5Q6-3 2-7Z" fill="#FFF7F2"/>
+          <path d="M-7 10Q0 1 7 10Q0 6-7 10Z" fill="#FFF7F2"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Curtain valance (top) -->
+  <div class="ab-val">
+    <svg preserveAspectRatio="none" viewBox="0 0 100 26" width="100%" height="100%">
+      <g class="ab-sway ab-sway--back"><rect x="-10" y="0" width="120" height="26" fill="url(#ab-drape2)" transform="scale(.01 1)" opacity=".6"/></g>
+    </svg>
+  </div>
+
+  <!-- Stage floor + footlights (bottom) -->
+  <div class="ab-lights"></div>
+  <div class="ab-floor"></div>
+</div>
   <footer class="cc-footer">
     <div class="cc-footer__band">
       <div class="cc-wrap cc-footer__top">
@@ -193,7 +383,8 @@
       </div>
     </div>
   </dialog>
-  <script src="src/site/site.js?v=12" defer></script>
+  <script src="src/site/site.js?v=13" defer></script>
+  <script src="src/site/art-banner.js?v=13" defer></script>
   
 </body>
 </html>
