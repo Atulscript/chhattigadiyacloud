@@ -26,6 +26,8 @@
   var held = false;          // hover / focus / touch in progress
 
   root.style.setProperty('--hs-interval', interval + 'ms');
+  // Short intervals get a quicker cross-fade so each photo is seen in full.
+  root.style.setProperty('--hs-fade', Math.min(1000, Math.round(interval * 0.35)) + 'ms');
   controls.hidden = false;
   root.classList.add('is-ready');
 
@@ -39,7 +41,7 @@
     prev.classList.add('is-leaving');
     prev.setAttribute('aria-hidden', 'true');
     prev.inert = true;
-    window.setTimeout(function () { prev.classList.remove('is-leaving'); }, 1100);
+    window.setTimeout(function () { prev.classList.remove('is-leaving'); }, Math.min(1100, interval * 0.35 + 100));
     next.classList.add('is-active');
     next.removeAttribute('aria-hidden');
     next.inert = false;
