@@ -1,5 +1,6 @@
 // Workshops: the next Ullas Summer Camp, what children learn, past camps.
 const { esc, pick, icon, picture, pageHead, sectionHead, formButton } = require('../site/ui.js');
+const { statusTag } = require('../site/events.js');
 
 const T = {
   en: {
@@ -48,7 +49,7 @@ function render(siteData, lang) {
         <div class="cc-feature__body">
           <p class="cc-kicker">${t.next}</p>
           <h2 class="cc-h2" id="camp-title">${esc(pick(b.title, lang))}</h2>
-          ${b.status ? `<span class="cc-tag" style="align-self:flex-start">${esc(pick(b.status, lang))}</span>` : ''}
+          <div class="cc-tags">${statusTag(b.dates, b.statusTag, lang)}${b.status ? `<span class="cc-tag">${esc(pick(b.status, lang))}</span>` : ''}</div>
           <ul class="cc-facts">
             <li>${icon('calendar')}<span><strong>${t.dates}:</strong> ${esc(pick(b.dates, lang))}</span></li>
             <li>${icon('users')}<span><strong>${t.ages}:</strong> ${esc(pick(b.ageGroup, lang))}</span></li>

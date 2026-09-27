@@ -3072,11 +3072,38 @@ function renderEventsPageEditor(host) {
                 <div><span class="bilingual-col-tag bilingual-tag-hi">हिन्दी</span><textarea class="form-control" onchange="state.content.events[${i}].description.hi = this.value; markDirty(true);">${escapeHtml(ev.description && ev.description.hi || '')}</textarea></div>
               </div>
             </div>
+            <div class="bilingual-tabs-wrap">
+              <div class="bilingual-header"><span class="bilingual-title">Status tag per edition</span></div>
+              <div style="display:grid; gap:0.6rem;">
+                ${(ev.years || []).map((y, j) => `
+                <label style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+                  <span><strong>${escapeHtml(y.year)}</strong> · ${escapeHtml(y.dates && y.dates.en || '')}</span>
+                  ${renderStatusTagSelect(y.statusTag, `setEditionStatus(${i}, ${j}, this.value)`)}
+                </label>`).join('')}
+              </div>
+            </div>
           </div>
         `).join('')}
       </div>
     </div>
   `;
+}
+
+// Event status tag (Open / Upcoming / Closed). "Auto" leaves it to the dates:
+// over = Closed, running or within 30 days = Open, later = Upcoming.
+const STATUS_TAG_OPTIONS = [['', 'Auto (from dates)'], ['open', 'Open'], ['upcoming', 'Upcoming'], ['closed', 'Closed']];
+function renderStatusTagSelect(current, onChange) {
+  return `<select class="form-control" style="max-width:220px" onchange="${onChange}">${STATUS_TAG_OPTIONS.map(([v, l]) => `<option value="${v}"${(current || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
+}
+function setEditionStatus(i, j, v) {
+  const y = state.content.events[i].years[j];
+  if (v) y.statusTag = v; else delete y.statusTag;
+  markDirty(true);
+}
+function setCampStatus(v) {
+  const b = state.content.workshops.upcomingBatch;
+  if (v) b.statusTag = v; else delete b.statusTag;
+  markDirty(true);
 }
 
 function renderWorkshopsPageEditor(host) {
@@ -3097,6 +3124,15 @@ function renderWorkshopsPageEditor(host) {
         currentSrc: state.content.workshopsPageBanner || '/src/assets/images/camp-ullas.svg',
         onChangeFnStr: 'updateWorkshopsPageBanner'
       })}
+
+      ${state.content.workshops && state.content.workshops.upcomingBatch ? `
+      <div class="bilingual-tabs-wrap" style="margin-top:1rem;">
+        <div class="bilingual-header"><span class="bilingual-title">Ullas camp status tag</span></div>
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+          <span>${escapeHtml((state.content.workshops.upcomingBatch.dates || {}).en || '')}</span>
+          ${renderStatusTagSelect(state.content.workshops.upcomingBatch.statusTag, 'setCampStatus(this.value)')}
+        </label>
+      </div>` : ''}
 
       <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
         ${camps.map((w, i) => `

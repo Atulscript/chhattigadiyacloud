@@ -1,6 +1,6 @@
 // Festivals: Jashrang and Kavita Utsav, next edition first, then the archive.
 const { esc, pick, icon, picture, pageHead, sectionHead, formButton } = require('../site/ui.js');
-const { parseStart } = require('../site/events.js');
+const { parseStart, parseEnd, statusOf, statusTag } = require('../site/events.js');
 
 const ART = {
   'jashrang': '/src/assets/images/festival-jashrang.svg',
@@ -32,14 +32,15 @@ function renderFestival(fest, lang, today) {
   const editions = [...(fest.years || [])].sort((a, b) => b.year - a.year);
   const edition = editions[0];
   if (!edition) return '';
-  const start = parseStart(edition.dates.en);
-  const isNext = start && start >= today;
+  const end = parseEnd(edition.dates.en);
+  const isNext = end && end >= today;
+  const bookable = isNext && statusOf(edition.dates, edition.statusTag) !== 'closed';
   const isPoetry = /kavita/.test(fest.id);
   return `
     <article class="cc-feature cc-feature--banner" id="${esc(fest.id)}" aria-labelledby="fest-${esc(fest.id)}">
       <div class="cc-feature__media">${picture(fest.photo || fest.bannerImage || fest.image || ART[fest.id], fest.photoAlt || t.artAlt(name), { width: 800, height: 360 })}</div>
       <div class="cc-feature__body">
-        <p class="cc-kicker">${isNext ? t.next : t.last} · ${esc(edition.year)}</p>
+        <div class="cc-tags"><p class="cc-kicker">${isNext ? t.next : t.last} · ${esc(edition.year)}</p>${statusTag(edition.dates, edition.statusTag, lang)}</div>
         <h2 class="cc-h2" id="fest-${esc(fest.id)}">${esc(name)}</h2>
         <p class="cc-card__text">${esc(pick(fest.description, lang))}</p>
         <ul class="cc-facts">
@@ -54,7 +55,7 @@ function renderFestival(fest, lang, today) {
             ${edition.schedule.map((s) => `<li><span class="cc-schedule__when">${esc(s.day)} · ${esc(s.time)}</span><span class="cc-schedule__what" lang="en"><strong>${esc(s.event)}</strong><span>${esc(s.group)}</span></span></li>`).join('')}
           </ol>
         </details>` : ''}
-        ${isNext ? `<div class="cc-actions">
+        ${bookable ? `<div class="cc-actions">
           ${formButton({ lang, form: 'pass', label: t.pass, prefill: { festival: fest.id } })}
           ${formButton({ lang, form: isPoetry ? 'poet' : 'troupe', label: isPoetry ? t.poet : t.troupe, variant: 'secondary' })}
         </div>` : ''}
@@ -68,7 +69,7 @@ function render(siteData, lang) {
   today.setUTCHours(0, 0, 0, 0);
   const fests = siteData.events || [];
   const archive = fests.flatMap((f) => (f.years || []).map((y) => ({ f, y })))
-    .filter(({ y }) => { const s = parseStart(y.dates.en); return s && s < today; })
+    .filter(({ y }) => { const e = parseEnd(y.dates.en); return e && e < today; })
     .sort((a, b) => parseStart(b.y.dates.en) - parseStart(a.y.dates.en));
   return {
     title: t.title,
@@ -85,7 +86,7 @@ function render(siteData, lang) {
       <ul class="cc-grid cc-grid--3">
         ${archive.map(({ f, y }) => `
         <li class="cc-card cc-card--clay"><div class="cc-card__body">
-          <p class="cc-kicker">${esc(y.year)} · ${esc(pick(f.name, lang))}</p>
+          <div class="cc-tags"><p class="cc-kicker">${esc(y.year)} · ${esc(pick(f.name, lang))}</p>${statusTag(y.dates, y.statusTag, lang)}</div>
           <h3 class="cc-h3">${esc(pick(y.theme, lang))}</h3>
           <ul class="cc-facts">
             <li>${icon('calendar')}<span>${esc(pick(y.dates, lang))}</span></li>

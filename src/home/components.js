@@ -3,7 +3,7 @@
 // magazine, festivals and camps come from their own sections of siteData.
 
 const { esc, pick, localHref, icon, picture, sectionHead, formButton } = require('../site/ui.js');
-const { upcoming, dateBadge } = require('../site/events.js');
+const { upcoming, dateBadge, statusOf, statusTag } = require('../site/events.js');
 const { ART: PLAY_ART } = require('../pages/plays.js');
 const { renderHeroSlider } = require('./hero.js');
 
@@ -183,11 +183,12 @@ function renderComingUp(ctx) {
         <li class="cc-event">
           <time class="cc-event__date" datetime="${d.iso}"><span class="cc-event__day">${esc(d.day)}</span><span class="cc-event__month">${esc(d.month)}</span></time>
           <div class="cc-event__body">
+            ${statusTag(item.dates, item.statusTag, lang)}
             <h3 class="cc-h3">${esc(pick(item.title, lang))}</h3>
             <p class="cc-muted">${esc(pick(item.dates, lang))} · ${esc(pick(item.venue, lang))}</p>
-            <div class="cc-actions">${isCamp
+            ${statusOf(item.dates, item.statusTag) === 'closed' ? '' : `<div class="cc-actions">${isCamp
               ? formButton({ lang, form: 'camp', label: t.register, variant: 'secondary', size: 'sm' })
-              : formButton({ lang, form: 'pass', label: t.pass, variant: 'secondary', size: 'sm', prefill: { festival: item.id } })}</div>
+              : formButton({ lang, form: 'pass', label: t.pass, variant: 'secondary', size: 'sm', prefill: { festival: item.id } })}</div>`}
           </div>
         </li>`;
   }).join('');
