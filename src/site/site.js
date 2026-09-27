@@ -274,3 +274,22 @@
     if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, function () {});
   });
 })();
+
+// Header "More" dropdown: click/tap toggles (hover also opens it on desktop),
+// Escape or a click elsewhere closes it.
+(function () {
+  'use strict';
+  var more = document.querySelector('[data-cc-more]');
+  if (!more) return;
+  var btn = more.querySelector('button');
+  function setOpen(open) {
+    more.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () { setOpen(!more.classList.contains('is-open')); });
+  document.addEventListener('click', function (e) { if (!more.contains(e.target)) setOpen(false); });
+  more.addEventListener('focusout', function (e) { if (!more.contains(e.relatedTarget)) setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && more.classList.contains('is-open')) { setOpen(false); btn.focus(); }
+  });
+})();
