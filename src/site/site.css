@@ -1004,7 +1004,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
 }
 .cc-share__btn svg { flex: none; width: 14px; height: 14px; transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1); }
 .cc-share__btn span { opacity: 0; transition: opacity 0.2s; }
-.cc-share__btn:hover, .cc-share__btn:focus-visible { transform: translateX(94px); background: #2C2623; }
+.cc-share__btn:hover, .cc-share__btn:focus-visible { transform: translateX(94px); background: #2C2623; color: #fff; }
 .cc-share__btn:hover span, .cc-share__btn:focus-visible span { opacity: 1; transition-delay: 0.1s; }
 .cc-share__btn:hover svg, .cc-share__btn:focus-visible svg { transform: scale(1.1); }
 @keyframes cc-share-in { from { opacity: 0; transform: translateX(-100%); } }
@@ -1030,7 +1030,7 @@ textarea.cc-input { min-height: 96px; resize: vertical; }
   }
   .cc-share.is-open .cc-share__list li { opacity: 1; visibility: visible; transform: none; transition-delay: calc((4 - var(--i)) * 50ms); }
   .cc-share__btn { position: relative; width: 29px; height: 29px; margin: 0; padding: 0; justify-content: center; border-radius: 8px; }
-  .cc-share__btn:hover, .cc-share__btn:focus-visible { transform: scale(1.08); background: #2C2623; }
+  .cc-share__btn:hover, .cc-share__btn:focus-visible { transform: scale(1.08); background: #2C2623; color: #fff; }
   .cc-share__btn span {
     position: absolute; left: 38px; top: 50%; transform: translateY(-50%); opacity: 1;
     padding: 0.28rem 0.55rem; border-radius: 6px; white-space: nowrap;
