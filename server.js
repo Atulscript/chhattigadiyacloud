@@ -34,8 +34,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // If path is directory, serve index.html inside it
+  // If path is directory, serve index.html inside it. A directory URL must end
+  // in "/" first: without it the browser resolves the page's relative links
+  // (./admin.css, ../src/site.css) against the PARENT directory and they 404,
+  // leaving the page unstyled and scriptless. Redirect as GitHub Pages does.
   if (fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory()) {
+    if (!reqPath.endsWith('/')) {
+      const q = req.url.indexOf('?');
+      const query = q === -1 ? '' : req.url.slice(q);
+      res.writeHead(301, { Location: encodeURI(reqPath) + '/' + query });
+      res.end();
+      return;
+    }
     fullPath = path.join(fullPath, 'index.html');
   }
 
