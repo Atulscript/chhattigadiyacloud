@@ -850,9 +850,48 @@ textarea.form-control {
   }
 
   .studio-topbar {
-    padding: 0.75rem 1rem;
+    padding: 0.7rem 0.85rem;
+    gap: 0.5rem;
   }
+
+  /* The topbar was one non-shrinking row: at a 390px viewport its actions
+     measured 501px and pushed the whole page 277px sideways, cutting off
+     Publish. Both halves may now shrink, and the title ellipses. */
+  .studio-topbar-left { min-width: 0; flex: 1 1 auto; gap: 0.5rem; }
+  .studio-breadcrumb-title {
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-size: 1.05rem;
+  }
+  .studio-topbar-actions { min-width: 0; flex: 0 1 auto; gap: 0.4rem; }
+  .studio-topbar-user { margin-left: 0.2rem; padding-left: 0.4rem; }
+
+  /* Identity is already shown in the sidebar, so the topbar keeps the avatar
+     and drops the duplicated name. */
+  .topbar-admin-name { display: none; }
+  .studio-dirty-badge { font-size: 0.7rem; }
+
+  /* Comfortable touch targets: 8 controls were under 36px tall. */
+  .btn-studio, .studio-icon-btn, .topbar-logout-btn,
+  .studio-input, .studio-select, .studio-textarea {
+    min-height: 40px;
+  }
+  .btn-studio, .topbar-logout-btn { padding-inline: 0.75rem; }
 }
+
+/* Phones: the action row is the first thing to run out of room, so the
+   secondary controls collapse to icons before anything is cut off. */
+@media (max-width: 560px) {
+  .studio-topbar { flex-wrap: wrap; row-gap: 0.5rem; }
+  .studio-topbar-actions { width: 100%; justify-content: flex-end; }
+  .btn-studio-secondary#discard-btn { order: -1; }
+  .topbar-logout-btn span:not(.topbar-admin-avatar) { display: none; }
+  .topbar-logout-btn { padding-inline: 0.6rem; }
+  .studio-body { padding: 1rem 0.85rem; }
+}
+
+/* Nothing in the panel may push the page sideways. */
+.studio-main, .studio-topbar, .studio-body { min-width: 0; max-width: 100%; }
+.studio-body { overflow-x: clip; }
 
 /* ==========================================================================
    ADMIN LOGIN GATEWAY SCREEN
