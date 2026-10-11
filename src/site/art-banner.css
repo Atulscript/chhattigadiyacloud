@@ -1,9 +1,9 @@
 /* Animated stage banner above the footer. Source and demo: /art-banner.html */
 .art-banner {
   --ab-h: 140px; --ab-med: 110px; --ab-val: 26px;
-  --ab-v: #E8401C; --ab-o: #F26A2E; --ab-g: #F5B82E; --ab-p: #F8CFC0; --ab-m: #8A1E0E; --ab-c: #FFF7F2;
+  --ab-v: #6F2771; --ab-o: #70869B; --ab-g: #E68B32; --ab-p: #EFD9B9; --ab-m: #141414; --ab-c: #FFF7F2;
   position: relative; width: 100%; height: var(--ab-h); overflow: hidden; isolation: isolate;
-  background: linear-gradient(180deg, #FFF7F2 0%, #FDEBE3 100%);
+  background: linear-gradient(180deg, #FFF7F2 0%, #F7EFE3 100%);
   contain: layout paint;
 }
 @media (max-width: 767px) { .art-banner { --ab-h: 100px; --ab-med: 80px; --ab-val: 18px; } }
