@@ -114,16 +114,17 @@ body {
 }
 
 .studio-brand-mark {
-  width: 38px;
+  width: auto;
   height: 38px;
+  padding: 0 10px;
   border-radius: 10px;
-  background: var(--studio-primary);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: 1.1rem;
+  flex: none;
   box-shadow: 0 2px 8px rgba(200, 50, 0, 0.3);
 }
 
@@ -884,19 +885,22 @@ textarea.form-control {
 }
 
 .studio-login-logo {
-  width: 52px;
-  height: 52px;
+  width: auto;
+  height: 58px;
+  padding: 0 16px;
   border-radius: 14px;
-  background: var(--studio-primary);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: 1.4rem;
-  box-shadow: 0 4px 14px rgba(200, 50, 0, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   margin-bottom: 1rem;
 }
+/* The herd mark is ~1.8:1, so the plaque is a wide pill rather than a square.
+   It carries the light-ink variant because the plaque is always brand orange. */
+.studio-login-logo img { height: 34px; width: auto; display: block; }
 
 .studio-login-title {
   font-size: 1.35rem;
@@ -1449,5 +1453,4 @@ textarea.form-control {
   background: var(--studio-surface);
   border-color: var(--studio-primary);
 }
-
-
+.studio-brand-mark img { height: 23px; width: auto; display: block; }
