@@ -17,13 +17,18 @@
   --cc-muted: #675E52;
   --cc-rule: #E3D8C7;
   --cc-rule-strong: #C9BBA5;
-  --cc-forest: #2E5A38;
-  --cc-forest-wash: #E2ECE0;
+  /* Palette taken from the logo mark: slate calf #70869B, amber bull #E68B32,
+     purple #6F2771. The raw slate and amber are too light to carry text
+     (3.50:1 and 2.41:1 on paper), so text roles use darkened versions and the
+     raw amber is reserved for non-text accents. */
+  --cc-forest: #44596E;          /* link + nav: logo slate darkened to 6.7:1 on paper */
+  --cc-forest-wash: #E4E9EE;
   --cc-clay: #A0461E;
   --cc-clay-wash: #F5E2D4;
-  --cc-accent: #C8441A;          /* primary CTAs only: terracotta-vermilion, same family as the clay and the stage banner */
-  --cc-accent-hover: #A83812;
-  --cc-on-accent: #FFFFFF;        /* white on #C8441A = 4.9:1 (AA); the button stays 3.8:1 against the dark theme */
+  --cc-amber: #E68B32;           /* logo amber: rules, borders, badges behind ink (6.7:1) - never small text */
+  --cc-accent: #6F2771;          /* primary CTAs: logo purple */
+  --cc-accent-hover: #58205A;
+  --cc-on-accent: #FFFFFF;        /* white on #6F2771 = 9.5:1 (AAA); hover 11.9:1 */
   --cc-night: #171411;
   --cc-night-2: #24201B;
   --cc-night-text: #E6DDD0;
@@ -51,7 +56,8 @@
   --cc-paper: #14120F; --cc-surface: #1C1915; --cc-surface-2: #24201A;
   --cc-ink: #F3ECE0; --cc-ink-2: #D6CCBD; --cc-muted: #AA9F8F;
   --cc-rule: #342E26; --cc-rule-strong: #4C4539;
-  --cc-forest: #93C79F; --cc-forest-wash: #1D2B20;
+  --cc-forest: #A9BDD2; --cc-forest-wash: #1E2630;
+  --cc-amber: #E8A05A; --cc-accent: #B45CB7; --cc-accent-hover: #C978CC;
   --cc-clay: #E99A74; --cc-clay-wash: #33221A;
   --cc-night: #0E0C0A; --cc-night-2: #1C1915;
   --cc-focus: #8AB4FF; --cc-success: #93C79F; --cc-danger: #FF9C8F;
@@ -427,7 +433,7 @@ html.cc-theme-anim, html.cc-theme-anim *, html.cc-theme-anim *::before, html.cc-
 .cc-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .cc-card__text { color: var(--cc-ink-2); }
 .cc-card--accent { border-top: 3px solid var(--cc-forest); }
-.cc-card--clay { border-top: 3px solid var(--cc-clay); }
+.cc-card--clay { border-top: 3px solid var(--cc-amber); }
 
 /* Split feature: media + body */
 .cc-feature { display: grid; gap: 0; background: var(--cc-surface); border: 1px solid var(--cc-rule); border-radius: var(--cc-radius); overflow: hidden; }
