@@ -609,8 +609,37 @@ function renderMagazinePage(magazine, pagesData, lang, contact, { banner = null,
   </div>`;
 }
 
+// The page while `magazine.locked` is set. This replaces renderMagazinePage
+// rather than hiding it: the issue list, page bodies and reader config are
+// never written into the HTML, so locked content cannot be read out of the
+// page source. Styled from site.css, so the locked page skips the magazine
+// stylesheet and reader script entirely.
+function renderMagazineLocked(magazine, lang) {
+  const lock = (magazine && magazine.lockMessage) || {};
+  const title = pick(lock.title, lang) || (lang === 'hi' ? 'जल्द आ रहा है' : 'Coming Soon');
+  const body = pick(lock.body, lang);
+  const home = lang === 'hi' ? 'होम पर जाएं' : 'Back to home';
+  return `
+  <section class="cc-section">
+    <div class="cc-wrap">
+      <div class="cc-locked">
+        <span class="cc-locked__badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="cc-icon" fill="none" stroke="currentColor" stroke-width="1.75"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+          </svg>
+        </span>
+        <h1 class="cc-locked__title">${esc(title)}</h1>
+        ${body ? `<p class="cc-locked__text">${esc(body)}</p>` : ''}
+        <a class="cc-btn cc-btn--primary" href="/${lang}/">${esc(home)}</a>
+      </div>
+    </div>
+  </section>`;
+}
+
 module.exports = {
   getMagazineModel,
+  renderMagazineLocked,
   formatPageContent,
   renderMasthead,
   renderCurrentIssue,

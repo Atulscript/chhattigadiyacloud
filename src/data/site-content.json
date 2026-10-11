@@ -836,7 +836,18 @@
           "hi": "जशपुर में चार वर्षों के समर कैम्प के अनुभवों पर आधारित विमर्श कि नाट्य खेल बच्चों में आत्मविश्वास का माध्यम कैसे बनते हैं।"
         }
       }
-    ]
+    ],
+    "locked": true,
+    "lockMessage": {
+      "title": {
+        "en": "Coming Soon",
+        "hi": "जल्द आ रहा है"
+      },
+      "body": {
+        "en": "Our magazine section is being prepared. The latest issue and the full archive will be here shortly — thank you for your patience.",
+        "hi": "हमारा पत्रिका अनुभाग तैयार किया जा रहा है। नवीनतम अंक और पूरा संग्रह जल्द ही यहाँ उपलब्ध होगा — आपके धैर्य के लिए धन्यवाद।"
+      }
+    }
   },
   "blog": {
     "migratedNotice": {

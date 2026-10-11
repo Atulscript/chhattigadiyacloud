@@ -47,6 +47,12 @@ const PAGES = {
   ],
 };
 const ALL_PAGES = [...PAGES.explore, ...PAGES.organisation];
+// A locked page keeps its place in every nav, marked so visitors can see the
+// section exists and is on the way rather than finding it silently missing.
+const isLocked = (siteData, id) => id === 'magazine' && ((siteData || {}).magazine || {}).locked === true;
+const lockBadge = (siteData, id, t) => (isLocked(siteData, id)
+  ? `<svg class="cc-navlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${esc(t.locked)}"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>`
+  : '');
 const byId = (id) => ALL_PAGES.find((p) => p.id === id);
 // Header: Home + the core cultural sections, then a "More" dropdown with the
 // organisational pages. What's On is reached from the home page, not the nav.
@@ -62,7 +68,7 @@ const T = {
     skip: 'Skip to content', mainNav: 'Main', home: 'Home', menu: 'Menu', closeMenu: 'Close menu',
     explore: 'Explore', organisation: 'Organisation', more: 'More', contact: 'Contact', language: 'Language',
     theme: 'Theme', themeLight: 'Light', themeDark: 'Dark', toDark: 'Switch to dark mode', toLight: 'Switch to light mode',
-    cta: 'Book a play', quickNav: 'Quick links',
+    cta: 'Book a play', quickNav: 'Quick links', locked: 'Coming soon',
     installApp: 'Add to home screen', installSub: 'Opens faster, works offline', install: 'Install', notNow: 'Not now',
     email: 'Email address', subscribe: 'Subscribe', follow: 'Follow us', newsletter: 'Monthly letter', signupNote: 'One email a month. No spam, unsubscribe any time.',
     signupDone: 'Thank you! Please send the email that just opened to confirm.', signupInvalid: 'Please enter a valid email address.',
@@ -75,7 +81,7 @@ const T = {
     skip: 'मुख्य सामग्री पर जाएं', mainNav: 'मुख्य', home: 'होम', menu: 'मेनू', closeMenu: 'मेनू बंद करें',
     explore: 'देखें', organisation: 'संस्था', more: 'और', contact: 'संपर्क', language: 'भाषा',
     theme: 'रंग', themeLight: 'हल्का', themeDark: 'गहरा', toDark: 'डार्क मोड चालू करें', toLight: 'लाइट मोड चालू करें',
-    cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक',
+    cta: 'नाटक बुक करें', quickNav: 'त्वरित लिंक', locked: 'जल्द आ रहा है',
     installApp: 'होम स्क्रीन पर जोड़ें', installSub: 'तेज़ खुलता है, ऑफ़लाइन चलता है', install: 'जोड़ें', notNow: 'अभी नहीं',
     email: 'ईमेल पता', subscribe: 'सब्सक्राइब करें', follow: 'हमें फ़ॉलो करें', newsletter: 'मासिक पत्र', signupNote: 'महीने में एक ईमेल। कोई स्पैम नहीं, जब चाहें बंद करें।',
     signupDone: 'धन्यवाद! पुष्टि के लिए अभी खुला ईमेल भेज दें।', signupInvalid: 'कृपया सही ईमेल पता लिखें।',
@@ -146,12 +152,12 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
   const email = (siteData.contact && siteData.contact.email) || '';
   const navLink = (cls, icons) => (id) => {
     const p = byId(id);
-    return `<li><a class="${cls}" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icons ? icon(p.icon) : ''}<span>${p.label[lang]}</span></a></li>`;
+    return `<li><a class="${cls}" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icons ? icon(p.icon) : ''}<span>${p.label[lang]}</span>${lockBadge(siteData, id, t)}</a></li>`;
   };
   const drawerLink = (p) => navLink('cc-drawer__link', true)(p.id);
   const tab = (id) => {
     const p = byId(id);
-    return `<a class="cc-tabbar__item" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a>`;
+    return `<a class="cc-tabbar__item" href="/${lang}/${id}/"${current(isActive(id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span>${lockBadge(siteData, id, t)}</a>`;
   };
   const inMore = MORE_NAV.some((id) => isActive(id, currentPath));
 
@@ -298,7 +304,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
       <div class="cc-footer__grid">
         <nav class="cc-footer__col cc-footer__col--links" aria-label="${t.quickNav}">
           <h2 class="cc-footer__title">${t.quickNav}</h2>
-          <ul class="cc-footer__list cc-footer__links">${FOOTER_LINKS.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span></a></li>`).join('')}</ul>
+          <ul class="cc-footer__list cc-footer__links">${FOOTER_LINKS.map((p) => `<li><a href="/${lang}/${p.id}/"${current(isActive(p.id, currentPath))}>${icon(p.icon)}<span>${p.label[lang]}</span>${lockBadge(siteData, p.id, t)}</a></li>`).join('')}</ul>
         </nav>
         <div class="cc-footer__col cc-footer__col--contact">
           <h2 class="cc-footer__title">${t.contact}</h2>

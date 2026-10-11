@@ -9,10 +9,10 @@ const path = require('path');
 
 const { siteData } = require('./src/data/content-node.js');
 const magazinePages = require('./src/data/magazine-pages.json');
-const { renderMagazinePage } = require('./src/magazine/components.js');
+const { renderMagazinePage, renderMagazineLocked } = require('./src/magazine/components.js');
 const { renderHeader, renderFooter } = require('./src/site/layout.js');
 const { buildForms, renderFormDialogs } = require('./src/site/forms.js');
-const { esc, icon } = require('./src/site/ui.js');
+const { esc, pick, icon } = require('./src/site/ui.js');
 const pwa = require('./src/site/pwa.js');
 const { renderHomePage } = require('./src/home/components.js');
 const { heroPreload, getSlides, bannerPreload, activeSlides, reelData, reelPreload } = require('./src/home/hero.js');
@@ -31,7 +31,10 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 42;
+const ASSET_VERSION = 43;
+// Admin toggle: when set, the magazine page is published as a Coming Soon
+// screen and its content is left out of the build entirely.
+const magazineLocked = (siteData.magazine || {}).locked === true;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // Per-page link-preview image (npm run og-art), else the site-wide one.
@@ -115,6 +118,7 @@ function seoFor(canonicalUrl, lang) {
 function renderHtmlDocument({
   lang, title, fullTitle = '', desc, canonicalUrl, altUrl, contentHtml,
   extraScripts = '', extraHead = '', preloadImage = '', allForms = false, standalone = false,
+  noindex = false, useSeoOverride = true,
 }) {
   const altLang = lang === 'hi' ? 'en' : 'hi';
   // Pages served at arbitrary URLs (404, offline) resolve links against a <base> set at runtime.
@@ -129,13 +133,18 @@ function renderHtmlDocument({
     email: (siteData.contact && siteData.contact.email) || '',
     formsEndpoint: siteData.formsEndpoint || '',
   });
-  const seoOverride = standalone ? { title: '', description: '', keywords: '' } : seoFor(canonicalUrl, lang);
+  // The SEO tab describes the real page; while a page is locked its own
+  // Coming Soon copy is what visitors should see in the tab and in previews.
+  const seoOverride = (standalone || !useSeoOverride)
+    ? { title: '', description: '', keywords: '' }
+    : seoFor(canonicalUrl, lang);
   const pageTitle = esc(seoOverride.title || fullTitle || `${title} | ${siteData.orgName[lang]}`);
   const description = esc(seoOverride.description || desc);
   const keywordsTag = seoOverride.keywords ? `\n  <meta name="keywords" content="${esc(seoOverride.keywords)}">` : '';
   const enUrl = `${SITE_URL}${lang === 'en' ? canonicalUrl : altUrl}`;
   const hiUrl = `${SITE_URL}${lang === 'hi' ? canonicalUrl : altUrl}`;
-  const seo = standalone ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${SITE_URL}${canonicalUrl}">
+  const noindexTag = noindex ? '\n  <meta name="robots" content="noindex">' : '';
+  const seo = standalone ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${SITE_URL}${canonicalUrl}">${noindexTag}
   <link rel="alternate" hreflang="en" href="${enUrl}">
   <link rel="alternate" hreflang="hi" href="${hiUrl}">
   <link rel="alternate" hreflang="x-default" href="${enUrl}">
@@ -240,17 +249,28 @@ const bannerScript = (page) => (activeSlides(banners[page]).length > 1 ? `\n  <s
     extraScripts: reelData(siteData.homepage || {}) ? `<script src="/${ASSETS.reelJs}" defer></script>` : getSlides(siteData.homepage || {}).length > 1 ? `<script src="/${ASSETS.heroJs}" defer></script>` : '',
   }));
 
+  // Locked: the lock screen replaces the page body, and the magazine stylesheet
+  // and reader script are left off since nothing on the page uses them. No issue
+  // data reaches the HTML at all, so locked content is unpublished, not hidden.
   write(`${lang}/magazine/index.html`, renderHtmlDocument({
     lang,
-    title: siteData.magazine.name[lang],
-    desc: isHi
-      ? 'छत्तीसगढ़िया क्लाउड मासिक पत्रिका — नवीनतम अंक, पिछले अंक, डिजिटल व मुद्रित प्रति, और 5 पृष्ठों का निःशुल्क पूर्वावलोकन।'
-      : 'Chhattisgadhiya Cloud Masik Patrika — the latest issue, previous issues, digital and print copies, and a free 5-page preview.',
+    title: magazineLocked
+      ? (pick((siteData.magazine.lockMessage || {}).title, lang) || siteData.magazine.name[lang])
+      : siteData.magazine.name[lang],
+    desc: magazineLocked
+      ? (pick((siteData.magazine.lockMessage || {}).body, lang) || '')
+      : isHi
+        ? 'छत्तीसगढ़िया क्लाउड मासिक पत्रिका — नवीनतम अंक, पिछले अंक, डिजिटल व मुद्रित प्रति, और 5 पृष्ठों का निःशुल्क पूर्वावलोकन।'
+        : 'Chhattisgadhiya Cloud Masik Patrika — the latest issue, previous issues, digital and print copies, and a free 5-page preview.',
     canonicalUrl: `/${lang}/magazine/`,
     altUrl: `/${altLang}/magazine/`,
-    contentHtml: renderMagazinePage(siteData.magazine, magazinePages, lang, siteData.contact, { banner: banners.magazine, bannerSettings: siteData.pageBannerSettings }),
-    extraHead: `<link rel="stylesheet" href="/${ASSETS.magazineCss}">${bannerHead('magazine') ? `\n  ${bannerHead('magazine')}` : ''}`,
-    extraScripts: `<script src="/${ASSETS.magazineJs}" defer></script>${bannerScript('magazine')}`,
+    noindex: magazineLocked,
+    useSeoOverride: !magazineLocked,
+    contentHtml: magazineLocked
+      ? renderMagazineLocked(siteData.magazine, lang)
+      : renderMagazinePage(siteData.magazine, magazinePages, lang, siteData.contact, { banner: banners.magazine, bannerSettings: siteData.pageBannerSettings }),
+    extraHead: magazineLocked ? '' : `<link rel="stylesheet" href="/${ASSETS.magazineCss}">${bannerHead('magazine') ? `\n  ${bannerHead('magazine')}` : ''}`,
+    extraScripts: magazineLocked ? '' : `<script src="/${ASSETS.magazineJs}" defer></script>${bannerScript('magazine')}`,
   }));
 
   Object.entries(PAGES).forEach(([slug, page]) => {
@@ -330,7 +350,10 @@ write('index.html', `<!DOCTYPE html>
 `);
 
 // PWA and SEO files
-const SLUGS = ['', 'magazine', ...Object.keys(PAGES)];
+const ALL_SLUGS = ['', 'magazine', ...Object.keys(PAGES)];
+// A locked page asks not to be indexed, so it stays out of the sitemap too --
+// but it is still written, so the page count below counts it.
+const SLUGS = ALL_SLUGS.filter((slug) => !(magazineLocked && slug === 'magazine'));
 write('manifest.webmanifest', JSON.stringify(pwa.manifest(siteData), null, 2) + '\n');
 write('sw.js', pwa.serviceWorker(`v${ASSET_VERSION}`, [
   'en/', 'hi/', 'offline.html', 'manifest.webmanifest', 'favicon.svg',
@@ -342,4 +365,4 @@ write('sw.js', pwa.serviceWorker(`v${ASSET_VERSION}`, [
 write('sitemap.xml', pwa.sitemap(SITE_URL, SLUGS, new Date().toISOString().slice(0, 10)));
 write('robots.txt', pwa.robots(SITE_URL));
 
-console.log(`Generated ${SLUGS.length * 2} pages, 404, offline page, manifest, service worker (v${ASSET_VERSION}), sitemap and robots.txt.`);
+console.log(`Generated ${ALL_SLUGS.length * 2} pages, 404, offline page, manifest, service worker (v${ASSET_VERSION}), sitemap and robots.txt.`);

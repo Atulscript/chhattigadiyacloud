@@ -420,6 +420,28 @@ html.cc-theme-anim, html.cc-theme-anim *, html.cc-theme-anim *::before, html.cc-
 /* Three-up grids go straight from one to three columns so no card is left alone on a row. */
 @media (min-width: 760px) { .cc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; } }
 @media (min-width: 960px) { .cc-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Lock marker beside a nav label. Sized off the label so it rides along with
+   it in the header, menu, tab bar and footer without needing per-nav rules. */
+.cc-navlock {
+  width: 0.85em; height: 0.85em; flex: none; opacity: 0.75;
+  margin-inline-start: 0.3em; vertical-align: -0.08em;
+}
+.cc-tabbar__item .cc-navlock { margin-inline-start: 0.2em; }
+
+/* Locked page: the whole page is replaced by this panel, so it carries the
+   vertical space a page body would. The content itself is never generated. */
+.cc-locked {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 1rem; max-width: 34rem; margin: 0 auto; padding: clamp(2rem, 7vw, 4.5rem) 1.25rem;
+}
+.cc-locked__badge {
+  display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%;
+  background: var(--cc-forest-wash); color: var(--cc-forest); border: 1px solid var(--cc-rule);
+}
+.cc-locked__badge .cc-icon { width: 2rem; height: 2rem; }
+.cc-locked__title { font-size: clamp(1.6rem, 4.5vw, 2.3rem); line-height: 1.2; margin: 0; color: var(--cc-ink); }
+.cc-locked__text { margin: 0; color: var(--cc-ink-2); font-size: 1.02rem; line-height: 1.65; }
+
 .cc-card {
   display: flex; flex-direction: column; min-width: 0;
   background: var(--cc-surface); border: 1px solid var(--cc-rule); border-radius: var(--cc-radius);

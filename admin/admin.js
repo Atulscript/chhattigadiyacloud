@@ -883,7 +883,13 @@ const SEO_PAGES = [
   ['gallery', 'Gallery'], ['about', 'About'], ['contact', 'Contact'],
   ['support', 'Support Us'], ['blog', 'Blog'], ['press', 'Press Kit'],
 ];
-// Google truncates around these lengths; the counters turn amber past them.
+// A locked page publishes its own Coming Soon copy and asks not to be indexed,
+// so its SEO entry has no effect until it is unlocked. Only magazine can lock.
+function seoPageLocked(key) {
+  return key === 'magazine' && ((state.content || {}).magazine || {}).locked === true;
+}
+
+// Google truncates around these lengths; the counters turn red past them.
 const SEO_LIMITS = { title: 60, description: 155 };
 
 function seoEntry(key) {
@@ -915,7 +921,7 @@ function renderSeoManager() {
     const counter = limit
       ? `<span class="seo-counter${val.length > limit ? ' is-over' : ''}" id="seo-count-${key}-${f}-${lang}">${val.length} / ${limit}</span>`
       : '';
-    const on = `oninput="updateSeoField('${key}','${f}','${lang}',this.value)"`;
+    const on = `oninput="updateSeoField('${key}','${f}','${lang}',this.value)"${seoPageLocked(key) ? ' disabled' : ''}`;
     return `
       <div>
         <div class="seo-field-head">
@@ -956,12 +962,13 @@ function renderSeoManager() {
       </div>
     </div>
     ${SEO_PAGES.map(([key, label]) => `
-      <div class="section-group-card">
+      <div class="section-group-card"${seoPageLocked(key) ? ' style="opacity:0.62"' : ''}>
         <div class="section-group-header">
           <div>
-            <div class="section-group-title">${label}</div>
+            <div class="section-group-title">${label}${seoPageLocked(key) ? ' 🔒' : ''}</div>
             <div class="section-group-desc">${key === 'home' ? '/en/ · /hi/' : `/en/${key}/ · /hi/${key}/`}</div>
           </div>
+          ${seoPageLocked(key) ? `<span class="perm-pill" style="background:var(--studio-red-light); color:var(--studio-red); font-weight:700;">Locked &mdash; SEO not applied</span>` : ''}
         </div>
         ${row(key, 'title', 'Meta title', 'Google shows about 60 characters', false)}
         ${row(key, 'description', 'Meta description', 'Google shows about 155 characters', true)}
@@ -3594,12 +3601,83 @@ function renderWorkshopsPageEditor(host) {
   `;
 }
 
+// Page lock: while on, the generator publishes a Coming Soon screen and leaves
+// every issue out of the build, so locked content is unpublished, not hidden.
+window.toggleMagazineLock = function (checked) {
+  if (!state.content.magazine) state.content.magazine = {};
+  state.content.magazine.locked = !!checked;
+  const fields = document.getElementById('mag-lock-fields');
+  if (fields) fields.style.display = checked ? '' : 'none';
+  markDirty(true);
+  showToast(checked
+    ? '🔒 Magazine will publish as "Coming Soon" on the next Publish.'
+    : '🔓 Magazine content will be published again on the next Publish.', 'success');
+};
+
+window.updateMagazineLockField = function (field, lang, value) {
+  if (!state.content.magazine) state.content.magazine = {};
+  const m = state.content.magazine;
+  if (!m.lockMessage) m.lockMessage = { title: {}, body: {} };
+  if (!m.lockMessage[field]) m.lockMessage[field] = {};
+  m.lockMessage[field][lang] = value;
+  markDirty(true);
+};
+
 function renderMagazinePageEditor(host) {
   const mag = state.content.magazine || {};
+  const lockMsg = mag.lockMessage || {};
+  const lockTitle = lockMsg.title || {};
+  const lockBody = lockMsg.body || {};
+  const locked = mag.locked === true;
+  const lockCol = (field, lang, tag, vals) => `
+    <div>
+      <span class="bilingual-col-tag bilingual-tag-${lang}">${tag}</span>
+      ${field === 'body'
+        ? `<textarea class="form-control" onchange="updateMagazineLockField('body', '${lang}', this.value)">${escapeHtml(vals[lang] || '')}</textarea>`
+        : `<input type="text" class="form-control" value="${escapeHtml(vals[lang] || '')}" onchange="updateMagazineLockField('title', '${lang}', this.value)">`}
+    </div>`;
   const current = mag.currentIssue || {};
   const previousIssues = mag.previousIssues || [];
 
   host.innerHTML = `
+    <div class="section-group-card">
+      <div class="section-group-header">
+        <div>
+          <div class="section-group-title">🔒 Page Lock</div>
+          <div class="section-group-desc">Publish a "Coming Soon" screen in place of the whole magazine page.</div>
+        </div>
+      </div>
+
+      <label class="rbac-check-item" style="font-size:0.9rem; gap:0.55rem;">
+        <input type="checkbox" ${locked ? 'checked' : ''} onchange="toggleMagazineLock(this.checked)">
+        <span>Lock the magazine page</span>
+      </label>
+      <div class="form-hint" style="margin-top:0.45rem;">
+        While locked, visitors who open Magazine see your Coming Soon message. No issue content,
+        cover art or reader is written into the page at all, so nothing can be read out of the page
+        source. The nav link stays visible with a small lock icon, and the page leaves the sitemap
+        and asks search engines not to index it &mdash; the SEO tab does not apply while locked.
+        Uncheck to put the magazine back exactly as it was.
+      </div>
+
+      <div id="mag-lock-fields" style="display:${locked ? '' : 'none'}; margin-top:1.25rem;">
+        <div class="bilingual-tabs-wrap">
+          <div class="bilingual-header"><span class="bilingual-title">Coming Soon heading</span></div>
+          <div class="bilingual-grid">
+            ${lockCol('title', 'en', 'English', lockTitle)}
+            ${lockCol('title', 'hi', 'हिन्दी', lockTitle)}
+          </div>
+        </div>
+        <div class="bilingual-tabs-wrap">
+          <div class="bilingual-header"><span class="bilingual-title">Message</span></div>
+          <div class="bilingual-grid">
+            ${lockCol('body', 'en', 'English', lockBody)}
+            ${lockCol('body', 'hi', 'हिन्दी', lockBody)}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-group-card">
       <div class="section-group-header">
         <div>
