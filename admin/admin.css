@@ -597,6 +597,29 @@ textarea.form-control {
   color: var(--studio-amber);
 }
 
+/* SEO: the language tag and the character counter share one row above the
+   input, so each counter sits with the field it measures. */
+.seo-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.seo-counter {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--studio-text-muted);
+  white-space: nowrap;
+}
+
+/* Past the length Google displays. Red, not amber: amber is the Hindi tag. */
+.seo-counter.is-over {
+  color: var(--studio-red);
+  font-weight: 700;
+}
+
 /* Team Member Cards Grid */
 .team-grid {
   display: grid;
@@ -872,7 +895,7 @@ textarea.form-control {
 
   /* Comfortable touch targets: 8 controls were under 36px tall. */
   .btn-studio, .studio-icon-btn, .topbar-logout-btn,
-  .studio-input, .studio-select, .studio-textarea {
+  input.form-control, select.form-control {
     min-height: 40px;
   }
   .btn-studio, .topbar-logout-btn { padding-inline: 0.75rem; }

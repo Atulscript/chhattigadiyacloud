@@ -126,7 +126,7 @@ function applySidebarPermissions() {
   const session = state.adminSession;
   if (!session) return;
   const isSuperAdmin = session.role === 'admin';
-  const allowed = session.permissions || (isSuperAdmin ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+  const allowed = session.permissions || (isSuperAdmin ? ['dashboard', 'pages', 'team', 'blog', 'seo', 'social', 'users', 'settings'] : ['dashboard', 'blog']);
 
   document.querySelectorAll('#studio-nav-list .studio-nav-item').forEach(item => {
     const section = item.dataset.section;
@@ -212,7 +212,7 @@ function setupAdminAuth() {
             username: "admin",
             displayName: "Super Administrator",
             role: "admin",
-            permissions: ["dashboard", "pages", "team", "blog", "users", "settings"],
+            permissions: ["dashboard", "pages", "team", "blog", "seo", "social", "users", "settings"],
             passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
           }
         ];
@@ -225,7 +225,7 @@ function setupAdminAuth() {
           username: foundUser.username,
           displayName: foundUser.displayName || foundUser.username,
           role: foundUser.role || 'admin',
-          permissions: foundUser.permissions || (foundUser.role === 'admin' ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']),
+          permissions: foundUser.permissions || (foundUser.role === 'admin' ? ['dashboard', 'pages', 'team', 'blog', 'seo', 'social', 'users', 'settings'] : ['dashboard', 'blog']),
           timestamp: Date.now()
         };
         state.adminSession = session;
@@ -899,7 +899,7 @@ window.updateSeoField = function (key, field, lang, value) {
   const counter = document.getElementById(`seo-count-${key}-${field}-${lang}`);
   if (counter && limit) {
     counter.textContent = `${value.length} / ${limit}`;
-    counter.style.color = value.length > limit ? 'var(--studio-amber)' : 'var(--studio-text-soft)';
+    counter.classList.toggle('is-over', value.length > limit);
   }
   markDirty(true);
 };
@@ -908,24 +908,38 @@ function renderSeoManager() {
   const container = document.getElementById('panel-seo');
   if (!container || !state.content) return;
 
-  const field = (key, f, lang, label, multiline) => {
+  // One field in one language: language tag and counter on a row above the control.
+  const col = (key, f, lang, tag, multiline) => {
     const val = seoEntry(key)[f][lang] || '';
     const limit = SEO_LIMITS[f];
-    const over = limit && val.length > limit;
     const counter = limit
-      ? `<span id="seo-count-${key}-${f}-${lang}" style="font-size:0.72rem; color:${over ? 'var(--studio-amber)' : 'var(--studio-text-soft)'}">${val.length} / ${limit}</span>`
+      ? `<span class="seo-counter${val.length > limit ? ' is-over' : ''}" id="seo-count-${key}-${f}-${lang}">${val.length} / ${limit}</span>`
       : '';
-    const attrs = `class="studio-input" oninput="updateSeoField('${key}','${f}','${lang}',this.value)"`;
+    const on = `oninput="updateSeoField('${key}','${f}','${lang}',this.value)"`;
     return `
-      <div class="studio-field">
-        <label class="studio-label" style="display:flex; justify-content:space-between; gap:0.5rem">
-          <span>${label}</span>${counter}
-        </label>
+      <div>
+        <div class="seo-field-head">
+          <span class="bilingual-col-tag bilingual-tag-${lang}">${tag}</span>
+          ${counter}
+        </div>
         ${multiline
-          ? `<textarea ${attrs} rows="2">${escapeHtml(val)}</textarea>`
-          : `<input type="text" ${attrs} value="${escapeHtml(val)}">`}
+          ? `<textarea class="form-control" ${on}>${escapeHtml(val)}</textarea>`
+          : `<input type="text" class="form-control" ${on} value="${escapeHtml(val)}">`}
       </div>`;
   };
+
+  // Both languages of one field, side by side — the same shape the team editor uses.
+  const row = (key, f, title, hint, multiline) => `
+    <div class="bilingual-tabs-wrap">
+      <div class="bilingual-header">
+        <span class="bilingual-title">${title}</span>
+        <span class="form-hint">${hint}</span>
+      </div>
+      <div class="bilingual-grid">
+        ${col(key, f, 'en', 'English', multiline)}
+        ${col(key, f, 'hi', 'हिन्दी', multiline)}
+      </div>
+    </div>`;
 
   container.innerHTML = `
     <div class="studio-card">
@@ -940,23 +954,19 @@ function renderSeoManager() {
           </div>
         </div>
       </div>
-      ${SEO_PAGES.map(([key, label]) => `
-        <div class="section-group">
-          <div class="section-group-title">${label}</div>
-          <div class="bilingual-grid">
-            <div>
-              ${field(key, 'title', 'en', 'Meta title (English)')}
-              ${field(key, 'description', 'en', 'Meta description (English)', true)}
-              ${field(key, 'keywords', 'en', 'Keywords (English, comma separated)')}
-            </div>
-            <div>
-              ${field(key, 'title', 'hi', 'Meta title (हिन्दी)')}
-              ${field(key, 'description', 'hi', 'Meta description (हिन्दी)', true)}
-              ${field(key, 'keywords', 'hi', 'Keywords (हिन्दी)')}
-            </div>
+    </div>
+    ${SEO_PAGES.map(([key, label]) => `
+      <div class="section-group-card">
+        <div class="section-group-header">
+          <div>
+            <div class="section-group-title">${label}</div>
+            <div class="section-group-desc">${key === 'home' ? '/en/ · /hi/' : `/en/${key}/ · /hi/${key}/`}</div>
           </div>
-        </div>`).join('')}
-    </div>`;
+        </div>
+        ${row(key, 'title', 'Meta title', 'Google shows about 60 characters', false)}
+        ${row(key, 'description', 'Meta description', 'Google shows about 155 characters', true)}
+        ${row(key, 'keywords', 'Keywords', 'Comma separated', false)}
+      </div>`).join('')}`;
 }
 
 // ==========================================
@@ -994,9 +1004,9 @@ function renderSocialManager() {
         </div>
       </div>
       ${SOCIAL_NETWORKS.map(([key, label, placeholder]) => `
-        <div class="studio-field">
-          <label class="studio-label">${label}</label>
-          <input type="url" class="studio-input" placeholder="${placeholder}"
+        <div class="form-group">
+          <label class="form-label" for="social-${key}">${label}</label>
+          <input type="url" id="social-${key}" class="form-control" placeholder="${placeholder}"
                  value="${escapeHtml(social[key] || '')}"
                  oninput="updateSocialField('${key}', this.value)">
         </div>`).join('')}
@@ -3744,7 +3754,7 @@ function renderUsersManager() {
 
   const currentAdmin = state.adminSession || { username: 'admin', displayName: 'Super Administrator', role: 'admin' };
   const adminUsers = (state.content.adminAuth && state.content.adminAuth.users) || [
-    { username: 'admin', displayName: 'Super Administrator', role: 'admin', permissions: ["dashboard", "pages", "team", "blog", "users", "settings"], passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' }
+    { username: 'admin', displayName: 'Super Administrator', role: 'admin', permissions: ["dashboard", "pages", "team", "blog", "seo", "social", "users", "settings"], passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' }
   ];
 
   const allSections = [
@@ -3752,6 +3762,8 @@ function renderUsersManager() {
     { id: 'pages', label: 'Page Content' },
     { id: 'team', label: 'About & Team' },
     { id: 'blog', label: 'Blog Articles' },
+    { id: 'seo', label: 'SEO' },
+    { id: 'social', label: 'Social Links' },
     { id: 'users', label: 'Users & Access' },
     { id: 'settings', label: 'Settings & Backup' }
   ];
@@ -3832,7 +3844,7 @@ function renderUsersManager() {
           <tbody>
             ${adminUsers.map((u, idx) => {
               const isSuper = u.role === 'admin';
-              const userPerms = u.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+              const userPerms = u.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'seo', 'social', 'users', 'settings'] : ['dashboard', 'blog']);
               
               return `
               <tr>
@@ -4031,7 +4043,7 @@ window.openEditUserModal = function(index) {
   document.getElementById('user-role-select').value = user.role || 'editor';
 
   const isSuper = user.role === 'admin';
-  const userPerms = user.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'] : ['dashboard', 'blog']);
+  const userPerms = user.permissions || (isSuper ? ['dashboard', 'pages', 'team', 'blog', 'seo', 'social', 'users', 'settings'] : ['dashboard', 'blog']);
   const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]');
   permCheckboxes.forEach(cb => {
     cb.checked = isSuper || userPerms.includes(cb.value);
@@ -4114,7 +4126,7 @@ window.saveUserFromModal = async function() {
   // Determine permissions
   let permissions = [];
   if (role === 'admin') {
-    permissions = ['dashboard', 'pages', 'team', 'blog', 'users', 'settings'];
+    permissions = ['dashboard', 'pages', 'team', 'blog', 'seo', 'social', 'users', 'settings'];
   } else {
     const permCheckboxes = document.querySelectorAll('#user-modal-perms input[type="checkbox"]:checked');
     permCheckboxes.forEach(cb => permissions.push(cb.value));
