@@ -46,8 +46,14 @@ body, their own pages, and a share control — authored by non-technical editors
 
 Rules:
 
-- `heading.level` is 2 or 3 only. The post title is the page's single `h1`, so body
-  headings start at `h2` — this keeps heading order valid for screen readers.
+- A post may contain **any number of heading blocks**. `heading.level` is the heading's
+  *depth*, not a quota: `2`, `3` or `4`, rendered as `h2`/`h3`/`h4`.
+- Depth starts at `h2` because the post title is the page's only `h1`; a second `h1`
+  would break both the document outline for screen readers and the page's SEO structure.
+  `h5`/`h6` are omitted as they have no practical use in an article of this kind — adding
+  them later is a one-line change to the allowed set.
+- The editor warns (but does not block) when a level is skipped, e.g. an `h4` with no
+  `h3` above it, since skipped levels are an accessibility fault.
 - Text fields are plain text and are **always escaped** at render. No HTML is accepted
   from the editor, which keeps the public repo free of an XSS vector.
 - `content` (the old string) is retained on migrated posts and used as a fallback when
@@ -101,7 +107,8 @@ The blog section of `admin/admin.js` is replaced with a block editor:
 
 - A vertical list of block cards. Each card shows its type, an EN field and an HI field,
   and controls: move up, move down, duplicate, delete.
-- "Add block" offers Heading, Paragraph, Image, Quote, List.
+- "Add block" offers Heading, Paragraph, Image, Quote, List. Headings carry a depth
+  selector (H2/H3/H4), and any number of them may be added to a post.
 - Image blocks show a thumbnail, an Upload button, and alt/caption fields in both
   languages.
 - A live preview pane rendered by `src/blog/blocks.js`.
