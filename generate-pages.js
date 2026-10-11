@@ -31,7 +31,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 35;
+const ASSET_VERSION = 37;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // Per-page link-preview image (npm run og-art), else the site-wide one.
@@ -66,8 +66,8 @@ function eventSchema(lang, canonicalUrl) {
 }
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
 const FONTS = {
-  en: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Mukta:wght@400;600;700&display=swap',
-  hi: 'https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap',
+  en: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Montserrat:wght@500;800;900&family=Mukta:wght@400;600;700&display=swap',
+  hi: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800;900&family=Tiro+Devanagari+Hindi:ital@0;1&family=Mukta:wght@400;600;700&display=swap',
 };
 const ASSETS = {
   siteCss: `src/site/site.css?v=${ASSET_VERSION}`,
@@ -79,6 +79,8 @@ const ASSETS = {
   reelJs: `src/home/hero-reel.js?v=${ASSET_VERSION}`,
   magazineCss: `src/magazine/magazine.css?v=${ASSET_VERSION}`,
   magazineJs: `src/magazine/magazine-reader.js?v=${ASSET_VERSION}`,
+  introCss: `src/cgc-intro/cgc-intro.css?v=${ASSET_VERSION}`,
+  introJs: `src/cgc-intro/cgc-intro.js?v=${ASSET_VERSION}`,
 };
 
 function renderHtmlDocument({
@@ -146,7 +148,9 @@ function renderHtmlDocument({
   <link rel="stylesheet" href="${FONTS[lang]}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="${FONTS[lang]}"></noscript>
   <link rel="stylesheet" href="/${ASSETS.siteCss}">
-  <link rel="stylesheet" href="/${ASSETS.bannerCss}">${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
+  <link rel="stylesheet" href="/${ASSETS.bannerCss}">
+  <link rel="stylesheet" href="/${ASSETS.introCss}">${standalone ? '' : `
+  <script>(function(){var h=document.documentElement;try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('cgc-intro-seen')){h.classList.add('cgc-intro-on');setTimeout(function(){if(!h.classList.contains('cgc-ready'))h.classList.remove('cgc-intro-on')},3000)}}catch(e){}})();</script>`}${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
   <script>window.CC_CONFIG=${clientConfig};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('${root}sw.js', { scope: '${root}' }).catch(function () {}); });
   </script>${standalone ? '' : eventSchema(lang, canonicalUrl)}
@@ -160,6 +164,7 @@ function renderHtmlDocument({
   ${renderFormDialogs(formIds, siteData, lang)}
   <script src="/${ASSETS.siteJs}" defer></script>
   <script src="/${ASSETS.bannerJs}" defer></script>
+  <script src="/${ASSETS.introJs}"${lang === 'hi' ? ' data-welcome="आपका स्वागत है"' : ''} defer></script>
   ${extraScripts}
 </body>
 </html>`;
@@ -231,6 +236,15 @@ const bannerScript = (page) => (activeSlides(banners[page]).length > 1 ? `\n  <s
   });
 });
 
+// The footer sits on a dark ground, so it needs the mark in light ink. Derive
+// it from the same source file rather than keeping a second copy by hand: the
+// cloud dots and ground line go light, and the brand purple lifts enough to
+// read against the dark (the header mark keeps the exact brand colour).
+write('src/cgc-intro/logo-mark-light.svg',
+  fs.readFileSync(path.join(__dirname, 'src/cgc-intro/logo-mark.svg'), 'utf8')
+    .replace(/#141414/g, '#EFE7DA')
+    .replace(/#6f2771/g, '#A14BA4'));
+
 // Not-found and offline pages: bilingual, served at arbitrary URLs.
 function standalonePage(kind) {
   const copy = kind === '404'
@@ -291,6 +305,7 @@ write('sw.js', pwa.serviceWorker(`v${ASSET_VERSION}`, [
   'en/', 'hi/', 'offline.html', 'manifest.webmanifest', 'favicon.svg',
   'src/assets/icons/icon-192.png', 'src/assets/icons/icon-512.png',
   ASSETS.siteCss, ASSETS.siteJs, ASSETS.homeCss, ASSETS.bannerCss, ASSETS.bannerJs,
+  ASSETS.introCss, ASSETS.introJs, 'src/cgc-intro/logo-mark.svg', 'src/cgc-intro/logo-mark-light.svg',
   'src/assets/images/hero-art.svg', 'src/assets/images/motif-border.svg',
 ]));
 write('sitemap.xml', pwa.sitemap(SITE_URL, SLUGS, new Date().toISOString().slice(0, 10)));

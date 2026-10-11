@@ -17,7 +17,6 @@ const SOCIAL = [
   { name: 'X', href: 'https://x.com', path: 'M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z' },
 ];
 
-const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2.5 3.5"/><path d="M8 11.5c1.2 2 2.8 2.8 4 2.8s2.8-.8 4-2.8"/><circle cx="9" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15" cy="8.5" r="1.2" fill="currentColor"/><path d="M9 16c1.5 1.2 4.5 1.2 6 0"/></svg>`;
 
 // Single source for nav labels, so header, menu, tab bar and footer always match.
 // explore: what we do; organisation: who we are and how to reach us.
@@ -151,9 +150,9 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
   <a class="cc-skip" href="#main">${t.skip}</a>
   <header class="cc-header" id="top">
     <div class="cc-header__inner">
-      <a class="cc-brand" href="/${lang}/"${current(home)}>
-        <span class="cc-brand__mark">${LOGO_SVG}</span>
-        <span class="cc-brand__name">${siteData.orgName[lang]}</span>
+      <a class="cc-brand cgc-brand" href="/${lang}/"${current(home)} aria-label="${esc(siteData.orgName[lang])}">
+        <span class="cgc-mark-slot"><img src="/src/cgc-intro/logo-mark.svg" alt="" width="91" height="50"></span>
+        <span class="cgc-wordmark" aria-hidden="true"><span class="big">CHHATTISGADHIYA</span><span class="small">CLOUD</span></span>
       </a>
       <nav class="cc-nav" aria-label="${t.mainNav}">
         <ul class="cc-nav__list">
@@ -181,7 +180,7 @@ function renderHeader({ lang, currentPath, altUrl, siteData }) {
 
   <dialog class="cc-drawer" id="cc-drawer" aria-label="${t.menu}">
     <div class="cc-drawer__head">
-      <a class="cc-brand" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
+      <a class="cc-brand cgc-brand" href="/${lang}/" aria-label="${esc(siteData.orgName[lang])}"><img class="cgc-mark-static" src="/src/cgc-intro/logo-mark.svg" alt="" width="73" height="40"><span class="cgc-wordmark" aria-hidden="true"><span class="big">CHHATTISGADHIYA</span><span class="small">CLOUD</span></span></a>
       <button type="button" class="cc-icon-btn" data-cc-menu-close aria-label="${t.closeMenu}">${icon('close')}</button>
     </div>
     <nav class="cc-drawer__nav" aria-label="${t.menu}">
@@ -280,7 +279,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
   ${ART_BANNER}
   <footer class="cc-footer">
     <div class="cc-wrap cc-footer__intro">
-      <a class="cc-brand cc-brand--light" href="/${lang}/"><span class="cc-brand__mark">${LOGO_SVG}</span><span class="cc-brand__name">${siteData.orgName[lang]}</span></a>
+      <a class="cc-brand cc-brand--light cgc-brand" href="/${lang}/" aria-label="${esc(siteData.orgName[lang])}"><img class="cgc-mark-static" src="/src/cgc-intro/logo-mark-light.svg" alt="" width="84" height="46"><span class="cgc-wordmark" aria-hidden="true"><span class="big">CHHATTISGADHIYA</span><span class="small">CLOUD</span></span></a>
       <p class="cc-footer__tagline">${siteData.tagline[lang]}</p>
       <p class="cc-footer__about">${t.about}</p>
     </div>

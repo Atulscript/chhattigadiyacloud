@@ -1,0 +1,143 @@
+/* Chhattisgadhiya Cloud — animated logo + first-visit intro.  All classes are prefixed cgc- so they never clash with the site. */
+:root {
+    /* The nav and footer lockups follow the site's own palette, so light and
+       dark mode match the theme toggle. */
+    --cgc-ink: var(--cc-ink, #1c1a17);
+    --cgc-muted: var(--cc-muted, #675e52);
+    --cgc-rule: var(--cc-rule, #e3d8c7);
+    /* The opening film is a night scene whatever the page theme, so the very
+       first paint is dark rather than a white flash. It carries its own light
+       ink: --cgc-ink stays dark for the lockup in the ivory header. */
+    --cgc-bg: #14100C;
+    --cgc-film-ink: #F3ECE0;
+    --cgc-film-muted: #9C9184;
+    --cgc-film-rule: rgba(243, 236, 224, 0.3);
+    --cgc-water: #6cb8f0;
+  }
+
+  
+  
+
+  /* ───────────── NAV LOCKUP: animated mark + logo text as real text ───────────── */
+  
+  .cgc-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--cgc-ink); flex-shrink: 0; }
+  .cgc-mark { height: 50px; width: auto; display: block; overflow: visible; }
+  .cgc-mark .dots, .cgc-mark .ground { fill: var(--cgc-ink); }
+  .cgc-intro-mark .dots, .cgc-intro-mark .ground { fill: var(--cgc-film-ink); }
+  .cgc-wordmark { font-family: Montserrat, sans-serif; line-height: 1; display: flex; flex-direction: column; align-items: center; }
+  .cgc-wordmark .big { font-weight: 900; font-size: 17px; letter-spacing: .01em; }
+  .cgc-wordmark .small {
+    font-weight: 500; font-size: 9.5px; letter-spacing: .55em; margin-top: 5px; padding-left: .55em;
+    display: flex; align-items: center; gap: 8px; width: 100%;
+  }
+  .cgc-wordmark .small::before, .cgc-wordmark .small::after { content: ""; flex: 1; height: 1.5px; background: currentColor; }
+  
+  
+  
+  @media (max-width: 860px) {
+    .cgc-mark { height: 40px; }
+    .cgc-wordmark .big { font-size: 14px; }
+    .cgc-wordmark .small { font-size: 8px; }
+  }
+
+  /* Logo life in the nav: trunks sway, the big one lifts its trunk now and then.
+     Hovering the logo makes the herd take a few steps (script). */
+  .cgc-mark .trunk { animation: cgc-idleSway 3s ease-in-out infinite; }
+  .cgc-mark .el-purple .trunk { animation-duration: 3.6s; animation-delay: -1.2s; }
+  .cgc-mark .el-orange .trunk { animation: cgc-idleGreet 9s ease-in-out 2s infinite; }
+  .cgc-mark.live .trunk { animation: none; }
+  @keyframes cgc-idleSway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(5deg); } }
+  @keyframes cgc-idleGreet {
+    0%, 62%, 100% { transform: rotate(0deg); }
+    70%, 80% { transform: rotate(-34deg); }
+    75% { transform: rotate(-30deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cgc-mark .trunk { animation: none; } }
+
+  
+  
+  
+
+  /* ───────────── INTRO OVERLAY ───────────── */
+  .cgc-intro { display: none; }
+  html.cgc-intro-on .cgc-intro {
+    display: flex; position: fixed; inset: 0; z-index: 100; background: var(--cgc-bg);
+    flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
+    transition: opacity .5s ease .25s;
+  }
+  html.cgc-intro-on body { overflow: hidden; }
+  html.cgc-intro-on .cgc-mark, html.cgc-intro-on .cgc-wordmark { opacity: 0; }
+  .cgc-mark, .cgc-wordmark { transition: opacity .35s ease; }
+
+  .cgc-intro-mark { width: min(54.6vw, 364px); height: auto; overflow: visible; transform-origin: 0 0; position: relative; z-index: 1; }
+  .cgc-intro-mark .hills { fill: var(--cgc-film-ink); }
+  .cgc-intro-mark .ground-ext { stroke: var(--cgc-film-ink); stroke-width: 3.2; fill: none; }
+  .cgc-intro-mark .fg { fill: var(--cgc-film-ink); }
+  /* cinematic frame: letterbox cgc-bars + soft cgc-vignette */
+  .cgc-bars::before, .cgc-bars::after { content: ''; position: absolute; left: 0; right: 0; height: 10vh; background: #000; z-index: 3;
+    transition: transform .7s cubic-bezier(.6,0,.2,1); }
+  .cgc-bars::before { top: 0; transform: translateY(-100%); } .cgc-bars::after { bottom: 0; transform: translateY(100%); }
+  html.cgc-intro-on .cgc-bars.on::before, html.cgc-intro-on .cgc-bars.on::after { transform: none; }
+  .cgc-bars { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+  .cgc-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0; transition: opacity .8s ease;
+    background: radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(0,0,0,.55) 100%); }
+  .cgc-vignette.on { opacity: 1; }
+  .cgc-intro-mark .drop { opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .cgc-intro-mark .drop ellipse { transition: fill .45s ease; }
+  .cgc-intro-mark .el { opacity: 0; }
+  .cgc-intro-mark .gait, .cgc-mark .gait { transform-box: fill-box; transform-origin: 50% 100%; }
+  .cgc-intro-mark .pebbles { fill: var(--cgc-film-ink); }
+  .cgc-intro-mark .dust { fill: var(--cgc-film-muted); }
+  .cgc-intro-mark .mist { fill: var(--cgc-water); }
+  /* Brand purple sits too close to the night ground to read, so the film lifts
+     it. The header lockup, on ivory, keeps the exact brand colour. */
+  .cgc-intro-mark [fill="#6f2771"] { fill: #A14BA4; }
+  .cgc-intro-mark [stroke="#6f2771"] { stroke: #A14BA4; }
+
+    /* the ground is already there: the film opens mid-walk */
+  @keyframes cgc-draw { to { clip-path: inset(0 0 0 0); } }
+
+  /* Text under the line, while the trunk sprays the cloud */
+  .cgc-intro-text { font-family: Montserrat, sans-serif; text-align: center; color: var(--cgc-film-ink); margin-top: 24px; position: relative; z-index: 2; width: min(78vw, 520px); }
+  .cgc-intro-welcome { font-weight: 500; letter-spacing: .3em; font-size: clamp(11px, 1.6vw, 14px); color: var(--cgc-film-muted);
+    opacity: 0; animation: cgc-fadeUp .8s ease .7s forwards; }
+  .cgc-intro-big { font-weight: 900; font-size: clamp(24px, 5.6vw, 42px); letter-spacing: .01em; margin-top: 6px; line-height: 1; }
+  .cgc-intro-big span { display: inline-block; opacity: 0; animation: cgc-letterUp .5s cubic-bezier(.2,1.4,.4,1) forwards;
+    animation-delay: calc(1.0s + var(--i) * .045s); }
+  .cgc-intro-cloud { font-weight: 500; font-size: clamp(14px, 3vw, 24px); margin-top: 10px;
+    display: flex; align-items: center; gap: 16px; letter-spacing: .1em; opacity: 0;
+    animation: cgc-cloudIn 1s ease 1.75s forwards; }
+  .cgc-intro-cloud::before, .cgc-intro-cloud::after { content: ""; flex: 1; height: 2px; background: currentColor;
+    transform: scaleX(0); animation: cgc-grow .8s ease 2.0s forwards; }
+  .cgc-intro-cloud::before { transform-origin: right; } .cgc-intro-cloud::after { transform-origin: left; }
+  @keyframes cgc-fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes cgc-letterUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes cgc-cloudIn { to { opacity: 1; letter-spacing: .6em; } }
+  @keyframes cgc-grow { to { transform: scaleX(1); } }
+
+  .cgc-intro-skip { position: absolute; right: 20px; bottom: calc(10vh + 14px); z-index: 4; font: 500 13px Montserrat, sans-serif; letter-spacing: .1em;
+    background: none; border: 1px solid var(--cgc-film-rule); color: var(--cgc-film-ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; }
+
+  /* Exit: text and background fade, the mark flies into the nav */
+  .cgc-intro.leaving { opacity: 0; }
+  .cgc-intro.leaving .cgc-intro-text, .cgc-intro.leaving .cgc-intro-skip { opacity: 0; transition: opacity .25s; }
+  .cgc-intro.leaving .cgc-intro-mark { transition: transform .7s cubic-bezier(.6,0,.2,1); }
+
+  /* Cover the page from first paint until the script has mounted the intro (the head snippet removes it after 3 s if the script fails). */
+  html.cgc-intro-on:not(.cgc-ready)::after { content: ""; position: fixed; inset: 0; background: var(--cgc-bg); z-index: 2147483000; }
+  .cgc-intro { z-index: 2147483001 !important; }
+  .cgc-mark-slot img { height: 50px; width: auto; display: block; }
+  @media (max-width: 860px) { .cgc-mark-slot img { height: 40px; } }
+
+
+  /* site fit: the logo in the header and in the mobile menu */
+  .cc-brand.cgc-brand { gap: 10px; }
+  .cgc-mark-static { height: 40px; width: auto; display: block; flex-shrink: 0; }
+  @media (max-width: 380px) { .cgc-wordmark .big { font-size: 12.5px; } .cgc-mark { height: 34px; } }
+  /* Devanagari must not be letter-spaced: it breaks the joined letters */
+  html[lang="hi"] .cgc-intro-welcome { letter-spacing: .02em; font-family: Mukta, sans-serif; font-weight: 600; font-size: clamp(13px, 1.8vw, 16px); }
+  /* The footer sits on a dark ground, so its lockup uses the night ink and the
+     light-ink mark that the build emits beside logo-mark.svg. */
+  .cc-footer .cgc-brand, .cc-footer .cgc-brand:hover { color: var(--cc-night-text, #E6DDD0); }
+  .cc-footer .cgc-mark-static { height: 46px; }
+  @media (max-width: 600px) { .cc-footer .cgc-mark-static { height: 40px; } }
