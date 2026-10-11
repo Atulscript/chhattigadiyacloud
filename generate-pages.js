@@ -31,7 +31,7 @@ const PAGES = {
 };
 
 // Bump when CSS/JS change so browsers and the service worker fetch fresh copies.
-const ASSET_VERSION = 40;
+const ASSET_VERSION = 41;
 const SITE_URL = (siteData.siteUrl || `https://${siteData.domain}`).replace(/\/+$/, '');
 const OG_IMAGE = '/src/assets/images/og-image.jpg';
 // Per-page link-preview image (npm run og-art), else the site-wide one.
@@ -64,6 +64,22 @@ function eventSchema(lang, canonicalUrl) {
   if (!items.length) return '';
   return `\n  <script type="application/ld+json">${JSON.stringify(items).replace(/</g, '\\u003c')}</script>`;
 }
+// Organization schema for the home page. sameAs carries the social profiles set
+// in the admin, which is how search engines connect them to the organisation.
+function orgSchema(lang, canonicalUrl) {
+  const page = (canonicalUrl || '').split('/').filter(Boolean)[1] || 'home';
+  if (page !== 'home') return '';
+  const profiles = Object.values(siteData.social || {}).map((u) => String(u || '').trim()).filter(Boolean);
+  const org = {
+    '@context': 'https://schema.org', '@type': 'Organization',
+    name: siteData.orgName[lang], url: `${SITE_URL}/${lang}/`,
+    logo: `${SITE_URL}/src/cgc-intro/logo-mark.svg`,
+    description: siteData.tagline[lang],
+    ...(profiles.length ? { sameAs: profiles } : {}),
+  };
+  return `\n  <script type="application/ld+json">${JSON.stringify(org).replace(/</g, '\\u003c')}</script>`;
+}
+
 // One display face per script plus Mukta (Latin + Devanagari) for body text.
 const FONTS = {
   en: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Montserrat:wght@500;800;900&family=Mukta:wght@400;600;700&display=swap',
@@ -83,6 +99,19 @@ const ASSETS = {
   introJs: `src/cgc-intro/cgc-intro.js?v=${ASSET_VERSION}`,
 };
 
+// Editable per-page SEO from site-content.json (admin "SEO" tab). A blank
+// field falls back to whatever the page module already produced, so clearing a
+// value restores the built-in text rather than emptying the tag.
+function seoFor(canonicalUrl, lang) {
+  const key = (canonicalUrl || '').split('/').filter(Boolean)[1] || 'home';
+  const entry = (siteData.seo || {})[key] || {};
+  const val = (field) => {
+    const v = entry[field] && (entry[field][lang] || '');
+    return typeof v === 'string' && v.trim() ? v.trim() : '';
+  };
+  return { title: val('title'), description: val('description'), keywords: val('keywords') };
+}
+
 function renderHtmlDocument({
   lang, title, fullTitle = '', desc, canonicalUrl, altUrl, contentHtml,
   extraScripts = '', extraHead = '', preloadImage = '', allForms = false, standalone = false,
@@ -100,8 +129,10 @@ function renderHtmlDocument({
     email: (siteData.contact && siteData.contact.email) || '',
     formsEndpoint: siteData.formsEndpoint || '',
   });
-  const pageTitle = esc(fullTitle || `${title} | ${siteData.orgName[lang]}`);
-  const description = esc(desc);
+  const seoOverride = standalone ? { title: '', description: '', keywords: '' } : seoFor(canonicalUrl, lang);
+  const pageTitle = esc(seoOverride.title || fullTitle || `${title} | ${siteData.orgName[lang]}`);
+  const description = esc(seoOverride.description || desc);
+  const keywordsTag = seoOverride.keywords ? `\n  <meta name="keywords" content="${esc(seoOverride.keywords)}">` : '';
   const enUrl = `${SITE_URL}${lang === 'en' ? canonicalUrl : altUrl}`;
   const hiUrl = `${SITE_URL}${lang === 'hi' ? canonicalUrl : altUrl}`;
   const seo = standalone ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${SITE_URL}${canonicalUrl}">
@@ -128,7 +159,7 @@ function renderHtmlDocument({
   ${standalone ? pwa.BASE_SCRIPT : ''}
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>${pageTitle}</title>
-  <meta name="description" content="${description}">
+  <meta name="description" content="${description}">${keywordsTag}
   <script>try{if(localStorage.getItem('cc-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
   <meta name="theme-color" content="${pwa.THEME}">
   <meta name="color-scheme" content="light">
@@ -153,7 +184,7 @@ function renderHtmlDocument({
   <script>(function(){var h=document.documentElement;try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('cgc-intro-seen')){h.classList.add('cgc-intro-on');setTimeout(function(){if(!h.classList.contains('cgc-ready'))h.classList.remove('cgc-intro-on')},3000)}}catch(e){}})();</script>`}${extraHead ? `\n  ${extraHead}` : ''}${preloadImage ? `\n  <link rel="preload" as="image" href="${preloadImage}" fetchpriority="high">` : ''}
   <script>window.CC_CONFIG=${clientConfig};
     if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('${root}sw.js', { scope: '${root}' }).catch(function () {}); });
-  </script>${standalone ? '' : eventSchema(lang, canonicalUrl)}
+  </script>${standalone ? '' : orgSchema(lang, canonicalUrl)}${standalone ? '' : eventSchema(lang, canonicalUrl)}
 </head>
 <body>
   ${header}

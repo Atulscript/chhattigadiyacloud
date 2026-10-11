@@ -2643,5 +2643,182 @@
         ]
       }
     ]
+  },
+  "seo": {
+    "home": {
+      "title": {
+        "en": "Chhattisgadhiya Cloud — Theatre and folk art from Chhattisgarh",
+        "hi": "छत्तीसगढ़िया क्लाउड — छत्तीसगढ़ का रंगमंच और लोक कला"
+      },
+      "description": {
+        "en": "Chhattisgadhiya Cloud — theatre, festivals, workshops and a monthly magazine from Jashpur, Chhattisgarh.",
+        "hi": "छत्तीसगढ़िया क्लाउड — जशपुर, छत्तीसगढ़ से रंगमंच, समारोह, कार्यशालाएं और मासिक पत्रिका।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "magazine": {
+      "title": {
+        "en": "Chhattisgadhiya Cloud Masik Patrika | Chhattisgadhiya Cloud",
+        "hi": "छत्तीसगढ़िया क्लाउड मासिक पत्रिका | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Chhattisgadhiya Cloud Masik Patrika — the latest issue, previous issues, digital and print copies, and a free 5-page preview.",
+        "hi": "छत्तीसगढ़िया क्लाउड मासिक पत्रिका — नवीनतम अंक, पिछले अंक, डिजिटल व मुद्रित प्रति, और 5 पृष्ठों का निःशुल्क पूर्वावलोकन।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "whats-on": {
+      "title": {
+        "en": "What's On | Chhattisgadhiya Cloud",
+        "hi": "कार्यक्रम | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Festivals, shows and camps coming up. Entry to our festivals is free.",
+        "hi": "आगामी समारोह, नाटक और शिविर। हमारे समारोहों में प्रवेश निःशुल्क है।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "productions": {
+      "title": {
+        "en": "Plays | Chhattisgadhiya Cloud",
+        "hi": "नाटक | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Four original plays rooted in Chhattisgarhi folk theatre. All are available to book for festivals, colleges and venues.",
+        "hi": "छत्तीसगढ़ी लोक रंगमंच से जुड़े चार मौलिक नाटक। सभी समारोहों, कॉलेजों और सभागारों के लिए बुक किए जा सकते हैं।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "events": {
+      "title": {
+        "en": "Festivals | Chhattisgadhiya Cloud",
+        "hi": "समारोह | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Two free festivals in Jashpur every year: Jashrang for theatre, Kavita Utsav for poetry.",
+        "hi": "जशपुर में हर वर्ष दो निःशुल्क समारोह: रंगमंच के लिए जशरंग और कविता के लिए कविता उत्सव।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "training-workshops": {
+      "title": {
+        "en": "Workshops | Chhattisgadhiya Cloud",
+        "hi": "कार्यशालाएं | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Ullas Summer Camp: three weeks of acting, music and folk craft for children aged 7 to 16 in Jashpur.",
+        "hi": "उल्लास समर कैम्प: जशपुर में 7 से 16 वर्ष के बच्चों के लिए अभिनय, संगीत और लोक शिल्प के तीन सप्ताह।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "blog": {
+      "title": {
+        "en": "Blog | Chhattisgadhiya Cloud",
+        "hi": "ब्लॉग | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Notes from rehearsals, tours and field work.",
+        "hi": "रिहर्सल, यात्राओं और क्षेत्र-कार्य से लिखे गए नोट्स।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "about": {
+      "title": {
+        "en": "About us | Chhattisgadhiya Cloud",
+        "hi": "परिचय | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "A theatre and culture group from Jashpur, Chhattisgarh, making plays, festivals, camps and a magazine since 2014.",
+        "hi": "जशपुर, छत्तीसगढ़ का एक रंगमंच और सांस्कृतिक दल, जो 2014 से नाटक, समारोह, शिविर और पत्रिका बना रहा है।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "contact": {
+      "title": {
+        "en": "Contact | Chhattisgadhiya Cloud",
+        "hi": "संपर्क | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Write to us, call, or pick a quick request below.",
+        "hi": "हमें लिखें, फ़ोन करें, या नीचे से कोई त्वरित अनुरोध चुनें।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "press": {
+      "title": {
+        "en": "Press kit | Chhattisgadhiya Cloud",
+        "hi": "प्रेस किट | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Resources for journalists, festival programmers, and grant evaluators. Includes official logos, production stills, executive biographies, and boilerplate descriptions.",
+        "hi": "पत्रकारों, महोत्सव समन्वयकों और समीक्षकों हेतु आधिकारिक लोगो, नाट्य प्रस्तुतियां, छायाचित्र एवं संस्था का परिचय।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "support": {
+      "title": {
+        "en": "Support us | Chhattisgadhiya Cloud",
+        "hi": "सहयोग करें | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Our festivals are free and our camps are free for local tribal children. Your support keeps them that way.",
+        "hi": "हमारे समारोह निःशुल्क हैं और स्थानीय जनजातीय बच्चों के लिए हमारे शिविर भी। आपका सहयोग इन्हें ऐसा ही बनाए रखता है।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    },
+    "gallery": {
+      "title": {
+        "en": "Gallery | Chhattisgadhiya Cloud",
+        "hi": "चित्र दीर्घा | छत्तीसगढ़िया क्लाउड"
+      },
+      "description": {
+        "en": "Photographs from our productions, festivals, rehearsals and programmes across Chhattisgarh.",
+        "hi": "छत्तीसगढ़ भर में हमारी प्रस्तुतियों, समारोहों, रिहर्सल और कार्यक्रमों की तस्वीरें।"
+      },
+      "keywords": {
+        "en": "",
+        "hi": ""
+      }
+    }
+  },
+  "social": {
+    "facebook": "",
+    "instagram": "",
+    "youtube": "",
+    "x": "",
+    "whatsapp": ""
   }
 }

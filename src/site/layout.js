@@ -10,11 +10,20 @@ const { upcoming, parseEnd } = require('./events.js');
 // Animated stage banner above the footer (styles: art-banner.css, motion: art-banner.js).
 const ART_BANNER = fs.readFileSync(path.join(__dirname, 'art-banner.html'), 'utf8').trim();
 
+// Profile URLs come from siteData.social (admin "Social Links" tab); only the
+// icon paths live here. A network with no URL is not rendered.
+const SOCIAL_KEY = { YouTube: 'youtube', Instagram: 'instagram', Facebook: 'facebook', X: 'x' };
+function socialLinks(siteData) {
+  const urls = (siteData && siteData.social) || {};
+  return SOCIAL.map((s) => ({ ...s, href: (urls[SOCIAL_KEY[s.name]] || '').trim() }))
+    .filter((s) => s.href);
+}
+
 const SOCIAL = [
-  { name: 'YouTube', href: 'https://youtube.com', path: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
-  { name: 'Instagram', href: 'https://instagram.com', path: 'M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z' },
-  { name: 'Facebook', href: 'https://facebook.com', path: 'M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z' },
-  { name: 'X', href: 'https://x.com', path: 'M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z' },
+  { name: 'YouTube', href: '', path: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
+  { name: 'Instagram', href: '', path: 'M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z' },
+  { name: 'Facebook', href: '', path: 'M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z' },
+  { name: 'X', href: '', path: 'M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z' },
 ];
 
 
@@ -248,17 +257,19 @@ function renderConnect({ lang, siteData, currentPath }) {
 // above the tab bar on phones that fans the options out. site.js swaps in the
 // live URL and handles "More" (native share sheet, else copy link).
 const WHATSAPP_PATH = 'M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.43 9.43 0 1 1 7.99 4.42zm8.02-17.45A11.27 11.27 0 0 0 12.05.75C5.8.75.72 5.83.72 12.08c0 2 .52 3.95 1.52 5.66L.62 23.62l6.02-1.58a11.32 11.32 0 0 0 5.41 1.38h.01c6.25 0 11.33-5.08 11.33-11.33 0-3.03-1.18-5.87-3.32-8.01z';
-function renderShareBar(t, url, orgName) {
+function renderShareBar(t, url, orgName, siteData) {
   const u = encodeURIComponent(url);
   const path = (name) => SOCIAL.find((s) => s.name === name).path;
   const svg = (d) => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
-  const social = (name) => SOCIAL.find((s) => s.name === name);
+  // Follow links only exist for networks that actually have a profile URL set.
+  const configured = socialLinks(siteData);
+  const social = (name) => configured.find((s) => s.name === name);
   const links = [
     { key: 'fb', name: 'Facebook', label: `${t.shareOn} Facebook`, href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, d: path('Facebook') },
     { key: 'x', name: 'X', label: `${t.shareOn} X`, href: `https://twitter.com/intent/tweet?url=${u}&text=${encodeURIComponent(orgName)}`, d: path('X') },
     { key: 'wa', name: 'WhatsApp', label: `${t.shareOn} WhatsApp`, href: `https://wa.me/?text=${encodeURIComponent(orgName + ' ')}${u}`, d: WHATSAPP_PATH },
-    { key: 'ig', name: 'Instagram', label: `${t.follow}: Instagram`, href: social('Instagram').href, d: path('Instagram') },
-    { key: 'yt', name: 'YouTube', label: `${t.follow}: YouTube`, href: social('YouTube').href, d: path('YouTube') },
+    ...(social('Instagram') ? [{ key: 'ig', name: 'Instagram', label: `${t.follow}: Instagram`, href: social('Instagram').href, d: path('Instagram') }] : []),
+    ...(social('YouTube') ? [{ key: 'yt', name: 'YouTube', label: `${t.follow}: YouTube`, href: social('YouTube').href, d: path('YouTube') }] : []),
   ];
   return `
   <div class="cc-share" data-cc-share>
@@ -307,7 +318,7 @@ function renderFooter({ lang, siteData, altUrl, currentPath = '' }) {
       </div>
     </div>
   </footer>
-${renderShareBar(t, (siteData.siteUrl || '') + currentPath, siteData.orgName[lang])}
+${renderShareBar(t, (siteData.siteUrl || '') + currentPath, siteData.orgName[lang], siteData)}
 
   <aside class="cc-install" data-cc-install-toast hidden aria-label="${t.installApp}">
     <span class="cc-install__text"><strong>${t.installApp}</strong><span>${t.installSub}</span></span>
@@ -316,4 +327,4 @@ ${renderShareBar(t, (siteData.siteUrl || '') + currentPath, siteData.orgName[lan
   </aside>`;
 }
 
-module.exports = { renderHeader, renderFooter, PAGES };
+module.exports = { renderHeader, renderFooter, socialLinks, PAGES };

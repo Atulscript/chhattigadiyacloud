@@ -861,10 +861,146 @@ function renderActiveTab() {
     case 'users':
       renderUsersManager();
       break;
+    case 'seo':
+      renderSeoManager();
+      break;
+    case 'social':
+      renderSocialManager();
+      break;
     case 'settings':
       renderSettingsManager();
       break;
   }
+}
+
+
+// ==========================================
+// SEO: per-page meta title, description, keywords
+// ==========================================
+const SEO_PAGES = [
+  ['home', 'Home'], ['whats-on', "What's On"], ['productions', 'Plays'],
+  ['events', 'Festivals'], ['training-workshops', 'Workshops'], ['magazine', 'Magazine'],
+  ['gallery', 'Gallery'], ['about', 'About'], ['contact', 'Contact'],
+  ['support', 'Support Us'], ['blog', 'Blog'], ['press', 'Press Kit'],
+];
+// Google truncates around these lengths; the counters turn amber past them.
+const SEO_LIMITS = { title: 60, description: 155 };
+
+function seoEntry(key) {
+  if (!state.content.seo) state.content.seo = {};
+  const e = state.content.seo[key] || (state.content.seo[key] = {});
+  ['title', 'description', 'keywords'].forEach((f) => { if (!e[f]) e[f] = { en: '', hi: '' }; });
+  return e;
+}
+
+window.updateSeoField = function (key, field, lang, value) {
+  seoEntry(key)[field][lang] = value;
+  const limit = SEO_LIMITS[field];
+  const counter = document.getElementById(`seo-count-${key}-${field}-${lang}`);
+  if (counter && limit) {
+    counter.textContent = `${value.length} / ${limit}`;
+    counter.style.color = value.length > limit ? 'var(--studio-amber)' : 'var(--studio-text-soft)';
+  }
+  markDirty(true);
+};
+
+function renderSeoManager() {
+  const container = document.getElementById('panel-seo');
+  if (!container || !state.content) return;
+
+  const field = (key, f, lang, label, multiline) => {
+    const val = seoEntry(key)[f][lang] || '';
+    const limit = SEO_LIMITS[f];
+    const over = limit && val.length > limit;
+    const counter = limit
+      ? `<span id="seo-count-${key}-${f}-${lang}" style="font-size:0.72rem; color:${over ? 'var(--studio-amber)' : 'var(--studio-text-soft)'}">${val.length} / ${limit}</span>`
+      : '';
+    const attrs = `class="studio-input" oninput="updateSeoField('${key}','${f}','${lang}',this.value)"`;
+    return `
+      <div class="studio-field">
+        <label class="studio-label" style="display:flex; justify-content:space-between; gap:0.5rem">
+          <span>${label}</span>${counter}
+        </label>
+        ${multiline
+          ? `<textarea ${attrs} rows="2">${escapeHtml(val)}</textarea>`
+          : `<input type="text" ${attrs} value="${escapeHtml(val)}">`}
+      </div>`;
+  };
+
+  container.innerHTML = `
+    <div class="studio-card">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">🔍 Search Engine Optimisation</h2>
+          <div class="studio-card-desc">
+            Title and description for each page, in both languages. Leave a field empty to use the
+            page's built-in text. The title and description also drive link previews when a page is
+            shared. Keywords are stored but ignored by Google since 2009 — spend your effort on the
+            title and description.
+          </div>
+        </div>
+      </div>
+      ${SEO_PAGES.map(([key, label]) => `
+        <div class="section-group">
+          <div class="section-group-title">${label}</div>
+          <div class="bilingual-grid">
+            <div>
+              ${field(key, 'title', 'en', 'Meta title (English)')}
+              ${field(key, 'description', 'en', 'Meta description (English)', true)}
+              ${field(key, 'keywords', 'en', 'Keywords (English, comma separated)')}
+            </div>
+            <div>
+              ${field(key, 'title', 'hi', 'Meta title (हिन्दी)')}
+              ${field(key, 'description', 'hi', 'Meta description (हिन्दी)', true)}
+              ${field(key, 'keywords', 'hi', 'Keywords (हिन्दी)')}
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ==========================================
+// SOCIAL: one profile URL per network, used everywhere
+// ==========================================
+const SOCIAL_NETWORKS = [
+  ['facebook', 'Facebook', 'https://facebook.com/yourpage'],
+  ['instagram', 'Instagram', 'https://instagram.com/yourhandle'],
+  ['youtube', 'YouTube', 'https://youtube.com/@yourchannel'],
+  ['x', 'X (Twitter)', 'https://x.com/yourhandle'],
+  ['whatsapp', 'WhatsApp', 'https://wa.me/919876543210'],
+];
+
+window.updateSocialField = function (key, value) {
+  if (!state.content.social) state.content.social = {};
+  state.content.social[key] = value.trim();
+  markDirty(true);
+};
+
+function renderSocialManager() {
+  const container = document.getElementById('panel-social');
+  if (!container || !state.content) return;
+  const social = state.content.social || {};
+
+  container.innerHTML = `
+    <div class="studio-card">
+      <div class="studio-card-header">
+        <div>
+          <h2 class="studio-card-title">🔗 Social Links</h2>
+          <div class="studio-card-desc">
+            Set a profile link once here and it is used everywhere on the site — the share rail and
+            the search-engine profile links. A network left blank is hidden rather than linking to
+            the platform's own home page.
+          </div>
+        </div>
+      </div>
+      ${SOCIAL_NETWORKS.map(([key, label, placeholder]) => `
+        <div class="studio-field">
+          <label class="studio-label">${label}</label>
+          <input type="url" class="studio-input" placeholder="${placeholder}"
+                 value="${escapeHtml(social[key] || '')}"
+                 oninput="updateSocialField('${key}', this.value)">
+        </div>`).join('')}
+    </div>`;
 }
 
 // ==========================================
